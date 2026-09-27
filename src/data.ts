@@ -2326,10 +2326,10 @@ export const ARTICLES: MagazineArticle[] = [
         ]
       },
       {
-        heading: "4. Wyciszenie mikrozapalenia (Inflammaging) jako nadrzędny cel anti-aging",
+        heading: "4. Wyciszenie mikrozapalenia (Inflammaging) jako nadrzędny cel slow-aging",
         paragraphs: [
           "Współczesna dermatologia uznaje przewlekłe mikrozapalenie za główny motor destrukcji włókien elastynowych i kolagenu typu I oraz III. Aktywowane cytokiny prozapalne (IL-1alfa, TNF-alfa) stymulują enzymy metaloproteinazy macierzy (MMP-1, MMP-9), które degradują macierz skórną szybciej niż fibroblasty są w stanie ją odtworzyć.",
-          "W gabinecie Slow Skin Concept każda procedura anty-aging prowadzona jest w warunkach zerowego odczynu zapalnego. Wykorzystujemy farmaceutyczną ektoinę 100%, kwas traneksamowy, cynk PCA oraz łagodne naświetlania fotobiomodulacyjne LED, które wygaszają kaskadę zapalną, jednocześnie stymulując komórki macierzyste skóry do bezpiecznej, harmonijnej biosyntezy."
+          "W gabinecie Slow Skin Concept każda procedura slow-aging prowadzona jest w warunkach zerowego odczynu zapalnego. Wykorzystujemy farmaceutyczną ektoinę 100%, kwas traneksamowy, cynk PCA oraz łagodne naświetlania fotobiomodulacyjne LED, które wygaszają kaskadę zapalną, jednocześnie stymulując komórki macierzyste skóry do bezpiecznej, harmonijnej biosyntezy."
         ]
       }
     ],

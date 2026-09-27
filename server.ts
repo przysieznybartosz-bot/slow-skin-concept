@@ -737,7 +737,7 @@ Stwórz ekskluzywny raport diagnostyczny, który uświadomi klientce biologiczn�
       }
 
       if (resolvedSubject === "aging") {
-        return `**Utrata jędrności, zmarszczki i wiotkość skóry (Terapia Anti-Aging i Lifting)**\n\n` +
+        return `**Utrata jędrności, zmarszczki i wiotkość skóry (Terapia Slow-Aging i Lifting)**\n\n` +
                `W naszym Instytucie do procesu starzenia skóry podchodzimy z głębokim szacunkiem komórkowym — odrzucamy agresywne stymulatory niszczące barierę hydrolipidową. Proponujemy ultra-skuteczne, bezpieczne rozwiązania bionomiczne oraz zaawansowaną technologię bezrekonwalescencyjną:\n\n` +
                `* **[HIFU — Lifting Ultradźwiękowy](treatment:hifu-lifting)** (600 PLN — 800 PLN) — bezinwazyjne, głębokie liftingowanie na poziomie powięzi mięśniowej SMAS. Wykorzystuje skoncentrowaną falę ultradźwiękową do spektakularnego zagęszczenia wiotkiej skóry i uniesienia owalu twarzy.\n` +
                `* **[Radiofrekwencja Mikroigłowa (Termolifting)](treatment:rf-microneedling)** (500 PLN — 700 PLN) — remodeluje i skraca włókna kolagenowe za pomocą prądu RF i precyzyjnych mikroigieł. Genialna metoda na głębokie bruzdy i wiotkość.\n` +

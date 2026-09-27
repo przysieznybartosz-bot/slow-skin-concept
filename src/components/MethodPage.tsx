@@ -239,7 +239,7 @@ export const MethodPage: React.FC<MethodPageProps> = ({ onLinkClick, onOpenBooki
       url: "/zabiegi-na-twarz/",
       bullets: [
         "Projektowany w dniu wizyty na podstawie aktualnego stanu tkanki",
-        "Autorskie koktajle terapeutyczne (np. resetujący, biomimetyczny, anti-aging)",
+        "Autorskie koktajle terapeutyczne (np. resetujący, biomimetyczny, slow-aging)",
         "Bezpieczna synergia manualna i technologiczna",
         "Płynna adaptacja zakresu i intensywności do tolerancji skóry"
       ]

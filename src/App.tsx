@@ -1335,7 +1335,7 @@ export default function App() {
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
-    if (url === "/zabiegi-anti-aging/") {
+    if (url === "/zabiegi-slow-aging/" || url === "/zabiegi-anti-aging/") {
       setActiveTab("clinic");
       const t = TREATMENTS.find(item => item.id === "lift-firm-therapy") || TREATMENTS.find(item => item.id === "epigenetic-aging") || TREATMENTS[0];
       setSelectedTreatment(t);
@@ -3109,7 +3109,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                 <span className="text-luxury-sand">&middot;</span>
                 <span>regeneracja</span>
                 <span className="text-luxury-sand">&middot;</span>
-                <span>naturalny anti-aging</span>
+                <span>naturalny slow-aging</span>
                 <span className="text-luxury-sand">&middot;</span>
                 <span>indywidualne zabiegi twarzy</span>
               </motion.div>
@@ -7153,7 +7153,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             {
                               step: "Krok 4",
                               title: "Wielopoziomowy zabieg otwierający",
-                              desc: "Pierwsza wizyta to nie tylko rozmowa i suchy plan – to także pierwszy fizjologiczny krok w stronę trwałego zdrowia skóry. Już podczas pierwszej wizyty wykonuję wielopoziomowy zabieg, dobrany ściśle i indywidualnie do aktualnych potrzeb Twojej skóry. Jego nadrzędnym celem jest przywrócenie fundamentów: właściwego pH, odbudowy mikrobiomu oraz wzmocnienia barier ochronnych naskórka. Dopiero gdy skóra odzyska pełną stabilność i biologiczny spokój, możemy bezpiecznie wprowadzać kolejne etapy terapii – wygładzanie, rozjaśnianie, regenerację czy ukierunkowane działania anti-aging."
+                              desc: "Pierwsza wizyta to nie tylko rozmowa i suchy plan – to także pierwszy fizjologiczny krok w stronę trwałego zdrowia skóry. Już podczas pierwszej wizyty wykonuję wielopoziomowy zabieg, dobrany ściśle i indywidualnie do aktualnych potrzeb Twojej skóry. Jego nadrzędnym celem jest przywrócenie fundamentów: właściwego pH, odbudowy mikrobiomu oraz wzmocnienia barier ochronnych naskórka. Dopiero gdy skóra odzyska pełną stabilność i biologiczny spokój, możemy bezpiecznie wprowadzać kolejne etapy terapii – wygładzanie, rozjaśnianie, regenerację czy ukierunkowane działania slow-aging."
                             }
                           ].map((item, idx) => (
                             <div key={idx} className="border border-luxury-sand p-6 bg-white/50 rounded-sm space-y-4 flex flex-col justify-between text-left hover:border-luxury-gold/40 hover:shadow-xs transition-all duration-300">
