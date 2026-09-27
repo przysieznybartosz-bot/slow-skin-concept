@@ -1729,25 +1729,25 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
       </AnimatePresence>
 
       {/* Editorial Announcement Bar */}
-      <div className="bg-luxury-dark text-luxury-cream/80 text-[10px] tracking-[0.25em] uppercase text-center py-2.5 px-4 font-mono select-none">
+      <div className="bg-luxury-dark text-luxury-cream/80 text-[9px] sm:text-[10px] tracking-[0.20em] sm:tracking-[0.25em] uppercase text-center py-2 sm:py-2.5 px-4 font-mono select-none">
         Biologiczna Terapia Skóry, Neurobiologia i Fizjologia — Jelcz-Laskowice
       </div>
 
       {/* Main Luxury Header */}
-      <header className="border-b border-luxury-sand bg-luxury-cream/90 backdrop-blur-md sticky top-0 z-40 transition-all duration-300">
-        <div className="w-full max-w-[1536px] mx-auto px-6 md:px-12 h-24 flex items-center justify-between">
+      <header className="border-b border-luxury-sand bg-luxury-cream/95 backdrop-blur-md sticky top-0 z-40 transition-all duration-300">
+        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 md:px-8 xl:px-12 h-16 sm:h-18 lg:h-20 flex items-center justify-between gap-3 md:gap-6">
           
           {/* Brand Logo in Quiet Luxury Aesthetics */}
           <div 
             onClick={() => { setActiveTab("cover"); setSelectedArticle(null); setSelectedTreatment(null); setIsMobileMenuOpen(false); }}
-            className="cursor-pointer group flex items-center"
+            className="cursor-pointer group flex items-center shrink-0"
             id="brand-logo"
           >
-            <BrandLogo className="h-10 sm:h-12 md:h-14 w-auto group-hover:scale-[1.02]" variant="header" />
+            <BrandLogo className="h-7 sm:h-8 md:h-8.5 lg:h-8.5 xl:h-9 max-w-[190px] sm:max-w-[220px] md:max-w-[250px] lg:max-w-[260px] xl:max-w-[310px] w-auto group-hover:opacity-90" variant="header" />
           </div>
 
           {/* Minimalist Editorial Navigation with Mega Menu Hover Triggers - Perfectly Centered */}
-          <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8 h-full">
+          <nav className="hidden lg:flex items-center gap-3.5 xl:gap-6 2xl:gap-8 h-full">
             {/* 1. Problemy skóry */}
             <div 
               className="relative h-full flex items-center"
@@ -1755,10 +1755,10 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               onMouseLeave={handleProblemsMenuMouseLeave}
             >
               <button 
-                className={`text-[11px] tracking-[0.16em] uppercase font-mono transition-all py-2 border-b-2 flex items-center gap-1 cursor-pointer leading-none ${isProblemsMenuOpen ? "border-luxury-gold text-luxury-gold font-medium" : "border-transparent text-luxury-dark/95 hover:text-luxury-dark"}`}
+                className={`text-[10px] xl:text-[11px] tracking-[0.10em] xl:tracking-[0.16em] uppercase font-mono transition-all py-2 border-b-2 flex items-center gap-1 cursor-pointer leading-none whitespace-nowrap ${isProblemsMenuOpen ? "border-luxury-gold text-luxury-gold font-medium" : "border-transparent text-luxury-dark/95 hover:text-luxury-dark"}`}
               >
-                <span>Problemy skóry</span>
-                <span className={`text-[8px] transition-transform duration-300 ${isProblemsMenuOpen ? "rotate-180 text-luxury-gold" : "text-luxury-dark/90"}`}>▼</span>
+                <span className="whitespace-nowrap">Problemy skóry</span>
+                <span className={`text-[7px] xl:text-[8px] transition-transform duration-300 ${isProblemsMenuOpen ? "rotate-180 text-luxury-gold" : "text-luxury-dark/90"}`}>▼</span>
               </button>
             </div>
 
@@ -1769,19 +1769,19 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               onMouseLeave={handleMegaMenuMouseLeave}
             >
               <button 
-                className={`text-[11px] tracking-[0.16em] uppercase font-mono transition-all py-2 border-b-2 flex items-center gap-1 cursor-pointer leading-none ${isMegaMenuOpen ? "border-luxury-gold text-luxury-gold font-medium" : "border-transparent text-luxury-dark/95 hover:text-luxury-dark"}`}
+                className={`text-[10px] xl:text-[11px] tracking-[0.10em] xl:tracking-[0.16em] uppercase font-mono transition-all py-2 border-b-2 flex items-center gap-1 cursor-pointer leading-none whitespace-nowrap ${isMegaMenuOpen ? "border-luxury-gold text-luxury-gold font-medium" : "border-transparent text-luxury-dark/95 hover:text-luxury-dark"}`}
               >
-                <span>Zabiegi & Diagnoza</span>
-                <span className={`text-[8px] transition-transform duration-300 ${isMegaMenuOpen ? "rotate-180 text-luxury-gold" : "text-luxury-dark/90"}`}>▼</span>
+                <span className="whitespace-nowrap">Zabiegi & Diagnoza</span>
+                <span className={`text-[7px] xl:text-[8px] transition-transform duration-300 ${isMegaMenuOpen ? "rotate-180 text-luxury-gold" : "text-luxury-dark/90"}`}>▼</span>
               </button>
             </div>
 
             {/* 3. Metoda Autorska */}
             <button 
               onClick={() => { setActiveTab("method"); setSelectedArticle(null); setSelectedTreatment(null); setIsMegaMenuOpen(false); setIsProblemsMenuOpen(false); setIsShopMenuOpen(false); setIsTrainingMenuOpen(false); }}
-              className={`text-[11px] tracking-[0.16em] uppercase font-mono transition-all py-2 border-b-2 leading-none ${activeTab === "method" && !isMegaMenuOpen && !isProblemsMenuOpen && !isShopMenuOpen && !isTrainingMenuOpen ? "border-luxury-gold text-luxury-gold font-medium" : "border-transparent text-luxury-dark/95 hover:text-luxury-dark"}`}
+              className={`text-[10px] xl:text-[11px] tracking-[0.10em] xl:tracking-[0.16em] uppercase font-mono transition-all py-2 border-b-2 leading-none whitespace-nowrap ${activeTab === "method" && !isMegaMenuOpen && !isProblemsMenuOpen && !isShopMenuOpen && !isTrainingMenuOpen ? "border-luxury-gold text-luxury-gold font-medium" : "border-transparent text-luxury-dark/95 hover:text-luxury-dark"}`}
             >
-              Metoda Autorska
+              <span className="whitespace-nowrap">Metoda Autorska</span>
             </button>
 
             {/* 4. Sklep (Nowe Formulacje & Butik) */}
@@ -1800,12 +1800,12 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   setIsShopMenuOpen(false);
                   setIsTrainingMenuOpen(false);
                 }}
-                className={`text-[11px] tracking-[0.16em] uppercase font-mono transition-all py-2 border-b-2 flex items-center gap-1 cursor-pointer leading-none ${activeTab === "shop" || isShopMenuOpen ? "border-luxury-gold text-luxury-gold font-medium" : "border-transparent text-luxury-dark/95 hover:text-luxury-dark"}`}
+                className={`text-[10px] xl:text-[11px] tracking-[0.10em] xl:tracking-[0.16em] uppercase font-mono transition-all py-2 border-b-2 flex items-center gap-1 cursor-pointer leading-none whitespace-nowrap ${activeTab === "shop" || isShopMenuOpen ? "border-luxury-gold text-luxury-gold font-medium" : "border-transparent text-luxury-dark/95 hover:text-luxury-dark"}`}
                 id="nav-tab-shop"
                 title="Sklep E-Commerce — slow-skin.shop"
               >
-                <span>Sklep</span>
-                <span className={`text-[8px] transition-transform duration-300 ${isShopMenuOpen ? "rotate-180 text-luxury-gold" : "text-luxury-dark/90"}`}>▼</span>
+                <span className="whitespace-nowrap">Sklep</span>
+                <span className={`text-[7px] xl:text-[8px] transition-transform duration-300 ${isShopMenuOpen ? "rotate-180 text-luxury-gold" : "text-luxury-dark/90"}`}>▼</span>
               </a>
             </div>
 
@@ -1817,31 +1817,31 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
             >
               <button 
                 onClick={() => { setActiveTab("training"); setSelectedArticle(null); setSelectedTreatment(null); setIsMegaMenuOpen(false); setIsProblemsMenuOpen(false); setIsShopMenuOpen(false); setIsTrainingMenuOpen(false); }}
-                className={`text-[11px] tracking-[0.16em] uppercase font-mono transition-all py-2 border-b-2 flex items-center gap-1 cursor-pointer leading-none ${activeTab === "training" || isTrainingMenuOpen ? "border-luxury-gold text-luxury-gold font-medium" : "border-transparent text-luxury-dark/95 hover:text-luxury-dark"}`}
+                className={`text-[10px] xl:text-[11px] tracking-[0.10em] xl:tracking-[0.16em] uppercase font-mono transition-all py-2 border-b-2 flex items-center gap-1 cursor-pointer leading-none whitespace-nowrap ${activeTab === "training" || isTrainingMenuOpen ? "border-luxury-gold text-luxury-gold font-medium" : "border-transparent text-luxury-dark/95 hover:text-luxury-dark"}`}
                 id="nav-tab-training"
               >
-                <span>Szkolenia i współpraca</span>
-                <span className={`text-[8px] transition-transform duration-300 ${isTrainingMenuOpen ? "rotate-180 text-luxury-gold" : "text-luxury-dark/90"}`}>▼</span>
+                <span className="whitespace-nowrap">Szkolenia i współpraca</span>
+                <span className={`text-[7px] xl:text-[8px] transition-transform duration-300 ${isTrainingMenuOpen ? "rotate-180 text-luxury-gold" : "text-luxury-dark/90"}`}>▼</span>
               </button>
             </div>
           </nav>
 
           {/* Action & Hamburger Toggle for Tablet/Mobile - Perfectly Centered in Height */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center gap-2 sm:gap-2.5 xl:gap-3 shrink-0">
             {/* Moje Konto Button */}
             <button
               onClick={() => { setActiveTab("account"); setSelectedArticle(null); setSelectedTreatment(null); setIsMobileMenuOpen(false); }}
-              className={`w-11 h-[44px] border border-luxury-sand hover:border-luxury-gold transition-all duration-300 flex items-center justify-center font-medium shadow-2xs ${activeTab === "account" ? "bg-luxury-gold border-luxury-gold text-white" : "text-luxury-dark bg-transparent"}`}
+              className={`w-9 h-9 sm:w-10 sm:h-10 border border-luxury-sand hover:border-luxury-gold transition-all duration-300 flex items-center justify-center font-medium shadow-2xs shrink-0 ${activeTab === "account" ? "bg-luxury-gold border-luxury-gold text-white" : "text-luxury-dark bg-transparent"}`}
               id="header-account-btn"
               title="Moje Konto — Slow Skin Pass™"
             >
-              <User className={`w-4 h-4 shrink-0 ${activeTab === "account" ? "text-white" : "text-luxury-gold"}`} strokeWidth={1.5} />
+              <User className={`w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 ${activeTab === "account" ? "text-white" : "text-luxury-gold"}`} strokeWidth={1.5} />
             </button>
 
             {/* Active Phone Call Button - Exact Matching height and baseline alignment */}
             <a
               href="tel:793088854"
-              className="hidden md:inline-flex px-4 border border-luxury-sand text-[11px] tracking-[0.11em] font-mono text-luxury-dark hover:border-luxury-gold hover:text-luxury-gold transition-all duration-300 items-center gap-2 font-medium h-[44px] justify-center whitespace-nowrap leading-none"
+              className="hidden md:inline-flex px-3 xl:px-4 border border-luxury-sand text-[10px] xl:text-[11px] tracking-[0.08em] xl:tracking-[0.11em] font-mono text-luxury-dark hover:border-luxury-gold hover:text-luxury-gold transition-all duration-300 items-center gap-1.5 xl:gap-2 font-medium h-9 sm:h-10 justify-center whitespace-nowrap leading-none shrink-0"
               id="header-phone-btn"
             >
               <Phone className="w-3.5 h-3.5 text-luxury-gold shrink-0 transition-transform duration-300" strokeWidth={1.3} />
@@ -1850,7 +1850,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
 
             <button
               onClick={() => { setActiveTab("diagnose"); setDiagnosticStep(0); setSelectedArticle(null); setSelectedTreatment(null); setIsMobileMenuOpen(false); }}
-              className={`hidden lg:inline-flex px-5 border border-luxury-dark/80 text-[11px] tracking-[0.15em] uppercase font-mono transition-all rounded-none hover:bg-luxury-dark hover:text-luxury-cream h-[44px] items-center justify-center whitespace-nowrap leading-none ${activeTab === "diagnose" ? "bg-luxury-gold border-luxury-gold text-white block" : ""}`}
+              className={`hidden lg:inline-flex px-3.5 xl:px-5 border border-luxury-dark/80 text-[10px] xl:text-[11px] tracking-[0.12em] xl:tracking-[0.15em] uppercase font-mono transition-all rounded-none hover:bg-luxury-dark hover:text-luxury-cream h-9 sm:h-10 items-center justify-center whitespace-nowrap leading-none shrink-0 ${activeTab === "diagnose" ? "bg-luxury-gold border-luxury-gold text-white block" : ""}`}
               id="cta-diagnose-btn"
             >
               Konsultacja AI
@@ -1859,14 +1859,14 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
             {/* Elegant Hamburger Toggle for Tablet and Mobile - Exact Alignment */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden w-11 h-11 flex items-center justify-center text-luxury-dark hover:text-luxury-gold transition-colors focus:outline-none"
+              className="lg:hidden w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center border border-luxury-sand/60 text-luxury-dark hover:text-luxury-gold transition-colors focus:outline-none shrink-0"
               aria-label="Toggle menu"
               id="mobile-menu-toggle-btn"
             >
               {isMobileMenuOpen ? (
-                <X className="w-6 h-6 stroke-[1.5]" />
+                <X className="w-5 h-5 stroke-[1.5]" />
               ) : (
-                <Menu className="w-6 h-6 stroke-[1.5]" />
+                <Menu className="w-5 h-5 stroke-[1.5]" />
               )}
             </button>
           </div>
@@ -1882,7 +1882,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
               onMouseEnter={handleMegaMenuMouseEnter}
               onMouseLeave={handleMegaMenuMouseLeave}
-              className="absolute top-24 left-0 w-full bg-luxury-cream border-b border-luxury-sand shadow-2xl z-50 hidden lg:block"
+              className="absolute top-full left-0 w-full bg-luxury-cream border-b border-luxury-sand shadow-2xl z-50 hidden lg:block"
               style={{ minHeight: "380px" }}
               id="prouve-mega-menu"
             >
@@ -2327,7 +2327,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
               onMouseEnter={handleProblemsMenuMouseEnter}
               onMouseLeave={handleProblemsMenuMouseLeave}
-              className="absolute top-24 left-0 w-full bg-luxury-cream border-b border-luxury-sand shadow-2xl z-50 hidden lg:block"
+              className="absolute top-full left-0 w-full bg-luxury-cream border-b border-luxury-sand shadow-2xl z-50 hidden lg:block"
               style={{ minHeight: "350px" }}
               id="problems-mega-menu"
             >
@@ -2502,7 +2502,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
               onMouseEnter={handleShopMenuMouseEnter}
               onMouseLeave={handleShopMenuMouseLeave}
-              className="absolute top-24 left-0 w-full bg-luxury-cream border-b border-luxury-sand shadow-2xl z-50 hidden lg:block"
+              className="absolute top-full left-0 w-full bg-luxury-cream border-b border-luxury-sand shadow-2xl z-50 hidden lg:block"
               style={{ minHeight: "380px" }}
               id="shop-mega-menu"
             >
@@ -2661,7 +2661,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
               onMouseEnter={handleTrainingMenuMouseEnter}
               onMouseLeave={handleTrainingMenuMouseLeave}
-              className="absolute top-24 left-0 w-full bg-luxury-cream border-b border-luxury-sand shadow-2xl z-50 hidden lg:block"
+              className="absolute top-full left-0 w-full bg-luxury-cream border-b border-luxury-sand shadow-2xl z-50 hidden lg:block"
               style={{ minHeight: "380px" }}
               id="training-mega-menu"
             >
@@ -2812,17 +2812,17 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:hidden overflow-y-auto max-h-[calc(100vh-6rem)] border-b border-luxury-sand bg-luxury-cream sticky top-24 z-30 shadow-lg"
+            className="lg:hidden overflow-y-auto max-h-[calc(100vh-4rem)] border-b border-luxury-sand bg-luxury-cream sticky top-16 sm:top-18 lg:top-20 z-30 shadow-lg"
             id="mobile-menu-drawer"
           >
-            <div className="px-6 md:px-12 py-8 space-y-6 flex flex-col text-left">
+            <div className="px-6 md:px-12 py-6 space-y-6 flex flex-col text-left">
               
               {/* Brand Logo in Mobile Drawer */}
               <div 
                 onClick={() => { setActiveTab("cover"); setSelectedArticle(null); setSelectedTreatment(null); setIsMobileMenuOpen(false); }}
                 className="cursor-pointer pb-2 border-b border-luxury-sand/30"
               >
-                <BrandLogo className="h-8 sm:h-9 w-auto object-left" variant="drawer" />
+                <BrandLogo className="h-7 sm:h-8 max-w-[200px] w-auto object-left" variant="drawer" />
               </div>
 
               <div className="space-y-4">

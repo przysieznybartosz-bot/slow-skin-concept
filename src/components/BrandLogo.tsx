@@ -6,7 +6,7 @@ interface BrandLogoProps {
 }
 
 export const BrandLogo: React.FC<BrandLogoProps> = ({ 
-  className = "h-10 sm:h-12 w-auto", 
+  className = "h-7 sm:h-8 md:h-8.5 lg:h-9 w-auto", 
   variant = "header" 
 }) => {
   const [hasError, setHasError] = useState(false);
@@ -14,11 +14,11 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
   if (hasError) {
     // Graceful typographic fallback
     return (
-      <div className="flex flex-col justify-center">
-        <span className="font-serif text-lg sm:text-xl font-light tracking-wide text-luxury-dark block">
+      <div className="flex flex-col justify-center select-none">
+        <span className="font-serif text-sm sm:text-base md:text-lg font-light tracking-wide text-luxury-dark block whitespace-nowrap">
           SLOW SKIN CONCEPT
         </span>
-        <span className="font-mono text-[8px] sm:text-[9px] tracking-[0.25em] text-luxury-gold uppercase block -mt-0.5 font-medium">
+        <span className="font-mono text-[7px] sm:text-[8px] tracking-[0.25em] text-luxury-gold uppercase block -mt-0.5 font-medium whitespace-nowrap">
           INSTYTUT ZDROWEJ SKÓRY
         </span>
       </div>
@@ -29,7 +29,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
     <img
       src="/slow-skin-logo.svg"
       alt="Instytut Zdrowej Skóry SLOW SKIN CONCEPT™"
-      className={`object-contain transition-transform duration-300 ${className}`}
+      className={`object-contain object-left transition-all duration-300 ${className}`}
       onError={() => setHasError(true)}
       referrerPolicy="no-referrer"
     />
