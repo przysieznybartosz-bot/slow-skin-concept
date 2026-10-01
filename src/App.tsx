@@ -1281,6 +1281,98 @@ export default function App() {
       return;
     }
 
+    // Laser LPL, Światło LPL & Fotoepilacja Mappings
+    if (
+      url === "/laser-lpl/" || 
+      url === "/laser-lpl" || 
+      url === "laser-lpl" || 
+      url === "/terapie-laserowe-lpl/" || 
+      url === "/terapie-laserowe-lpl" || 
+      url === "terapie-laserowe-lpl" || 
+      url === "/terapie-swiatlem-lpl/" || 
+      url === "/terapie-swiatlem-lpl" || 
+      url === "terapie-swiatlem-lpl" || 
+      url === "/lpl/" || 
+      url === "/lpl" || 
+      url === "lpl" || 
+      url.includes("laser-lpl") || 
+      url.includes("swiatlem-lpl") ||
+      url.includes("terapie-laserowe-lpl")
+    ) {
+      setActiveTab("clinic");
+      const lplT = TREATMENTS.find(item => item.id === "terapie-swiatlem-lpl") || TREATMENTS[0];
+      setSelectedTreatment(lplT);
+      setSelectedArticle(null);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
+    if (
+      url === "/fotoepilacja-lpl/" || 
+      url === "/fotoepilacja-lpl" || 
+      url === "fotoepilacja-lpl" || 
+      url === "/fotoepilacja/" || 
+      url === "/fotoepilacja" || 
+      url === "fotoepilacja" ||
+      url.includes("fotoepilac")
+    ) {
+      setActiveTab("clinic");
+      const fotoT = TREATMENTS.find(item => item.id === "fotoepilacja-lpl") || TREATMENTS[0];
+      setSelectedTreatment(fotoT);
+      setSelectedArticle(null);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
+    if (
+      url === "/laser-carbon/" || 
+      url === "/laser-carbon" || 
+      url === "laser-carbon" || 
+      url === "/peeling-laserowy-weglowy/" ||
+      url.includes("laser-carbon")
+    ) {
+      setActiveTab("clinic");
+      const carbonT = TREATMENTS.find(item => item.id === "laser-carbon") || TREATMENTS[0];
+      setSelectedTreatment(carbonT);
+      setSelectedArticle(null);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
+    // Mezoterapia & Stymulatory Mappings
+    if (url === "/meso-needleless/" || url === "/meso-needleless" || url.includes("meso-needleless") || url === "/mezoterapia-beziglowa/") {
+      setActiveTab("clinic");
+      const t = TREATMENTS.find(item => item.id === "mezoterapia-beziglowa") || TREATMENTS[0];
+      setSelectedTreatment(t);
+      setSelectedArticle(null);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    if (url === "/meso-needle/" || url === "/meso-needle" || url.includes("meso-needle") || url === "/mezoterapia-mikroiglowa/" || url === "/mezoterapia-iglowa/") {
+      setActiveTab("clinic");
+      const t = TREATMENTS.find(item => item.id === "mezoterapia-mikroiglowa") || TREATMENTS[0];
+      setSelectedTreatment(t);
+      setSelectedArticle(null);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    if (url === "/meso-gold-needle/" || url === "/meso-gold-needle" || url.includes("meso-gold-needle") || url.includes("mesoporo")) {
+      setActiveTab("clinic");
+      const t = TREATMENTS.find(item => item.id === "mesoporacja-dwufazowa-mesoporo") || TREATMENTS[0];
+      setSelectedTreatment(t);
+      setSelectedArticle(null);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    if (url === "/tissue-stimulators/" || url === "/tissue-stimulators" || url.includes("tissue-stimulators") || url === "/stymulatory-tkankowe/") {
+      setActiveTab("clinic");
+      const t = TREATMENTS.find(item => item.id === "stymulatory-tkankowe") || TREATMENTS[0];
+      setSelectedTreatment(t);
+      setSelectedArticle(null);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
     // Dynamic Treatment URL Matcher
     // Strips slashes and directories like "zabiegi", "zabieg", "cennik" to find the treatment ID
     const pathSlug = url.replace(/^\/+|\/+$/g, "").replace("zabiegi/", "").replace("zabieg/", "").replace("cennik/", "");
@@ -2019,7 +2111,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
                       >
                         <span>Terapie Laserowe LPL</span>
-                        <span className="text-[9px] font-mono text-luxury-gold/40">300 zł</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/40">od 150 zł</span>
                       </button>
                     </li>
                     <li>
@@ -9640,7 +9732,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             </span>
                           </div>
                           <h2 className="font-serif text-3xl md:text-4xl font-light text-luxury-dark">
-                            Terapie Skóry Twarzy Światłem LPL
+                            Terapie Laserowe LPL — Światłoterapia Twarzy
                           </h2>
                           <div className="w-16 h-[1px] bg-luxury-gold/60 mx-auto" />
                           <p className="text-xs md:text-sm text-luxury-dark font-serif italic max-w-2xl mx-auto leading-relaxed">

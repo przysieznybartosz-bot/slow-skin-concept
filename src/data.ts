@@ -1686,7 +1686,7 @@ export const TREATMENTS: Treatment[] = [
   },
   {
     id: "terapie-swiatlem-lpl",
-    title: "Terapie Skóry Twarzy Światłem LPL",
+    title: "Terapie Laserowe LPL — Światłoterapia Twarzy",
     subtitle: "Fotoodmładzanie • Naczynka • Przebarwienia • Skóra trądzikowa",
     duration: "45 — 60 minut",
     price: "od 150 PLN (Cała twarz: 400 PLN | Pakiety 3 zabiegów od 1080 PLN)",
