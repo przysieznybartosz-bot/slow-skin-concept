@@ -1,6 +1,0 @@
-{
-  "name": "Slow Skin Concept",
-  "description": "Ekspercki instytut oraz luksusowy magazyn dedykowany biologicznej terapii skóry, fizjologii naskórka i neurobiologii w duchu quiet luxury.",
-  "requestFramePermissions": ["geolocation"],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}

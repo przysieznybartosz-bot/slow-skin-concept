@@ -12,8 +12,19 @@
     <meta name="description" content="Slow Skin Concept™ to biologiczna terapia skóry, a nie zwykły zabieg czy chwilowa moda w pielęgnacji. Oparta na neurobiologii, fizjologii i biomimetyce. Poznaj piękno, które trwa." />
     <meta name="keywords" content="Slow Skin, Slow Skin Concept, biologiczna terapia skóry, neurobiologia skóry, fizjologia naskórka, kosmetologia Jelcz-Laskowice, Katarzyna Brzezińska, zdrowa skóra, pielęgnacja biomimetyczna, gabinet kosmetyczny Jelcz" />
     
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://slow-skin-concept.pl/" />
+    <!-- Dynamic Canonical URL for Google Indexing -->
+    <link rel="canonical" id="canonical-url" href="https://slow-skin-concept.pl/" />
+    <script>
+      (function() {
+        try {
+          var canonicalLink = document.getElementById('canonical-url');
+          if (canonicalLink) {
+            var currentPath = window.location.pathname || '/';
+            canonicalLink.setAttribute('href', 'https://slow-skin-concept.pl' + (currentPath.startsWith('/') ? currentPath : '/' + currentPath));
+          }
+        } catch (e) {}
+      })();
+    </script>
 
     <!-- Google Search Console Verification -->
     <meta name="google-site-verification" content="google1e65556e9311645b" />
