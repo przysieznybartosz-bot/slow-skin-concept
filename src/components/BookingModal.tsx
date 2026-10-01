@@ -14,6 +14,7 @@ import {
   User,
   Mail,
   Phone,
+  MessageSquare,
   AlertCircle
 } from "lucide-react";
 import { Treatment } from "../types";
@@ -142,6 +143,27 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
     const eventData = getEventData();
     setIsConfirmed(true);
     saveToLocalHistory(eventData);
+
+    const subject = encodeURIComponent(`[Rezerwacja Wizyty] ${treatment?.title || "Zabieg"} — ${selectedDate} ${selectedTime} — ${clientName}`);
+    const body = encodeURIComponent(
+      `Dzień dobry!\n\n` +
+      `Przesyłam formularz rezerwacji wizyty w Instytucie Zdrowej Skóry Slow Skin Concept:\n\n` +
+      `• Zabieg: ${treatment?.title || "Zabieg autorski"}\n` +
+      `• Termin: ${selectedDate} godz. ${selectedTime}\n` +
+      `• Imię i Nazwisko: ${clientName}\n` +
+      `• Numer telefonu: ${clientPhone}\n` +
+      `• Adres e-mail: ${clientEmail}\n` +
+      `• Rodzaj wizyty: ${isOnline ? "Konsultacja Online (Google Meet)" : "Wizyta w Gabinecie (Szkolna 5, Jelcz-Laskowice)"}\n` +
+      `• Notatki / Stan skóry: ${notes || "Brak uwag"}\n\n` +
+      `Proszę o potwierdzenie rezerwacji terminu.`
+    );
+
+    const mailtoLink = `mailto:baumann.jelcz@wp.pl?subject=${subject}&body=${body}`;
+    try {
+      window.location.href = mailtoLink;
+    } catch (err) {
+      console.warn("Mailto triggered", err);
+    }
   };
 
   const saveToLocalHistory = (data: BookingEventData) => {
@@ -493,15 +515,25 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                   )}
                 </button>
 
-                <div className="flex items-center justify-between gap-3 text-[9px] font-mono text-luxury-dark/90">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-[9px] font-mono text-luxury-dark/90">
                   <span className="flex items-center gap-1">
                     <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> Bezpieczna integracja Google
                   </span>
+                  <a
+                    href={`https://wa.me/48793088854?text=${encodeURIComponent(
+                      `Dzień dobry! Chciał(a)bym zarezerwować wizytę na zabieg: ${treatment?.title || "zabieg"} w Instytucie Slow Skin Concept.`
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-emerald-700 hover:text-emerald-800 font-semibold uppercase flex items-center gap-1"
+                  >
+                    <MessageSquare className="w-3 h-3" /> WhatsApp (793 088 854)
+                  </a>
                   <button
                     type="submit"
                     className="hover:text-luxury-gold underline uppercase cursor-pointer"
                   >
-                    Rezerwacja bez konta Google →
+                    Rezerwacja e-mail →
                   </button>
                 </div>
               </div>
@@ -523,6 +555,41 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                 <p className="text-xs text-luxury-dark/95 max-w-md mx-auto leading-relaxed">
                   Twoja rezerwacja na <span className="font-semibold text-luxury-dark">{treatment.title}</span> została pomyślnie przyjęta na dzień <span className="font-mono font-medium text-luxury-dark">{selectedDate}</span> o godzinie <span className="font-mono font-medium text-luxury-dark">{selectedTime}</span>.
                 </p>
+              </div>
+
+              {/* Instant WhatsApp & Reception routing box */}
+              <div className="p-4 bg-emerald-50/90 border border-emerald-200/90 max-w-md mx-auto text-left space-y-2.5">
+                <div className="flex items-center gap-2 text-emerald-950 font-mono text-[10px] uppercase font-bold">
+                  <Mail className="w-4 h-4 text-emerald-700 shrink-0" />
+                  <span>Zgłoszenie skierowane do recepcji: baumann.jelcz@wp.pl</span>
+                </div>
+                <p className="text-[11px] text-luxury-dark/95 leading-relaxed font-sans">
+                  Chcesz natychmiastowego potwierdzenia rezerwacji? Wyślij szczegóły bezpośrednio na gabinetowy WhatsApp lub zadzwoń:
+                </p>
+                <div className="flex flex-col sm:flex-row gap-2 pt-1">
+                  <a
+                    href={`https://wa.me/48793088854?text=${encodeURIComponent(
+                      `Dzień dobry! Zgłaszam rezerwację wizyty w Instytucie Slow Skin Concept:\n` +
+                      `• Zabieg: ${treatment.title}\n` +
+                      `• Preferowany termin: ${selectedDate} godz. ${selectedTime}\n` +
+                      `• Klient: ${clientName}\n` +
+                      `• Telefon: ${clientPhone}\n` +
+                      `• E-mail: ${clientEmail}` +
+                      (notes ? `\n• Notatki: ${notes}` : "")
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 py-2.5 px-3 bg-emerald-700 hover:bg-emerald-600 text-white font-mono text-[10px] uppercase tracking-wider font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm"
+                  >
+                    <MessageSquare className="w-3.5 h-3.5" /> WhatsApp (+48 793 088 854)
+                  </a>
+                  <a
+                    href="tel:793088854"
+                    className="py-2.5 px-3 bg-luxury-dark hover:bg-luxury-gold text-white font-mono text-[10px] uppercase tracking-wider font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm"
+                  >
+                    <Phone className="w-3.5 h-3.5" /> Zadzwoń: 793 088 854
+                  </a>
+                </div>
               </div>
 
               {/* Google Calendar Link Badge */}

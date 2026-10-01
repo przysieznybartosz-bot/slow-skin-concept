@@ -23,7 +23,9 @@ import {
   Brain,
   Video,
   FileCheck,
-  Compass
+  Compass,
+  MessageSquare,
+  Phone
 } from "lucide-react";
 
 interface TrainingPageProps {
@@ -128,6 +130,28 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({ onLinkClick, onOpenB
   const handleApplicationSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsApplicationSuccess(true);
+
+    const subject = encodeURIComponent(`[Szkolenia Slow Skin] Zgłoszenie: ${applicationData.program} — ${applicationData.ownerName} (${applicationData.salonName})`);
+    const body = encodeURIComponent(
+      `Dzień dobry!\n\n` +
+      `Przesyłam zgłoszenie do programu szkoleniowego / akredytacji Slow Skin Concept™:\n\n` +
+      `• Program / Szkolenie: ${applicationData.program}\n` +
+      `• Imię i Nazwisko: ${applicationData.ownerName}\n` +
+      `• Nazwa Gabinetu: ${applicationData.salonName}\n` +
+      `• Miasto / Powiat: ${applicationData.city}\n` +
+      `• Numer telefonu: ${applicationData.phone}\n` +
+      `• Adres e-mail firmowy: ${applicationData.email}\n` +
+      `• Staż działalności gabinetu: ${applicationData.experienceYears}\n` +
+      `• Pytania / rejon: ${applicationData.message || "Brak uwag"}\n\n` +
+      `Proszę o kontakt w sprawie rezerwacji miejsc i weryfikacji wyłączności rejonu.`
+    );
+
+    const mailtoLink = `mailto:baumann.jelcz@wp.pl?subject=${subject}&body=${body}`;
+    try {
+      window.location.href = mailtoLink;
+    } catch (err) {
+      console.warn("Mailto triggered", err);
+    }
   };
 
   const trainingFaqs = [
@@ -435,23 +459,61 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({ onLinkClick, onOpenB
           </div>
 
           {isApplicationSuccess ? (
-            <div className="bg-white border border-emerald-300 p-8 text-center space-y-4">
-              <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center mx-auto">
-                <Check className="w-6 h-6" />
+            <div className="bg-white border border-emerald-300 p-8 text-center space-y-5">
+              <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center mx-auto shadow-sm">
+                <Check className="w-7 h-7" />
               </div>
-              <h4 className="font-serif text-2xl font-light text-luxury-dark">
-                Dziękujemy za przesłanie zgłoszenia!
-              </h4>
-              <p className="text-xs text-luxury-dark/95 max-w-md mx-auto leading-relaxed font-light">
-                Twoja aplikacja dla gabinetu <strong>{applicationData.salonName || "Partnerskiego"}</strong> w mieście <strong>{applicationData.city}</strong> została zarejestrowana. 
-                Dział rozwoju sieci skontaktuje się z Tobą w ciągu 24 godzin w celu weryfikacji rejonu i przedstawienia szczegółów.
-              </p>
-              <button
-                onClick={() => setIsApplicationSuccess(false)}
-                className="bg-luxury-dark text-luxury-cream px-6 py-2.5 font-mono text-[10px] tracking-widest uppercase hover:bg-luxury-gold transition-colors"
-              >
-                Wyślij kolejne zapytanie
-              </button>
+              <div className="space-y-2">
+                <h4 className="font-serif text-2xl font-light text-luxury-dark">
+                  Dziękujemy za przesłanie zgłoszenia!
+                </h4>
+                <p className="text-xs text-luxury-dark/95 max-w-md mx-auto leading-relaxed font-light">
+                  Aplikacja dla gabinetu <strong>{applicationData.salonName || "Partnerskiego"}</strong> ({applicationData.city}) została skierowana do koordynatora programu na adres: <span className="font-mono text-emerald-800 font-medium">baumann.jelcz@wp.pl</span>.
+                </p>
+              </div>
+
+              {/* Instant WhatsApp & Phone Actions */}
+              <div className="p-4 bg-emerald-50/70 border border-emerald-200/80 max-w-md mx-auto text-left space-y-3">
+                <div className="flex items-center gap-2 text-emerald-900 font-mono text-[10px] uppercase font-semibold">
+                  <MessageSquare className="w-4 h-4 text-emerald-700 shrink-0" />
+                  <span>Szybki kontakt w sprawie rejonu & akredytacji</span>
+                </div>
+                <p className="text-[11px] text-luxury-dark/90 leading-relaxed">
+                  Możesz natychmiast zweryfikować dostępność wyłączności rejonowej bezpośrednio na WhatsApp lub telefonicznie:
+                </p>
+                <div className="flex flex-col sm:flex-row gap-2 pt-1">
+                  <a
+                    href={`https://wa.me/48793088854?text=${encodeURIComponent(
+                      `Dzień dobry! Zgłaszam gabinet do programu szkoleniowego / akredytacji Slow Skin Concept:\n` +
+                      `• Program: ${applicationData.program}\n` +
+                      `• Właściciel: ${applicationData.ownerName}\n` +
+                      `• Gabinet: ${applicationData.salonName}\n` +
+                      `• Miasto: ${applicationData.city}\n` +
+                      `• Telefon: ${applicationData.phone}`
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 py-2.5 px-3 bg-emerald-700 hover:bg-emerald-600 text-white font-mono text-[10px] uppercase tracking-wider font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm"
+                  >
+                    <MessageSquare className="w-3.5 h-3.5" /> WhatsApp (+48 793 088 854)
+                  </a>
+                  <a
+                    href="tel:793088854"
+                    className="py-2.5 px-4 bg-luxury-dark hover:bg-luxury-gold text-white font-mono text-[10px] uppercase tracking-wider font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm"
+                  >
+                    <Phone className="w-3.5 h-3.5" /> 793 088 854
+                  </a>
+                </div>
+              </div>
+
+              <div className="pt-2">
+                <button
+                  onClick={() => setIsApplicationSuccess(false)}
+                  className="bg-luxury-dark text-luxury-cream px-6 py-2.5 font-mono text-[10px] tracking-widest uppercase hover:bg-luxury-gold transition-colors"
+                >
+                  Wyślij kolejne zapytanie
+                </button>
+              </div>
             </div>
           ) : (
             <form onSubmit={handleApplicationSubmit} className="space-y-4">
@@ -574,14 +636,26 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({ onLinkClick, onOpenB
 
               <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <span className="text-[10px] text-luxury-dark/95 font-mono">
-                  * Zgłoszenie jest bezpłatne i nie zobowiązuje do podpisania umowy.
+                  * Zgłoszenia trafiają na adres: <strong className="text-luxury-dark">baumann.jelcz@wp.pl</strong> oraz WhatsApp.
                 </span>
-                <button
-                  type="submit"
-                  className="bg-luxury-dark hover:bg-luxury-gold hover:text-luxury-dark text-luxury-cream px-8 py-3.5 font-mono text-[11px] tracking-[0.15em] uppercase font-semibold transition-all shadow-md w-full sm:w-auto"
-                >
-                  Zgłoś Gabinet i Sprawdź Rejon →
-                </button>
+                <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+                  <a
+                    href={`https://wa.me/48793088854?text=${encodeURIComponent(
+                      `Dzień dobry! Chcę zapytać o akredytację gabinetu i szkolenia w Slow Skin Concept.`
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-emerald-700 hover:bg-emerald-600 text-white px-5 py-3 font-mono text-[10px] tracking-[0.12em] uppercase font-semibold transition-all shadow-sm flex items-center justify-center gap-1.5"
+                  >
+                    <MessageSquare className="w-3.5 h-3.5" /> WhatsApp (793 088 854)
+                  </a>
+                  <button
+                    type="submit"
+                    className="bg-luxury-dark hover:bg-luxury-gold hover:text-luxury-dark text-luxury-cream px-8 py-3.5 font-mono text-[11px] tracking-[0.15em] uppercase font-semibold transition-all shadow-md w-full sm:w-auto"
+                  >
+                    Zgłoś Gabinet i Sprawdź Rejon →
+                  </button>
+                </div>
               </div>
             </form>
           )}

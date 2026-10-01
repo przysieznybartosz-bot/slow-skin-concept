@@ -1848,6 +1848,19 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               <span className="inline-block whitespace-nowrap leading-none">793 088 854</span>
             </a>
 
+            {/* Direct WhatsApp Reception Link */}
+            <a
+              href="https://wa.me/48793088854?text=Dzie%C5%84%20dobry!%20Chcia%C5%82(a)bym%20zapyta%C4%87%20o%20zabiegi%20lub%20rezerwacj%C4%99%20w%20Instytucie%20Slow%20Skin%20Concept."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:inline-flex px-2.5 sm:px-3 border border-emerald-700/40 bg-emerald-50/70 text-[10px] xl:text-[11px] tracking-[0.08em] font-mono text-emerald-900 hover:bg-emerald-700 hover:text-white transition-all duration-300 items-center gap-1.5 font-medium h-9 sm:h-10 justify-center whitespace-nowrap leading-none shrink-0"
+              id="header-whatsapp-btn"
+              title="Czat WhatsApp z recepcją (+48 793 088 854)"
+            >
+              <MessageSquare className="w-3.5 h-3.5 text-emerald-700 group-hover:text-white shrink-0" strokeWidth={1.5} />
+              <span className="font-mono">WhatsApp</span>
+            </a>
+
             <button
               onClick={() => { setActiveTab("diagnose"); setDiagnosticStep(0); setSelectedArticle(null); setSelectedTreatment(null); setIsMobileMenuOpen(false); }}
               className={`hidden lg:inline-flex px-3.5 xl:px-5 border border-luxury-dark/80 text-[10px] xl:text-[11px] tracking-[0.12em] xl:tracking-[0.15em] uppercase font-mono transition-all rounded-none hover:bg-luxury-dark hover:text-luxury-cream h-9 sm:h-10 items-center justify-center whitespace-nowrap leading-none shrink-0 ${activeTab === "diagnose" ? "bg-luxury-gold border-luxury-gold text-white block" : ""}`}
@@ -3021,6 +3034,14 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               <div className="pt-6 border-t border-luxury-sand space-y-3">
                 <p className="font-mono text-[9px] tracking-[0.25em] text-luxury-gold uppercase">Szybkie Akcje & Kontakt</p>
                 <div className="flex flex-col space-y-2">
+                  <a
+                    href="https://wa.me/48793088854?text=Dzie%C5%84%20dobry!%20Chcia%C5%82(a)bym%20zapyta%C4%87%20o%20zabiegi%20lub%20rezerwacj%C4%99%20w%20Instytucie%20Slow%20Skin%20Concept."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full text-center py-3 bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-mono tracking-widest uppercase transition-all flex items-center justify-center gap-2 shadow-xs"
+                  >
+                    <MessageSquare className="w-4 h-4 text-white" strokeWidth={1.5} /> WhatsApp: 793 088 854
+                  </a>
                   <a
                     href="tel:793088854"
                     className="w-full text-center py-3 bg-luxury-dark text-luxury-cream hover:bg-luxury-gold hover:text-white text-xs font-mono tracking-widest uppercase transition-all flex items-center justify-center gap-2"
@@ -12420,9 +12441,26 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                 </a>
               </div>
             </div>
-            <div className="space-y-1 font-mono text-[10px] text-luxury-dark/90 pt-1 pb-1">
+            <div className="space-y-1.5 font-mono text-[10px] text-luxury-dark/90 pt-1 pb-1">
               <p>Poniedziałek - Piątek: 09:00 - 20:00</p>
               <p>Soboty: Indywidualne sesje terapeutyczne</p>
+              <p className="pt-0.5">
+                E-mail recepcji:{" "}
+                <a href="mailto:baumann.jelcz@wp.pl" className="text-luxury-gold underline hover:text-luxury-dark font-medium">
+                  baumann.jelcz@wp.pl
+                </a>
+              </p>
+              <p>
+                WhatsApp recepcji:{" "}
+                <a 
+                  href="https://wa.me/48793088854?text=Dzie%C5%84%20dobry!%20Chc%C4%99%20zapyta%C4%87%20o%20wizyt%C4%99%20w%20Instytucie%20Slow%20Skin%20Concept."
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-emerald-700 font-semibold hover:underline"
+                >
+                  +48 793 088 854 ↗
+                </a>
+              </p>
             </div>
             
             {/* Elegant Pulsing Pin Navigation & Language Selector Widget */}
@@ -12794,7 +12832,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     <div className="space-y-2">
                       <h4 className="font-serif text-sm font-medium text-luxury-dark font-semibold">1. Administrator Danych Osobowych</h4>
                       <p>
-                        Administratorem Twoich danych osobowych jest <strong>Katarzyna Brzezińska</strong>, prowadząca działalność gospodarczą pod nazwą: <strong>Instytut Zdrowej Skóry SLOW SKIN CONCEPT</strong>, z siedzibą przy ul. Szkolnej 5, 55-220 Jelcz-Laskowice. Wszelkie pytania dotyczące ochrony prywatności można kierować na adres e-mail: <span className="font-mono text-luxury-gold">kontakt@slowskinconcept.pl</span>.
+                        Administratorem Twoich danych osobowych jest <strong>Katarzyna Brzezińska</strong>, prowadząca działalność gospodarczą pod nazwą: <strong>Instytut Zdrowej Skóry SLOW SKIN CONCEPT</strong>, z siedzibą przy ul. Szkolnej 5, 55-220 Jelcz-Laskowice. Wszelkie pytania dotyczące ochrony prywatności można kierować na adres e-mail: <a href="mailto:baumann.jelcz@wp.pl" className="font-mono text-luxury-gold underline hover:text-luxury-dark">baumann.jelcz@wp.pl</a>.
                       </p>
                     </div>
 
@@ -13112,6 +13150,24 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
           }
         }}
       />
+
+      {/* Floating WhatsApp Action Button */}
+      <a
+        href="https://wa.me/48793088854?text=Dzie%C5%84%20dobry!%20Chcia%C5%82(a)bym%20zapyta%C4%87%20o%20zabiegi%20lub%20rezerwacj%C4%99%20w%20Instytucie%20Slow%20Skin%20Concept."
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-40 bg-emerald-700 hover:bg-emerald-600 text-white p-3.5 sm:px-4 sm:py-3 rounded-full shadow-[0_10px_25px_rgba(4,120,87,0.35)] border border-emerald-500/30 flex items-center gap-2.5 transition-all duration-300 hover:scale-105 group"
+        title="Napisz do recepcji na WhatsApp (+48 793 088 854)"
+        id="floating-whatsapp-btn"
+      >
+        <div className="relative">
+          <MessageSquare className="w-5 h-5 text-white" strokeWidth={1.8} />
+          <span className="absolute -top-1 -right-1 w-2 h-2 bg-emerald-300 rounded-full animate-ping" />
+        </div>
+        <span className="hidden sm:inline font-mono text-xs uppercase tracking-wider font-semibold">
+          WhatsApp 793 088 854
+        </span>
+      </a>
 
       <WcagWidget />
       <CookieBot onOpenPolicy={() => setIsCookiesPolicyOpen(true)} />

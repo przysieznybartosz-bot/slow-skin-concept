@@ -20,7 +20,10 @@ import {
   CheckCircle2,
   ChevronDown,
   Layers,
-  Sparkle
+  Sparkle,
+  Mail,
+  Phone,
+  MessageSquare
 } from "lucide-react";
 
 interface ShopPageProps {
@@ -144,6 +147,25 @@ export const ShopPage: React.FC<ShopPageProps> = ({ onLinkClick, onOpenBooking }
   const handlePreorderSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsPreorderSuccess(true);
+
+    const subject = encodeURIComponent(`[Rezerwacja Kosmetyków] ${preorderData.product} — ${preorderData.name}`);
+    const body = encodeURIComponent(
+      `Dzień dobry!\n\n` +
+      `Przesyłam formularz rezerwacji preparatów autorskich do odbioru w Instytucie Slow Skin Concept:\n\n` +
+      `• Produkt: ${preorderData.product}\n` +
+      `• Imię i Nazwisko: ${preorderData.name}\n` +
+      `• Numer telefonu: ${preorderData.phone}\n` +
+      `• Adres e-mail: ${preorderData.email}\n` +
+      `• Dodatkowe uwagi / stan skóry: ${preorderData.notes || "Brak uwag"}\n\n` +
+      `Proszę o potwierdzenie terminu odbioru w recepcji gabinetu (ul. Szkolna 5, Jelcz-Laskowice).`
+    );
+
+    const mailtoLink = `mailto:baumann.jelcz@wp.pl?subject=${subject}&body=${body}`;
+    try {
+      window.location.href = mailtoLink;
+    } catch (err) {
+      console.warn("Mailto triggered", err);
+    }
   };
 
   const shopFaqs = [
@@ -486,22 +508,61 @@ export const ShopPage: React.FC<ShopPageProps> = ({ onLinkClick, onOpenBooking }
           </div>
 
           {isPreorderSuccess ? (
-            <div className="bg-white border border-emerald-300 p-8 text-center space-y-4">
-              <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center mx-auto">
-                <Check className="w-6 h-6" />
+            <div className="bg-white border border-emerald-300 p-8 text-center space-y-5">
+              <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center mx-auto shadow-sm">
+                <Check className="w-7 h-7" />
               </div>
-              <h4 className="font-serif text-2xl font-light text-luxury-dark">
-                Dziękujemy za złożenie rezerwacji!
-              </h4>
-              <p className="text-xs text-luxury-dark/95 max-w-md mx-auto leading-relaxed font-light">
-                Twoja rezerwacja na <strong>{preorderData.product}</strong> została przekazana do recepcji Instytutu. Skontaktujemy się telefonicznie lub mailowo w celu potwierdzenia terminu odbioru.
-              </p>
-              <button
-                onClick={() => setIsPreorderSuccess(false)}
-                className="bg-luxury-dark text-luxury-cream px-6 py-2.5 font-mono text-[10px] tracking-widest uppercase hover:bg-luxury-gold transition-colors"
-              >
-                Złóż kolejną rezerwację
-              </button>
+              <div className="space-y-2">
+                <h4 className="font-serif text-2xl font-light text-luxury-dark">
+                  Dziękujemy za złożenie rezerwacji!
+                </h4>
+                <p className="text-xs text-luxury-dark/95 max-w-md mx-auto leading-relaxed font-light">
+                  Twoja rezerwacja na <strong>{preorderData.product}</strong> została skierowana do recepcji Instytutu na adres: <span className="font-mono text-emerald-800 font-medium">baumann.jelcz@wp.pl</span>.
+                </p>
+              </div>
+
+              {/* Instant WhatsApp & Phone Actions */}
+              <div className="p-4 bg-emerald-50/70 border border-emerald-200/80 max-w-md mx-auto text-left space-y-3">
+                <div className="flex items-center gap-2 text-emerald-900 font-mono text-[10px] uppercase font-semibold">
+                  <MessageSquare className="w-4 h-4 text-emerald-700 shrink-0" />
+                  <span>Szybki kontakt z recepcją (WhatsApp & Tel)</span>
+                </div>
+                <p className="text-[11px] text-luxury-dark/90 leading-relaxed">
+                  Możesz natychmiast przekazać tę rezerwację bezpośrednio na gabinetowy numer WhatsApp lub zadzwonić do recepcji:
+                </p>
+                <div className="flex flex-col sm:flex-row gap-2 pt-1">
+                  <a
+                    href={`https://wa.me/48793088854?text=${encodeURIComponent(
+                      `Dzień dobry! Zgłaszam rezerwację kosmetyków w Instytucie Slow Skin Concept:\n` +
+                      `• Produkt: ${preorderData.product}\n` +
+                      `• Imię i Nazwisko: ${preorderData.name}\n` +
+                      `• Telefon: ${preorderData.phone}\n` +
+                      `• E-mail: ${preorderData.email}` +
+                      (preorderData.notes ? `\n• Uwagi: ${preorderData.notes}` : "")
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 py-2.5 px-3 bg-emerald-700 hover:bg-emerald-600 text-white font-mono text-[10px] uppercase tracking-wider font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm"
+                  >
+                    <MessageSquare className="w-3.5 h-3.5" /> Wyślij na WhatsApp (+48 793 088 854)
+                  </a>
+                  <a
+                    href="tel:793088854"
+                    className="py-2.5 px-4 bg-luxury-dark hover:bg-luxury-gold text-white font-mono text-[10px] uppercase tracking-wider font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm"
+                  >
+                    <Phone className="w-3.5 h-3.5" /> 793 088 854
+                  </a>
+                </div>
+              </div>
+
+              <div className="pt-2">
+                <button
+                  onClick={() => setIsPreorderSuccess(false)}
+                  className="bg-luxury-dark text-luxury-cream px-6 py-2.5 font-mono text-[10px] tracking-widest uppercase hover:bg-luxury-gold transition-colors"
+                >
+                  Złóż kolejną rezerwację
+                </button>
+              </div>
             </div>
           ) : (
             <form onSubmit={handlePreorderSubmit} className="space-y-4">
@@ -579,14 +640,27 @@ export const ShopPage: React.FC<ShopPageProps> = ({ onLinkClick, onOpenBooking }
 
               <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <span className="text-[10px] text-luxury-dark/95 font-mono">
-                  * Płatność przy odbiorze w gabinecie lub przelewem.
+                  * Zgłoszenie trafia na e-mail: <strong className="text-luxury-dark">baumann.jelcz@wp.pl</strong> oraz WhatsApp.
                 </span>
-                <button
-                  type="submit"
-                  className="bg-luxury-dark hover:bg-luxury-gold hover:text-luxury-dark text-luxury-cream px-8 py-3.5 font-mono text-[11px] tracking-[0.15em] uppercase font-semibold transition-all shadow-md w-full sm:w-auto"
-                >
-                  Wyślij Rezerwację Gabinetową →
-                </button>
+                <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+                  <a
+                    href={`https://wa.me/48793088854?text=${encodeURIComponent(
+                      `Dzień dobry! Chciał(a)bym zamówić preparat autorski w gabinecie: ${preorderData.product}.`
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-emerald-700 hover:bg-emerald-600 text-white px-5 py-3 font-mono text-[10px] tracking-[0.12em] uppercase font-semibold transition-all shadow-sm flex items-center justify-center gap-1.5"
+                    title="Zamów bezpośrednio przez WhatsApp"
+                  >
+                    <MessageSquare className="w-3.5 h-3.5" /> WhatsApp (793 088 854)
+                  </a>
+                  <button
+                    type="submit"
+                    className="bg-luxury-dark hover:bg-luxury-gold hover:text-luxury-dark text-luxury-cream px-8 py-3.5 font-mono text-[11px] tracking-[0.15em] uppercase font-semibold transition-all shadow-md w-full sm:w-auto"
+                  >
+                    Wyślij Rezerwację Gabinetową →
+                  </button>
+                </div>
               </div>
             </form>
           )}
