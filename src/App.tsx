@@ -1746,8 +1746,8 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
             <BrandLogo className="h-7 sm:h-8 md:h-8.5 lg:h-8.5 xl:h-9 max-w-[190px] sm:max-w-[220px] md:max-w-[250px] lg:max-w-[260px] xl:max-w-[310px] w-auto group-hover:opacity-90" variant="header" />
           </div>
 
-          {/* Minimalist Editorial Navigation with Mega Menu Hover Triggers - Perfectly Centered */}
-          <nav className="hidden lg:flex items-center gap-3.5 xl:gap-6 2xl:gap-8 h-full">
+          {/* Minimalist Editorial Navigation with Mega Menu Hover Triggers - Perfectly Centered & Spaced */}
+          <nav className="hidden lg:flex items-center justify-center gap-6 xl:gap-9 2xl:gap-11 h-full mx-auto px-2">
             {/* 1. Problemy skóry */}
             <div 
               className="relative h-full flex items-center"
@@ -1755,7 +1755,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               onMouseLeave={handleProblemsMenuMouseLeave}
             >
               <button 
-                className={`text-[10px] xl:text-[11px] tracking-[0.10em] xl:tracking-[0.16em] uppercase font-mono transition-all py-2 border-b-2 flex items-center gap-1 cursor-pointer leading-none whitespace-nowrap ${isProblemsMenuOpen ? "border-luxury-gold text-luxury-gold font-medium" : "border-transparent text-luxury-dark/95 hover:text-luxury-dark"}`}
+                className={`text-[10.5px] xl:text-[11.5px] tracking-[0.12em] xl:tracking-[0.18em] uppercase font-mono transition-all py-2 border-b-2 flex items-center gap-1.5 cursor-pointer leading-none whitespace-nowrap ${isProblemsMenuOpen ? "border-luxury-gold text-luxury-gold font-medium" : "border-transparent text-luxury-dark/95 hover:text-luxury-dark"}`}
               >
                 <span className="whitespace-nowrap">Problemy skóry</span>
                 <span className={`text-[7px] xl:text-[8px] transition-transform duration-300 ${isProblemsMenuOpen ? "rotate-180 text-luxury-gold" : "text-luxury-dark/90"}`}>▼</span>
@@ -1769,7 +1769,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               onMouseLeave={handleMegaMenuMouseLeave}
             >
               <button 
-                className={`text-[10px] xl:text-[11px] tracking-[0.10em] xl:tracking-[0.16em] uppercase font-mono transition-all py-2 border-b-2 flex items-center gap-1 cursor-pointer leading-none whitespace-nowrap ${isMegaMenuOpen ? "border-luxury-gold text-luxury-gold font-medium" : "border-transparent text-luxury-dark/95 hover:text-luxury-dark"}`}
+                className={`text-[10.5px] xl:text-[11.5px] tracking-[0.12em] xl:tracking-[0.18em] uppercase font-mono transition-all py-2 border-b-2 flex items-center gap-1.5 cursor-pointer leading-none whitespace-nowrap ${isMegaMenuOpen ? "border-luxury-gold text-luxury-gold font-medium" : "border-transparent text-luxury-dark/95 hover:text-luxury-dark"}`}
               >
                 <span className="whitespace-nowrap">Zabiegi & Diagnoza</span>
                 <span className={`text-[7px] xl:text-[8px] transition-transform duration-300 ${isMegaMenuOpen ? "rotate-180 text-luxury-gold" : "text-luxury-dark/90"}`}>▼</span>
@@ -1779,7 +1779,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
             {/* 3. Metoda Autorska */}
             <button 
               onClick={() => { setActiveTab("method"); setSelectedArticle(null); setSelectedTreatment(null); setIsMegaMenuOpen(false); setIsProblemsMenuOpen(false); setIsShopMenuOpen(false); setIsTrainingMenuOpen(false); }}
-              className={`text-[10px] xl:text-[11px] tracking-[0.10em] xl:tracking-[0.16em] uppercase font-mono transition-all py-2 border-b-2 leading-none whitespace-nowrap ${activeTab === "method" && !isMegaMenuOpen && !isProblemsMenuOpen && !isShopMenuOpen && !isTrainingMenuOpen ? "border-luxury-gold text-luxury-gold font-medium" : "border-transparent text-luxury-dark/95 hover:text-luxury-dark"}`}
+              className={`text-[10.5px] xl:text-[11.5px] tracking-[0.12em] xl:tracking-[0.18em] uppercase font-mono transition-all py-2 border-b-2 leading-none whitespace-nowrap ${activeTab === "method" && !isMegaMenuOpen && !isProblemsMenuOpen && !isShopMenuOpen && !isTrainingMenuOpen ? "border-luxury-gold text-luxury-gold font-medium" : "border-transparent text-luxury-dark/95 hover:text-luxury-dark"}`}
             >
               <span className="whitespace-nowrap">Metoda Autorska</span>
             </button>
@@ -1800,7 +1800,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   setIsShopMenuOpen(false);
                   setIsTrainingMenuOpen(false);
                 }}
-                className={`text-[10px] xl:text-[11px] tracking-[0.10em] xl:tracking-[0.16em] uppercase font-mono transition-all py-2 border-b-2 flex items-center gap-1 cursor-pointer leading-none whitespace-nowrap ${activeTab === "shop" || isShopMenuOpen ? "border-luxury-gold text-luxury-gold font-medium" : "border-transparent text-luxury-dark/95 hover:text-luxury-dark"}`}
+                className={`text-[10.5px] xl:text-[11.5px] tracking-[0.12em] xl:tracking-[0.18em] uppercase font-mono transition-all py-2 border-b-2 flex items-center gap-1.5 cursor-pointer leading-none whitespace-nowrap ${activeTab === "shop" || isShopMenuOpen ? "border-luxury-gold text-luxury-gold font-medium" : "border-transparent text-luxury-dark/95 hover:text-luxury-dark"}`}
                 id="nav-tab-shop"
                 title="Sklep E-Commerce — slow-skin.shop"
               >
@@ -1809,7 +1809,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               </a>
             </div>
 
-            {/* 5. Szkolenia i współpraca (Portal B2B) */}
+            {/* 5. Szkolenia */}
             <div 
               className="relative h-full flex items-center"
               onMouseEnter={handleTrainingMenuMouseEnter}
@@ -1817,10 +1817,10 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
             >
               <button 
                 onClick={() => { setActiveTab("training"); setSelectedArticle(null); setSelectedTreatment(null); setIsMegaMenuOpen(false); setIsProblemsMenuOpen(false); setIsShopMenuOpen(false); setIsTrainingMenuOpen(false); }}
-                className={`text-[10px] xl:text-[11px] tracking-[0.10em] xl:tracking-[0.16em] uppercase font-mono transition-all py-2 border-b-2 flex items-center gap-1 cursor-pointer leading-none whitespace-nowrap ${activeTab === "training" || isTrainingMenuOpen ? "border-luxury-gold text-luxury-gold font-medium" : "border-transparent text-luxury-dark/95 hover:text-luxury-dark"}`}
+                className={`text-[10.5px] xl:text-[11.5px] tracking-[0.12em] xl:tracking-[0.18em] uppercase font-mono transition-all py-2 border-b-2 flex items-center gap-1.5 cursor-pointer leading-none whitespace-nowrap ${activeTab === "training" || isTrainingMenuOpen ? "border-luxury-gold text-luxury-gold font-medium" : "border-transparent text-luxury-dark/95 hover:text-luxury-dark"}`}
                 id="nav-tab-training"
               >
-                <span className="whitespace-nowrap">Szkolenia i współpraca</span>
+                <span className="whitespace-nowrap">Szkolenia</span>
                 <span className={`text-[7px] xl:text-[8px] transition-transform duration-300 ${isTrainingMenuOpen ? "rotate-180 text-luxury-gold" : "text-luxury-dark/90"}`}>▼</span>
               </button>
             </div>
@@ -2985,7 +2985,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       onClick={() => { setActiveTab("training"); setSelectedArticle(null); setSelectedTreatment(null); setIsMobileMenuOpen(false); }}
                       className={`w-full text-left font-serif text-lg tracking-wider transition-colors flex justify-between items-center ${activeTab === "training" ? "text-luxury-gold font-medium" : "text-luxury-dark hover:text-luxury-gold"}`}
                     >
-                      <span>5. Szkolenia i współpraca</span>
+                      <span>5. Szkolenia</span>
                       <span className="font-mono text-[8px] text-white bg-luxury-dark px-2 py-0.5 uppercase tracking-widest font-bold">Akademia</span>
                     </button>
                     <div className="pl-4 py-2 mt-1 flex flex-col space-y-2 text-xs border-l border-luxury-sand/30">
