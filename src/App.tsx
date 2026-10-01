@@ -1848,19 +1848,6 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               <span className="inline-block whitespace-nowrap leading-none">793 088 854</span>
             </a>
 
-            {/* Direct WhatsApp Reception Link */}
-            <a
-              href="https://wa.me/48793088854?text=Dzie%C5%84%20dobry!%20Chcia%C5%82(a)bym%20zapyta%C4%87%20o%20zabiegi%20lub%20rezerwacj%C4%99%20w%20Instytucie%20Slow%20Skin%20Concept."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden sm:inline-flex px-2.5 sm:px-3 border border-emerald-700/40 bg-emerald-50/70 text-[10px] xl:text-[11px] tracking-[0.08em] font-mono text-emerald-900 hover:bg-emerald-700 hover:text-white transition-all duration-300 items-center gap-1.5 font-medium h-9 sm:h-10 justify-center whitespace-nowrap leading-none shrink-0"
-              id="header-whatsapp-btn"
-              title="Czat WhatsApp z recepcją (+48 793 088 854)"
-            >
-              <MessageSquare className="w-3.5 h-3.5 text-emerald-700 group-hover:text-white shrink-0" strokeWidth={1.5} />
-              <span className="font-mono">WhatsApp</span>
-            </a>
-
             <button
               onClick={() => { setActiveTab("diagnose"); setDiagnosticStep(0); setSelectedArticle(null); setSelectedTreatment(null); setIsMobileMenuOpen(false); }}
               className={`hidden lg:inline-flex px-3.5 xl:px-5 border border-luxury-dark/80 text-[10px] xl:text-[11px] tracking-[0.12em] xl:tracking-[0.15em] uppercase font-mono transition-all rounded-none hover:bg-luxury-dark hover:text-luxury-cream h-9 sm:h-10 items-center justify-center whitespace-nowrap leading-none shrink-0 ${activeTab === "diagnose" ? "bg-luxury-gold border-luxury-gold text-white block" : ""}`}
