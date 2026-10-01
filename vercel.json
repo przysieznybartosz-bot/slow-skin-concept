@@ -5,7 +5,7 @@
   "outputDirectory": "dist",
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/((?!.*\\.(?:xml|txt|png|jpg|jpeg|svg|webp|ico|mp4|json|html|js|css)$).*)",
       "destination": "/index.html"
     }
   ],
