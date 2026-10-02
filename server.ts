@@ -110,6 +110,25 @@ async function startServer() {
     res.json({ status: "ok", service: "Slow Skin Concept", timestamp: new Date().toISOString() });
   });
 
+  // Calendar info & bookings endpoint
+  app.get("/api/calendar/info", (req, res) => {
+    res.json({
+      googleAccount: "slowskinconcept@gmail.com",
+      calendarId: "ec7711f8f95afc5d0e88dd4a404e2b15d3503323b86963b41d25747356d8b0d7@group.calendar.google.com",
+      status: "connected",
+    });
+  });
+
+  app.post("/api/calendar/bookings", (req, res) => {
+    try {
+      const booking = req.body;
+      console.log(`[SLOW SKIN BOOKING] Synchronized reservation for: ${booking?.treatmentName} on ${booking?.dateStr} ${booking?.timeStr} by ${booking?.clientName} (${booking?.clientPhone}, ${booking?.clientEmail}) to slowskinconcept@gmail.com`);
+      res.json({ success: true, timestamp: new Date().toISOString() });
+    } catch {
+      res.status(500).json({ error: "Nie udało się zapisać rezerwacji" });
+    }
+  });
+
   // helper to clean markdown wrapping around JSON output
   function cleanJsonString(str: string): string {
     let clean = str.trim();

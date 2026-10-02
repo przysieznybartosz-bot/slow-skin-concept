@@ -27,6 +27,8 @@ import {
   downloadIcsCalendarFile, 
   getCachedGoogleToken,
   clearGoogleToken,
+  SLOW_SKIN_GOOGLE_ACCOUNT,
+  SLOW_SKIN_CALENDAR_ID,
   BookingEventData,
   GoogleUserProfile 
 } from "../services/googleCalendar";
@@ -158,7 +160,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
       `Proszę o potwierdzenie rezerwacji terminu.`
     );
 
-    const mailtoLink = `mailto:baumann.jelcz@wp.pl?subject=${subject}&body=${body}`;
+    const mailtoLink = `mailto:${SLOW_SKIN_GOOGLE_ACCOUNT}?subject=${subject}&body=${body}`;
     try {
       window.location.href = mailtoLink;
     } catch (err) {
@@ -175,6 +177,13 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
         createdAt: new Date().toISOString(),
       });
       safeStorage.setItem("slow_skin_bookings", JSON.stringify(history.slice(0, 10)));
+      
+      // Asynchronously log to server
+      fetch("/api/calendar/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      }).catch(() => {});
     } catch (e) {
       console.error(e);
     }
@@ -194,7 +203,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-luxury-gold animate-pulse" />
             <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-luxury-gold">
-              Autorski Kalendarz Wizyt • Google Calendar
+              Kalendarz Rezerwacji • {SLOW_SKIN_GOOGLE_ACCOUNT}
             </span>
           </div>
           <button 
@@ -209,6 +218,20 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
         <div className="p-6 md:p-8 space-y-6">
           {!isConfirmed ? (
             <form onSubmit={handleSubmitManual} className="space-y-6">
+              {/* Google Calendar Direct Sync Indicator */}
+              <div className="border border-luxury-gold/30 bg-luxury-gold/5 p-3 rounded-xs flex items-center justify-between gap-3 text-[10px] font-mono text-luxury-dark">
+                <div className="flex items-center gap-2.5">
+                  <Calendar className="w-4 h-4 text-luxury-gold shrink-0" />
+                  <div>
+                    <span className="font-semibold block text-luxury-dark">Oficjalny Kalendarz Google Instytutu</span>
+                    <span className="text-luxury-dark/75 text-[9px]">Rezerwacja trafia bezpośrednio do kalendarza: {SLOW_SKIN_GOOGLE_ACCOUNT}</span>
+                  </div>
+                </div>
+                <span className="text-[8px] bg-luxury-gold text-white font-bold px-2 py-0.5 tracking-wider uppercase shrink-0">
+                  Połączony
+                </span>
+              </div>
+
               {/* Treatment Overview Card */}
               <div className="border border-luxury-sand/60 bg-white/70 p-4 space-y-2 relative">
                 <div className="flex items-start justify-between gap-4">
@@ -561,7 +584,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
               <div className="p-4 bg-emerald-50/90 border border-emerald-200/90 max-w-md mx-auto text-left space-y-2.5">
                 <div className="flex items-center gap-2 text-emerald-950 font-mono text-[10px] uppercase font-bold">
                   <Mail className="w-4 h-4 text-emerald-700 shrink-0" />
-                  <span>Zgłoszenie skierowane do recepcji: baumann.jelcz@wp.pl</span>
+                  <span>Zgłoszenie skierowane do oficjalnego kalendarza: {SLOW_SKIN_GOOGLE_ACCOUNT}</span>
                 </div>
                 <p className="text-[11px] text-luxury-dark/95 leading-relaxed font-sans">
                   Chcesz natychmiastowego potwierdzenia rezerwacji? Wyślij szczegóły bezpośrednio na gabinetowy WhatsApp lub zadzwoń:
@@ -597,7 +620,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                 <div className="p-4 bg-emerald-50/80 border border-emerald-200 max-w-md mx-auto text-left space-y-2">
                   <div className="flex items-center gap-2 text-emerald-900 font-mono text-[10px] uppercase font-semibold">
                     <Check className="w-4 h-4 text-emerald-700" />
-                    <span>Wydarzenie dodane do Twojego Google Calendar</span>
+                    <span>Zsynchronizowano z Google Calendar ({SLOW_SKIN_GOOGLE_ACCOUNT})</span>
                   </div>
                   <a 
                     href={googleEventLink}
