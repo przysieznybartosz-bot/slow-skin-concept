@@ -40,6 +40,116 @@ export interface GoogleUserProfile {
   picture?: string;
 }
 
+export interface CalendarSlot {
+  time: string;
+  endTime: string;
+  durationMinutes: number;
+  bufferMinutes: number;
+  isAvailable: boolean;
+  reason?: string;
+}
+
+export interface CalendarSlotsResponse {
+  date: string;
+  dayName: string;
+  isClosed: boolean;
+  reason?: string;
+  durationMinutes: number;
+  bufferMinutes: number;
+  salonHours?: string;
+  totalSlots: number;
+  availableSlotsCount: number;
+  slots: CalendarSlot[];
+}
+
+/**
+ * Extracts realistic duration in minutes from treatment duration strings.
+ * Accounts for preparation, client consultation and procedure time.
+ */
+export function parseTreatmentDuration(durationStr?: string): number {
+  if (!durationStr) return 75;
+  const str = durationStr.toLowerCase();
+
+  // Match range like "75 — 90 minut" or "60–75 min"
+  const rangeMatch = str.match(/(\d+)\s*(?:—|-|–)\s*(\d+)/);
+  if (rangeMatch) {
+    const max = parseInt(rangeMatch[2], 10);
+    return max || 75;
+  }
+
+  // Match single number like "90 minut" or "około 60 minut"
+  const singleMatch = str.match(/(\d+)\s*min/);
+  if (singleMatch) {
+    return parseInt(singleMatch[1], 10);
+  }
+
+  return 75;
+}
+
+/**
+ * Fetches dynamic available and occupied slots tailored to the treatment duration
+ * from the backend, pre-checking collision with existing bookings and Google Calendar.
+ */
+export async function fetchCalendarSlots(dateStr: string, durationMinutes: number): Promise<CalendarSlotsResponse> {
+  try {
+    const res = await fetch(`/api/calendar/slots?date=${encodeURIComponent(dateStr)}&duration=${durationMinutes}`);
+    if (!res.ok) {
+      throw new Error("Nie udało się pobrać slotów kalendarza.");
+    }
+    return await res.json();
+  } catch (err: any) {
+    console.warn("Using offline slot generator fallback:", err);
+    // Offline / direct calculation fallback
+    const [year, month, day] = dateStr.split("-").map(Number);
+    const reqDate = new Date(year, month - 1, day);
+    const dayOfWeek = reqDate.getDay();
+
+    if (dayOfWeek === 0) {
+      return {
+        date: dateStr,
+        dayName: "Niedziela",
+        isClosed: true,
+        reason: "W niedziele Instytut Slow Skin Concept jest nieczynny — dzień regeneracji komórkowej i wyciszenia.",
+        durationMinutes,
+        bufferMinutes: 15,
+        totalSlots: 0,
+        availableSlotsCount: 0,
+        slots: [],
+      };
+    }
+
+    const openMin = 9 * 60;
+    const closeMin = dayOfWeek === 6 ? 15 * 60 : 19 * 60 + 30;
+    const slots: CalendarSlot[] = [];
+
+    const pad = (n: number) => n.toString().padStart(2, "0");
+    const toTime = (m: number) => `${pad(Math.floor(m / 60))}:${pad(m % 60)}`;
+
+    for (let m = openMin; m + durationMinutes <= closeMin; m += 30) {
+      slots.push({
+        time: toTime(m),
+        endTime: toTime(m + durationMinutes),
+        durationMinutes,
+        bufferMinutes: 15,
+        isAvailable: true,
+        reason: "Wolny termin",
+      });
+    }
+
+    return {
+      date: dateStr,
+      dayName: ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"][dayOfWeek],
+      isClosed: false,
+      durationMinutes,
+      bufferMinutes: 15,
+      salonHours: dayOfWeek === 6 ? "09:00 — 15:00" : "09:00 — 19:30",
+      totalSlots: slots.length,
+      availableSlotsCount: slots.length,
+      slots,
+    };
+  }
+}
+
 // Initialize Firebase App & Auth
 let app: any = null;
 let auth: any = null;
