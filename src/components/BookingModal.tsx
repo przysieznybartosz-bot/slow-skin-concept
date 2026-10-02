@@ -54,11 +54,11 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
   const [clientEmail, setClientEmail] = useState("");
   const [clientPhone, setClientPhone] = useState("");
   
-  // Tomorrow as default date (avoiding Sunday if tomorrow is Sunday)
+  // Default date: next available working day (skipping Saturday & Sunday)
   const getInitialDate = () => {
     const d = new Date();
     d.setDate(d.getDate() + 1);
-    if (d.getDay() === 0) {
+    while (d.getDay() === 0 || d.getDay() === 6) {
       d.setDate(d.getDate() + 1); // Jump to Monday
     }
     return d.toISOString().split("T")[0];
@@ -83,19 +83,20 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
   // Set default minimum date (today or tomorrow)
   const todayStr = new Date().toISOString().split("T")[0];
 
-  // Quick Days Generation (next 7 days)
+  // Quick Days Generation (next 7 days, highlighting closed weekends)
   const quickDays = Array.from({ length: 7 }, (_, i) => {
     const d = new Date();
     d.setDate(d.getDate() + (i + 1));
     const iso = d.toISOString().split("T")[0];
     const dayNames = ["Ndz", "Pon", "Wt", "Śr", "Czw", "Pt", "Sob"];
     const monthNames = ["Sty", "Lut", "Mar", "Kwi", "Maj", "Cze", "Lip", "Sie", "Wrz", "Paź", "Lis", "Gru"];
+    const isWeekend = d.getDay() === 0 || d.getDay() === 6;
     return {
       iso,
       dayNum: d.getDate(),
       dayName: dayNames[d.getDay()],
       monthName: monthNames[d.getMonth()],
-      isSunday: d.getDay() === 0,
+      isWeekend,
     };
   });
 
@@ -449,7 +450,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                       1. Wybierz Dzień Wizyty
                     </label>
                     <span className="text-[8.5px] font-mono text-luxury-dark/70">
-                      Godziny gabinetu: Pon–Pt 09:00–19:30, Sob 09:00–15:00
+                      Godziny pracy: Pon–Pt 10:00–19:30 (Sobota i Niedziela nieczynne)
                     </span>
                   </div>
 
@@ -465,8 +466,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                           className={`p-2 border rounded-xs text-center transition-all cursor-pointer ${
                             isSelected
                               ? "border-luxury-gold bg-luxury-gold text-white shadow-sm ring-1 ring-luxury-gold"
-                              : qd.isSunday
-                              ? "border-luxury-sand/30 bg-luxury-sand/10 text-luxury-dark/40 hover:border-luxury-sand"
+                              : qd.isWeekend
+                              ? "border-luxury-sand/30 bg-luxury-sand/15 text-luxury-dark/40 hover:border-luxury-sand"
                               : "border-luxury-sand/60 bg-white hover:border-luxury-gold/70 text-luxury-dark"
                           }`}
                         >
@@ -477,7 +478,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                             {qd.dayNum}
                           </div>
                           <div className="text-[7.5px] font-mono opacity-80">
-                            {qd.isSunday ? "Zamknięte" : qd.monthName}
+                            {qd.isWeekend ? "Nieczynne" : qd.monthName}
                           </div>
                         </button>
                       );
@@ -519,7 +520,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                         <span>{slotsData.dayName}: Gabinet Nieczynny</span>
                       </div>
                       <p className="text-[11px] leading-relaxed">
-                        {slotsData.reason || "W niedziele gabinet jest nieczynny. Zapraszamy od poniedziałku do soboty."}
+                        {slotsData.reason || "W weekendy (sobota i niedziela) gabinet jest nieczynny. Zapraszamy od poniedziałku do piątku w godzinach 10:00 — 19:30."}
                       </p>
                       <button
                         type="button"
@@ -530,7 +531,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                         }}
                         className="py-1.5 px-3 bg-amber-700 hover:bg-amber-800 text-white font-mono text-[9px] uppercase tracking-wider rounded-xs cursor-pointer inline-flex items-center gap-1"
                       >
-                        Przejdź do najbliższego Poniedziałku →
+                        Przejdź do najbliższego dnia roboczego (Poniedziałek) →
                       </button>
                     </div>
                   ) : (

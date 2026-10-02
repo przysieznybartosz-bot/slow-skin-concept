@@ -12521,12 +12521,12 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               </div>
             </div>
             <div className="space-y-1.5 font-mono text-[10px] text-luxury-dark/90 pt-1 pb-1">
-              <p>Poniedziałek - Piątek: 09:00 - 20:00</p>
-              <p>Soboty: Indywidualne sesje terapeutyczne</p>
+              <p>Poniedziałek - Piątek: 10:00 - 19:30</p>
+              <p>Sobota i Niedziela: Nieczynne</p>
               <p className="pt-0.5">
                 E-mail recepcji:{" "}
-                <a href="mailto:baumann.jelcz@wp.pl" className="text-luxury-gold underline hover:text-luxury-dark font-medium">
-                  baumann.jelcz@wp.pl
+                <a href="mailto:slowskinconcept@gmail.com" className="text-luxury-gold underline hover:text-luxury-dark font-medium">
+                  slowskinconcept@gmail.com
                 </a>
               </p>
               <p>

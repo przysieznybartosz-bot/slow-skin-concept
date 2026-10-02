@@ -226,8 +226,8 @@ async function startServer() {
       calendarId: "ec7711f8f95afc5d0e88dd4a404e2b15d3503323b86963b41d25747356d8b0d7@group.calendar.google.com",
       status: "connected",
       operatingHours: {
-        weekdays: "09:00 — 19:30",
-        saturday: "09:00 — 15:00",
+        weekdays: "10:00 — 19:30",
+        saturday: "Nieczynne (zablokowane)",
         sunday: "Nieczynne (regeneracja komórkowa)",
       },
       bufferMinutes: 15,
@@ -260,9 +260,20 @@ async function startServer() {
         });
       }
 
-      // Salon hours
-      const openMinutes = 9 * 60; // 09:00
-      const closeMinutes = dayOfWeek === 6 ? 15 * 60 : 19 * 60 + 30; // 15:00 on Sat, 19:30 on Mon-Fri
+      // Check if Saturday (closed / blocked)
+      if (dayOfWeek === 6) {
+        return res.json({
+          date: dateStr,
+          isClosed: true,
+          dayName: "Sobota",
+          reason: "W soboty gabinet jest nieczynny (terminy zablokowane). Zapraszamy od poniedziałku do piątku w godzinach 10:00 — 19:30.",
+          slots: [],
+        });
+      }
+
+      // Salon hours: Mon-Fri 10:00 — 19:30
+      const openMinutes = 10 * 60; // 10:00 rano
+      const closeMinutes = 19 * 60 + 30; // 19:30
 
       // Fetch existing bookings for this date
       const allBookings = getStoredBookings();
@@ -280,7 +291,7 @@ async function startServer() {
         };
       });
 
-      // Generate slots every 30 minutes from open to close
+      // Generate slots every 30 minutes from open (10:00) to close (19:30)
       const slots: any[] = [];
       const requiredBlock = duration + bufferMinutes;
 
@@ -316,7 +327,7 @@ async function startServer() {
         isClosed: false,
         durationMinutes: duration,
         bufferMinutes,
-        salonHours: dayOfWeek === 6 ? "09:00 — 15:00" : "09:00 — 19:30",
+        salonHours: "10:00 — 19:30 (Pon–Pt)",
         totalSlots: slots.length,
         availableSlotsCount: slots.filter((s) => s.isAvailable).length,
         slots,
@@ -336,10 +347,26 @@ async function startServer() {
         return res.status(400).json({ error: "Brak wymaganych danych rezerwacji (data, godzina, zabieg)." });
       }
 
+      const [year, month, day] = dateStr.split("-").map(Number);
+      const reqDate = new Date(year, month - 1, day);
+      const reqDay = reqDate.getDay();
+
+      if (reqDay === 0 || reqDay === 6) {
+        return res.status(400).json({ 
+          error: "W weekendy (sobota i niedziela) gabinet jest nieczynny. Prosimy wybrać termin od poniedziałku do piątku w godzinach 10:00 — 19:30." 
+        });
+      }
+
       const duration = parseInt(durationMinutes, 10) || 75;
       const bufferMinutes = 15;
       const newStart = timeToMinutes(timeStr);
       const newEnd = newStart + duration + bufferMinutes;
+
+      if (newStart < 10 * 60) {
+        return res.status(400).json({ 
+          error: "Gabinet rozpoczyna pracę od godziny 10:00 rano. Prosimy wybrać godzinę 10:00 lub późniejszą." 
+        });
+      }
 
       const allBookings = getStoredBookings();
       const dayBookings = allBookings.filter((b) => b.dateStr === dateStr);

@@ -104,12 +104,14 @@ export async function fetchCalendarSlots(dateStr: string, durationMinutes: numbe
     const reqDate = new Date(year, month - 1, day);
     const dayOfWeek = reqDate.getDay();
 
-    if (dayOfWeek === 0) {
+    if (dayOfWeek === 0 || dayOfWeek === 6) {
       return {
         date: dateStr,
-        dayName: "Niedziela",
+        dayName: dayOfWeek === 6 ? "Sobota" : "Niedziela",
         isClosed: true,
-        reason: "W niedziele Instytut Slow Skin Concept jest nieczynny — dzień regeneracji komórkowej i wyciszenia.",
+        reason: dayOfWeek === 6 
+          ? "W soboty gabinet jest nieczynny (terminy zablokowane). Zapraszamy od poniedziałku do piątku w godzinach 10:00 — 19:30."
+          : "W niedziele Instytut Slow Skin Concept jest nieczynny — dzień regeneracji komórkowej i wyciszenia.",
         durationMinutes,
         bufferMinutes: 15,
         totalSlots: 0,
@@ -118,8 +120,8 @@ export async function fetchCalendarSlots(dateStr: string, durationMinutes: numbe
       };
     }
 
-    const openMin = 9 * 60;
-    const closeMin = dayOfWeek === 6 ? 15 * 60 : 19 * 60 + 30;
+    const openMin = 10 * 60; // 10:00 rano
+    const closeMin = 19 * 60 + 30; // 19:30
     const slots: CalendarSlot[] = [];
 
     const pad = (n: number) => n.toString().padStart(2, "0");
@@ -142,7 +144,7 @@ export async function fetchCalendarSlots(dateStr: string, durationMinutes: numbe
       isClosed: false,
       durationMinutes,
       bufferMinutes: 15,
-      salonHours: dayOfWeek === 6 ? "09:00 — 15:00" : "09:00 — 19:30",
+      salonHours: "10:00 — 19:30 (Pon–Pt)",
       totalSlots: slots.length,
       availableSlotsCount: slots.length,
       slots,
