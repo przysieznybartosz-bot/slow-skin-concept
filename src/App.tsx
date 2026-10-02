@@ -1,3 +1,4 @@
+import {ShopBridge} from './components/ShopBridge';
 import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { 
@@ -5631,6 +5632,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                 </div>
               </div>
 
+              <ShopBridge/>
               {/* HOME FAQ SECTION & DYLEMAT EKSPERTA INTEGRATION */}
               <div className="pt-16 pb-6 border-t border-luxury-sand/30 space-y-12" id="home-faq-and-navigator">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
@@ -11057,6 +11059,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     </div>
                   </div>
 
+                  <ShopBridge compact/>
                   {/* Treatment FAQ Accordion Section */}
                   <TreatmentFAQ faqList={selectedTreatment.faq || []} />
 
@@ -12680,6 +12683,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               Kameralny gabinet pielęgnacji skóry w Jelczu-Laskowicach. Tworzymy przyjazną, spokojną przestrzeń, w której wspieramy naturalną regenerację i zdrowie Twojej skóry.
             </p>
             
+            <nav aria-label="Sklep i pielęgnacja domowa" className="grid gap-2 pt-2 text-xs"><a href="https://slow-skin.shop/sklep/kosmetyki" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">Sklep — pielęgnacja domowa ↗</a><a href="https://slow-skin.shop/ebooki" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">Ebooki Katarzyny ↗</a><a href="https://slow-skin.shop/konsultacje/indywidualna-konsultacja" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">Konsultacja online ↗</a></nav>
             {/* Social Media icons in Quiet Luxury style */}
             <div className="pt-2 flex items-center gap-4 text-luxury-dark/90">
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-luxury-gold transition-colors duration-300" aria-label="Instagram">
