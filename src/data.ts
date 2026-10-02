@@ -751,43 +751,48 @@ export const TREATMENTS: Treatment[] = [
   },
   {
     id: "carboksyterapia-carboregen",
-    title: "Carboksyterapia Twarzy CARBOregen",
-    subtitle: "Iniekcyjna stymulacja mikrokrążenia i naturalnych procesów przebudowy skóry • Efekt Bohra",
+    title: "Carboksyterapia twarzy CARBOregen",
+    subtitle: "Iniekcyjna stymulacja mikrokrążenia i naturalnych procesów przebudowy skóry",
     duration: "40 — 60 minut",
-    price: "250 PLN — 450 PLN (Pakiety 5 zabiegów od 1100 PLN)",
-    description: "Karboksyterapia jest zabiegiem iniekcyjnym polegającym na kontrolowanym podaniu dwutlenku węgla o certyfikowanej czystości laboratoryjnej do wybranych warstw skóry. CO₂ stanowi precyzyjny bodziec fizjologiczny, który powoduje miejscowe rozszerzenie naczyń i przejściowe zwiększenie przepływu krwi (efekt Bohra). Sprzyja to lepszemu dotlenieniu oraz odżywieniu tkanek i tworzy warunki wspierające ich naturalną regenerację. W Slow Skin Concept™ nie jest stosowany jeden protokół dla każdej skóry – obszar podania, głębokość iniekcji, przepływ, temperatura oraz ilość gazu w systemie CARBOregen są dobierane indywidualnie na podstawie kondycji skóry, jakości mikrokrążenia, wrażliwości tkanek i celu zabiegu.",
-    focus: "Certyfikowany CO₂, stymulacja mikrokrążenia, dotlenienie tkanek (efekt Bohra), okolica oka, redukcja cieni i blizn",
+    price: "250 PLN — 450 PLN (Pakiety 5 zabiegów: 1100 — 2000 PLN)",
+    description: "Karboksyterapia jest zabiegiem iniekcyjnym polegającym na kontrolowanym podaniu medycznego dwutlenku węgla do wybranych warstw skóry. CO₂ stanowi precyzyjny bodziec fizjologiczny, który powoduje miejscowe rozszerzenie naczyń i przejściowe zwiększenie przepływu krwi. Sprzyja to lepszemu dotlenieniu oraz odżywieniu tkanek i tworzy warunki wspierające ich naturalną regenerację. W Slow Skin Concept™ nie jest stosowany jeden protokół dla każdej skóry. Obszar podania, głębokość iniekcji, przepływ oraz ilość gazu są dobierane indywidualnie — na podstawie kondycji skóry, jakości mikrokrążenia, wrażliwości tkanek i celu zabiegu.",
+    focus: "Medyczny CO₂, stymulacja mikrokrążenia, dotlenienie tkanek (efekt Bohra), okolica oczu, redukcja cieni i blizn",
     image: "/src/assets/images/carboxytherapy_carboregen.webp",
     indications: [
-      "Zmęczony, ziemisty lub nierówny koloryt oraz osłabione mikrokrążenie",
-      "Utrata jędrności i elastyczności skóry, drobne zmarszczki",
-      "Pogorszenie struktury i gęstości skóry, wiotkość twarzy, szyi lub dekoltu",
-      "Cienka i mało elastyczna skóra wokół oczu oraz wiotkość dolnej powieki",
-      "Wybrane rodzaje cieni pod oczami związane z prześwitywaniem naczyń lub słabszym mikrokrążeniem",
-      "Blizny potrądzikowe wymagające stopniowej przebudowy i stymulacji fibroblastów"
+      "Zmęczony, ziemisty lub nierówny koloryt",
+      "Utrata jędrności i elastyczności skóry",
+      "Drobne zmarszczki",
+      "Pogorszenie struktury i gęstości skóry",
+      "Osłabione mikrokrążenie",
+      "Wiotkość skóry twarzy, szyi lub dekoltu",
+      "Blizny potrądzikowe",
+      "Cienka i mało elastyczna skóra wokół oczu",
+      "Wybrane rodzaje cieni pod oczami związane z prześwitywaniem naczyń lub słabszym mikrokrążeniem"
     ],
     contraindications: [
-      "Ciąża i okres karmienia piersią",
-      "Aktywna infekcja lub stan zapalny skóry (np. opryszczka w fazie aktywnej)",
+      "Ciąża i karmienie piersią",
+      "Aktywna infekcja lub stan zapalny skóry",
       "Przerwanie ciągłości skóry w miejscu podania",
-      "Zaburzenia krzepnięcia krwi i przyjmowanie leków przeciwkrzepliwych",
+      "Zaburzenia krzepnięcia",
+      "Przyjmowanie niektórych leków przeciwkrzepliwych",
       "Ciężkie lub niewyrównane choroby serca, płuc albo nerek",
       "Aktywna choroba nowotworowa",
       "Niewyrównane choroby ogólnoustrojowe",
-      "Świeżo wykonane zabiegi chirurgiczne lub iniekcyjne w opracowywanej okolicy (wymagany odstęp)"
+      "Świeżo wykonane zabiegi chirurgiczne lub iniekcyjne w opracowywanej okolicy"
     ],
     postTreatmentCare: [
       "Przez pierwszą dobę: nie uciskać i intensywnie nie masować skóry",
-      "Rezygnacja z sauny, basenu, gorących kąpieli i intensywnego treningu przez min. 24 godziny",
-      "Unikanie peelingów, retinoidów oraz drażniących kosmetyków przez 24–48 godzin",
-      "Nie rozgrzewać intensywnie obszaru zabiegowego i chronić skórę przed UV (SPF 50+)",
-      "Przestrzeganie indywidualnych zaleceń pielęgnacyjnych dobranych w gabinecie"
+      "Zrezygnować z sauny, basenu, gorących kąpieli i intensywnego treningu przez min. 24h",
+      "Nie stosować peelingów, retinoidów ani drażniących kosmetyków",
+      "Nie rozgrzewać intensywnie obszaru zabiegowego",
+      "Chronić skórę przed promieniowaniem UV, stosować fotoprotekcję SPF 50+",
+      "Przestrzegać indywidualnych zaleceń pozabiegowych"
     ],
     activeSubstances: [
-      "Certyfikowany dwutlenek węgla (CO₂) o najwyższej czystości laboratoryjnej",
+      "Medyczny dwutlenek węgla (CO₂) o certyfikowanej czystości",
       "System precyzyjnej kontroli temperatury, dawki i przepływu gazu CARBOregen",
-      "Bionomiczne preparaty barierowe i łagodzące po iniekcji",
-      "Fotoprotekcja mineralna o pełnym spektrum SPF 50+"
+      "Fizjologiczne preparaty barierowe i kojące po iniekcji",
+      "Mineralna fotoprotekcja bionomiczna SPF 50+"
     ],
     protocolSteps: [
       { phase: "I — Diagnoza i Kwalifikacja", description: "Ocena kondycji, reaktywności i unaczynienia skóry oraz charakteru problemu. Dokładny wywiad zdrowotny i wykluczenie przeciwwskazań." },

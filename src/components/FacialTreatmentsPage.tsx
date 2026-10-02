@@ -190,9 +190,11 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       desc: "Fizjologiczne oczyszczanie solą fizjologiczną i tlenem — w pełni bezpieczne dla cer naczyniowych, z rumieniem i nadreaktywnością."
     },
     {
-      name: "CARBOregen",
-      role: "Karboksyterapia bezigłowa / mikroprądowa",
-      desc: "Wykorzystanie fizjologicznego efektu Bohra do gwałtownego rozszerzenia naczyń włosowatych i dotlenienia komórkowego."
+      id: "carboksyterapia-carboregen",
+      url: "/carboksyterapia-carboregen/",
+      name: "Carboksyterapia CARBOregen",
+      role: "Iniekcyjna stymulacja CO₂ & Efekt Bohra",
+      desc: "Kontrolowane podanie medycznego dwutlenku węgla wywołujące zjawisko efektu Bohra — gwałtowne rozszerzenie naczyń, dotlenienie tkanek, odżywienie komórkowe i syntezę kolagenu."
     },
     {
       name: "Metody manualne",
@@ -659,18 +661,27 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
 
         {/* 12 Technologii i Metod Aparaturowych / Manualnych */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
-          {technologiesList.map((tech, idx) => (
+          {technologiesList.map((tech: any, idx) => (
             <div 
               key={idx}
-              className="border border-luxury-sand/70 p-5 bg-[#FAF8F5] hover:bg-white hover:border-luxury-gold/60 transition-all duration-300 rounded-sm space-y-2 text-left"
+              onClick={() => {
+                if (tech.id) handleSelectById(tech.id, tech.url);
+                else if (tech.url) onLinkClick(tech.url);
+              }}
+              className={`border border-luxury-sand/70 p-5 bg-[#FAF8F5] hover:bg-white hover:border-luxury-gold/60 transition-all duration-300 rounded-sm space-y-2 text-left ${tech.id || tech.url ? "cursor-pointer group" : ""}`}
             >
               <div className="flex items-center justify-between">
                 <span className="font-mono text-[9px] text-luxury-gold font-bold">
                   {idx + 1 < 10 ? `0${idx + 1}` : idx + 1} / {technologiesList.length}
                 </span>
-                <Radio className="w-3 h-3 text-luxury-gold/70" />
+                <Radio className="w-3 h-3 text-luxury-gold/70 group-hover:text-luxury-gold transition-colors" />
               </div>
-              <h3 className="font-serif text-sm font-semibold text-luxury-dark">{tech.name}</h3>
+              <h3 className="font-serif text-sm font-semibold text-luxury-dark group-hover:text-luxury-gold transition-colors flex items-center justify-between">
+                <span>{tech.name}</span>
+                {(tech.id || tech.url) && (
+                  <ArrowRight className="w-3.5 h-3.5 text-luxury-gold opacity-0 group-hover:opacity-100 transition-all -translate-x-1 group-hover:translate-x-0" />
+                )}
+              </h3>
               <p className="font-mono text-[9px] uppercase tracking-wider text-luxury-gold">{tech.role}</p>
               <p className="text-[11px] text-luxury-dark/95 font-light leading-relaxed pt-1">{tech.desc}</p>
             </div>

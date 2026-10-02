@@ -1372,6 +1372,23 @@ export default function App() {
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
+    if (
+      url === "/carboksyterapia-carboregen/" || 
+      url === "/carboksyterapia-carboregen" || 
+      url === "/carboksyterapia/" || 
+      url === "/carboksyterapia" || 
+      url === "/carboregen/" || 
+      url === "/carboregen" ||
+      url.includes("carboksy") || 
+      url.includes("carboregen")
+    ) {
+      setActiveTab("clinic");
+      const t = TREATMENTS.find(item => item.id === "carboksyterapia-carboregen") || TREATMENTS[0];
+      setSelectedTreatment(t);
+      setSelectedArticle(null);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
 
     // Dynamic Treatment URL Matcher
     // Strips slashes and directories like "zabiegi", "zabieg", "cennik" to find the treatment ID
@@ -2198,6 +2215,18 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         <span className="text-[9px] font-mono text-luxury-gold/40">od 500 zł</span>
                       </button>
                     </li>
+                    <li>
+                      <button 
+                        onClick={() => handleLinkClick("/carboksyterapia-carboregen/")}
+                        className="hover:text-luxury-gold text-luxury-dark font-medium transition-colors duration-200 text-left block w-full flex justify-between items-center group"
+                      >
+                        <span className="flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-luxury-gold"></span>
+                          <span>Carboksyterapia CARBOregen</span>
+                        </span>
+                        <span className="text-[9px] font-mono text-luxury-gold font-bold">od 250 zł</span>
+                      </button>
+                    </li>
                     <li className="text-[9px] uppercase tracking-wider font-mono text-luxury-gold/55 border-b border-luxury-sand/20 pb-0.5 mt-2">Oczyszczanie & Dotlenianie</li>
                     <li>
                       <button 
@@ -2541,6 +2570,16 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         <ArrowRight className="w-3 h-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-luxury-gold" />
                       </p>
                       <p className="text-[10px] text-luxury-dark/90 mt-0.5 font-mono leading-tight">Oczyszczanie laserowe z maską węglową, dające natychmiastowy blask</p>
+                    </div>
+                    <div className="group cursor-pointer pt-1 border-t border-luxury-sand/20" onClick={() => handleLinkClick("/carboksyterapia-carboregen/")}>
+                      <p className="text-xs font-serif font-semibold text-luxury-dark group-hover:text-luxury-gold transition-colors flex items-center justify-between">
+                        <span className="flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-luxury-gold"></span>
+                          <span>Carboksyterapia CARBOregen</span>
+                        </span>
+                        <ArrowRight className="w-3 h-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-luxury-gold" />
+                      </p>
+                      <p className="text-[10px] text-luxury-dark/90 mt-0.5 font-mono leading-tight">Dotlenienie CO₂, redukcja cieni pod oczami i efekt Bohra — od 250 zł</p>
                     </div>
                   </div>
                 </div>
@@ -2948,6 +2987,10 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         <button onClick={() => handleLinkClick("/neurolifting/")} className="text-left text-luxury-dark/95 hover:text-luxury-gold">Utrata jędrności</button>
                         <button onClick={() => handleLinkClick("/neurolifting/")} className="text-left text-luxury-dark/95 hover:text-luxury-gold">Zmarszczki mimiczne</button>
                         <button onClick={() => handleLinkClick("/meso-remodeling/")} className="text-left text-luxury-dark/95 hover:text-luxury-gold">Skóra zmęczona i szara</button>
+                        <button onClick={() => handleLinkClick("/carboksyterapia-carboregen/")} className="text-left text-luxury-dark/95 hover:text-luxury-gold flex items-center justify-between">
+                          <span>Cienie pod oczami & dotlenienie (CARBOregen)</span>
+                          <span className="font-mono text-[9px] text-luxury-gold font-bold">od 250 zł</span>
+                        </button>
                         <button onClick={() => handleLinkClick("/ceragem-thermal-massage/")} className="text-left text-luxury-dark/95 hover:text-luxury-gold font-medium flex items-center justify-between">
                           <span>Napięcie i sztywność pleców (Ceragem)</span>
                           <span className="font-mono text-[9px] text-luxury-gold font-bold">50 zł</span>
@@ -2998,6 +3041,13 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           <button onClick={() => handleLinkClick("/meso-needle/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Mezoterapia Igłowa</button>
                           <button onClick={() => handleLinkClick("/meso-gold-needle/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Mezoterapia Złotą Głowicą</button>
                           <button onClick={() => handleLinkClick("/tissue-stimulators/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Stymulatory Tkankowe</button>
+                          <button onClick={() => handleLinkClick("/carboksyterapia-carboregen/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1 font-medium flex justify-between items-center">
+                            <span className="flex items-center gap-1.5">
+                              <span className="w-1.5 h-1.5 rounded-full bg-luxury-gold"></span>
+                              <span>Carboksyterapia CARBOregen</span>
+                            </span>
+                            <span className="font-mono text-[9px] text-luxury-gold font-bold">od 250 zł</span>
+                          </button>
                           <button onClick={() => handleLinkClick("/hydrogen-purification/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Oczyszczanie Wodorowe</button>
                           <button onClick={() => handleLinkClick("/oxybrasion/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Oxybrazja Tlenowa</button>
                           <button onClick={() => handleLinkClick("/nanobrasion/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Nanobrazja Biorewitalizacja</button>
@@ -7029,6 +7079,8 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                 ? "Kwalifikacja i dobór parametrów"
                                 : selectedTreatment.id === "neurolifting-face"
                                 ? "Analiza mięśniowo-powięziowa"
+                                : selectedTreatment.id === "carboksyterapia-carboregen"
+                                ? "Iniekcyjna stymulacja CO₂"
                                 : "Głęboka Bioregeneracja"}
                             </span>
                           </div>
@@ -7066,6 +7118,8 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           ? "UMÓW KONSULTACJĘ DO RADIOFREKWENCJI MIKROIGŁOWEJ"
                           : selectedTreatment.id === "neurolifting-face"
                           ? "UMÓW KONSULTACJĘ DO NEUROLIFTINGU"
+                          : selectedTreatment.id === "carboksyterapia-carboregen"
+                          ? "UMÓW ZABIEG CARBOREGEN W KALENDARZU"
                           : "Zarezerwuj wizytę"}
                       </button>
                     </div>
@@ -8126,36 +8180,100 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                 </h4>
                                 
                                 <div className="space-y-3 divide-y divide-luxury-sand/40">
-                                  <div className="flex justify-between items-center pt-2">
+                                  <div className="flex justify-between items-center pt-2 gap-2">
                                     <div>
-                                      <span className="font-serif text-sm text-luxury-dark block">Karboksyterapia — Okolica Oczu</span>
+                                      <span className="font-serif text-sm text-luxury-dark font-medium block">Karboksyterapia — Okolica Oczu</span>
                                       <span className="text-[10px] text-luxury-dark/80 font-light">Dotlenienie, redukcja cieni naczyniowych</span>
                                     </div>
-                                    <span className="font-serif text-base text-luxury-gold font-bold">250 PLN</span>
+                                    <div className="flex items-center gap-2.5 shrink-0">
+                                      <span className="font-serif text-base text-luxury-gold font-bold">250 PLN</span>
+                                      <button
+                                        onClick={() => {
+                                          setBookingTreatment({
+                                            ...selectedTreatment,
+                                            title: "Carboksyterapia CARBOregen — Okolica Oczu",
+                                            price: "250 PLN",
+                                            duration: "40 minut"
+                                          });
+                                          setBookingConfirmed(false);
+                                        }}
+                                        className="px-2.5 py-1 bg-luxury-dark text-white hover:bg-luxury-gold text-[9px] font-mono uppercase tracking-wider transition-colors cursor-pointer rounded-xs font-semibold"
+                                      >
+                                        Rezerwuj
+                                      </button>
+                                    </div>
                                   </div>
 
-                                  <div className="flex justify-between items-center pt-2">
+                                  <div className="flex justify-between items-center pt-2 gap-2">
                                     <div>
-                                      <span className="font-serif text-sm text-luxury-dark block">Karboksyterapia — Twarz</span>
+                                      <span className="font-serif text-sm text-luxury-dark font-medium block">Karboksyterapia — Twarz</span>
                                       <span className="text-[10px] text-luxury-dark/80 font-light">Pobudzenie mikrokrążenia i syntezy kolagenu</span>
                                     </div>
-                                    <span className="font-serif text-base text-luxury-gold font-bold">300 PLN</span>
+                                    <div className="flex items-center gap-2.5 shrink-0">
+                                      <span className="font-serif text-base text-luxury-gold font-bold">300 PLN</span>
+                                      <button
+                                        onClick={() => {
+                                          setBookingTreatment({
+                                            ...selectedTreatment,
+                                            title: "Carboksyterapia CARBOregen — Twarz",
+                                            price: "300 PLN",
+                                            duration: "50 minut"
+                                          });
+                                          setBookingConfirmed(false);
+                                        }}
+                                        className="px-2.5 py-1 bg-luxury-dark text-white hover:bg-luxury-gold text-[9px] font-mono uppercase tracking-wider transition-colors cursor-pointer rounded-xs font-semibold"
+                                      >
+                                        Rezerwuj
+                                      </button>
+                                    </div>
                                   </div>
 
-                                  <div className="flex justify-between items-center pt-2">
+                                  <div className="flex justify-between items-center pt-2 gap-2">
                                     <div>
-                                      <span className="font-serif text-sm text-luxury-dark block">Twarz i Okolica Oczu</span>
+                                      <span className="font-serif text-sm text-luxury-dark font-medium block">Twarz i Okolica Oczu</span>
                                       <span className="text-[10px] text-luxury-dark/80 font-light">Synergiczne dotlenienie całej twarzy i powiek</span>
                                     </div>
-                                    <span className="font-serif text-base text-luxury-gold font-bold">380 PLN</span>
+                                    <div className="flex items-center gap-2.5 shrink-0">
+                                      <span className="font-serif text-base text-luxury-gold font-bold">380 PLN</span>
+                                      <button
+                                        onClick={() => {
+                                          setBookingTreatment({
+                                            ...selectedTreatment,
+                                            title: "Carboksyterapia CARBOregen — Twarz i Okolica Oczu",
+                                            price: "380 PLN",
+                                            duration: "60 minut"
+                                          });
+                                          setBookingConfirmed(false);
+                                        }}
+                                        className="px-2.5 py-1 bg-luxury-dark text-white hover:bg-luxury-gold text-[9px] font-mono uppercase tracking-wider transition-colors cursor-pointer rounded-xs font-semibold"
+                                      >
+                                        Rezerwuj
+                                      </button>
+                                    </div>
                                   </div>
 
-                                  <div className="flex justify-between items-center pt-2">
+                                  <div className="flex justify-between items-center pt-2 gap-2">
                                     <div>
-                                      <span className="font-serif text-sm text-luxury-dark block">Twarz, Szyja i Dekolt</span>
+                                      <span className="font-serif text-sm text-luxury-dark font-medium block">Twarz, Szyja i Dekolt</span>
                                       <span className="text-[10px] text-luxury-dark/80 font-light">Kompleksowa biostymulacja 3 stref naskórka</span>
                                     </div>
-                                    <span className="font-serif text-base text-luxury-gold font-bold">450 PLN</span>
+                                    <div className="flex items-center gap-2.5 shrink-0">
+                                      <span className="font-serif text-base text-luxury-gold font-bold">450 PLN</span>
+                                      <button
+                                        onClick={() => {
+                                          setBookingTreatment({
+                                            ...selectedTreatment,
+                                            title: "Carboksyterapia CARBOregen — Twarz, Szyja i Dekolt",
+                                            price: "450 PLN",
+                                            duration: "60 minut"
+                                          });
+                                          setBookingConfirmed(false);
+                                        }}
+                                        className="px-2.5 py-1 bg-luxury-dark text-white hover:bg-luxury-gold text-[9px] font-mono uppercase tracking-wider transition-colors cursor-pointer rounded-xs font-semibold"
+                                      >
+                                        Rezerwuj
+                                      </button>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -8179,47 +8297,111 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                 </h4>
 
                                 <div className="space-y-3 divide-y divide-luxury-gold/30">
-                                  <div className="flex justify-between items-center pt-2">
+                                  <div className="flex justify-between items-center pt-2 gap-2">
                                     <div>
                                       <span className="font-serif text-sm text-luxury-dark font-medium block">Okolica Oczu (Pakiet 5)</span>
                                       <span className="text-[10.5px] text-luxury-gold font-semibold font-mono">220 zł za jeden zabieg</span>
                                     </div>
-                                    <div className="text-right">
-                                      <span className="font-serif text-lg text-luxury-dark font-bold">1100 PLN</span>
-                                      <span className="block text-[9px] line-through text-luxury-dark/50">1250 PLN</span>
+                                    <div className="flex items-center gap-2.5 shrink-0 text-right">
+                                      <div>
+                                        <span className="font-serif text-base text-luxury-dark font-bold block">1100 PLN</span>
+                                        <span className="block text-[8.5px] line-through text-luxury-dark/50">1250 PLN</span>
+                                      </div>
+                                      <button
+                                        onClick={() => {
+                                          setBookingTreatment({
+                                            ...selectedTreatment,
+                                            title: "Pakiet 5x: Carboksyterapia Okolicy Oczu",
+                                            price: "1100 PLN (Pakiet 5x)",
+                                            duration: "40 minut"
+                                          });
+                                          setBookingConfirmed(false);
+                                        }}
+                                        className="px-2.5 py-1 bg-luxury-gold text-white hover:bg-luxury-dark text-[9px] font-mono uppercase tracking-wider transition-colors cursor-pointer rounded-xs font-semibold"
+                                      >
+                                        Wybierz
+                                      </button>
                                     </div>
                                   </div>
 
-                                  <div className="flex justify-between items-center pt-2">
+                                  <div className="flex justify-between items-center pt-2 gap-2">
                                     <div>
                                       <span className="font-serif text-sm text-luxury-dark font-medium block">Twarz (Pakiet 5)</span>
                                       <span className="text-[10.5px] text-luxury-gold font-semibold font-mono">270 zł za jeden zabieg</span>
                                     </div>
-                                    <div className="text-right">
-                                      <span className="font-serif text-lg text-luxury-dark font-bold">1350 PLN</span>
-                                      <span className="block text-[9px] line-through text-luxury-dark/50">1500 PLN</span>
+                                    <div className="flex items-center gap-2.5 shrink-0 text-right">
+                                      <div>
+                                        <span className="font-serif text-base text-luxury-dark font-bold block">1350 PLN</span>
+                                        <span className="block text-[8.5px] line-through text-luxury-dark/50">1500 PLN</span>
+                                      </div>
+                                      <button
+                                        onClick={() => {
+                                          setBookingTreatment({
+                                            ...selectedTreatment,
+                                            title: "Pakiet 5x: Carboksyterapia Twarzy",
+                                            price: "1350 PLN (Pakiet 5x)",
+                                            duration: "50 minut"
+                                          });
+                                          setBookingConfirmed(false);
+                                        }}
+                                        className="px-2.5 py-1 bg-luxury-gold text-white hover:bg-luxury-dark text-[9px] font-mono uppercase tracking-wider transition-colors cursor-pointer rounded-xs font-semibold"
+                                      >
+                                        Wybierz
+                                      </button>
                                     </div>
                                   </div>
 
-                                  <div className="flex justify-between items-center pt-2">
+                                  <div className="flex justify-between items-center pt-2 gap-2">
                                     <div>
                                       <span className="font-serif text-sm text-luxury-dark font-medium block">Twarz i Okolica Oczu (Pakiet 5)</span>
                                       <span className="text-[10.5px] text-luxury-gold font-semibold font-mono">340 zł za jeden zabieg</span>
                                     </div>
-                                    <div className="text-right">
-                                      <span className="font-serif text-lg text-luxury-dark font-bold">1700 PLN</span>
-                                      <span className="block text-[9px] line-through text-luxury-dark/50">1900 PLN</span>
+                                    <div className="flex items-center gap-2.5 shrink-0 text-right">
+                                      <div>
+                                        <span className="font-serif text-base text-luxury-dark font-bold block">1700 PLN</span>
+                                        <span className="block text-[8.5px] line-through text-luxury-dark/50">1900 PLN</span>
+                                      </div>
+                                      <button
+                                        onClick={() => {
+                                          setBookingTreatment({
+                                            ...selectedTreatment,
+                                            title: "Pakiet 5x: Carboksyterapia Twarz i Oczy",
+                                            price: "1700 PLN (Pakiet 5x)",
+                                            duration: "60 minut"
+                                          });
+                                          setBookingConfirmed(false);
+                                        }}
+                                        className="px-2.5 py-1 bg-luxury-gold text-white hover:bg-luxury-dark text-[9px] font-mono uppercase tracking-wider transition-colors cursor-pointer rounded-xs font-semibold"
+                                      >
+                                        Wybierz
+                                      </button>
                                     </div>
                                   </div>
 
-                                  <div className="flex justify-between items-center pt-2">
+                                  <div className="flex justify-between items-center pt-2 gap-2">
                                     <div>
                                       <span className="font-serif text-sm text-luxury-dark font-medium block">Twarz, Szyja i Dekolt (Pakiet 5)</span>
                                       <span className="text-[10.5px] text-luxury-gold font-semibold font-mono">400 zł za jeden zabieg</span>
                                     </div>
-                                    <div className="text-right">
-                                      <span className="font-serif text-lg text-luxury-dark font-bold">2000 PLN</span>
-                                      <span className="block text-[9px] line-through text-luxury-dark/50">2250 PLN</span>
+                                    <div className="flex items-center gap-2.5 shrink-0 text-right">
+                                      <div>
+                                        <span className="font-serif text-base text-luxury-dark font-bold block">2000 PLN</span>
+                                        <span className="block text-[8.5px] line-through text-luxury-dark/50">2250 PLN</span>
+                                      </div>
+                                      <button
+                                        onClick={() => {
+                                          setBookingTreatment({
+                                            ...selectedTreatment,
+                                            title: "Pakiet 5x: Carboksyterapia Twarz, Szyja, Dekolt",
+                                            price: "2000 PLN (Pakiet 5x)",
+                                            duration: "60 minut"
+                                          });
+                                          setBookingConfirmed(false);
+                                        }}
+                                        className="px-2.5 py-1 bg-luxury-gold text-white hover:bg-luxury-dark text-[9px] font-mono uppercase tracking-wider transition-colors cursor-pointer rounded-xs font-semibold"
+                                      >
+                                        Wybierz
+                                      </button>
                                     </div>
                                   </div>
                                 </div>
@@ -8234,6 +8416,57 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                 </p>
                               </div>
                             </div>
+                          </div>
+                        </div>
+
+                        {/* Precyzyjny bodziec zamiast nadmiernej intensywności — Filozofia & Główny CTA */}
+                        <div className="border border-luxury-gold/40 bg-gradient-to-br from-[#1A1A1A] via-[#242A27] to-[#1A1A1A] text-white p-8 md:p-12 rounded-sm shadow-xl text-center space-y-6 max-w-4xl mx-auto">
+                          <div className="inline-flex items-center gap-2 px-3 py-1 bg-luxury-gold/20 border border-luxury-gold/40 rounded-full">
+                            <Sparkles className="w-3.5 h-3.5 text-luxury-gold" />
+                            <span className="font-mono text-[9px] tracking-[0.25em] text-luxury-gold uppercase font-bold">
+                              Filozofia Terapii CARBOregen • Slow Skin Concept™
+                            </span>
+                          </div>
+                          
+                          <h3 className="font-serif text-2xl md:text-3xl font-light text-luxury-cream tracking-wide">
+                            Precyzyjny bodziec zamiast nadmiernej intensywności
+                          </h3>
+
+                          <div className="w-16 h-[1.5px] bg-luxury-gold/80 mx-auto" />
+
+                          <p className="text-xs md:text-sm text-luxury-cream/90 font-serif italic max-w-2xl mx-auto leading-relaxed">
+                            „W karboksyterapii najważniejsza nie jest największa ilość podanego gazu, lecz odpowiednio zaprojektowana reakcja tkanek. Parametry terapii są dobierane indywidualnie — zgodnie z potrzebami, kondycją oraz aktualną gotowością biologiczną skóry.”
+                          </p>
+
+                          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+                            <button
+                              onClick={() => {
+                                setBookingTreatment(selectedTreatment);
+                                setBookingConfirmed(false);
+                                setBookingName("");
+                                setBookingEmail("");
+                                setBookingPhone("");
+                                setBookingDate("");
+                              }}
+                              className="w-full sm:w-auto px-8 py-4 bg-luxury-gold text-luxury-dark hover:bg-white transition-all duration-300 font-mono text-xs tracking-widest uppercase font-bold shadow-lg flex items-center justify-center gap-2.5 cursor-pointer"
+                            >
+                              <Calendar className="w-4 h-4 text-luxury-dark" />
+                              <span>Zarezerwuj Carboksyterapię CARBOregen</span>
+                            </button>
+
+                            <a
+                              href="tel:+48713181818"
+                              className="w-full sm:w-auto px-6 py-4 border border-luxury-gold/60 text-luxury-cream hover:bg-white/10 transition-all font-mono text-xs tracking-widest uppercase flex items-center justify-center gap-2"
+                            >
+                              <span>Kontakt telefoniczny</span>
+                            </a>
+                          </div>
+
+                          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-[10px] font-mono text-luxury-gold/80 pt-2 border-t border-white/10">
+                            <span>✓ Synchronizacja z Google Calendar</span>
+                            <span>✓ Medyczny CO₂ i efekt Bohra</span>
+                            <span>✓ Pn–Pt 10:00 – 19:30</span>
+                            <span>✓ Bez efektu sztuczności</span>
                           </div>
                         </div>
 
@@ -10860,6 +11093,8 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         ? "UMÓW MASAŻ TERMICZNY CERAGEM"
                         : selectedTreatment.id === "pst-signal-therapy"
                         ? "UMÓW KONSULTACJĘ / TERAPIĘ PST"
+                        : selectedTreatment.id === "carboksyterapia-carboregen"
+                        ? "UMÓW ZABIEG CARBOREGEN W KALENDARZU"
                         : "Wybierz termin i zarezerwuj wizytę"}
                     </button>
                   </div>
