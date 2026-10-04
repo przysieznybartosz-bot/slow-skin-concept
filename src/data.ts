@@ -3,15 +3,15 @@ import { Treatment, MagazineArticle, Review } from "./types";
 export const TREATMENTS: Treatment[] = [
   {
     id: "videokonsultacja",
-    title: "Videokonsultacja Bionomiczna",
-    subtitle: "Konsultacja kosmetologiczna online 1:1 • Diagnoza barierowa, wywiad bionomiczny i autorski Beauty Plan™",
+    title: "Videokonsultacja Kosmetologiczna Online",
+    subtitle: "Konsultacja kosmetologiczna online 1:1 • Diagnoza barierowa, wywiad kosmetologiczny i autorski Beauty Plan™",
     duration: "60 minut",
     price: "250 PLN",
     description: "Dedykowana videokonsultacja online prowadzona w standardzie Slow Skin Concept™ przez mgr Katarzynę Brzezińską. Idealne rozwiązanie dla osób z całej Polski i zza granicy, które nie mogą dotrzeć do gabinetu w Jelczu-Laskowicach, a pragną skonsultować trądzik dorosłych, trądzik różowaty, nadwrażliwość barierową, przewlekły rumień lub ułożyć bezpieczną, bionomiczną pielęgnację domową. Podczas 60-minutowego spotkania wideo przez Google Meet dokładnie analizujemy historię skóry, dotychczasowe kosmetyki, nawyki i dietę, a po spotkaniu otrzymujesz szczegółowy, spersonalizowany Beauty Plan™ (PDF) z dokładnymi zaleceniami rano/wieczór oraz wskazówkami regeneracyjnymi.",
-    focus: "Diagnoza barierowa online, analiza nawyków i składów kosmetyków, ułożenie autorskiego planu pielęgnacji bionomicznej (PDF), bezpieczne połączenie wideo przez Google Meet",
+    focus: "Diagnoza barierowa online, analiza nawyków i składów kosmetyków, ułożenie autorskiego planu pielęgnacji (PDF), bezpieczne połączenie wideo przez Google Meet",
     image: "/src/assets/images/regenerated_image_1781694292749.jpg",
     indications: [
-      "Osoby spoza Wrocławia / z zagranicy poszukujące rzetelnej diagnozy kosmetologicznej i wsparcia bionomicznego",
+      "Osoby spoza Wrocławia / z zagranicy poszukujące rzetelnej diagnozy kosmetologicznej i wsparcia pielęgnacyjnego",
       "Nawracający trądzik dorosłych, trądzik różowaty, skóra naczyniowa, przewlekły rumień i nadreaktywność",
       "Uszkodzona bariera hydrolipidowa (ściągnięcie, pieczenie, reaktywność na kosmetyki)",
       "Chaos pielęgnacyjny i potrzeba ułożenia minimalistycznego, fizjologicznego Beauty Planu opartego na biozgodnych składnikach",
@@ -32,7 +32,7 @@ export const TREATMENTS: Treatment[] = [
       "Kwas bursztynowy, cynk PCA oraz antyoksydanty nowej generacji (C60, oryzanol)"
     ],
     protocolSteps: [
-      { phase: "I — Przygotowanie & Kwestionariusz Bionomiczny", description: "Wypełnienie wywiadu zdrowotno-kosmetycznego i przesłanie zdjęć skóry w świetle dziennym przed połączeniem." },
+      { phase: "I — Przygotowanie & Kwestionariusz Konsultacyjny", description: "Wypełnienie wywiadu zdrowotno-kosmetycznego i przesłanie zdjęć skóry w świetle dziennym przed połączeniem." },
       { phase: "II — Połączenie Wideo Google Meet (60 min)", description: "Szczegółowa rozmowa z mgr Katarzyną Brzezińską: analiza objawów, audyt używanych preparatów i ocena barierowości." },
       { phase: "III — Opracowanie Spersonalizowanego Beauty Planu™", description: "Dobór celowanych substancji biozgodnych, harmonogram pielęgnacji rano/wieczór oraz wskazówki dietetyczno-lifestyle'owe." },
       { phase: "IV — Przesłanie Raportu PDF & Wsparcie", description: "Otrzymanie kompletnego dokumentu z zaleceniami na e-mail wraz z dedykowanymi rekomendacjami zakupowymi." }
@@ -107,7 +107,7 @@ export const TREATMENTS: Treatment[] = [
       },
       {
         question: "Czym różni się wariant Standard od Premium pierwszej wizyty?",
-        answer: "Pakiet Standard (400 PLN) opiera się na wywiadzie bionomicznym, kosmetologicznej ocenie palpacyjno-wizualnej i resecie zabiegowym. Pakiet Premium (600 PLN) obejmuje dodatkowo wielospektralny audyt czujnikami komputerowymi Thessia Skin Scanner / Nati V3 / Iomet wraz z rozszerzonym Beauty Planem™.",
+        answer: "Pakiet Standard (400 PLN) opiera się na wywiadzie kosmetologicznym, ocenie palpacyjno-wizualnej i resecie zabiegowym. Pakiet Premium (600 PLN) obejmuje dodatkowo wielospektralny audyt czujnikami komputerowymi Thessia Skin Scanner / Nati V3 / Iomet wraz z rozszerzonym Beauty Planem™.",
         category: "Warianty"
       },
       {
@@ -678,73 +678,94 @@ export const TREATMENTS: Treatment[] = [
   {
     id: "sonaris-pro-therapy",
     title: "Sonaris Pro Therapy",
-    subtitle: "Nieinwazyjna terapia poprawiająca napięcie, gładkość i witalność skóry • Impulsy elektromagnetyczne",
+    subtitle: "Nieinwazyjna terapia poprawiająca napięcie, gładkość i witalność skóry",
     duration: "45 — 75 minut",
-    price: "180 PLN — 350 PLN (Pakiety 6 zabiegów od 900 PLN)",
-    description: "Komfortowy, w 100% nieinwazyjny zabieg wykorzystujący impulsy elektromagnetyczne aplikowane za pomocą specjalnie zaprojektowanych głowic. Procedura nie narusza ciągłości naskórka i nie wymaga okresu rekonwalescencji. W Slow Skin Concept™ technologia nie jest wykorzystywana według jednego, gotowego protokołu – obszar pracy, rodzaj głowicy, intensywność oraz czas działania są dobierane indywidualnie do kondycji, wrażliwości i aktualnej gotowości biologicznej skóry. Głowice urządzenia emitują impulsy elektromagnetyczne stanowiące łagodny bodziec wspierający fizjologiczne procesy odpowiedzialne za napięcie, mikrokrążenie i regenerację tkanek.",
-    focus: "Impulsy elektromagnetyczne, poprawa napięcia i elastyczności, okolica oka, brak nakłuwania i rekonwalescencji",
-    image: "/src/assets/images/sonaris_pro_therapy.webp",
+    price: "180 zł — 350 zł (Pakiety 6 zabiegów od 900 zł)",
+    description: "Sonaris Pro Therapy jest komfortowym, nieinwazyjnym zabiegiem wykorzystującym impulsy elektromagnetyczne aplikowane za pomocą specjalnie zaprojektowanych głowic. Procedura nie narusza ciągłości naskórka i nie wymaga okresu rekonwalescencji. Zabieg przeznaczony jest dla skóry z pierwszymi oznakami starzenia, utratą elastyczności, drobnymi zmarszczkami oraz zmęczonym, nierównym kolorytem. Może być wykonywany na twarz, szyję, dekolt oraz delikatną okolicę oczu. W Slow Skin Concept™ technologia nie jest wykorzystywana według jednego, gotowego protokołu. Obszar pracy, rodzaj głowicy, intensywność oraz czas działania są dobierane indywidualnie do kondycji, wrażliwości i aktualnej gotowości biologicznej skóry.",
+    focus: "Impulsy elektromagnetyczne, napięcie, gładkość i witalność skóry, delikatna okolica oka, brak naruszania naskórka",
+    image: "/sonaris_pro.png",
     indications: [
-      "Pierwsze oznaki starzenia oraz utrata napięcia i elastyczności skóry",
-      "Drobne zmarszczki mimiczne oraz osłabienie owalu twarzy",
-      "Zmęczony, poszarzały koloryt i nierówna struktura powierzchni naskórka",
-      "Cienka i delikatna skóra wokół oczu (oznaki zmęczenia, potrzeba świeżości spojrzenia)",
-      "Potrzeba łagodnej stymulacji bez nakłuwania i bez wyłączenia z codziennych aktywności",
+      "Pierwsze oznaki starzenia",
+      "Utrata napięcia i elastyczności",
+      "Drobne zmarszczki",
+      "Zmęczony i poszarzały koloryt",
+      "Nierówna struktura skóry",
+      "Osłabienie owalu twarzy",
+      "Potrzeba łagodnej stymulacji bez nakłuwania",
+      "Skóra wymagająca poprawy świeżości i witalności",
+      "Cienka i delikatna skóra wokół oczu",
       "Nieinwazyjne przygotowanie skóry do kolejnych etapów terapii lub procedura podtrzymująca rezultaty"
     ],
     contraindications: [
-      "Ciąża i okres karmienia piersią",
+      "Ciąża",
       "Aktywna choroba nowotworowa",
       "Wszczepiony rozrusznik serca lub inne aktywne urządzenia elektroniczne",
       "Metalowe implanty w bezpośrednim obszarze zabiegowym",
-      "Aktywna infekcja lub stan zapalny skóry (np. opryszczka w fazie aktywnej)",
-      "Przerwanie ciągłości naskórka w polu zabiegowym",
+      "Aktywna infekcja lub stan zapalny skóry",
+      "Przerwanie ciągłości naskórka",
       "Niewyrównane choroby ogólnoustrojowe",
-      "Świeżo wykonane zabiegi chirurgiczne lub iniekcyjne w opracowywanym obszarze (wymagany odstęp)"
+      "Świeżo wykonane zabiegi chirurgiczne lub iniekcyjne w opracowywanym obszarze (ostateczna kwalifikacja odbywa się po wywiadzie)"
     ],
     postTreatmentCare: [
-      "Stosowanie łagodnej, niedrażniącej pielęgnacji wspierającej nawilżenie i barierę naskórkową",
-      "Unikanie intensywnych peelingów oraz retinoidów przez 24–48 godzin po sesji",
-      "Ochrona skóry przed promieniowaniem UV i codzienne stosowanie fotoprotekcji SPF 50+",
-      "Przestrzeganie indywidualnych wskazówek pielęgnacyjnych otrzymanych w gabinecie"
+      "Stosowanie łagodnej, niedrażniącej pielęgnacji",
+      "Wspieranie nawilżenia i bariery naskórkowej",
+      "Unikanie intensywnych peelingów oraz retinoidów przez 24–48 godzin",
+      "Ochrona skóry przed promieniowaniem UV",
+      "Stosowanie fotoprotekcji SPF 50+",
+      "Przestrzeganie indywidualnych zaleceń otrzymanych w gabinecie"
     ],
     activeSubstances: [
-      "Impulsy elektromagnetyczne aplikowane dedykowanymi głowicami anatomicznymi",
-      "Indywidualnie dobrane serum biomimetyczne (ektoina, kwas hialuronowy, neuropeptydy)",
-      "Maska barierowa i biozgodne lipidy (ceramidy NP/AP/EOP) dopasowane do gotowości skóry",
-      "Preparaty fotoprotekcyjne o czystym profilu bionomicznym SPF 50+"
+      "Impulsy elektromagnetyczne aplikowane ergonomicznymi głowicami",
+      "Indywidualnie dobrane serum lub koncentrat (nawilżenie, regeneracja, barierowość, napięcie)",
+      "Maska biomimetyczna i lipidy fizjologiczne dopasowane do gotowości skóry",
+      "Fotoprotekcja SPF 50+ o wysokiej biozgodności"
     ],
     protocolSteps: [
-      { phase: "I — Diagnoza i Kwalifikacja", description: "Ocena kondycji, napięcia, reaktywności oraz aktualnych potrzeb skóry. Wykluczenie przeciwwskazań do technologii elektromagnetycznej." },
-      { phase: "II — Przygotowanie Skóry", description: "Dokładny bionomiczny demakijaż i łagodne oczyszczenie. Delikatny etap przygotowujący dopasowany do reaktywności cery." },
-      { phase: "III — Terapia Sonaris Pro", description: "Opracowanie skóry odpowiednio dobraną głowicą elektromagnetyczną. Precyzyjne dostosowanie intensywności, czasu i zakresu działania do odpowiedzi tkanek." },
-      { phase: "IV — Wsparcie Substancjami Aktywnymi", description: "Aplikacja indywidualnie dobranego serum lub koncentratu wspierającego nawilżenie, regenerację, barierę naskórkową lub napięcie." },
-      { phase: "V — Wyciszenie i Ochrona", description: "Maska biomimetyczna, wykończenie preparatem barierowym oraz bezpieczna ochrona przeciwsłoneczna SPF 50+." }
+      { 
+        phase: "I. Diagnoza i kwalifikacja", 
+        description: "Oceniana jest kondycja, napięcie, reaktywność oraz aktualne potrzeby skóry. Wykluczane są również przeciwwskazania do zastosowania technologii elektromagnetycznej." 
+      },
+      { 
+        phase: "II. Przygotowanie skóry", 
+        description: "Wykonywany jest dokładny demakijaż i łagodne oczyszczenie. W zależności od kondycji skóry może zostać przeprowadzony delikatny etap przygotowujący." 
+      },
+      { 
+        phase: "III. Terapia Sonaris Pro", 
+        description: "Skóra jest opracowywana odpowiednio dobraną głowicą. Intensywność, czas oraz zakres działania są dostosowywane do obszaru zabiegowego i reakcji tkanek." 
+      },
+      { 
+        phase: "IV. Wsparcie substancjami aktywnymi", 
+        description: "W zależności od potrzeb może zostać zastosowane indywidualnie dobrane serum lub koncentrat wspierający nawilżenie, regenerację, barierę naskórkową albo poprawę napięcia skóry." 
+      },
+      { 
+        phase: "V. Wyciszenie i ochrona", 
+        description: "Zabieg może zostać zakończony maską, preparatem barierowym oraz ochroną przeciwsłoneczną. Rodzaj wykończenia jest dobierany do aktualnej odpowiedzi skóry." 
+      }
     ],
     faq: [
       {
-        question: "Czym dokładnie jest technologia Sonaris Pro i jak działa?",
-        answer: "Sonaris Pro nie jest zabiegiem diagnostycznym ani klasycznym ultrasonograficznym „sonarem medycznym”. Jest nieinwazyjną technologią kosmetologiczną wykorzystującą impulsy elektromagnetyczne aplikowane specjalnie zaprojektowanymi głowicami. Fale oddziałują na opracowywany obszar bez uszkadzania powierzchni skóry, stanowiąc łagodny bodziec wspierający fizjologiczne procesy odpowiedzialne za kondycję, mikrokrążenie, napięcie i regenerację tkanek.",
-        category: "Technologia"
+        question: "Czym jest i jak działa technologia Sonaris Pro?",
+        answer: "Sonaris Pro Therapy jest komfortowym, nieinwazyjnym zabiegiem wykorzystującym impulsy elektromagnetyczne aplikowane za pomocą specjalnie zaprojektowanych głowic. Fale oddziałują na opracowywany obszar bez uszkadzania powierzchni skóry. Technologia stanowi łagodny bodziec wspierający fizjologiczne procesy odpowiedzialne za kondycję, napięcie i regenerację tkanek. Sonaris Pro nie jest zabiegiem diagnostycznym ani klasycznym ultrasonograficznym „sonarem medycznym”.",
+        category: "Działanie"
       },
       {
-        question: "Czy Sonaris Pro można bezpiecznie wykonywać na delikatną okolicę oczu?",
-        answer: "Tak. Skóra wokół oczu jest wyjątkowo cienka i szybciej reaguje na zmęczenie, osłabienie mikrokrążenia oraz utratę elastyczności. Sonaris Pro umożliwia niezwykle delikatne opracowanie tej okolicy bez nakłuwania skóry i bez rekonwalescencji. Zabieg wspiera poprawę napięcia, wygładzenie drobnych zmarszczek i świeżość spojrzenia. Warto pamiętać: Sonaris Pro nie usuwa przepuklin tłuszczowych ani nadmiaru skóry powiek – w przypadku cieni czy obrzęków najpierw oceniamy ich biologiczną przyczynę.",
+        question: "Jak wygląda zastosowanie Sonaris Pro na okolicę oka?",
+        answer: "Skóra wokół oczu jest wyjątkowo cienka i szybciej reaguje na zmęczenie, osłabienie mikrokrążenia oraz utratę elastyczności. Sonaris Pro umożliwia delikatne opracowanie tej okolicy bez nakłuwania skóry i bez wyłączenia z codziennych aktywności. Wspiera poprawę napięcia, wygładzenie zmarszczek, zmniejszenie oznak zmęczenia i świeżość spojrzenia. Sonaris Pro nie usuwa przepuklin tłuszczowych ani nadmiaru skóry powiek – w przypadku cieni czy obrzęków najpierw oceniamy ich przyczynę.",
         category: "Okolica oka"
       },
       {
-        question: "Jakie są odczucia podczas zabiegu i czy wymagana jest rekonwalescencja?",
-        answer: "Sonaris Pro jest procedurą komfortową i nie wymaga znieczulenia. Podczas pracy głowicy odczuwalne jest przyjemne, delikatne ciepło, łagodne mrowienie lub subtelna stymulacja. Bezpośrednio po zabiegu może pojawić się krótkotrwałe zaczerwienienie (szczególnie przy cerze cienkiej i reaktywnej), lecz możliwy jest natychmiastowy powrót do codziennych aktywności.",
+        question: "Jakie są odczucia podczas zabiegu i rekonwalescencja?",
+        answer: "Sonaris Pro jest procedurą nieinwazyjną i nie wymaga znieczulenia. Podczas pracy głowicy może być odczuwane delikatne ciepło, mrowienie lub łagodna stymulacja skóry. Bezpośrednio po zabiegu może pojawić się krótkotrwałe zaczerwienienie, szczególnie przy cerze cienkiej i reaktywnej. Zazwyczaj możliwy jest natychmiastowy powrót do codziennych aktywności.",
         category: "Komfort"
       },
       {
-        question: "Ile zabiegów w serii jest rekomendowanych i jak często?",
-        answer: "Zabieg może zostać wykonany jednorazowo (jako odświeżenie i poprawa napięcia), natomiast dla stabilnej poprawy kondycji skóry zalecana jest seria od 4 do 6 zabiegów wykonywanych co 7–14 dni, a następnie zabieg podtrzymujący co 4–8 tygodni. W Slow Skin Concept™ odstępy dobierane są indywidualnie na podstawie odpowiedzi biologicznej skóry, a nie sztywnego kalendarza.",
+        question: "Ile zabiegów obejmuje zalecana seria?",
+        answer: "Zabieg może zostać wykonany jednorazowo (dla odświeżenia i poprawy napięcia) lub w serii od 4 do 6 zabiegów wykonywanych co 7–14 dni, a następnie jeden zabieg podtrzymujący co 4–8 tygodni. Liczba spotkań i odstępy są dobierane indywidualnie zgodnie z odpowiedzią skóry, a nie według sztywnego kalendarza.",
         category: "Seria"
       },
       {
-        question: "Jak kształtuje się cennik pojedynczych zabiegów oraz pakietów Sonaris Pro?",
-        answer: "Ceny pojedynczych zabiegów: Okolica oczu – 180 zł | Twarz – 250 zł | Twarz i okolica oczu – 300 zł | Twarz, szyja i dekolt – 350 zł. Pakiety 6 zabiegów (z dużym rabatem): Okolica oczu (pakiet 6) – 900 zł (150 zł/zabieg) | Twarz (pakiet 6) – 1250 zł (~208 zł/zabieg) | Twarz i okolica oczu (pakiet 6) – 1500 zł (250 zł/zabieg) | Twarz, szyja i dekolt (pakiet 6) – 1750 zł (~292 zł/zabieg).",
+        question: "Jak kształtuje się cennik pojedynczych zabiegów i pakietów?",
+        answer: "Zabiegi pojedyncze: Okolica oczu: 180 zł | Twarz: 250 zł | Twarz i okolica oczu: 300 zł | Twarz, szyja i dekolt: 350 zł. Pakiety 6 zabiegów: Okolica oczu – 900 zł (150 zł/zabieg) | Twarz – 1250 zł (~208 zł/zabieg) | Twarz i okolica oczu – 1500 zł (250 zł/zabieg) | Twarz, szyja i dekolt – 1750 zł (~292 zł/zabieg).",
         category: "Cennik"
       }
     ]
@@ -830,76 +851,106 @@ export const TREATMENTS: Treatment[] = [
   },
   {
     id: "stymulatory-tkankowe",
-    title: "Stymulatory Tkankowe",
-    subtitle: "Indywidualna biostymulacja iniekcyjna • Poprawa jakości skóry • Stopniowa przebudowa tkanek",
+    title: "Stymulatory tkankowe",
+    subtitle: "Indywidualna biostymulacja iniekcyjna • poprawa jakości skóry • stopniowa przebudowa tkanek",
     duration: "60 — 75 minut",
-    price: "od 800 PLN (z fototerapią LED i konsultacją)",
-    description: "Preparaty podawane zaawansowaną techniką iniekcyjną, których nadrzędnym zadaniem jest wspieranie naturalnych procesów bioregeneracji i fizjologicznej przebudowy skóry. W przeciwieństwie do klasycznych wypełniaczy ich celem nie jest dodawanie sztucznej objętości ani zmiana rysów twarzy. Odpowiednio dobrany biostymulator wspiera poprawę gęstości, jędrności, elastyczności oraz głębokiego nawodnienia. Efekt rozwija się stopniowo w czasie wraz z zachodzącą neokolagenezą. W Slow Skin Concept™ dobieramy preparat ściśle do biologicznych potrzeb skóry (polinukleotydy, kwas hialuronowy o niskiej masie, kompleksy aminokwasowe lub induktory kolagenu), a zabieg zawsze wieńczy kojąca fototerapia LED.",
-    focus: "Polinukleotydy, aminokwasy, induktory kolagenu, naturalna biorewitalizacja bez sztucznej objętości, fototerapia LED",
-    image: "/src/assets/images/tissue_stimulators.webp",
+    price: "od 800 zł",
+    description: "Stymulatory tkankowe to preparaty podawane techniką iniekcyjną, których zadaniem jest wspieranie naturalnych procesów regeneracji i przebudowy skóry. W przeciwieństwie do klasycznych wypełniaczy ich głównym celem nie jest dodawanie objętości ani zmiana rysów twarzy. Odpowiednio dobrany preparat może wspierać poprawę gęstości, jędrności, elastyczności i nawodnienia skóry. Efekt rozwija się stopniowo wraz z zachodzącymi w tkankach procesami regeneracyjnymi, dlatego rezultat wygląda naturalnie i nie pojawia się wyłącznie bezpośrednio po zabiegu. Nie istnieje jeden stymulator odpowiedni dla każdej skóry. Rodzaj preparatu, technika podania i plan terapii dobierane są indywidualnie – na podstawie kondycji skóry, jej biologicznej gotowości, obszaru zabiegowego oraz oczekiwanego kierunku przebudowy.",
+    focus: "Indywidualna biostymulacja iniekcyjna, polinukleotydy, kwas hialuronowy, kompleksy aminokwasowe, induktory kolagenu, fototerapia LED",
+    image: "/stymulatory_tkankowe.png",
     indications: [
-      "Utrata jędrności, elastyczności i napięcia oraz zmniejszenie gęstości skóry",
-      "Drobne zmarszczki, linie mimiczne oraz utrata naturalnej sprężystości",
-      "Cienka, atroficzna i osłabiona skóra twarzy, szyi, dekoltu lub dłoni",
-      "Odwodnienie głębokie i pogorszenie ogólnej struktury naskórka",
-      "Oznaki fotostarzenia słonecznego wymagające powolnej, bezpiecznej regeneracji",
-      "Wymagająca wzmocnienia i zagęszczenia delikatna okolica oczu"
+      "Utrata jędrności, elastyczności i napięcia",
+      "Zmniejszenie gęstości skóry",
+      "Drobne zmarszczki",
+      "Cienka i osłabiona skóra",
+      "Pogorszenie struktury i ogólnej jakości skóry",
+      "Odwodnienie i utrata naturalnej sprężystości",
+      "Oznaki fotostarzenia",
+      "Skóra wymagająca stopniowej regeneracji",
+      "Delikatna okolica oczu wymagająca wzmocnienia",
+      "Obszary zabiegowe: twarz, okolice oczu, szyja, dekolt, dłonie lub inny zakwalifikowany obszar"
     ],
     contraindications: [
-      "Ciąża oraz okres karmienia piersią",
-      "Aktywne infekcje i stany zapalne skóry, w tym opryszczka w fazie aktywnej",
-      "Alergia lub nadwrażliwość na składniki wybranego preparatu",
-      "Zaburzenia krzepnięcia krwi i przyjmowanie leków przeciwzakrzepowych",
+      "Ciąża i karmienie piersią",
+      "Aktywne infekcje i stany zapalne skóry",
+      "Opryszczka",
+      "Alergia na składniki preparatu",
+      "Zaburzenia krzepnięcia",
+      "Przyjmowanie niektórych leków wpływających na krzepnięcie",
       "Aktywna choroba nowotworowa",
       "Nieuregulowane choroby autoimmunologiczne",
-      "Skłonność do powstawania bliznowców i blizn przerostowych",
-      "Świeżo wykonane zabiegi iniekcyjne lub chirurgiczne w tym samym obszarze"
+      "Skłonność do powstawania bliznowców",
+      "Świeżo wykonane zabiegi w tym samym obszarze",
+      "Inne przeciwwskazania wskazane przez producenta preparatu (ostateczna kwalifikacja odbywa się podczas konsultacji)"
     ],
     postTreatmentCare: [
-      "Nie dotykać ani nie masować miejsc iniekcji bez wyraźnego zalecenia specjalisty",
-      "Zachować bezwzględną czystość i higienę obszaru zabiegowego przez min. 48 godzin",
-      "Zrezygnować z makijażu przez wskazany czas (zazwyczaj 12–24 godziny)",
-      "Unikać sauny, basenu, solarium oraz intensywnego wysiłku fizycznego przez 48–72 godziny",
-      "Nie wykonywać masaży twarzy ani innych procedur drażniących w danym obszarze",
-      "Stosować delikatną pielęgnację barierową i obowiązkową fotoprotekcję SPF 50+"
+      "Nie dotykać i nie masować miejsc podania bez wyraźnego zalecenia",
+      "Zachować szczególną higienę obszaru zabiegowego",
+      "Przez wskazany czas zrezygnować z makijażu",
+      "Unikać sauny, basenu, solarium i intensywnego wysiłku",
+      "Nie wykonywać masażu twarzy ani innych zabiegów w tym obszarze",
+      "Stosować łagodną pielęgnację wspierającą barierę",
+      "Codziennie używać ochrony przeciwsłonecznej SPF 50",
+      "Przestrzegać zaleceń właściwych dla zastosowanego preparatu",
+      "Bezpośrednio po iniekcji mogą wystąpić zaczerwienienie, tkliwość, niewielki obrzęk, siniaki lub widoczne depozyty preparatu (czas ich utrzymywania zależy od techniki podania, rodzaju stymulatora i indywidualnej reakcji skóry)"
     ],
     activeSubstances: [
-      "Polinukleotydy (PDRN) – regeneracja mikrośrodowiska i naprawa DNA komórek",
-      "Niekrosowany kwas hialuronowy o zróżnicowanej masie cząsteczkowej – biorewitalizacja hydro",
-      "Kompleksy aminokwasowe (glicyna, prolina, lizyna) – substraty do syntezy kolagenu",
-      "Biokompatybilne induktory kolagenu – głęboka stymulacja neokolagenezy i elastogenezy"
+      "Polinukleotydy – wsparcie regeneracji, elastyczności, mikrośrodowiska i skóry cienkiej, również w okolicy oczu",
+      "Preparaty na bazie kwasu hialuronowego – biorewitalizacja, nawodnienie i sprężystość bez modelowania objętości",
+      "Kompleksy aminokwasowe i hybrydowe – substraty uczestniczące w naturalnych procesach przebudowy i syntezie białek strukturalnych",
+      "Induktory kolagenu – silniejsze preparaty biostymulujące do intensywniejszego zagęszczenia i głębokiej przebudowy"
     ],
     protocolSteps: [
-      { phase: "I — Konsultacja i Kwalifikacja", description: "Szczegółowy wywiad konsultacyjny, analiza grubości, gęstości, stopnia nawodnienia i biologicznej gotowości tkanek. Wykluczenie przeciwwskazań." },
-      { phase: "II — Dobór Preparatu i Planu Terapii", description: "Wybór optymalnej grupy preparatu (polinukleotydy, kwas hialuronowy, aminokwasy, induktory kolagenu) oraz precyzyjnej techniki podania." },
-      { phase: "III — Przygotowanie Skóry", description: "Demakijaż bionomiczny, skrupulatna dezynfekcja obszaru iniekcyjnego oraz w razie potrzeby znieczulenie miejscowe delikatnym kremem okluzyjnym." },
-      { phase: "IV — Podanie Biostymulatora", description: "Aplikacja preparatu mikronakłuciami lub kaniulą. Punkty depozytowe, głębokość i objętość są ściśle dopasowane do anatomii." },
-      { phase: "V — Fototerapia LED i Wyciszenie", description: "Naświetlanie profesjonalnym światłem LED (LLLT), które przyspiesza regenerację, redukuje rumień i wycisza stany mikrozapalne po nakłuciach." }
+      { 
+        phase: "1. Konsultacja i kwalifikacja", 
+        description: "Przeprowadzany jest szczegółowy wywiad dotyczący stanu zdrowia, przyjmowanych leków, wcześniejszych zabiegów i oczekiwań. Oceniana jest również kondycja i struktura skóry." 
+      },
+      { 
+        phase: "2. Dobór preparatu i planu terapii", 
+        description: "Wybierany jest rodzaj stymulatora, obszar oraz technika podania. Ustalana jest także liczba zabiegów i przewidywane odstępy pomiędzy nimi." 
+      },
+      { 
+        phase: "3. Przygotowanie skóry", 
+        description: "Obszar zabiegowy zostaje dokładnie oczyszczony i zdezynfekowany. Jeśli wymaga tego procedura, stosowane jest znieczulenie miejscowe." 
+      },
+      { 
+        phase: "4. Podanie preparatu", 
+        description: "Preparat podawany jest techniką iniekcyjną. Liczba wkłuć, ich rozmieszczenie i głębokość zależą od właściwości produktu, anatomii obszaru oraz celu terapii." 
+      },
+      { 
+        phase: "5. Fototerapia LED i wyciszenie", 
+        description: "Uzupełnieniem zabiegu jest fototerapia LED, która wspiera wyciszenie skóry po iniekcji. Następnie przekazywane są indywidualne zalecenia dotyczące pielęgnacji i obserwacji obszaru zabiegowego." 
+      }
     ],
     faq: [
       {
-        question: "Czym różnią się stymulatory tkankowe od klasycznych wypełniaczy z kwasem hialuronowym?",
-        answer: "Wypełniacze wolumetryczne służą do mechanicznego powiększania objętości (np. modelowania policzków czy ust) i mogą zmieniać rysy twarzy. Stymulatory tkankowe działają zupełnie inaczej – ich zadaniem jest biochemiczna aktywacja własnych komórek skóry (fibroblastów) do produkcji nowego kolagenu, elastyny i macierzy zewnątrzkomórkowej. Nie zmieniają rysów, nie pompują twarzy, lecz zagęszczają i odmładzają strukturę skóry od wewnątrz.",
+        question: "Czym są i jak działają stymulatory tkankowe?",
+        answer: "Stymulatory tkankowe to preparaty podawane techniką iniekcyjną, których zadaniem jest wspieranie naturalnych procesów regeneracji i przebudowy skóry. W przeciwieństwie do klasycznych wypełniaczy ich głównym celem nie jest dodawanie objętości ani zmiana rysów twarzy. Odpowiednio dobrany preparat może wspierać poprawę gęstości, jędrności, elastyczności i nawodnienia skóry. Preparat podawany jest iniekcyjnie w odpowiednio dobrane miejsca i warstwy tkanek. W zależności od składu może wspierać aktywność fibroblastów, poprawę nawodnienia oraz procesy związane z produkcją kolagenu, elastyny i innych elementów macierzy zewnątrzkomórkowej.",
         category: "Działanie"
       },
       {
-        question: "Jak dobierany jest preparat do konkretnej skóry?",
-        answer: "W Slow Skin Concept™ obowiązuje fundamentalna zasada: nie dobiera się skóry do modnego preparatu, lecz preparat do biologicznej kondycji skóry. Skóra cienka, atopowa czy poddana fotouszkodzeniom wokół oczu najlepiej odpowiada na polinukleotydy. Skóra przesuszona zyskuje najwięcej na kwasie hialuronowym i aminokwasach, natomiast skóra grubsza, z widoczną wiotkością grawitacyjną może wymagać silniejszych induktorów kolagenu.",
+        question: "Jak dobierany jest preparat i jaka jest najważniejsza zasada terapii?",
+        answer: "Najważniejsza zasada terapii: Nie dobiera się skóry do popularnego preparatu. Dobiera się preparat do biologicznych potrzeb skóry. Podczas konsultacji oceniane są m.in.: grubość i gęstość skóry, poziom nawodnienia, stopień utraty jędrności, obecność drobnych zmarszczek, kondycja okolicy oczu, skłonność do obrzęków, wcześniejsze zabiegi iniekcyjne, tempo regeneracji oraz oczekiwany kierunek terapii. Najsilniejszy stymulator nie zawsze jest najlepszym wyborem – skóra cienka lub skłonna do obrzęków potrzebuje innego wsparcia niż skóra grubsza i wiotka.",
         category: "Kwalifikacja"
       },
       {
-        question: "Kiedy widać efekty zabiegu i jak długo się utrzymują?",
-        answer: "Efekt nie pojawia się w pełnej krasie od razu po wstaniu z fotela. Choć nawilżenie i świeżość zauważalne są szybko, to właściwa synteza nowego kolagenu i przebudowa gęstości skóry wymaga czasu biologicznego – rozwija się stopniowo przez 4 do 12 tygodni po sesji. Uzyskany rezultat jest naturalny i długotrwały (zwykle od 9 do nawet 18 miesięcy w zależności od kondycji wyjściowej).",
+        question: "Jakich grup preparatów używa się w terapii?",
+        answer: "W zależności od potrzeb stosuje się: 1) Polinukleotydy – regeneracja, elastyczność i mikrośrodowisko, często do skóry cienkiej i okolicy oczu; 2) Preparaty na bazie kwasu hialuronowego – nawodnienie i sprężystość o charakterze biorewitalizacji, bez dodawania sztucznej objętości; 3) Kompleksy aminokwasowe i hybrydowe – składniki do syntezy białek strukturalnych łączące nawilżenie ze wsparciem macierzy; 4) Induktory kolagenu – intensywniejsze zagęszczenie i głęboka przebudowa.",
+        category: "Preparaty"
+      },
+      {
+        question: "Jakich efektów można oczekiwać i kiedy są one widoczne?",
+        answer: "Terapia wspiera: poprawę jędrności i elastyczności, zwiększenie gęstości skóry, poprawę nawodnienia i sprężystości, wygładzenie drobnych zmarszczek, wzmocnienie cienkiej skóry, poprawę wyglądu okolicy oczu, bardziej jednolitą strukturę oraz stopniową poprawę ogólnej jakości skóry. Efekt nie zawsze jest widoczny bezpośrednio po zabiegu – proces przebudowy może rozwijać się przez kolejne tygodnie w zależności od rodzaju preparatu i indywidualnej odpowiedzi tkanek.",
         category: "Efekty"
       },
       {
-        question: "Ile zabiegów w serii jest zalecanych?",
-        answer: "Plan terapii ustalany jest ściśle według protokołu wybranego preparatu i potrzeb skóry. Zazwyczaj jest to seria 2–4 zabiegów w odstępach od 2 do 4 tygodni, po której wykonuje się pojedynczy zabieg przypominający raz na 6–12 miesięcy. Nie tworzymy sztywnych pakietów 'dla każdego', bo każdy preparat posiada odmienną dynamikę działania.",
+        question: "Ile zabiegów obejmuje seria?",
+        answer: "Plan terapii ustalany jest indywidualnie i zgodnie z protokołem wybranego preparatu. W zależności od jego rodzaju może obejmować jeden zabieg lub serię 2–4 spotkań wykonywanych w określonych odstępach. Nie tworzymy jednego sztywnego pakietu dla wszystkich stymulatorów, ponieważ każdy preparat wymaga innego sposobu i częstotliwości stosowania.",
         category: "Seria"
       },
       {
-        question: "Co zawiera cena zabiegu (od 800 zł)?",
-        answer: "Cena zabiegu zaczyna się od 800 zł i jest procedurą kompletną: obejmuje pełną konsultację i kwalifikację zabiegową, indywidualny dobór certyfikowanego preparatu, iniekcję, znieczulenie miejscowe, regenerującą fototerapię LED wyciszającą skórę oraz spersonalizowany plan pielęgnacji pozabiegowej.",
+        question: "Ile wynosi cena zabiegu i co dokładnie obejmuje?",
+        answer: "Cena zabiegu: od 800 zł. Cena obejmuje: konsultację i kwalifikację, indywidualny dobór preparatu, zabieg iniekcyjny, fototerapię LED oraz zalecenia pozabiegowe. Ostateczna cena zależy od rodzaju i ilości zastosowanego preparatu, obszaru zabiegowego oraz zaplanowanej techniki podania i jest potwierdzana przed rozpoczęciem zabiegu. Czas trwania wizyty: 60–75 minut.",
         category: "Cennik"
       }
     ]
@@ -2031,7 +2082,7 @@ export const TREATMENTS: Treatment[] = [
     price: "50 PLN",
     description: "Plecy towarzyszą Ci przez cały dzień — podczas pracy, ruchu i odpoczynku. Kiedy pojawia się napięcie lub sztywność, warto dać im chwilę uwagi. Masaż termiczny Ceragem łączy pracę ogrzewanych elementów masujących z czasem na spokojny, wygodny odpoczynek. W gabinecie korzystam z urządzenia Ceragem VE, model CGM MB-1101. To automatyczne łóżko do masażu termicznego. Przed rozpoczęciem programu urządzenie rozpoznaje długość pleców, a następnie dopasowuje do niej ruch elementów masujących. Ich intensywność oraz temperaturę można regulować zgodnie z Twoimi odczuciami.",
     focus: "Ciepło i masaż dopasowane do Twoich pleców, rozluźnienie napięcia mięśniowego, łagodna ulga przy sztywności, relaks i aromaterapia",
-    image: "/src/assets/images/ceragem_spine_bed_1790502830737.jpg",
+    image: "/ceragem_bed.png",
     indications: [
       "Napięcie pleców po pracy, ruchu i codziennych obowiązkach",
       "Sztywność mięśni po długotrwałym siedzeniu lub pracy przy biurku",
@@ -2113,7 +2164,7 @@ export const TREATMENTS: Treatment[] = [
     price: "110 PLN (seria 9 zabiegów: 990 PLN / seria 12 zabiegów: 1320 PLN)",
     description: "Kiedy bolą stawy lub kręgosłup, zaczynasz zwracać uwagę na ruchy, które wcześniej były naturalne: wchodzenie po schodach, spacer, schylanie się czy powrót do ulubionej aktywności. Terapia Sygnałem Pulsacyjnym PST jest nieinwazyjną metodą, którą można włączyć jako wsparcie przy wybranych dolegliwościach układu ruchu. Pracujemy z myślą o tym, co ma dla Ciebie praktyczne znaczenie: mniejszym bólu, swobodniejszym ruchu i większym komforcie w codziennym życiu. PST wykorzystuje pulsujące pole elektromagnetyczne przekazywane do wybranego obszaru ciała przez aplikator urządzenia — bez naruszania skóry i bez igieł.",
     focus: "Więcej swobody w ruchu, regeneracja stawów i kręgosłupa, pulsujące pole elektromagnetyczne PST, redukcja bólu i sztywności, urządzenia PST H-200 i PST H-300",
-    image: "/src/assets/images/pst_h300_couch_1790504011410.jpg",
+    image: "/pst_couch.png",
     indications: [
       "Ból lub sztywność stawów ograniczające aktywność i swobodę codziennego ruchu",
       "Dolegliwości powracające przy codziennym obciążeniu, chodzeniu czy schylaniu się",
@@ -2438,7 +2489,7 @@ export const ARTICLES: MagazineArticle[] = [
     },
     lead: "Skóra i układ nerwowy mają to samo pochodzenie embrionalne — oba wywodzą się z tego samego listka zarodkowego: ektodermy. Ta ścisła biologiczna więź sprawia, że naskórek jest w istocie zewnętrznym zwierciadłem naszego układu nerwowego. Przewlekły stres emocjonalny, brak regenerującego snu oraz ciągłe napięcie psychoemocjonalne to konkretne cząsteczki biochemiczne — kortyzol, substancja P, histamina i neuropeptydy — które codziennie kształtują kondycję naczynek, kolagenu i mikrobiomu Twojej twarzy.",
     content: [
-      "Większość kobiet zgłaszających się do naszego instytutu w Jelczu-Laskowicach nie kojarzy swoich problemów skórnych ze stanem układu nerwowego. Zmiany trądzikowe na linii żuchwy, nagłe pieczenie policzków, poszarzały odcień cery czy nawracający rumień bywają błędnie diagnozowane jako proste defekty kosmetyczne. Wnikliwy wywiad bionomiczny pokazuje jednak, że u podłoża niemal każdej przewlekłej dermatozy leży nadaktywność współczulnego układu nerwowego i przeciążenie osi stresowej HPA.",
+      "Większość kobiet zgłaszających się do naszego instytutu w Jelczu-Laskowicach nie kojarzy swoich problemów skórnych ze stanem układu nerwowego. Zmiany trądzikowe na linii żuchwy, nagłe pieczenie policzków, poszarzały odcień cery czy nawracający rumień bywają błędnie diagnozowane jako proste defekty kosmetyczne. Wnikliwy wywiad kosmetologiczny pokazuje jednak, że u podłoża niemal każdej przewlekłej dermatozy leży nadaktywność współczulnego układu nerwowego i przeciążenie osi stresowej HPA.",
       "Skóra nie jest bierną powłoką. Jest gęsto unerwionym, autonomicznym narządem neuroendokrynnym, który potrafi samodzielnie syntetyzować hormony stresu oraz reagować na każdy impuls nerwowy. Kiedy organizm znajduje się w stanie chronicznej czujności, krew i składniki odżywcze są priorytetowo kierowane do serca i mięśni, a mikrokrążenie skórne ulega wazokonstrukcji (zwężeniu naczyń). W efekcie komórki skóry ulegają chronicznemu niedotlenieniu, a procesy naprawcze zostają wyhamowane.",
       "Odpowiedzią na te wyzwania w Slow Skin Concept są procedury neurokosmetyczne oraz autorskie techniki manualne: <a href=\"/neurolifting-nogier/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Neurolifting — Rytuał Odprężający dla Twarzy</a> oraz terapia <a href=\"/adult-acne-therapy/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Adult Acne Therapy™</a>. Łączymy w nich stymulację włókien C-tactile z biozgodnymi substancjami uciszającymi receptory nerwowe.",
       "Zapraszamy do sprawdzenia reaktywności swojej cery za pomocą kwestionariusza <a href=\"ai-analiza\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Analiza Skóry Online</a> lub bezpośredniego umówienia wizyty w naszym kameralnym gabinecie przez <a href=\"rezerwacja-online\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Formularz Rezerwacji Wizyty</a>."

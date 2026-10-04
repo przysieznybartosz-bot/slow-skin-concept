@@ -141,7 +141,7 @@ export const CookiesPolicyModal: React.FC<CookiesPolicyModalProps> = ({
                 Administratorem danych osobowych związanych z korzystaniem z Serwisów jest:
               </p>
               <p className="text-luxury-dark">
-                <strong>SLOW SKIN CONCEPT KATARZYNA BRZEZIŃSKA-ŻYGADŁO</strong>
+                <strong>SLOW SKIN CONCEPT KATARZYNA BRZEZIŃSKA</strong>
               </p>
               <p className="text-luxury-dark/90">ul. Szkolna 5, 55-220 Jelcz-Laskowice</p>
               <p className="text-luxury-dark/90 font-mono text-[11px]">NIP: 9121697542 („Administrator”)</p>

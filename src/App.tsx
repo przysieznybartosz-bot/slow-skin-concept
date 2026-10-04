@@ -1,4 +1,3 @@
-import {ShopBridge} from './components/ShopBridge';
 import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { 
@@ -56,7 +55,8 @@ import {
   Wind,
   Droplets,
   Layers,
-  ExternalLink
+  ExternalLink,
+  Camera
 } from "lucide-react";
 import { TREATMENTS, ARTICLES, REVIEWS } from "./data";
 import { VideoPlayerSection } from "./components/VideoPlayerSection";
@@ -66,6 +66,8 @@ import TreatmentFAQ from "./components/TreatmentFAQ";
 import SkincareAssistant from "./components/SkincareAssistant";
 import WcagWidget from "./components/WcagWidget";
 import CookieBot from "./components/CookieBot";
+import { OriginalImageManagerModal } from "./components/OriginalImageManagerModal";
+import { EditableImage } from "./components/EditableImage";
 import CookiesPolicyModal from "./components/CookiesPolicyModal";
 import { BeforeAfterSlider } from "./components/BeforeAfterSlider";
 import { DiscreetSection, DiscreetDiv, DiscreetCard } from "./components/DiscreetSection";
@@ -75,6 +77,7 @@ import { BookingModal } from "./components/BookingModal";
 import { BrandLogo } from "./components/BrandLogo";
 import { ShopPage } from "./components/ShopPage";
 import { TrainingPage } from "./components/TrainingPage";
+import { NewsletterSection } from "./components/NewsletterSection";
 import { DiagnosticAnswers, DiagnosticReport, Treatment, MagazineArticle, Review } from "./types";
 import { safeStorage } from "./utils/storage";
 
@@ -128,7 +131,7 @@ const circadianRoutines = [
   {
     title: "Rumień & Wrażliwość",
     subtitle: "Reaktywność Neurosensoryczna",
-    challenge: "Przewlekłe zaczerwienienie, reakcje naczyniowe, pieczenie receptorowe TRPV1.",
+    challenge: "Przewlekłe zaczerwienienie, reakcje naczyniowe, pieczenie i nadreaktywność.",
     morning: {
       time: "07:30 - 08:30",
       title: "Uciszenie Receptorów i Stabilizacja",
@@ -251,6 +254,7 @@ export const getTreatmentCategory = (treatmentId: string): "lifting" | "oczyszcz
     id.includes("hifu") || 
     id.includes("rf") || 
     id.includes("stimulator") || 
+    id.includes("stymulat") || 
     id.includes("aging") ||
     id.includes("sonaris") ||
     id.includes("nogier")
@@ -469,6 +473,88 @@ export default function App() {
     }, 150);
   };
   const [isHeroLoaded, setIsHeroLoaded] = useState(false);
+  const [heroCustomUrl, setHeroCustomUrl] = useState<string>(() => {
+    return safeStorage.getItem("custom_hero_image") || "/hero-main.png";
+  });
+  const [isUploadingHero, setIsUploadingHero] = useState<boolean>(false);
+  const [isHeroDragOver, setIsHeroDragOver] = useState<boolean>(false);
+  const heroFileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleHeroFileChange = async (file: File) => {
+    if (!file || !file.type.startsWith("image/")) {
+      return;
+    }
+    try {
+      setIsUploadingHero(true);
+      const reader = new FileReader();
+      reader.onload = async () => {
+        const base64 = reader.result as string;
+        try {
+          const resp = await fetch("/api/upload-hero-image", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ dataUrl: base64, filename: file.name }),
+          });
+          const data = await resp.json();
+          if (data.success && data.url) {
+            safeStorage.setItem("custom_hero_image", data.url);
+            setHeroCustomUrl(data.url);
+          } else {
+            safeStorage.setItem("custom_hero_image", base64);
+            setHeroCustomUrl(base64);
+          }
+        } catch {
+          safeStorage.setItem("custom_hero_image", base64);
+          setHeroCustomUrl(base64);
+        } finally {
+          setIsUploadingHero(false);
+          setIsHeroDragOver(false);
+        }
+      };
+      reader.readAsDataURL(file);
+    } catch {
+      setIsUploadingHero(false);
+      setIsHeroDragOver(false);
+    }
+  };
+
+  const [isImageManagerOpen, setIsImageManagerOpen] = useState(false);
+  const [customTreatmentImages, setCustomTreatmentImages] = useState<Record<string, string>>(() => {
+    const map: Record<string, string> = {};
+    if (typeof window !== "undefined") {
+      try {
+        for (let i = 0; i < localStorage.length; i++) {
+          const k = localStorage.key(i);
+          if (k && k.startsWith("custom_img_")) {
+            const slotKey = k.replace("custom_img_", "");
+            const val = safeStorage.getItem(k);
+            if (val) map[slotKey] = val;
+          }
+        }
+      } catch {}
+      if (!map["how_help_sensitive_skin"]) {
+        map["how_help_sensitive_skin"] = "/how_help_sensitive_skin.png";
+      }
+    }
+    return map;
+  });
+
+  const getEffectiveTreatmentImage = useCallback((treatment: Treatment | null | undefined): string => {
+    if (!treatment) return "";
+    if (treatment.id === "ceragem-thermal-massage") {
+      return customTreatmentImages["ceragem"] || "/ceragem_bed.png" || treatment.image;
+    }
+    if (treatment.id === "sonaris-pro-therapy") {
+      return customTreatmentImages["sonaris-pro"] || "/sonaris_pro.png" || treatment.image;
+    }
+    if (treatment.id === "stymulatory-tkankowe") {
+      return customTreatmentImages["stymulatory"] || "/stymulatory_tkankowe.png" || treatment.image;
+    }
+    if (treatment.id === "pst-signal-therapy") {
+      return customTreatmentImages["pst-couch"] || "/pst_couch.png" || treatment.image;
+    }
+    return treatment.image;
+  }, [customTreatmentImages]);
   const [selectedArticle, setSelectedArticle] = useState<MagazineArticle | null>(null);
   const [selectedTreatment, setSelectedTreatment] = useState<Treatment | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -1047,18 +1133,20 @@ export default function App() {
   // PST Images Gallery State (Authentic Classic Clinical Model)
   const PST_IMAGES = useMemo(() => [
     {
-      url: "/src/assets/images/pst_h300_couch_1790504011410.jpg",
+      url: customTreatmentImages["pst-couch"] || "/pst_couch.png",
+      fallback: "/src/assets/images/pst_couch_bed_therapy_1791109628792.jpg",
       title: "Aparat PST H-300",
       subtitle: "Aplikator tunelowy do kręgosłupa i tułowia • Leżanka zabiegowa",
       tag: "PST H-300 • Kręgosłup & Biodra"
     },
     {
-      url: "/src/assets/images/pst_h200_armchair_1790504000403.jpg",
+      url: customTreatmentImages["pst-chair"] || "/pst_chair.png",
+      fallback: "/src/assets/images/pst_chair_therapy_1791109644424.jpg",
       title: "Aparat PST H-200",
       subtitle: "Aplikator pierścieniowy do stawów kończyn • Komfortowy fotel",
       tag: "PST H-200 • Stawy Kończyn & Kolana"
     }
-  ], []);
+  ], [customTreatmentImages]);
   const [selectedPstImageIndex, setSelectedPstImageIndex] = useState<number>(0);
 
   // Mobile Accordions States
@@ -1365,7 +1453,7 @@ export default function App() {
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
-    if (url === "/tissue-stimulators/" || url === "/tissue-stimulators" || url.includes("tissue-stimulators") || url === "/stymulatory-tkankowe/") {
+    if (url === "/tissue-stimulators/" || url === "/tissue-stimulators" || url.includes("tissue-stimulators") || url === "/stymulatory-tkankowe/" || url === "/stymulatory-tkankowe" || url.includes("stymulatory-tkankowe")) {
       setActiveTab("clinic");
       const t = TREATMENTS.find(item => item.id === "stymulatory-tkankowe") || TREATMENTS[0];
       setSelectedTreatment(t);
@@ -1385,6 +1473,20 @@ export default function App() {
     ) {
       setActiveTab("clinic");
       const t = TREATMENTS.find(item => item.id === "carboksyterapia-carboregen") || TREATMENTS[0];
+      setSelectedTreatment(t);
+      setSelectedArticle(null);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    if (
+      url === "/sonaris-pro/" || 
+      url === "/sonaris-pro" || 
+      url === "/sonaris-pro-therapy/" || 
+      url === "/sonaris-pro-therapy" || 
+      url.includes("sonaris")
+    ) {
+      setActiveTab("clinic");
+      const t = TREATMENTS.find(item => item.id === "sonaris-pro-therapy") || TREATMENTS[0];
       setSelectedTreatment(t);
       setSelectedArticle(null);
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1495,27 +1597,6 @@ export default function App() {
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
-  };
-
-  // Newsletter State
-  const [newsletterEmail, setNewsletterEmail] = useState("");
-  const [newsletterStatus, setNewsletterStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
-  const [newsletterMessage, setNewsletterMessage] = useState("");
-
-  const handleSubscribeNewsletter = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newsletterEmail || !newsletterEmail.includes("@")) {
-      setNewsletterStatus("error");
-      setNewsletterMessage("Proszę wprowadzić poprawny adres e-mail.");
-      return;
-    }
-    
-    setNewsletterStatus("submitting");
-    setTimeout(() => {
-      setNewsletterStatus("success");
-      setNewsletterMessage("Dziękujemy za dołączenie do kręgu. Oczekuj pierwszego artykułu eksperckiego.");
-      setNewsletterEmail("");
-    }, 1000);
   };
 
   // Video Player Event Handlers
@@ -2122,6 +2203,18 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         <span className="text-[9px] font-mono text-luxury-gold/40">500 zł</span>
                       </button>
                     </li>
+                    <li>
+                      <button 
+                        onClick={() => handleLinkClick("/sonaris-pro-therapy/")}
+                        className="hover:text-luxury-gold text-luxury-dark font-medium transition-colors duration-200 text-left block w-full flex justify-between items-center group"
+                      >
+                        <span className="flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-luxury-gold"></span>
+                          <span>Sonaris Pro Therapy</span>
+                        </span>
+                        <span className="text-[9px] font-mono text-luxury-gold font-bold">od 180 zł</span>
+                      </button>
+                    </li>
                     <li className="text-[9px] uppercase tracking-wider font-mono text-luxury-gold/55 border-b border-luxury-sand/20 pb-0.5 mt-2">Światłoterapia i Lasery</li>
                     <li>
                       <button 
@@ -2213,7 +2306,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
                       >
                         <span>Stymulatory Tkankowe</span>
-                        <span className="text-[9px] font-mono text-luxury-gold/40">od 500 zł</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/70 font-semibold">od 800 zł</span>
                       </button>
                     </li>
                     <li>
@@ -2325,44 +2418,56 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     <span>Wyróżnione Rytuały & Nowości Gabinetu</span>
                     <span className="text-[8px] font-mono text-luxury-gold/50 font-normal">05</span>
                   </h4>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
                     {([
-                      TREATMENTS.find((t) => t.id === "skin-readiness"),
-                      TREATMENTS.find((t) => t.id === "rosacea-calm-therapy"),
-                      TREATMENTS.find((t) => t.id === "lift-firm-therapy"),
-                      TREATMENTS.find((t) => t.id === "ceragem-thermal-massage")
+                      TREATMENTS.find((t) => t.id === "sonaris-pro-therapy"),
+                      TREATMENTS.find((t) => t.id === "ceragem-thermal-massage"),
+                      TREATMENTS.find((t) => t.id === "pst-signal-therapy"),
+                      TREATMENTS.find((t) => t.id === "stymulatory-tkankowe"),
+                      TREATMENTS.find((t) => t.id === "skin-readiness")
                     ].filter(Boolean) as Treatment[]).map((item) => (
-                      <div key={item.id} className="flex flex-col sm:flex-row gap-3 bg-white/70 p-2.5 border border-luxury-sand/20 hover:border-luxury-gold/50 hover:bg-white transition-all duration-300 shadow-sm hover:shadow-md">
+                      <div key={item.id} className="flex flex-col gap-2 bg-white/70 p-2.5 border border-luxury-sand/20 hover:border-luxury-gold/50 hover:bg-white transition-all duration-300 shadow-sm hover:shadow-md">
                         <button
                           onClick={() => handleLinkClick(`/${item.id}/`)}
-                          className="w-20 h-20 bg-luxury-cream overflow-hidden relative flex-shrink-0 cursor-pointer group/img focus:outline-none focus-visible:ring-1 focus-visible:ring-luxury-gold"
+                          className="w-full h-24 bg-luxury-cream overflow-hidden relative flex-shrink-0 cursor-pointer group/img focus:outline-none focus-visible:ring-1 focus-visible:ring-luxury-gold rounded-2xs"
                           title={`Zobacz opis zabiegu: ${item.title}`}
                         >
                           <img 
-                            src={item.image} 
+                            src={getEffectiveTreatmentImage(item)} 
+                            onError={(e) => {
+                              if (e.currentTarget.src !== item.image) {
+                                e.currentTarget.src = item.image;
+                              }
+                            }}
                             alt={item.title} 
                             className="w-full h-full object-cover grayscale group-hover/img:grayscale-0 opacity-90 transition-transform duration-550 hover:scale-105" 
                             referrerPolicy="no-referrer" 
                           />
-                          {item.id === "skin-readiness" && (
-                            <span className="absolute top-0 left-0 bg-luxury-gold text-white text-[7px] px-1 py-0.5 font-mono tracking-widest uppercase font-semibold">HIT</span>
+                          {item.id === "sonaris-pro-therapy" && (
+                            <span className="absolute top-0 left-0 bg-luxury-gold text-white text-[7px] px-1 py-0.5 font-mono tracking-widest uppercase font-semibold">SONARIS PRO</span>
                           )}
                           {item.id === "ceragem-thermal-massage" && (
-                            <span className="absolute top-0 left-0 bg-luxury-dark text-luxury-gold border border-luxury-gold text-[7px] px-1 py-0.5 font-mono tracking-widest uppercase font-bold">NOWOŚĆ</span>
+                            <span className="absolute top-0 left-0 bg-luxury-dark text-luxury-gold border border-luxury-gold text-[7px] px-1 py-0.5 font-mono tracking-widest uppercase font-bold">CERAGEM</span>
+                          )}
+                          {item.id === "pst-signal-therapy" && (
+                            <span className="absolute top-0 left-0 bg-luxury-dark text-luxury-gold border border-luxury-gold text-[7px] px-1 py-0.5 font-mono tracking-widest uppercase font-bold">PST</span>
+                          )}
+                          {item.id === "stymulatory-tkankowe" && (
+                            <span className="absolute top-0 left-0 bg-luxury-gold text-white text-[7px] px-1 py-0.5 font-mono tracking-widest uppercase font-semibold">BIOSTYMULACJA</span>
+                          )}
+                          {item.id === "skin-readiness" && (
+                            <span className="absolute top-0 left-0 bg-luxury-gold text-white text-[7px] px-1 py-0.5 font-mono tracking-widest uppercase font-semibold">DIAGNOZA</span>
                           )}
                         </button>
                         <div className="flex-1 flex flex-col justify-between text-left">
                           <div>
                             <button
                               onClick={() => handleLinkClick(`/${item.id}/`)}
-                              className="font-serif text-xs leading-tight font-semibold text-luxury-dark hover:text-luxury-gold cursor-pointer text-left block w-full focus:outline-none"
+                              className="font-serif text-xs leading-tight font-semibold text-luxury-dark hover:text-luxury-gold cursor-pointer text-left block w-full focus:outline-none truncate"
                             >
                               {item.title}
                             </button>
-                            <p className="text-[9px] font-mono text-luxury-gold/90 mt-0.5">{item.duration} • {item.price}</p>
-                            <p className="text-[10px] text-luxury-dark/95 mt-1 line-clamp-2 leading-relaxed">
-                              {item.subtitle || item.description}
-                            </p>
+                            <p className="text-[9px] font-mono text-luxury-gold/90 mt-0.5">{item.duration} • {item.price.split("(")[0]}</p>
                           </div>
                           <button
                             onClick={() => {
@@ -2374,9 +2479,10 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                               setBookingPhone("");
                               setBookingDate("");
                             }}
-                            className="text-[8.5px] font-mono tracking-[0.15em] uppercase text-luxury-gold hover:text-luxury-dark transition-all flex items-center gap-0.5 w-fit mt-1.5 font-medium"
+                            className="text-[8px] font-mono tracking-[0.15em] uppercase text-luxury-gold hover:text-luxury-dark transition-all flex items-center justify-between w-full mt-2 pt-1 border-t border-luxury-sand/30 font-medium"
                           >
-                            Zarezerwuj <span>→</span>
+                            <span>Zarezerwuj</span>
+                            <span>→</span>
                           </button>
                         </div>
                       </div>
@@ -3032,6 +3138,13 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           <button onClick={() => handleLinkClick("/hifu-lifting/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">HIFU — Lifting Bez Skalpela</button>
                           <button onClick={() => handleLinkClick("/rf-microneedling/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">RF Mikroigłowa (Termolifting)</button>
                           <button onClick={() => handleLinkClick("/neurolifting-nogier/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Neurolifting — Fale Nogiera</button>
+                          <button onClick={() => handleLinkClick("/sonaris-pro-therapy/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1 font-medium flex justify-between items-center">
+                            <span className="flex items-center gap-1.5">
+                              <span className="w-1.5 h-1.5 rounded-full bg-luxury-gold"></span>
+                              <span>Sonaris Pro Therapy</span>
+                            </span>
+                            <span className="font-mono text-[9px] text-luxury-gold font-bold">od 180 zł</span>
+                          </button>
                           <button onClick={() => handleLinkClick("/laser-lpl/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Terapie Laserowe LPL</button>
                           <button onClick={() => handleLinkClick("/laser-carbon/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Peeling Laserowy Węglowy</button>
                         </div>
@@ -3225,62 +3338,115 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
             className="w-full relative h-[75vh] md:h-[82vh] lg:h-[88vh] min-h-[500px] bg-[#FAF8F5] overflow-visible flex flex-col justify-end border-b border-luxury-sand/50 shadow-xs"
             id="home-hero-fullscreen-section"
           >
-            {/* Background Image Container with bright, luminous quiet luxury overlay */}
-            <div className="absolute inset-0 z-0 bg-[#F7F4EE] overflow-hidden">
+            {/* Background Image Container with high clarity and subtle contrast overlay */}
+            <div 
+              className="absolute inset-0 z-0 bg-[#F7F4EE] overflow-hidden"
+              onDragOver={(e) => {
+                e.preventDefault();
+                setIsHeroDragOver(true);
+              }}
+              onDragLeave={() => setIsHeroDragOver(false)}
+              onDrop={(e) => {
+                e.preventDefault();
+                setIsHeroDragOver(false);
+                if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                  handleHeroFileChange(e.dataTransfer.files[0]);
+                }
+              }}
+            >
+              <input
+                type="file"
+                ref={heroFileInputRef}
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+                  if (e.target.files && e.target.files[0]) {
+                    handleHeroFileChange(e.target.files[0]);
+                  }
+                }}
+              />
               <img 
-                src="/src/assets/images/hero_bright_luxury_skin_1790504632611.jpg"
-                alt="Slow Skin Concept Care Treatment"
+                src={heroCustomUrl}
+                onError={() => {
+                  if (heroCustomUrl !== "/src/assets/images/hero_skin_examination_lamp_1791109949357.jpg") {
+                    setHeroCustomUrl("/src/assets/images/hero_skin_examination_lamp_1791109949357.jpg");
+                  }
+                }}
+                alt="Profesjonalna ocena skóry pod lupą — Slow Skin Concept"
                 loading="eager"
                 onLoad={() => setIsHeroLoaded(true)}
-                className="w-full h-full object-cover transition-all duration-[1500ms] ease-out hover:scale-[1.02] hover:duration-[8000ms]"
+                className="w-full h-full object-cover object-right md:object-center transition-all duration-[1500ms] ease-out hover:scale-[1.01]"
                 style={{
-                  filter: isHeroLoaded ? "blur(0px)" : "blur(24px)",
-                  opacity: isHeroLoaded ? 0.72 : 0.1,
-                  transform: isHeroLoaded ? "scale(1)" : "scale(1.04)",
+                  filter: isHeroLoaded ? "blur(0px)" : "blur(16px)",
+                  opacity: isHeroLoaded ? 0.94 : 0.1,
+                  transform: isHeroLoaded ? "scale(1)" : "scale(1.02)",
                 }}
                 referrerPolicy="no-referrer"
                 id="hero-img-element"
               />
-              {/* Luminous, warm elegant gradients ensuring pristine contrast and readability */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#FAF8F5] via-[#FAF8F5]/75 to-[#FAF8F5]/35" />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#FAF8F5]/90 via-[#FAF8F5]/55 to-transparent pointer-events-none" />
+              {/* Subtle directional gradients ensuring pristine contrast and high image clarity */}
+              <div className="absolute inset-0 bg-gradient-to-r from-[#FAF8F5]/90 via-[#FAF8F5]/55 via-45% to-transparent pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#FAF8F5] via-[#FAF8F5]/30 via-25% to-transparent pointer-events-none" />
+
+              {/* Drag & drop overlay indicator */}
+              {isHeroDragOver && (
+                <div className="absolute inset-0 bg-luxury-dark/40 backdrop-blur-xs flex items-center justify-center z-20 border-4 border-dashed border-luxury-gold pointer-events-none">
+                  <div className="bg-white p-6 shadow-xl text-center space-y-2">
+                    <Camera className="w-10 h-10 text-luxury-gold mx-auto animate-bounce" />
+                    <p className="font-serif text-lg text-luxury-dark font-medium">Upuść tutaj swoje oryginalne zdjęcie</p>
+                    <p className="font-mono text-xs text-luxury-dark/70">Plik zostanie wstawiony bez żadnych zmian ani kompresji</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Discreet button to select and upload original photo */}
+              <div className="absolute top-4 right-4 z-20">
+                <button
+                  onClick={() => heroFileInputRef.current?.click()}
+                  title="Wstaw własny oryginalny plik zdjęcia (np. Profesjonalna ocena skóry pod lupą.png)"
+                  className="bg-white/90 hover:bg-white text-luxury-dark hover:text-luxury-gold border border-luxury-sand/80 px-3 py-1.5 text-[9px] font-mono uppercase tracking-wider transition-all shadow-xs rounded-2xs flex items-center gap-1.5 cursor-pointer backdrop-blur-xs font-semibold"
+                >
+                  <Camera className="w-3.5 h-3.5 text-luxury-gold shrink-0" />
+                  <span>{isUploadingHero ? "Wstawianie..." : "Wstaw oryginalny plik zdjęcia"}</span>
+                </button>
+              </div>
             </div>
 
             {/* Content Overlay */}
             <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pb-14 md:pb-22 text-left flex flex-col items-start gap-4 md:gap-5">
               
-              {/* Elegant Subtitle / Categories */}
+              {/* Elegant Subtitle / Categories with backdrop pills for crystal clear readability */}
               <motion.div 
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.8 }}
-                className="font-mono text-[10px] md:text-[12px] tracking-[0.22em] text-luxury-gold uppercase font-semibold select-none flex flex-wrap items-center gap-2"
+                className="font-mono text-[10px] md:text-[12px] tracking-[0.22em] text-[#846b41] uppercase font-bold select-none flex flex-wrap items-center gap-2"
               >
-                <span>diagnostyka</span>
-                <span className="text-luxury-sand">&middot;</span>
-                <span>regeneracja</span>
-                <span className="text-luxury-sand">&middot;</span>
-                <span>naturalny slow-aging</span>
-                <span className="text-luxury-sand">&middot;</span>
-                <span>indywidualne zabiegi twarzy</span>
+                <span className="bg-white/80 backdrop-blur-xs px-2.5 py-0.5 border border-luxury-sand/60 shadow-2xs">diagnostyka</span>
+                <span className="text-luxury-dark/40">&middot;</span>
+                <span className="bg-white/80 backdrop-blur-xs px-2.5 py-0.5 border border-luxury-sand/60 shadow-2xs">regeneracja</span>
+                <span className="text-luxury-dark/40">&middot;</span>
+                <span className="bg-white/80 backdrop-blur-xs px-2.5 py-0.5 border border-luxury-sand/60 shadow-2xs">naturalny slow-aging</span>
+                <span className="text-luxury-dark/40">&middot;</span>
+                <span className="bg-white/80 backdrop-blur-xs px-2.5 py-0.5 border border-luxury-sand/60 shadow-2xs">indywidualne zabiegi twarzy</span>
               </motion.div>
 
-              {/* Classic Serif Title */}
+              {/* Classic Serif Title with enhanced contrast */}
               <motion.h1 
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.8 }}
-                className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light text-luxury-dark leading-tight tracking-[0.08em] uppercase select-none"
+                className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light text-[#1a1917] leading-tight tracking-[0.08em] uppercase select-none drop-shadow-[0_2px_4px_rgba(255,255,255,0.85)]"
               >
-                Slow Skin Concept<span className="text-xs md:text-sm lg:text-base align-super text-luxury-gold ml-1 font-sans font-medium">TM</span>
+                Slow Skin Concept<span className="text-xs md:text-sm lg:text-base align-super text-[#846b41] ml-1 font-sans font-bold">TM</span>
               </motion.h1>
 
-              {/* Tagline Statement */}
+              {/* Tagline Statement with crisp contrast */}
               <motion.p 
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6, duration: 0.8 }}
-                className="text-lg md:text-xl lg:text-2xl text-luxury-dark/95 max-w-3xl font-light tracking-wide leading-relaxed select-none font-serif italic"
+                className="text-lg md:text-xl lg:text-2xl text-[#24221f] max-w-3xl font-medium tracking-wide leading-relaxed select-none font-serif italic drop-shadow-[0_1px_3px_rgba(255,255,255,0.85)]"
               >
                 Biologiczna terapia skóry, która zaczyna się od jej zrozumienia
               </motion.p>
@@ -3504,7 +3670,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       el.scrollIntoView({ behavior: "smooth" });
                     }
                   }}
-                  className="px-8 py-3.5 bg-luxury-gold hover:bg-luxury-dark text-luxury-dark hover:text-white text-[10px] md:text-xs font-mono tracking-widest uppercase transition-all duration-300 border border-luxury-gold font-semibold shadow-sm cursor-pointer"
+                  className="px-8 py-3.5 bg-luxury-gold hover:bg-luxury-dark text-white hover:text-white text-[10px] md:text-xs font-mono tracking-widest uppercase transition-all duration-300 border border-luxury-gold font-bold shadow-md cursor-pointer"
                 >
                   Odkryj Rytuały &darr;
                 </button>
@@ -3517,7 +3683,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     setBookingPhone("");
                     setBookingDate("");
                   }}
-                  className="px-8 py-3.5 border-2 border-luxury-dark hover:bg-luxury-dark text-luxury-dark hover:text-white text-[10px] md:text-xs font-mono tracking-widest uppercase bg-white/70 backdrop-blur-xs transition-all duration-300 font-semibold shadow-2xs cursor-pointer"
+                  className="px-8 py-3.5 border-2 border-luxury-dark hover:bg-luxury-dark text-luxury-dark hover:text-white text-[10px] md:text-xs font-mono tracking-widest uppercase bg-white/95 hover:bg-luxury-dark backdrop-blur-xs transition-all duration-300 font-bold shadow-md cursor-pointer"
                 >
                   Umów konsultację
                 </button>
@@ -3640,18 +3806,23 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                 
                 {/* Visual Cover Piece */}
                 <div className="lg:col-span-7 relative group overflow-hidden border border-luxury-sand p-3 bg-white">
-                  <div className="aspect-[16/10] overflow-hidden bg-luxury-sand relative">
-                    <img 
-                      src="/src/assets/images/regenerated_image_1781694292285.jpg"
-                      alt="Slow Skin Concept Luminous Skin Cover"
-                      className="w-full h-full object-cover transition-transform duration-[4000ms] ease-out group-hover:scale-105"
-                      referrerPolicy="no-referrer"
-                    />
-                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-luxury-dark/40 to-transparent p-6 flex justify-between items-end">
+                  <EditableImage
+                    id="cover_magazine"
+                    slotName="Okładka — Wydanie Specjalne No. I"
+                    src={customTreatmentImages["cover_magazine"] || "/cover_magazine.png"}
+                    fallbackSrc="/src/assets/images/regenerated_image_1781694292285.jpg"
+                    alt="Slow Skin Concept Luminous Skin Cover"
+                    aspectRatioClass="aspect-[16/10]"
+                    className="w-full h-full object-cover transition-transform duration-[4000ms] ease-out group-hover:scale-105"
+                    onImageChange={(id, newUrl) => {
+                      setCustomTreatmentImages(prev => ({ ...prev, [id]: newUrl }));
+                    }}
+                  >
+                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-luxury-dark/40 to-transparent p-6 flex justify-between items-end pointer-events-none">
                       <span className="font-mono text-[9px] tracking-widest text-luxury-cream uppercase">Wydanie Specjalne No. I</span>
                       <span className="font-mono text-[9px] tracking-widest text-luxury-cream uppercase">© Slow Skin Concept</span>
                     </div>
-                  </div>
+                  </EditableImage>
                 </div>
 
                 {/* Editorial Copy Block */}
@@ -3952,17 +4123,24 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   <div className="lg:col-span-5 flex flex-col justify-between">
                     <div className="relative h-full min-h-[300px] border border-luxury-sand p-4 sm:p-5 bg-white rounded-sm flex flex-col justify-between shadow-[0_4px_20px_rgba(0,0,0,0.04)] group">
                       <div className="h-[240px] md:h-auto md:flex-grow relative overflow-hidden rounded-sm mb-4 border border-luxury-sand/50">
-                        <img
-                          src="/src/assets/images/regenerated_image_1781694292749.jpg"
+                        <EditableImage
+                          id="bionomic_diagnosis"
+                          slotName="Diagnoza Bionomiczna (Sondaż Barierowy)"
+                          src={customTreatmentImages["bionomic_diagnosis"] || "/src/assets/images/regenerated_image_1781694292749.jpg"}
+                          fallbackSrc="/src/assets/images/regenerated_image_1781694292749.jpg"
                           alt="Bionomiczna diagnostyka potrzeb skóry w Slow Skin Concept"
                           className="w-full h-full object-cover grayscale opacity-95 transition-all duration-[6000ms] group-hover:scale-105 group-hover:opacity-100"
-                          referrerPolicy="no-referrer"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-luxury-dark/80 via-luxury-dark/15 to-transparent" />
-                        <div className="absolute bottom-4 left-4 right-4 text-left">
-                          <span className="font-mono text-[8.5px] tracking-widest text-luxury-gold uppercase block font-semibold">Zrozumienie Biologii</span>
-                          <span className="font-serif text-sm text-white font-medium block mt-0.5">Sondaż gotowości barierowej</span>
-                        </div>
+                          aspectRatioClass="h-full w-full"
+                          onImageChange={(id, newUrl) => {
+                            setCustomTreatmentImages(prev => ({ ...prev, [id]: newUrl }));
+                          }}
+                        >
+                          <div className="absolute inset-0 bg-gradient-to-t from-luxury-dark/80 via-luxury-dark/15 to-transparent pointer-events-none" />
+                          <div className="absolute bottom-4 left-4 right-4 text-left pointer-events-none">
+                            <span className="font-mono text-[8.5px] tracking-widest text-luxury-gold uppercase block font-semibold">Zrozumienie Biologii</span>
+                            <span className="font-serif text-sm text-white font-medium block mt-0.5">Sondaż gotowości barierowej</span>
+                          </div>
+                        </EditableImage>
                       </div>
 
                       <div className="bg-[#FAF6EE] border border-luxury-sand/90 p-5 rounded-sm text-left">
@@ -4183,37 +4361,43 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     </div>
 
                     {/* Prawa Kolumna: Przepiękny Portret Epigenetyczny z Liściem/Motywem Ekologicznym */}
-                    <div className="lg:col-span-4 flex flex-col justify-center">
-                      <div className="relative border border-luxury-sand p-3 bg-white/40 rounded-sm overflow-hidden group h-full flex flex-col justify-between">
+                    <div className="lg:col-span-4 flex flex-col justify-between">
+                      <div className="relative border border-luxury-sand p-3.5 bg-white/40 rounded-sm overflow-hidden group h-full flex flex-col justify-between shadow-xs">
                         
-                        {/* Wewnętrzny obrazek o specyficznej kompozycji z motywem florystycznym */}
-                        <div className="relative overflow-hidden aspect-[4/5] md:aspect-auto md:flex-grow h-[280px] lg:h-auto rounded-sm mb-4">
-                          <img
-                            src="/src/assets/images/biological_skin_stimulation_1786128275438.jpg"
-                            alt="Biologiczna stymulacja skóry i naturalny blask"
-                            className="w-full h-full object-cover grayscale opacity-90 transition-transform duration-[6000ms] group-hover:scale-105 group-hover:opacity-100"
-                            referrerPolicy="no-referrer"
-                          />
-                          
-                          {/* Subtelny, luksusowy wektorowy ornament botaniczny (leaf overlay) w lewym górnym rogu */}
-                          <div className="absolute top-4 left-4 p-2 bg-white/70 backdrop-blur-xs rounded-full border border-luxury-sand/30 text-luxury-gold">
-                            <Heart className="w-4 h-4 fill-luxury-gold bg-transparent" />
-                          </div>
+                        {/* Wewnętrzny obrazek - powiększony pionowo, aby odsłonić twarz oraz dłonie z notatkami */}
+                        <div className="relative overflow-hidden rounded-sm mb-3 flex-grow min-h-[480px] sm:min-h-[540px] md:min-h-[600px] lg:min-h-[640px] w-full bg-luxury-sand/10">
+                          <EditableImage
+                            id="method_biological"
+                            slotName="Metoda Autorska (Stymulacja Biologiczna)"
+                            src={customTreatmentImages["method_biological"] || "/src/assets/images/biological_skin_stimulation_1786128275438.jpg"}
+                            fallbackSrc="/src/assets/images/biological_skin_stimulation_1786128275438.jpg"
+                            alt="Indywidualny plan dla Twojej skóry - kosmetolog tworzący notatki i plan terapii"
+                            className="w-full h-full object-cover object-top grayscale opacity-95 transition-transform duration-[6000ms] group-hover:scale-102 group-hover:opacity-100"
+                            aspectRatioClass="h-full w-full min-h-[480px] sm:min-h-[540px] md:min-h-[600px] lg:min-h-[640px]"
+                            onImageChange={(id, newUrl) => {
+                              setCustomTreatmentImages(prev => ({ ...prev, [id]: newUrl }));
+                            }}
+                          >
+                            {/* Subtelny, luksusowy wektorowy ornament botaniczny (leaf overlay) w lewym górnym rogu */}
+                            <div className="absolute top-4 left-4 p-2 bg-white/70 backdrop-blur-xs rounded-full border border-luxury-sand/30 text-luxury-gold pointer-events-none">
+                              <Heart className="w-4 h-4 fill-luxury-gold bg-transparent" />
+                            </div>
 
-                          {/* Gradient bionomiczny na dole obrazu */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-luxury-dark/90 via-transparent to-transparent" />
-                          
-                          {/* Opis tekstowy na dole zdjęcia */}
-                          <div className="absolute bottom-4 left-4 right-4 text-left space-y-1">
-                            <span className="font-mono text-[8px] tracking-[0.25em] text-luxury-gold uppercase block font-semibold">Edukacja & Biologia</span>
-                            <span className="font-serif text-xs text-white font-light block leading-relaxed">
-                              Świadome piękno to proces budowany bezpiecznie i w zgodzie z rytmem komórek.
-                            </span>
-                          </div>
+                            {/* Subtelny, niski gradient bionomiczny na samym dole, aby nie zasłaniał dłoni zapisujących notatki */}
+                            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-luxury-dark/90 via-luxury-dark/40 to-transparent pointer-events-none" />
+                            
+                            {/* Opis tekstowy na dole zdjęcia */}
+                            <div className="absolute bottom-3 left-4 right-4 text-left space-y-0.5 pointer-events-none">
+                              <span className="font-mono text-[8px] tracking-[0.25em] text-luxury-gold uppercase block font-semibold">Edukacja & Biologia</span>
+                              <span className="font-serif text-xs text-white font-medium block leading-snug">
+                                Indywidualny plan dla Twojej skóry.
+                              </span>
+                            </div>
+                          </EditableImage>
                         </div>
 
                         {/* Mądry bionomiczny cytat dopełniający estetykę quiet luxury */}
-                        <div className="p-4 border border-luxury-sand/20 bg-luxury-sand/5 rounded-sm text-left">
+                        <div className="p-3.5 border border-luxury-sand/20 bg-luxury-sand/5 rounded-sm text-left">
                           <p className="font-serif text-[11px] italic text-luxury-dark leading-relaxed">
                             „Odrzucenie przypadkowych impulsów na rzecz celowanej terapby bionomicznej to najlepsze, co możesz podarować swojej skórze, by zachowała młodość, jędrność i pełną integralność komórkową.”
                           </p>
@@ -4239,6 +4423,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto px-4">
                     {[
                       {
+                        id: "how_help_meso_remodeling",
                         title: "Meso Remodeling",
                         desc: "Komórkowa odbudowa mitochondrialna z ochroną telomerów i stymulacją głębokiej odnowy naskórka. Zaawansowana terapia bionomiczna.",
                         image: "/src/assets/images/meso_remodeling_card_1786128520065.jpg",
@@ -4246,6 +4431,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         cta: "Dowiedz się więcej"
                       },
                       {
+                        id: "how_help_first_visit",
                         title: "Pierwsza wizyta i diagnostyka skóry",
                         desc: "Szczegółowa konsultacja oraz zaawansowana analiza Thessia, dzięki której poznamy biologiczne potrzeby Twojej skóry i dobierzemy precyzyjny kierunek terapii.",
                         image: "/src/assets/images/regenerated_image_1781694292285.jpg",
@@ -4254,6 +4440,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         cta: "Dowiedz się więcej"
                       },
                       {
+                        id: "how_help_neurolifting",
                         title: "Neurolifting",
                         desc: "Naturalny lifting i rozluźnienie głębokich napięć mięśniowych twarzy. Daje natychmiastową poprawę owalu, wygładzenie zmarszczek oraz młody, wypoczęty wygląd.",
                         image: "/src/assets/images/facial_acupuncture_led_1785534009485.jpg",
@@ -4261,9 +4448,10 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         cta: "Dowiedz się więcej"
                       },
                       {
+                        id: "how_help_sensitive_skin",
                         title: "Terapia skóry wrażliwej",
                         desc: "Kojenie, intensywna regeneracja bariery hydrolipidowej i odbudowa immunologicznego komfortu skóry. Działamy łagodnie, lecz z maksymalną skutecznością bionomiczną.",
-                        image: "/src/assets/images/regenerated_image_1781694292749.jpg",
+                        image: "/how_help_sensitive_skin.png",
                         actionUrl: "/terapia-skory-wrazliwej-i-reaktywnej/",
                         cta: "Dowiedz się więcej"
                       }
@@ -4273,29 +4461,36 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         className="group bg-white/40 border border-luxury-sand p-4 rounded-sm flex flex-col justify-between space-y-4 hover:border-luxury-gold/50 hover:shadow-xs transition-all duration-300 transform hover:-translate-y-0.5"
                       >
                         <div className="space-y-4 text-center">
-                          {/* Materiał wideo / Zdjęcie zoptymalizowane pod kątem SEO i estetyki */}
+                          {/* Materiał wideo / Zdjęcie z aktywną podmianą */}
                           <div className="relative aspect-[4/3] rounded-sm overflow-hidden bg-luxury-dark/5 border border-luxury-sand/20">
-                            <img 
-                              src={card.image} 
+                            <EditableImage
+                              id={card.id}
+                              slotName={`Jak możemy Ci pomóc: ${card.title}`}
+                              src={customTreatmentImages[card.id] || card.image}
+                              fallbackSrc={card.image}
                               alt={`${card.title} - Terapie i Zabiegi na twarz Jelcz-Laskowice`}
                               className="w-full h-full object-cover grayscale opacity-90 transition-transform duration-700 group-hover:scale-105 group-hover:opacity-100"
-                              referrerPolicy="no-referrer"
-                            />
-                            {'video' in card && card.video && (
-                              <video
-                                src={card.video as string}
-                                autoPlay
-                                loop
-                                muted
-                                playsInline
-                                poster={card.image}
-                                onError={(e) => {
-                                  (e.currentTarget as HTMLVideoElement).style.display = 'none';
-                                }}
-                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                              />
-                            )}
-                            <div className="absolute inset-0 bg-gradient-to-t from-luxury-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                              aspectRatioClass="h-full w-full"
+                              onImageChange={(id, newUrl) => {
+                                setCustomTreatmentImages(prev => ({ ...prev, [id]: newUrl }));
+                              }}
+                            >
+                              {!customTreatmentImages[card.id] && 'video' in card && card.video && (
+                                <video
+                                  src={card.video as string}
+                                  autoPlay
+                                  loop
+                                  muted
+                                  playsInline
+                                  poster={card.image}
+                                  onError={(e) => {
+                                    (e.currentTarget as HTMLVideoElement).style.display = 'none';
+                                  }}
+                                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 pointer-events-none"
+                                />
+                              )}
+                              <div className="absolute inset-0 bg-gradient-to-t from-luxury-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                            </EditableImage>
                           </div>
 
                           <div className="space-y-2">
@@ -4446,7 +4641,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           {[
                             {
                               id: 0,
-                              title: "Moja skóra jest ultrawrażliwa. Czy zabieg jej nie podrażni?",
+                              title: "Moja skóra jest bardzo wrażliwa. Czy zabieg jej nie podrażni?",
                               label: "Wrażliwość & Podrażnienia"
                             },
                             {
@@ -4519,10 +4714,10 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                 </div>
                                 <div>
                                   <span className="font-mono text-[8px] tracking-widest text-[#a89060] uppercase block font-semibold">
-                                    Nasza Gwarancja Bezpieczeństwa
+                                    {activeConcernIdx === 0 ? "Uważna Opieka nad Skórą" : "Nasza Gwarancja Bezpieczeństwa"}
                                   </span>
                                   <h3 className="font-serif text-base font-light text-luxury-dark">
-                                    {activeConcernIdx === 0 && "Moja skóra jest ultrawrażliwa"}
+                                    {activeConcernIdx === 0 && "Moja skóra jest bardzo wrażliwa"}
                                     {activeConcernIdx === 1 && "Obawa przed nieestetyczną pompą"}
                                     {activeConcernIdx === 2 && "Trafna diagnoza zamiast loterii"}
                                     {activeConcernIdx === 3 && "Twoja nawigacja krok po kroku"}
@@ -4535,13 +4730,13 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                 {activeConcernIdx === 0 && (
                                   <>
                                     <p className="text-xs md:text-[13px] text-luxury-dark font-serif leading-relaxed italic">
-                                      „W Slow Skin wyznajemy żelazną zasadę: wsparcie zamiast agresji celowanej. Odrzucamy wypalanie barier lipidowych i silne alkohole.”
+                                      „Każda skóra ma swoją tolerancję. W Slow Skin Concept dobieram pielęgnację z uważnością na jej potrzeby, reakcje i aktualną kondycję.”
                                     </p>
                                     <p className="text-xs text-luxury-charcoal/95 font-light text-justify leading-relaxed">
-                                      Jeśli Twoja skóra pali, jest stale ściągnięta, sucha lub wykazuje cechy trądziku różowatego, standardowe gabinety często proponują agresywne kwaszenia stymulacyjne. U nas to wykluczone. 
+                                      Jeśli Twoja skóra piecze, jest ściągnięta, sucha lub łatwo się czerwieni, potrzebuje uważnego podejścia. Wizytę rozpoczynam od rozmowy i oceny jej kondycji. Uwzględniam dotychczasową pielęgnację oraz odczucia, które towarzyszą Ci na co dzień.
                                     </p>
                                     <p className="text-xs text-luxury-charcoal/95 font-light text-justify leading-relaxed">
-                                      Twoją wizytę zaczniemy od uspokojenia stanu zapalnego (inflammaging) biomimetyczną ochroną z ektoiną, kwasem laktobionowym i komórkami macierzystymi, odbudowując płaszcz ochronny przed jakimkolwiek silniejszym bodźcowaniem. Twoja skóra wyjdzie ukojona i wypoczęta.
+                                      Przebieg zabiegu i kompozycję składników dobieram indywidualnie, korzystając z szerokiej gamy formuł biomimetycznych. Gdy skóra jest podrażniona, zaczynam od pielęgnacji wspierającej ukojenie, nawilżenie i barierę naskórkową. Kolejne działania dopasowuję do jej tolerancji i reakcji.
                                     </p>
                                   </>
                                 )}
@@ -4598,15 +4793,28 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                 </div>
                                 <div className="text-left">
                                   <span className="font-serif text-xs font-semibold text-luxury-dark block leading-none">Katarzyna Brzezińska</span>
-                                  <span className="font-mono text-[9px] text-luxury-gold uppercase tracking-wider block mt-1">Skinolog &amp; Założycielka</span>
+                                  <span className="font-mono text-[9px] text-luxury-gold uppercase tracking-wider block mt-1">
+                                    {activeConcernIdx === 0 ? "SKINOLOG I ZAŁOŻYCIELKA" : "Skinolog & Założycielka"}
+                                  </span>
                                 </div>
                               </div>
 
                               <div className="grid grid-cols-2 gap-2 text-[10px] font-mono text-luxury-dark/95 tracking-wide mt-2">
-                                <span className="flex items-center gap-1.5">&#10003; Formuły bio-zbieżne</span>
-                                <span className="flex items-center gap-1.5">&#10003; 100% bezpieczna stymulacja</span>
-                                <span className="flex items-center gap-1.5">&#10003; Bezbolesna diagnostyka</span>
-                                <span className="flex items-center gap-1.5">&#10003; Stała asysta po-zabiegowa</span>
+                                {activeConcernIdx === 0 ? (
+                                  <>
+                                    <span className="flex items-center gap-1.5">&#10003; Indywidualna pielęgnacja</span>
+                                    <span className="flex items-center gap-1.5">&#10003; Ocena kondycji skóry</span>
+                                    <span className="flex items-center gap-1.5">&#10003; Uważny dobór zabiegów</span>
+                                    <span className="flex items-center gap-1.5">&#10003; Zalecenia domowe</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <span className="flex items-center gap-1.5">&#10003; Formuły bio-zbieżne</span>
+                                    <span className="flex items-center gap-1.5">&#10003; 100% bezpieczna stymulacja</span>
+                                    <span className="flex items-center gap-1.5">&#10003; Bezbolesna diagnostyka</span>
+                                    <span className="flex items-center gap-1.5">&#10003; Stała asysta po-zabiegowa</span>
+                                  </>
+                                )}
                               </div>
                             </div>
                           </motion.div>
@@ -4667,18 +4875,18 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         Gabinety Slow Skin w Praktyce
                       </span>
                       <h2 className="font-serif text-[36px] md:text-[36px] font-light text-luxury-dark tracking-tight leading-tight uppercase">
-                        Portrety Przemian. Dowód Bionomiczny
+                        Portrety Przemian. Efekty Terapii
                       </h2>
                       <div className="w-16 h-[1px] bg-luxury-gold/50 mx-auto mt-2" />
                       <p className="text-xs md:text-sm text-luxury-dark/95 max-w-xl mx-auto leading-relaxed">
-                        Prawdziwa terapia bionomiczna nie polega na maskowaniu niedoskonałości, lecz na histologicznym przeprogramowaniu skóry. Poznaj kliniczne dowody na przywrócenie naturalnej harmonii i metabolizmu naskórka.
+                        Prawdziwa opieka nad skórą nie polega na maskowaniu problemów, lecz na zrozumieniu jej fizjologii i przywróceniu naturalnej równowagi. Poznaj rezultaty uważnej, indywidualnie dobranej pielęgnacji.
                       </p>
                     </div>
 
                     {/* Zakładki wyboru pacjenta */}
                     <div className="flex flex-wrap justify-center border-b border-luxury-sand/60 pb-1 gap-2 md:gap-8">
                       {[
-                        { id: 0, title: "Zaburzona Bariera & Rumień", name: "Joanna (34 l.)" },
+                        { id: 0, title: "Skóra Reaktywna & Zaczerwieniona", name: "Potrzeby Skóry" },
                         { id: 1, title: "Wiotkość Grawitacyjna", name: "Małgorzata (45 l.)" },
                         { id: 2, title: "Trądzik Dorosłych & Odwodnienie", name: "Aleksandra (28 l.)" }
                       ].map((tab) => (
@@ -4705,29 +4913,43 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     {(() => {
                       const caseData = [
                         {
-                          name: "Joanna, lat 34",
-                          problem: "Nasilony rumień, skóra reaktywna z uszkodzoną barierą (TEWL 32 g/m²/h)",
-                          duration: "6 tygodni (4 seanse bionomiczne)",
+                          categoryLabel: "POTRZEBY SKÓRY",
+                          name: "Skóra reaktywna i zaczerwieniona",
+                          problem: "Pielęgnacja ukierunkowana na komfort skóry i wsparcie bariery naskórkowej.",
+                          duration: "Efekt uważnej pielęgnacji",
                           imageBefore: "/src/assets/images/joanna_single_face_before_1786132708495.jpg",
                           imageAfter: "/src/assets/images/joanna_single_face_after_1786132724722.jpg",
-                          anatomy: "Przewlekłe mikrozapalenie (inflammaging) wywołane agresywną pielęgnacją kwasową. Przeczulica dotykowa, rumień napadowy, ubytek ceramidów w cemencie międzykomórkowym.",
-                          remedy: "Wyciszenie barierowe. Zastosowano Rytuał 'Czysta Bionomia' z ektoiną i kwasem laktobionowym bez mechanicznego drażnienia. Fotobiomodulacja LLLT (światło żółte 590nm).",
-                          homeCare: "Dermokosmetyki bionomowe wolne od silikonów, emulgatorów PEG i zapachów. Serum z ceramidami NP/AP oraz fitosfingozyną.",
+                          anatomyLabel: "PUNKT WYJŚCIA",
+                          anatomy: "Zaczerwienienie, pieczenie i nadmierna reakcja na kosmetyki wymagają uważnej oceny. Podczas konsultacji analizuję kondycję skóry, jej tolerancję oraz dotychczasową pielęgnację.",
+                          remedyLabel: "PIELĘGNACJA W GABINECIE",
+                          remedy: "Dobieram łagodne etapy zabiegu oraz indywidualną kompozycję składników wspierających nawilżenie, ukojenie i barierę naskórkową. Rodzaj zabiegu oraz ewentualne wykorzystanie urządzeń zależą od aktualnych potrzeb skóry.",
+                          homeCareLabel: "PIELĘGNACJA DOMOWA",
+                          homeCare: "Układam spójny plan oczyszczania, pielęgnacji i ochrony przeciwsłonecznej. Zalecenia dostosowuję do tolerancji skóry i jej reakcji na stosowane produkty.",
+                          ctaSubtitle: "CHCESZ POZNAĆ POTRZEBY SWOJEJ SKÓRY?",
+                          ctaTitle: "Zarezerwuj pierwszą konsultację",
+                          buttonText: "Chcę poznać potrzeby swojej skóry →",
                           results: [
-                            { label: "Rumień i nadwrażliwość", value: "-82%" },
-                            { label: "Poziom głębokiego nawilżenia", value: "+145%" },
-                            { label: "Bariera hydrolipidowa (TEWL)", value: "-55%" }
+                            { label: "Rumień i nadwrażliwość", value: "Ukojenie" },
+                            { label: "Nawilżenie i komfort", value: "Równowaga" },
+                            { label: "Bariera naskórkowa", value: "Ochrona" }
                           ]
                         },
                         {
+                          categoryLabel: "POTRZEBY SKÓRY",
                           name: "Małgorzata, lat 45",
                           problem: "Utrata napięcia tkanek, wiotkość grawitacyjna, spowolniony metabolizm komórkowy",
                           duration: "8 tygodni (3 seanse + terapia domowa)",
                           imageBefore: "/src/assets/images/malgorzata_before_1786129083321.jpg",
                           imageAfter: "/src/assets/images/regenerated_image_1781694290837.png",
+                          anatomyLabel: "PUNKT WYJŚCIA",
                           anatomy: "Zaburzenia owalu twarzy, spadek gęstości kolagenu, zmęczony wyraz twarzy, obrzęki limfatyczne w obszarze jarzmowym.",
+                          remedyLabel: "PIELĘGNACJA W GABINECIE",
                           remedy: "Masaż rzeźbiarski Myoplasty (manualne opracowanie punktów powięziowych) połączony z peptydowym koktajlem stymulacyjnym o wysokiej biodostępności.",
+                          homeCareLabel: "PIELĘGNACJA DOMOWA",
                           homeCare: "Zaawansowany eliksir z peptydami sygnałowymi stymulującymi kolagen typu I i III, lipidowy krem okluzyjny z masłem shea bionomowym.",
+                          ctaSubtitle: "INSPIRUJE CIĘ TEN REZULTAT?",
+                          ctaTitle: "Zarezerwuj pierwszą konsultację",
+                          buttonText: "Chcę zadbać o swoją skórę →",
                           results: [
                             { label: "Uniesienie linii żuchwy (lifting)", value: "Widoczne +4.2mm" },
                             { label: "Redukcja bruzd nosowo-wargowych", value: "o 47%" },
@@ -4735,14 +4957,21 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           ]
                         },
                         {
+                          categoryLabel: "POTRZEBY SKÓRY",
                           name: "Aleksandra, lat 28",
                           problem: "Trądzik dorosłych (acne tarda), nadprodukcja sebum przy odwodnieniu naskórka",
                           duration: "5 tygodni (3 seanse oczyszczająco-regulujące)",
                           imageBefore: "/src/assets/images/aleksandra_before_1786129097233.jpg",
                           imageAfter: "/src/assets/images/aleksandra_after_1786129109685.jpg",
+                          anatomyLabel: "PUNKT WYJŚCIA",
                           anatomy: "Zablokowane ujścia mieszków włosowych, zmiany zapalne podskórne, skrajne odwodnienie spowodowane wysuszającymi żelami aptecznymi.",
+                          remedyLabel: "PIELĘGNACJA W GABINECIE",
                           remedy: "Przywrócenie fizjologicznego pH. Łagodne uwalnianie zanieczyszczeń kwasem salicylowym w nośniku lipidowym, regulacja mikrobiomu i sebostaza komórkowa.",
+                          homeCareLabel: "PIELĘGNACJA DOMOWA",
                           homeCare: "Żel bionomowy z olejkiem z drzewa herbacianego (stężenie farmaceutyczne), lekki hydrożel z niacynamidem 4% i kwasem hialuronowym.",
+                          ctaSubtitle: "INSPIRUJE CIĘ TEN REZULTAT?",
+                          ctaTitle: "Zarezerwuj pierwszą konsultację",
+                          buttonText: "Chcę zadbać o swoją skórę →",
                           results: [
                             { label: "Redukcja zmian zapalnych", value: "-89%" },
                             { label: "Wydzielanie sebum (sebostaza)", value: "-52%" },
@@ -4790,24 +5019,32 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             
                             <div className="space-y-4 relative z-10">
                               <div className="border-b border-luxury-sand pb-3">
-                                <span className="font-mono text-[8px] tracking-widest text-luxury-gold uppercase block">Analiza Pacjenta</span>
+                                <span className="font-mono text-[8px] tracking-widest text-luxury-gold uppercase block">
+                                  {caseData.categoryLabel || "Analiza Pacjenta"}
+                                </span>
                                 <h3 className="font-serif text-xl font-light text-luxury-dark">{caseData.name}</h3>
                                 <p className="text-xs font-serif text-luxury-gold italic mt-1">{caseData.problem}</p>
                               </div>
 
                               <div className="space-y-3 font-sans text-xs text-luxury-dark/95">
                                 <div className="space-y-1">
-                                  <span className="font-mono text-[9px] tracking-wider text-luxury-gold uppercase font-bold block">Anatomia Problemów Skóry:</span>
+                                  <span className="font-mono text-[9px] tracking-wider text-luxury-gold uppercase font-bold block">
+                                    {caseData.anatomyLabel || "Punkt Wyjścia"}
+                                  </span>
                                   <p className="font-light leading-relaxed text-justify">{caseData.anatomy}</p>
                                 </div>
 
                                 <div className="space-y-1 pt-1">
-                                  <span className="font-mono text-[9px] tracking-wider text-luxury-gold uppercase font-bold block">Recepta w Gabinecie:</span>
+                                  <span className="font-mono text-[9px] tracking-wider text-luxury-gold uppercase font-bold block">
+                                    {caseData.remedyLabel || "Pielęgnacja w Gabinecie"}
+                                  </span>
                                   <p className="font-light leading-relaxed text-justify bg-luxury-sand/30 p-4 border-l-2 border-luxury-gold text-luxury-dark/95 text-xs italic">{caseData.remedy}</p>
                                 </div>
 
                                 <div className="space-y-1 pt-1">
-                                  <span className="font-mono text-[9px] tracking-wider text-luxury-gold uppercase font-bold block">Rekomendowana Pielęgnacja Domowa:</span>
+                                  <span className="font-mono text-[9px] tracking-wider text-luxury-gold uppercase font-bold block">
+                                    {caseData.homeCareLabel || "Pielęgnacja Domowa"}
+                                  </span>
                                   <p className="font-light leading-relaxed text-justify">{caseData.homeCare}</p>
                                 </div>
                               </div>
@@ -4816,8 +5053,12 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             {/* Przycisk konwersji celowanej do danego przypadku */}
                             <div className="pt-6 border-t border-luxury-sand/40 flex flex-col sm:flex-row items-center justify-between gap-4 relative z-10">
                               <div className="text-left">
-                                <span className="font-mono text-[8.5px] tracking-wider text-luxury-dark/90 uppercase block">Inspiruje Cię ten rezultat?</span>
-                                <span className="font-serif text-xs text-luxury-dark font-semibold block mt-1.5">Zarezerwuj pierwszą wizytę z diagnozą</span>
+                                <span className="font-mono text-[8.5px] tracking-wider text-luxury-dark/90 uppercase block">
+                                  {caseData.ctaSubtitle || "Inspiruje Cię ten rezultat?"}
+                                </span>
+                                <span className="font-serif text-xs text-luxury-dark font-semibold block mt-1.5">
+                                  {caseData.ctaTitle || "Zarezerwuj pierwszą wizytę z diagnozą"}
+                                </span>
                               </div>
                               <button
                                 onClick={() => {
@@ -4830,7 +5071,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                 }}
                                 className="px-5 py-3 bg-luxury-gold hover:bg-luxury-dark text-white hover:text-luxury-cream font-mono text-[10px] tracking-wider uppercase transition-all whitespace-nowrap leading-none shrink-0 cursor-pointer font-semibold rounded-none shadow-xs"
                               >
-                                Chcę zbadać swoją skórę &rarr;
+                                {caseData.buttonText || "Chcę zbadać swoją skórę →"}
                               </button>
                             </div>
 
@@ -5406,15 +5647,18 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
                     <div className="md:col-span-8 space-y-3">
                       <div className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-semibold">Zrównoważona Praktyka i Metodologia</div>
-                      <h3 className="font-serif text-[36px] md:text-[36px] font-light text-luxury-dark">Jak pracujemy w Instytucie?</h3>
-                      <p className="text-xs md:text-sm text-luxury-dark/95 font-light leading-relaxed text-justify">
-                        Do naszego Instytutu nie trafia się na przypadkowe, „modne zabiegi” ani doraźne procedury o krótkotrwałym efekcie estetycznym. Nie poszukujemy najsilniejszych, inwazyjnych bodźców stymulujących na oślep – dążymy do precyzyjnego uchwycenia właściwego momentu biologicznego, w którym skóra jest optymalnie przygotowana, by konstruktywnie odpowiedzieć głęboką autoregeneracją.
+                      <h3 className="font-serif text-[32px] md:text-[36px] font-light text-luxury-dark">Jak pracuję w Instytucie?</h3>
+                      <p className="text-xs md:text-sm text-luxury-dark/95 font-light leading-relaxed">
+                        Pierwszą wizytę rozpoczynam od spokojnej rozmowy i oceny aktualnej kondycji skóry. Pytam o Twoją codzienną pielęgnację, reakcje na kosmetyki, wcześniejsze zabiegi oraz oczekiwania. Uwzględniam również styl życia, stres i sen, które mogą wpływać na jej wygląd i komfort.
                       </p>
-                      <p className="text-xs md:text-sm text-luxury-dark/95 font-light leading-relaxed text-justify">
-                        Każdą współpracę rozpoczyna spokojna, pogłębiona bionomiczna diagnoza oraz obiektywna ocena aktualnej gotowości biologicznej tkanki. Dokładnie analizujemy poziom stanów zapalnych, rezerwy energii komórkowej, jakość komunikacji międzykomórkowej oraz wpływ czynników ogólnoustrojowych – takich jak przewlekły stres, tryb życia czy jakość snu. Na tej rzetelnej podstawie tworzony jest sformalizowany, w pełni zindywidualizowany plan terapeutyczny.
+                      <p className="text-xs md:text-sm text-luxury-dark/95 font-light leading-relaxed">
+                        Podczas konsultacji skinologicznej oceniam potrzeby skóry, jej nawilżenie, widoczne zaczerwienienia i oznaki podrażnienia. W zależności od zakresu wizyty korzystam z analizy skóry NATI V3. Wyjaśniam Ci swoje obserwacje i proponuję plan obejmujący zabiegi oraz pielęgnację domową.
+                      </p>
+                      <p className="text-xs md:text-sm text-luxury-dark/95 font-light leading-relaxed">
+                        W podejściu Slow Skin Concept ważna jest kolejność działań i gotowość skóry do kolejnych zabiegów. Jeśli potrzebuje ukojenia, nawilżenia i wsparcia bariery naskórkowej, od tego zaczynam. Dobieram składniki aktywne, kompozycje biomimetyczne i technologie do jej aktualnej kondycji, tolerancji oraz celu pielęgnacji. Podczas kolejnych wizyt obserwuję reakcje skóry i odpowiednio dostosowuję plan.
                       </p>
                       <p className="text-xs md:text-sm text-luxury-dark font-medium italic border-t border-luxury-sand/30 pt-3">
-                        Osoby poszukujące zaawansowanego, opartego na fizjologii podejścia i pragnące w bezpieczny, bionomiczny sposób dbać o zdrowie, stabilność oraz naturalne piękno skóry, zapraszamy do gabinetu w Jelczu-Laskowicach (położonego zaledwie 20 km na wschód od Wrocławia). Pierwsza wizyta diagnostyczna to początek przemyślanego procesu terapeutycznego — przebiegającego w spokojnym rytmie, z należytą uważnością i bez zbędnej presji czasu.
+                        Zapraszam do Instytutu Zdrowej Skóry w Jelczu-Laskowicach. To miejsce, w którym masz czas na rozmowę, pytania i spokojne poznanie potrzeb swojej skóry. Zależy mi, abyś rozumiała proponowaną pielęgnację i wiedziała, jak dbać o skórę również między wizytami.
                       </p>
                     </div>
                     <div className="md:col-span-4 flex flex-col items-center justify-center p-4 border-t md:border-t-0 md:border-l border-luxury-sand/40 gap-4">
@@ -5500,7 +5744,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           {
                             id: "art-hydrolipid-barrier",
                             title: "Odbudowa Bariery Hydrolipidowej",
-                            tagline: "Cztery niezłomne filary bionomicznej ochrony i stymulacji prawidłowego mikrobiomu.",
+                            tagline: "Cztery filary ochrony bariery i fizjologicznej równowagi naskórka.",
                             readTime: "9 min czytania",
                             category: "FIZJOLOGIA"
                           }
@@ -5562,38 +5806,38 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     </button>
                   </div>
 
-                  {/* Right Column: Bionomiczna Diagnoza (Diagnoza) */}
+                  {/* Right Column: Ocena Kondycji Skóry */}
                   <div className="border border-luxury-sand/50 p-8 bg-white/60 shadow-[0_12px_40px_rgba(0,0,0,0.03)] hover:shadow-[0_15px_45px_rgba(0,0,0,0.05)] transition-all duration-500 flex flex-col justify-between space-y-8 rounded-sm text-left">
                     <div className="space-y-6">
                       <div className="flex justify-between items-center border-b border-luxury-sand/40 pb-4">
                         <span className="font-mono text-[10px] tracking-widest text-luxury-gold uppercase font-bold flex items-center gap-2">
-                          <Fingerprint className="w-3.5 h-3.5" /> 02 / Bionomiczna Diagnoza
+                          <Fingerprint className="w-3.5 h-3.5" /> 02 / OCENA KONDYCJI SKÓRY
                         </span>
-                        <span className="text-[9px] font-mono text-luxury-dark/90 uppercase tracking-widest">Ocena Parametrów</span>
+                        <span className="text-[9px] font-mono text-luxury-dark/90 uppercase tracking-widest">OBSZARY OCENY</span>
                       </div>
 
                       <div className="space-y-3">
                         <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
-                          Zaawansowana terapia wymaga spersonalizowanego podejścia. W naszym Instytucie oceniamy kondycję naskórka opierając się na czterech biologicznych obszarach diagnostycznych:
+                          Przy doborze pielęgnacji uwzględniam aktualny stan skóry i jej reakcje. Poniższe obszary pomagają określić, czego potrzebuje w pierwszej kolejności.
                         </p>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                           {[
                             {
-                              title: "Głębokie Nawodnienie (TEWL)",
-                              desc: "Analiza integralności barierowej pod kątem stopnia przeznaskórkowej utraty wody."
+                              title: "Nawilżenie skóry",
+                              desc: "Ocena nawilżenia oraz oznak suchości i ściągnięcia, które wpływają na codzienny komfort skóry."
                             },
                             {
-                              title: "Wrażliwość Neurologiczna",
-                              desc: "Identyfikacja progu reaktywności i wyciszenie receptorów czuciowych TRPV1."
+                              title: "Wrażliwość i reaktywność",
+                              desc: "Uwzględnienie pieczenia, zaczerwienień i reakcji na kosmetyki, dotyk oraz czynniki zewnętrzne."
                             },
                             {
-                              title: "Stabilność Hydrolipidowa",
-                              desc: "Ocena szczelności spoiwa międzykomórkowego oraz kwasowości pH."
+                              title: "Bariera naskórkowa",
+                              desc: "Ocena oznak osłabienia funkcji ochronnej skóry, takich jak łuszczenie, podrażnienie i nadmierna suchość."
                             },
                             {
-                              title: "Ocena Równowagi Mikrobiomu",
-                              desc: "Badanie szczelności płaszcza ochronnego przed patogenami zewnętrznymi."
+                              title: "Koloryt i struktura",
+                              desc: "Obserwacja nierównomiernego kolorytu, niedoskonałości i zmian w strukturze skóry istotnych dla celu pielęgnacji."
                             }
                           ].map((item, index) => (
                             <div key={index} className="p-3.5 border border-luxury-sand/20 bg-white/30 rounded-sm">
@@ -5609,11 +5853,11 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         <div className="absolute top-0 right-0 w-24 h-24 bg-luxury-gold/5 rounded-full -translate-y-12 translate-x-12 blur-xl" />
                         <div className="flex items-center gap-2 text-luxury-gold">
                           <span className="w-1.5 h-1.5 bg-luxury-gold rounded-full animate-ping" />
-                          <span className="font-mono text-[8px] tracking-[0.25em] font-bold uppercase">Szybki Audyt Bionomiczny AI</span>
+                          <span className="font-mono text-[8px] tracking-[0.25em] font-bold uppercase">PIERWSZY KROK</span>
                         </div>
-                        <h4 className="font-serif text-sm font-light text-luxury-dark">Interaktywny Analizator Skóry</h4>
+                        <h4 className="font-serif text-sm font-light text-luxury-dark">Poznaj możliwości pielęgnacji</h4>
                         <p className="text-[11px] text-luxury-dark/95 font-light leading-relaxed">
-                          Wykonaj szybkie badanie oporności fizjologicznej i dowiedz się, czy Twoja skóra wykazuje pełną gotowość biologiczną na zabiegi kosmetologiczne.
+                          Odpowiedz na trzy krótkie pytania o swoją skórę i oczekiwania. Formularz wskaże propozycję do omówienia podczas konsultacji. Dobór zabiegu wymaga indywidualnej oceny skóry.
                         </p>
                       </div>
                     </div>
@@ -5626,13 +5870,12 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       }}
                       className="w-full py-3.5 bg-luxury-dark hover:bg-luxury-gold text-white font-mono text-[10px] tracking-widest uppercase transition-all duration-300 text-center cursor-pointer font-medium"
                     >
-                      Uruchom Asystenta Diagnozy Skóry
+                      Odpowiedz na 3 pytania i poznaj możliwości
                     </button>
                   </div>
                 </div>
               </div>
 
-              <ShopBridge/>
               {/* HOME FAQ SECTION & DYLEMAT EKSPERTA INTEGRATION */}
               <div className="pt-16 pb-6 border-t border-luxury-sand/30 space-y-12" id="home-faq-and-navigator">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
@@ -5646,7 +5889,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         Masz specyficzny dylemat skórny?
                       </h3>
                       <p className="text-xs text-luxury-dark/95 font-serif italic">
-                        Bionomiczny detektyw komórkowy na Twoje usługi.
+                        Ekspercki przewodnik kosmetologiczny na Twoje usługi.
                       </p>
                     </div>
 
@@ -5803,24 +6046,31 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   <div className="lg:col-span-5 space-y-4 max-w-sm mx-auto w-full">
                     <div className="border border-luxury-sand/90 p-3 bg-white shadow-[0_16px_36px_rgba(179,155,114,0.08)] relative group">
                       <div className="aspect-[4/5] bg-luxury-sand relative overflow-hidden">
-                        <img 
-                          src="https://slow-skin.pl/wp-content/uploads/2025/10/doktor_2.jpg"
+                        <EditableImage
+                          id="about_expert"
+                          slotName="Portret Eksperta / Założycielki"
+                          src={customTreatmentImages["about_expert"] || "https://slow-skin.pl/wp-content/uploads/2025/10/doktor_2.jpg"}
+                          fallbackSrc="https://slow-skin.pl/wp-content/uploads/2025/10/doktor_2.jpg"
                           alt="Katarzyna Brzezińska — Twórczyni Slow Skin Concept"
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                          referrerPolicy="no-referrer"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-luxury-dark/70 via-transparent to-transparent opacity-80" />
-                        <div className="absolute bottom-4 left-4 right-4 text-white space-y-1">
-                          <span className="font-mono text-[8.5px] tracking-[0.2em] uppercase text-luxury-gold font-semibold block">
-                            Instytut Zdrowej Skóry
-                          </span>
-                          <h4 className="font-serif text-lg font-light text-white">
-                            Katarzyna Brzezińska
-                          </h4>
-                          <p className="text-[10px] text-luxury-cream/80 font-light">
-                            Kosmetolog interdyscyplinarny & skinolog
-                          </p>
-                        </div>
+                          aspectRatioClass="h-full w-full"
+                          onImageChange={(id, newUrl) => {
+                            setCustomTreatmentImages(prev => ({ ...prev, [id]: newUrl }));
+                          }}
+                        >
+                          <div className="absolute inset-0 bg-gradient-to-t from-luxury-dark/70 via-transparent to-transparent opacity-80 pointer-events-none" />
+                          <div className="absolute bottom-4 left-4 right-4 text-white space-y-1 pointer-events-none">
+                            <span className="font-mono text-[8.5px] tracking-[0.2em] uppercase text-luxury-gold font-semibold block">
+                              Instytut Zdrowej Skóry
+                            </span>
+                            <h4 className="font-serif text-lg font-light text-white">
+                              Katarzyna Brzezińska
+                            </h4>
+                            <p className="text-[10px] text-luxury-cream/80 font-light">
+                              Kosmetolog interdyscyplinarny & skinolog
+                            </p>
+                          </div>
+                        </EditableImage>
                       </div>
                     </div>
 
@@ -7026,9 +7276,16 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
 
                     {/* Gorgeous Editorial Treatment Photo on the details page */}
                     <div className="lg:col-span-4 border border-luxury-sand p-2 bg-white flex flex-col justify-between">
-                      <div className="aspect-[4/3] w-full min-h-[220px] overflow-hidden bg-luxury-sand relative">
+                      <div className="aspect-[4/3] w-full min-h-[220px] overflow-hidden bg-luxury-sand relative group">
                         <img 
-                          src={selectedTreatment.id === "pst-signal-therapy" ? PST_IMAGES[selectedPstImageIndex].url : selectedTreatment.image} 
+                          src={selectedTreatment.id === "pst-signal-therapy" ? PST_IMAGES[selectedPstImageIndex].url : getEffectiveTreatmentImage(selectedTreatment)} 
+                          onError={(e) => {
+                            if (selectedTreatment.id === "pst-signal-therapy") {
+                              e.currentTarget.src = PST_IMAGES[selectedPstImageIndex].fallback;
+                            } else if (e.currentTarget.src !== selectedTreatment.image) {
+                              e.currentTarget.src = selectedTreatment.image;
+                            }
+                          }}
                           alt={selectedTreatment.id === "pst-signal-therapy" ? PST_IMAGES[selectedPstImageIndex].title : selectedTreatment.title}
                           className="w-full h-full object-cover transition-transform duration-500 hover:scale-102"
                           referrerPolicy="no-referrer"
@@ -7038,6 +7295,15 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             {PST_IMAGES[selectedPstImageIndex].tag}
                           </span>
                         )}
+                        {/* Quick Original Photo Uploader Button */}
+                        <button
+                          onClick={() => setIsImageManagerOpen(true)}
+                          className="absolute top-2 right-2 bg-white/90 hover:bg-white text-luxury-dark hover:text-luxury-gold px-2 py-1 text-[8px] font-mono uppercase tracking-wider rounded-2xs border border-luxury-sand/80 shadow-xs flex items-center gap-1 opacity-90 hover:opacity-100 transition-opacity cursor-pointer"
+                          title="Wstaw własne oryginalne zdjęcie dla tego zabiegu"
+                        >
+                          <Camera className="w-3 h-3 text-luxury-gold" />
+                          <span>Zmień zdjęcie</span>
+                        </button>
                       </div>
                       {selectedTreatment.id === "pst-signal-therapy" && (
                         <div className="grid grid-cols-2 gap-2 pt-2">
@@ -7083,6 +7349,8 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                 ? "Analiza mięśniowo-powięziowa"
                                 : selectedTreatment.id === "carboksyterapia-carboregen"
                                 ? "Iniekcyjna stymulacja CO₂"
+                                : selectedTreatment.id === "stymulatory-tkankowe"
+                                ? "Indywidualna biostymulacja iniekcyjna"
                                 : "Głęboka Bioregeneracja"}
                             </span>
                           </div>
@@ -7122,6 +7390,8 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           ? "UMÓW KONSULTACJĘ DO NEUROLIFTINGU"
                           : selectedTreatment.id === "carboksyterapia-carboregen"
                           ? "UMÓW ZABIEG CARBOREGEN W KALENDARZU"
+                          : selectedTreatment.id === "stymulatory-tkankowe"
+                          ? "ZAREZERWUJ STYMULATORY TKANKOWE"
                           : "Zarezerwuj wizytę"}
                       </button>
                     </div>
@@ -8479,7 +8749,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
 
                   {/* Rozszerzona monografia dla Stymulatorów Tkankowych */}
                   {selectedTreatment.id === "stymulatory-tkankowe" && (
-                    <div className="space-y-16 pt-8 pb-4 border-t border-luxury-sand/30" id="stimulators-detailed-monograph">
+                    <div className="space-y-16 pt-8 pb-4 border-t border-luxury-sand/30 text-left" id="stimulators-detailed-monograph">
                       
                       {/* Główny nagłówek wprowadzający */}
                       <div className="space-y-8">
@@ -8487,205 +8757,486 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-luxury-gold/10 border border-luxury-gold/30 rounded-full mb-1">
                             <Sparkles className="w-3.5 h-3.5 text-luxury-gold" />
                             <span className="font-mono text-[9px] tracking-[0.2em] text-luxury-gold uppercase font-bold">
-                              Indywidualna Biostymulacja Iniekcyjna • Przebudowa Bez Wolumetrii
+                              Indywidualna Biostymulacja Iniekcyjna
                             </span>
                           </div>
-                          <h2 className="font-serif text-3xl md:text-4xl font-light text-luxury-dark">
-                            Stymulatory Tkankowe
+                          <h2 className="font-serif text-3xl md:text-5xl font-light text-luxury-dark tracking-wide">
+                            Stymulatory tkankowe
                           </h2>
-                          <div className="w-16 h-[1px] bg-luxury-gold/60 mx-auto" />
-                          <p className="text-xs md:text-sm text-luxury-dark font-serif italic max-w-2xl mx-auto leading-relaxed">
-                            Stopniowa, naturalna przebudowa i regeneracja komórkowa. W przeciwieństwie do klasycznych wypełniaczy celem zabiegu nie jest dodawanie objętości ani zmiana rysów twarzy, lecz stymulacja fibroblastów do produkcji nowego kolagenu, elastyny i macierzy zewnątrzkomórkowej.
+                          <p className="font-mono text-xs uppercase tracking-widest text-luxury-gold font-semibold">
+                            Indywidualna biostymulacja iniekcyjna • poprawa jakości skóry • stopniowa przebudowa tkanek
+                          </p>
+                          <div className="w-16 h-[1.5px] bg-luxury-gold/70 mx-auto pt-1" />
+                        </div>
+
+                        {/* Wprowadzenie edytorialne */}
+                        <div className="max-w-4xl mx-auto space-y-4 text-xs md:text-sm text-luxury-dark/95 leading-relaxed font-light bg-[#FAF8F5] border border-luxury-sand p-6 sm:p-8 rounded-sm shadow-xs">
+                          <p>
+                            <strong>Stymulatory tkankowe</strong> to preparaty podawane techniką iniekcyjną, których zadaniem jest wspieranie naturalnych procesów regeneracji i przebudowy skóry. W przeciwieństwie do klasycznych wypełniaczy ich głównym celem nie jest dodawanie objętości ani zmiana rysów twarzy.
+                          </p>
+                          <p>
+                            Odpowiednio dobrany preparat może wspierać poprawę gęstości, jędrności, elastyczności i nawodnienia skóry. Efekt rozwija się stopniowo wraz z zachodzącymi w tkankach procesami regeneracyjnymi, dlatego rezultat wygląda naturalnie i nie pojawia się wyłącznie bezpośrednio po zabiegu.
+                          </p>
+                          <p className="italic font-serif text-luxury-dark border-l-2 border-luxury-gold pl-4 py-1">
+                            Nie istnieje jeden stymulator odpowiedni dla każdej skóry. Rodzaj preparatu, technika podania i plan terapii dobierane są indywidualnie – na podstawie kondycji skóry, jej biologicznej gotowości, obszaru zabiegowego oraz oczekiwanego kierunku przebudowy.
                           </p>
                         </div>
 
-                        {/* Zasada Działania u Źródła */}
-                        <div className="bg-luxury-gold/10 border border-luxury-gold/40 p-6 md:p-8 rounded-sm max-w-4xl mx-auto text-left flex flex-col md:flex-row items-center gap-6 shadow-xs">
+                        {/* Najważniejsza zasada terapii */}
+                        <div className="bg-luxury-gold/10 border-2 border-luxury-gold/50 p-6 md:p-8 rounded-sm max-w-4xl mx-auto text-left flex flex-col md:flex-row items-center gap-6 shadow-sm">
                           <div className="w-16 h-16 rounded-full bg-luxury-gold text-white flex items-center justify-center shrink-0 shadow-md">
                             <Dna className="w-8 h-8" />
                           </div>
-                          <div className="space-y-1.5 flex-1">
+                          <div className="space-y-2 flex-1">
                             <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
                               Najważniejsza Zasada Terapii • Slow Skin Concept™
                             </span>
-                            <h4 className="font-serif text-base md:text-lg font-medium text-luxury-dark">
+                            <h4 className="font-serif text-lg md:text-xl font-medium text-luxury-dark">
                               „Nie dobiera się skóry do popularnego preparatu. Dobiera się preparat do biologicznych potrzeb skóry.”
                             </h4>
                             <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
-                              Najsilniejszy stymulator nie zawsze jest najlepszym wyborem. Skóra cienka, reaktywna lub skłonna do obrzęków może potrzebować innego rodzaju wsparcia (np. polinukleotydów PDRN) niż skóra grubsza, wiotka i wymagająca bardziej intensywnej indukcji kolagenu. Wybór preparatu nigdy nie wynika z mody, lecz z precyzyjnej oceny tkankowej i aktualnej gotowości biologicznej.
+                              Najsilniejszy stymulator nie zawsze jest najlepszym wyborem. Skóra cienka, reaktywna lub skłonna do obrzęków może potrzebować innego rodzaju wsparcia niż skóra grubsza, wiotka i wymagająca bardziej intensywnej przebudowy.
                             </p>
                           </div>
                         </div>
 
+                        {/* Kiedy warto rozważyć zabieg & Jak działają stymulatory */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto items-stretch">
+                          {/* Kiedy warto rozważyć zabieg? */}
+                          <div className="border border-luxury-sand bg-white p-6 sm:p-8 rounded-sm space-y-4 shadow-xs">
+                            <div className="space-y-1">
+                              <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
+                                Wskazania Tkankowe
+                              </span>
+                              <h3 className="font-serif text-xl font-medium text-luxury-dark">
+                                Kiedy warto rozważyć zabieg?
+                              </h3>
+                              <p className="text-xs text-luxury-dark/80 font-light">
+                                Stymulatory tkankowe mogą być odpowiednie w przypadku:
+                              </p>
+                            </div>
+                            <ul className="space-y-2 text-xs text-luxury-dark/95 font-light">
+                              <li className="flex items-start gap-2.5">
+                                <span className="text-luxury-gold font-bold shrink-0">•</span>
+                                <span>utraty jędrności, elastyczności i napięcia,</span>
+                              </li>
+                              <li className="flex items-start gap-2.5">
+                                <span className="text-luxury-gold font-bold shrink-0">•</span>
+                                <span>zmniejszenia gęstości skóry,</span>
+                              </li>
+                              <li className="flex items-start gap-2.5">
+                                <span className="text-luxury-gold font-bold shrink-0">•</span>
+                                <span>drobnych zmarszczek,</span>
+                              </li>
+                              <li className="flex items-start gap-2.5">
+                                <span className="text-luxury-gold font-bold shrink-0">•</span>
+                                <span>cienkiej i osłabionej skóry,</span>
+                              </li>
+                              <li className="flex items-start gap-2.5">
+                                <span className="text-luxury-gold font-bold shrink-0">•</span>
+                                <span>pogorszenia struktury i ogólnej jakości skóry,</span>
+                              </li>
+                              <li className="flex items-start gap-2.5">
+                                <span className="text-luxury-gold font-bold shrink-0">•</span>
+                                <span>odwodnienia i utraty naturalnej sprężystości,</span>
+                              </li>
+                              <li className="flex items-start gap-2.5">
+                                <span className="text-luxury-gold font-bold shrink-0">•</span>
+                                <span>oznak fotostarzenia,</span>
+                              </li>
+                              <li className="flex items-start gap-2.5">
+                                <span className="text-luxury-gold font-bold shrink-0">•</span>
+                                <span>skóry wymagającej stopniowej regeneracji,</span>
+                              </li>
+                              <li className="flex items-start gap-2.5">
+                                <span className="text-luxury-gold font-bold shrink-0">•</span>
+                                <span>delikatnej okolicy oczu wymagającej wzmocnienia.</span>
+                              </li>
+                            </ul>
+                            <div className="pt-2 border-t border-luxury-sand/50 text-[11px] font-mono text-luxury-dark/90">
+                              <strong>Obszary zabiegowe:</strong> twarz, okolice oczu, szyja, dekolt, dłonie lub inny zakwalifikowany obszar.
+                            </div>
+                          </div>
+
+                          {/* Jak działają stymulatory tkankowe? */}
+                          <div className="border border-luxury-sand bg-white p-6 sm:p-8 rounded-sm space-y-4 shadow-xs flex flex-col justify-between">
+                            <div className="space-y-3">
+                              <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
+                                Fizjologia & Biologia
+                              </span>
+                              <h3 className="font-serif text-xl font-medium text-luxury-dark">
+                                Jak działają stymulatory tkankowe?
+                              </h3>
+                              <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
+                                Preparat podawany jest iniekcyjnie w odpowiednio dobrane miejsca i warstwy tkanek. W zależności od składu może wspierać aktywność fibroblastów, poprawę nawodnienia oraz procesy związane z produkcją kolagenu, elastyny i innych elementów macierzy zewnątrzkomórkowej.
+                              </p>
+                              <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
+                                Poszczególne stymulatory różnią się mechanizmem i intensywnością działania. Niektóre koncentrują się przede wszystkim na regeneracji i poprawie jakości skóry, inne na jej nawodnieniu, zagęszczeniu albo silniejszej indukcji kolagenu.
+                              </p>
+                              <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
+                                Dlatego wybór preparatu nie powinien wynikać z jego popularności, lecz z rzeczywistych potrzeb i możliwości regeneracyjnych skóry.
+                              </p>
+                            </div>
+                            <div className="p-3 bg-[#FAF8F5] border border-luxury-sand/60 text-[11px] text-luxury-dark/90 font-serif italic">
+                              Efekt rozwija się stopniowo – skóra odzyskuje fizjologiczną równowagę i młodzieńczą architekturę bez zniekształceń.
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Preparat dobierany indywidualnie - kryteria oceny */}
+                        <div className="max-w-4xl mx-auto bg-white border border-luxury-sand p-6 sm:p-8 rounded-sm space-y-5 shadow-xs">
+                          <div className="space-y-1">
+                            <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
+                              Diagnostyka Przedzabiegowa
+                            </span>
+                            <h3 className="font-serif text-2xl font-light text-luxury-dark">
+                              Preparat dobierany indywidualnie
+                            </h3>
+                            <p className="text-xs text-luxury-dark/85 font-light leading-relaxed">
+                              Podczas konsultacji oceniane są między innymi następujące parametry biologiczne:
+                            </p>
+                          </div>
+
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-1">
+                            {[
+                              "grubość i gęstość skóry",
+                              "poziom nawodnienia",
+                              "stopień utraty jędrności",
+                              "obecność drobnych zmarszczek",
+                              "kondycja okolicy oczu",
+                              "skłonność do obrzęków",
+                              "wcześniejsze zabiegi iniekcyjne",
+                              "tempo regeneracji",
+                              "oczekiwany kierunek terapii"
+                            ].map((crit, idx) => (
+                              <div key={idx} className="flex items-center gap-2 p-2.5 bg-[#FAF8F5] border border-luxury-sand/50 rounded-xs text-xs text-luxury-dark">
+                                <Check className="w-3.5 h-3.5 text-luxury-gold shrink-0 stroke-[2.5]" />
+                                <span>{crit}</span>
+                              </div>
+                            ))}
+                          </div>
+                          <p className="text-[11px] text-luxury-dark/80 font-mono pt-1">
+                            Na tej podstawie wybierana jest odpowiednia grupa preparatu spośród 4 wiodących linii biostymulujących.
+                          </p>
+                        </div>
+
                         {/* Grupy Preparatów Biostymulujących */}
-                        <div className="space-y-6 pt-4">
+                        <div className="space-y-6 pt-4 max-w-4xl mx-auto">
                           <div className="text-center max-w-xl mx-auto space-y-1">
                             <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase block font-bold">
                               Katalog Biologiczny
                             </span>
-                            <h3 className="font-serif text-2xl font-light text-luxury-dark">Grupy Preparatów Stosowanych w Instytucie</h3>
+                            <h3 className="font-serif text-2xl font-light text-luxury-dark">Cztery Grupy Preparatów</h3>
                             <p className="text-xs text-luxury-dark/80 font-light">
-                              W zależności od architektury tkankowej dobieramy preparat z certyfikacją medyczną:
+                              Dopasowane precyzyjnie do mikrośrodowiska i potrzeb komórkowych:
                             </p>
                           </div>
 
-                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 pt-2">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
                             {/* Grupa 1: Polinukleotydy */}
                             <div className="border border-luxury-sand p-6 bg-white space-y-3 rounded-sm text-left shadow-xs hover:border-luxury-gold/60 transition-all flex flex-col justify-between">
                               <div className="space-y-2">
                                 <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
                                   Grupa I
                                 </span>
-                                <h4 className="font-serif text-base font-medium text-luxury-dark">Polinukleotydy (PDRN)</h4>
-                                <p className="text-[11px] text-luxury-dark/95 font-light leading-relaxed">
-                                  Wspierają regenerację mikrośrodowiska i naprawę łańcuchów DNA. Znakomite do skóry cienkiej, osłabionej, po fotouszkodzeniach oraz do delikatnej okolicy oczu.
+                                <h4 className="font-serif text-lg font-medium text-luxury-dark">Polinukleotydy</h4>
+                                <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
+                                  Mogą wspierać regenerację, poprawę jakości i elastyczności skóry oraz tworzenie korzystniejszych warunków w jej mikrośrodowisku. Często wybierane są do skóry cienkiej, osłabionej i wymagającej stopniowej odbudowy, również w okolicy oczu.
                                 </p>
                               </div>
                               <span className="text-[10px] text-luxury-gold font-medium block pt-2 border-t border-luxury-sand/40">
-                                Cel: Regeneracja komórkowa
+                                Cel: Regeneracja komórkowa & okolica oka
                               </span>
                             </div>
 
-                            {/* Grupa 2: Kwas Hialuronowy */}
+                            {/* Grupa 2: Preparaty na bazie kwasu hialuronowego */}
                             <div className="border border-luxury-sand p-6 bg-white space-y-3 rounded-sm text-left shadow-xs hover:border-luxury-gold/60 transition-all flex flex-col justify-between">
                               <div className="space-y-2">
                                 <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
                                   Grupa II
                                 </span>
-                                <h4 className="font-serif text-base font-medium text-luxury-dark">Biorewitalizujący Kwas Hialuronowy</h4>
-                                <p className="text-[11px] text-luxury-dark/95 font-light leading-relaxed">
-                                  Niekrosowany HA ukierunkowany na natychmiastowe nawodnienie, elastyczność i sprężystość. Nie działa jak wypełniacz objętościowy, zachowując naturalną lekkość rysów.
+                                <h4 className="font-serif text-lg font-medium text-luxury-dark">Preparaty na bazie kwasu hialuronowego</h4>
+                                <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
+                                  Są ukierunkowane przede wszystkim na poprawę nawodnienia, sprężystości i jakości skóry. Nie działają jak klasyczny wypełniacz, jeżeli ich właściwości i sposób podania odpowiadają biorewitalizacji, a nie modelowaniu objętości.
                                 </p>
                               </div>
                               <span className="text-[10px] text-luxury-gold font-medium block pt-2 border-t border-luxury-sand/40">
-                                Cel: Głębokie nawodnienie hydro
+                                Cel: Biorewitalizacja, nawodnienie & sprężystość
                               </span>
                             </div>
 
-                            {/* Grupa 3: Kompleksy Aminokwasowe */}
+                            {/* Grupa 3: Kompleksy aminokwasowe i hybrydowe */}
                             <div className="border border-luxury-sand p-6 bg-white space-y-3 rounded-sm text-left shadow-xs hover:border-luxury-gold/60 transition-all flex flex-col justify-between">
                               <div className="space-y-2">
                                 <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
                                   Grupa III
                                 </span>
-                                <h4 className="font-serif text-base font-medium text-luxury-dark">Kompleksy Aminokwasowe</h4>
-                                <p className="text-[11px] text-luxury-dark/95 font-light leading-relaxed">
-                                  Dostarczają bezpośrednich cegiełek budulcowych (prolina, lizyna, glicyna) do syntezy nowych włókien kolagenowych. Łączą nawilżenie z zagęszczeniem skóry.
+                                <h4 className="font-serif text-lg font-medium text-luxury-dark">Kompleksy aminokwasowe i hybrydowe</h4>
+                                <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
+                                  Dostarczają składników uczestniczących w naturalnych procesach przebudowy skóry. Mogą łączyć działanie nawilżające ze wsparciem syntezy białek strukturalnych (kolagenu i elastyny).
                                 </p>
                               </div>
                               <span className="text-[10px] text-luxury-gold font-medium block pt-2 border-t border-luxury-sand/40">
-                                Cel: Substraty kolagenogenezy
+                                Cel: Substraty syntezy białek macierzy
                               </span>
                             </div>
 
-                            {/* Grupa 4: Induktory Kolagenu */}
+                            {/* Grupa 4: Induktory kolagenu */}
                             <div className="border border-luxury-sand p-6 bg-white space-y-3 rounded-sm text-left shadow-xs hover:border-luxury-gold/60 transition-all flex flex-col justify-between">
                               <div className="space-y-2">
                                 <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
                                   Grupa IV
                                 </span>
-                                <h4 className="font-serif text-base font-medium text-luxury-dark">Induktory Kolagenu</h4>
-                                <p className="text-[11px] text-luxury-dark/95 font-light leading-relaxed">
-                                  Silniejsze biostymulatory wybierane w przypadku skóry grubszej, wiotkiej, wymagającej intensywnego zagęszczenia i neokolagenezy w głębokich warstwach.
+                                <h4 className="font-serif text-lg font-medium text-luxury-dark">Induktory kolagenu</h4>
+                                <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
+                                  Silniejsze preparaty biostymulujące wybierane są w przypadku skóry wymagającej intensywniejszego zagęszczenia i przebudowy. Ich zastosowanie wymaga szczególnie dokładnej kwalifikacji oraz właściwego zaplanowania techniki podania.
                                 </p>
                               </div>
                               <span className="text-[10px] text-luxury-gold font-medium block pt-2 border-t border-luxury-sand/40">
-                                Cel: Silne zagęszczenie tkankowe
+                                Cel: Intensywne zagęszczenie & przebudowa
                               </span>
                             </div>
                           </div>
                         </div>
 
-                        {/* Fototerapia LED w cenie zabiegu & Rekonwalescencja */}
-                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch pt-4">
-                          <div className="lg:col-span-7 bg-white border border-luxury-sand p-8 rounded-sm space-y-4 text-left shadow-xs">
+                        {/* Przebieg zabiegu (5 kroków) */}
+                        <div className="max-w-4xl mx-auto bg-white border border-luxury-sand p-6 sm:p-8 rounded-sm space-y-6 shadow-xs">
+                          <div className="space-y-1">
                             <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
-                              Protokół Holistyczny
+                              Protokół Gabinetowy
                             </span>
-                            <h3 className="font-serif text-xl md:text-2xl font-light text-luxury-dark">
-                              Fototerapia Medyczna LED w Cenie Zabiegu
+                            <h3 className="font-serif text-2xl font-light text-luxury-dark">
+                              Przebieg zabiegu
                             </h3>
-                            <div className="space-y-3 text-xs text-luxury-dark font-light leading-relaxed">
-                              <p>
-                                W Slow Skin Concept™ każdą procedurę iniekcji stymulatorów wieńczy naświetlanie medycznym panelem światła LED (LLLT). Światło o określonej długości fali przyspiesza gojenie mikronakłuć, stymuluje potencjał energetyczny mitochondriów i wycisza przejściowy rumień.
-                              </p>
-                              <div className="space-y-2 pt-2">
-                                <span className="font-mono text-[9px] text-luxury-gold uppercase font-bold block">Co zawiera pełna procedura (od 800 zł):</span>
-                                <ul className="space-y-1.5 text-[11px] text-luxury-dark/95">
-                                  <li className="flex items-start gap-2">
-                                    <span className="text-luxury-gold font-bold">•</span>
-                                    <span>Konsultacja medyczno-kosmetologiczna i diagnostyka gotowości tkankowej</span>
-                                  </li>
-                                  <li className="flex items-start gap-2">
-                                    <span className="text-luxury-gold font-bold">•</span>
-                                    <span>Indywidualny dobór certyfikowanego preparatu i techniki podania</span>
-                                  </li>
-                                  <li className="flex items-start gap-2">
-                                    <span className="text-luxury-gold font-bold">•</span>
-                                    <span>Znieczulenie miejscowe oraz precyzyjna iniekcja mikroigłowa lub kaniulowa</span>
-                                  </li>
-                                  <li className="flex items-start gap-2">
-                                    <span className="text-luxury-gold font-bold">•</span>
-                                    <span>Kojąca fototerapia LED LLLT oraz spersonalizowane zalecenia pozabiegowe</span>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                            <div className="p-3.5 bg-luxury-sand/15 border-l-2 border-luxury-gold text-[10.5px] text-luxury-dark/90 font-serif italic">
-                              Czas trwania wizyty: 60–75 minut. Ostateczna cena zależy od rodzaju i ilości preparatu oraz obszaru i jest zawsze potwierdzana przed rozpoczęciem procedury.
-                            </div>
                           </div>
 
-                          <div className="lg:col-span-5 flex flex-col justify-between border border-luxury-gold/30 bg-luxury-sand/15 p-6 rounded-sm text-left space-y-4">
-                            <div>
-                              <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase block font-bold">
-                                Czas i Rekonwalescencja
-                              </span>
-                              <h4 className="font-serif text-lg font-medium text-luxury-dark mt-1 mb-3">
-                                Naturalny Czas Biologiczny
-                              </h4>
-                              <div className="space-y-2 text-xs text-luxury-dark/95 font-light leading-relaxed">
-                                <p>• <strong>Bezpośrednio po zabiegu:</strong> zaczerwienienie, niewielki obrzęk, tkliwość lub widoczne drobne depozyty preparatu, które wchłaniają się w ciągu 24–72 godzin.</p>
-                                <p>• <strong>Kiedy widać efekt:</strong> proces przebudowy skóry rozwija się przez 4 do 12 tygodni po zabiegu wraz z dopełnianiem się cyklu komórkowego.</p>
-                                <p>• <strong>Trwałość:</strong> od 9 do nawet 18 miesięcy, bez ryzyka nienaturalnego przerysowania rysów twarzy.</p>
+                          <div className="space-y-4">
+                            {[
+                              {
+                                num: "1",
+                                title: "Konsultacja i kwalifikacja",
+                                desc: "Przeprowadzany jest szczegółowy wywiad dotyczący stanu zdrowia, przyjmowanych leków, wcześniejszych zabiegów i oczekiwań. Oceniana jest również kondycja i struktura skóry."
+                              },
+                              {
+                                num: "2",
+                                title: "Dobór preparatu i planu terapii",
+                                desc: "Wybierany jest rodzaj stymulatora, obszar oraz technika podania. Ustalana jest także liczba zabiegów i przewidywane odstępy pomiędzy nimi."
+                              },
+                              {
+                                num: "3",
+                                title: "Przygotowanie skóry",
+                                desc: "Obszar zabiegowy zostaje dokładnie oczyszczony i zdezynfekowany. Jeśli wymaga tego procedura, stosowane jest znieczulenie miejscowe."
+                              },
+                              {
+                                num: "4",
+                                title: "Podanie preparatu",
+                                desc: "Preparat podawany jest techniką iniekcyjną. Liczba wkłuć, ich rozmieszczenie i głębokość zależą od właściwości produktu, anatomii obszaru oraz celu terapii."
+                              },
+                              {
+                                num: "5",
+                                title: "Fototerapia LED i wyciszenie",
+                                desc: "Uzupełnieniem zabiegu jest fototerapia LED, która wspiera wyciszenie skóry po iniekcji. Następnie przekazywane są indywidualne zalecenia dotyczące pielęgnacji i obserwacji obszaru zabiegowego."
+                              }
+                            ].map((step) => (
+                              <div key={step.num} className="flex gap-4 items-start p-4 bg-[#FAF8F5] border border-luxury-sand/60 rounded-xs">
+                                <div className="w-8 h-8 rounded-full bg-luxury-gold text-white font-mono text-xs font-bold flex items-center justify-center shrink-0">
+                                  {step.num}
+                                </div>
+                                <div className="space-y-1 flex-1">
+                                  <h4 className="font-serif text-sm font-semibold text-luxury-dark">
+                                    {step.title}
+                                  </h4>
+                                  <p className="text-xs text-luxury-dark/90 font-light leading-relaxed">
+                                    {step.desc}
+                                  </p>
+                                </div>
                               </div>
-                            </div>
-                            <div className="p-3 bg-white/80 border border-luxury-sand/50 rounded-sm">
-                              <span className="font-serif text-[11px] italic text-luxury-gold block">
-                                „Stymulatory tkankowe przywracają skórze to, co zabrał czas – jej własną architekturę i biologiczny wigor.”
-                              </span>
-                            </div>
+                            ))}
                           </div>
                         </div>
 
-                        {/* Liczba zabiegów w serii */}
-                        <div className="bg-white border border-luxury-sand p-6 md:p-8 rounded-sm text-left space-y-4 shadow-xs">
+                        {/* Jakich efektów można oczekiwać? */}
+                        <div className="max-w-4xl mx-auto border border-luxury-sand bg-white p-6 sm:p-8 rounded-sm space-y-4 shadow-xs">
+                          <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
+                            Rezultaty Terapii
+                          </span>
+                          <h3 className="font-serif text-2xl font-light text-luxury-dark">
+                            Jakich efektów można oczekiwać?
+                          </h3>
+                          <p className="text-xs text-luxury-dark/80 font-light">
+                            W zależności od zastosowanego preparatu i kondycji skóry terapia może wspierać:
+                          </p>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                            {[
+                              "poprawę jędrności i elastyczności",
+                              "zwiększenie gęstości skóry",
+                              "poprawę nawodnienia i sprężystości",
+                              "wygładzenie drobnych zmarszczek",
+                              "wzmocnienie cienkiej skóry",
+                              "poprawę wyglądu okolicy oczu",
+                              "bardziej jednolitą strukturę",
+                              "stopniową poprawę ogólnej jakości skóry"
+                            ].map((eff, idx) => (
+                              <div key={idx} className="flex items-center gap-2 p-2.5 bg-luxury-gold/5 border border-luxury-gold/20 rounded-xs text-xs text-luxury-dark">
+                                <Sparkles className="w-3.5 h-3.5 text-luxury-gold shrink-0" />
+                                <span>{eff}</span>
+                              </div>
+                            ))}
+                          </div>
+                          <p className="text-xs text-luxury-dark/95 font-serif italic pt-2 leading-relaxed">
+                            Efekt nie zawsze jest widoczny bezpośrednio po zabiegu. Proces przebudowy może rozwijać się przez kolejne tygodnie, a jego przebieg zależy od rodzaju preparatu oraz indywidualnej odpowiedzi tkanek.
+                          </p>
+                        </div>
+
+                        {/* Liczba zabiegów */}
+                        <div className="max-w-4xl mx-auto bg-white border border-luxury-sand p-6 sm:p-8 rounded-sm text-left space-y-4 shadow-xs">
                           <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
                             Harmonogram Terapii
                           </span>
                           <h3 className="font-serif text-xl font-light text-luxury-dark">
-                            Indywidualny Plan Sesji (Brak Szablonowych Pakietów)
+                            Liczba zabiegów
                           </h3>
                           <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
-                            Nie tworzymy jednego sztucznego pakietu dla wszystkich stymulatorów, ponieważ każdy produkt (polinukleotyd, aminokwas, kwas hialuronowy czy induktor kolagenu) posiada odmienną dynamikę stymulacji tkankowej:
+                            Plan terapii ustalany jest indywidualnie i zgodnie z protokołem wybranego preparatu. W zależności od jego rodzaju może obejmować jeden zabieg lub serię 2–4 spotkań wykonywanych w określonych odstępach.
                           </p>
-                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-                            <div className="border border-luxury-sand/60 bg-luxury-sand/10 p-4 text-center rounded-sm">
-                              <span className="font-mono text-xl text-luxury-gold font-bold block mb-1">1 do 4</span>
-                              <span className="font-serif text-xs text-luxury-dark font-medium block">Zabiegów w Serii</span>
-                              <span className="text-[10px] text-luxury-dark/80 font-light block mt-1">Zależnie od stopnia wiotkości</span>
+                          <div className="p-3.5 bg-[#FAF8F5] border-l-2 border-luxury-gold text-xs text-luxury-dark/90 font-serif italic">
+                            „Nie tworzę jednego pakietu dla wszystkich stymulatorów, ponieważ każdy preparat wymaga innego sposobu i częstotliwości stosowania.”
+                          </div>
+                        </div>
+
+                        {/* Cena zabiegu & Interaktywny Moduł Rezerwacji */}
+                        <div className="max-w-4xl mx-auto border-2 border-luxury-gold/50 bg-[#FAF8F5] p-6 sm:p-8 rounded-sm shadow-md space-y-5">
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-luxury-gold/30 pb-4">
+                            <div>
+                              <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block mb-1">
+                                Inwestycja w Jakość Skóry
+                              </span>
+                              <h3 className="font-serif text-2xl md:text-3xl font-light text-luxury-dark">
+                                Cena zabiegu
+                              </h3>
                             </div>
-                            <div className="border border-luxury-sand/60 bg-luxury-sand/10 p-4 text-center rounded-sm">
-                              <span className="font-mono text-xl text-luxury-gold font-bold block mb-1">Co 2–4</span>
-                              <span className="font-serif text-xs text-luxury-dark font-medium block">Tygodnie Odstępu</span>
-                              <span className="text-[10px] text-luxury-dark/80 font-light block mt-1">Ściśle według protokołu preparatu</span>
-                            </div>
-                            <div className="border border-luxury-sand/60 bg-luxury-sand/10 p-4 text-center rounded-sm">
-                              <span className="font-mono text-xl text-luxury-gold font-bold block mb-1">Raz na 6–12</span>
-                              <span className="font-serif text-xs text-luxury-dark font-medium block">Miesięcy Podtrzymująco</span>
-                              <span className="text-[10px] text-luxury-dark/80 font-light block mt-1">Dla utrwalenia gęstości skóry</span>
+                            <div className="text-left sm:text-right">
+                              <span className="font-serif text-2xl md:text-3xl font-bold text-luxury-gold block">
+                                od 800 zł
+                              </span>
+                              <span className="font-mono text-[10px] text-luxury-dark/70">
+                                Czas trwania: 60–75 minut
+                              </span>
                             </div>
                           </div>
+
+                          <div className="space-y-2">
+                            <span className="font-mono text-[10px] text-luxury-gold uppercase font-bold block">
+                              Cena obejmuje kompletną procedurę:
+                            </span>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-luxury-dark/95">
+                              <div className="flex items-center gap-2">• konsultację i kwalifikację</div>
+                              <div className="flex items-center gap-2">• indywidualny dobór preparatu</div>
+                              <div className="flex items-center gap-2">• zabieg iniekcyjny</div>
+                              <div className="flex items-center gap-2">• fototerapię LED</div>
+                              <div className="flex items-center gap-2 sm:col-span-2">• zalecenia pozabiegowe</div>
+                            </div>
+                          </div>
+
+                          <p className="text-[11px] text-luxury-dark/80 font-light leading-relaxed border-t border-luxury-sand/50 pt-3">
+                            Ostateczna cena zależy od rodzaju i ilości zastosowanego preparatu, obszaru zabiegowego oraz zaplanowanej techniki podania. Jest potwierdzana przed rozpoczęciem zabiegu.
+                          </p>
+
+                          <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
+                            <button
+                              onClick={() => {
+                                setBookingTreatment(selectedTreatment);
+                                setBookingConfirmed(false);
+                                setBookingName("");
+                                setBookingEmail("");
+                                setBookingPhone("");
+                                setBookingDate("");
+                              }}
+                              className="w-full sm:w-auto px-8 py-3.5 bg-luxury-dark text-white hover:bg-luxury-gold hover:text-white transition-all font-mono text-xs tracking-widest uppercase font-bold shadow-md cursor-pointer flex items-center justify-center gap-2"
+                            >
+                              <span>Zarezerwuj Stymulatory w Kalendarzu</span>
+                              <Sparkles className="w-4 h-4 text-luxury-gold" />
+                            </button>
+                            <span className="text-[10px] font-mono text-luxury-dark/60">
+                              Dostępne terminy synchronizowane z Google Calendar
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Zalecenia po zabiegu & Przeciwwskazania */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto items-stretch">
+                          {/* Zalecenia po zabiegu */}
+                          <div className="border border-luxury-sand bg-white p-6 sm:p-8 rounded-sm space-y-4 shadow-xs">
+                            <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
+                              Bezpieczeństwo & Regeneracja
+                            </span>
+                            <h3 className="font-serif text-xl font-medium text-luxury-dark">
+                              Zalecenia po zabiegu
+                            </h3>
+                            <p className="text-xs text-luxury-dark/80 font-light">
+                              Po zabiegu należy bezwzględnie przestrzegać następujących zasad:
+                            </p>
+                            <ul className="space-y-1.5 text-xs text-luxury-dark/95 font-light">
+                              <li className="flex items-start gap-2">• nie dotykać i nie masować miejsc podania bez wyraźnego zalecenia,</li>
+                              <li className="flex items-start gap-2">• zachować szczególną higienę obszaru zabiegowego,</li>
+                              <li className="flex items-start gap-2">• przez wskazany czas zrezygnować z makijażu,</li>
+                              <li className="flex items-start gap-2">• unikać sauny, basenu, solarium i intensywnego wysiłku,</li>
+                              <li className="flex items-start gap-2">• nie wykonywać masażu twarzy ani innych zabiegów w tym obszarze,</li>
+                              <li className="flex items-start gap-2">• stosować łagodną pielęgnację wspierającą barierę,</li>
+                              <li className="flex items-start gap-2">• codziennie używać ochrony przeciwsłonecznej SPF 50,</li>
+                              <li className="flex items-start gap-2">• przestrzegać zaleceń właściwych dla zastosowanego preparatu.</li>
+                            </ul>
+                            <div className="p-3 bg-amber-50/70 border border-amber-200/80 rounded-xs text-[11px] text-amber-950 font-light leading-relaxed">
+                              <strong>Objawy bezpośrednie:</strong> Bezpośrednio po iniekcji mogą wystąpić zaczerwienienie, tkliwość, niewielki obrzęk, siniaki lub widoczne depozyty preparatu. Czas ich utrzymywania zależy od techniki podania, rodzaju stymulatora i indywidualnej reakcji skóry.
+                            </div>
+                          </div>
+
+                          {/* Przeciwwskazania */}
+                          <div className="border border-luxury-sand bg-white p-6 sm:p-8 rounded-sm space-y-4 shadow-xs flex flex-col justify-between">
+                            <div className="space-y-3">
+                              <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
+                                Kwalifikacja Medyczna
+                              </span>
+                              <h3 className="font-serif text-xl font-medium text-luxury-dark">
+                                Przeciwwskazania
+                              </h3>
+                              <p className="text-xs text-luxury-dark/80 font-light">
+                                Zabiegu nie wykonuje się między innymi w przypadku:
+                              </p>
+                              <ul className="space-y-1.5 text-xs text-luxury-dark/95 font-light">
+                                <li className="flex items-start gap-2">• ciąży i karmienia piersią,</li>
+                                <li className="flex items-start gap-2">• aktywnych infekcji i stanów zapalnych skóry,</li>
+                                <li className="flex items-start gap-2">• opryszczki,</li>
+                                <li className="flex items-start gap-2">• alergii na składniki preparatu,</li>
+                                <li className="flex items-start gap-2">• zaburzeń krzepnięcia,</li>
+                                <li className="flex items-start gap-2">• przyjmowania niektórych leków wpływających na krzepnięcie,</li>
+                                <li className="flex items-start gap-2">• aktywnej choroby nowotworowej,</li>
+                                <li className="flex items-start gap-2">• nieuregulowanych chorób autoimmunologicznych,</li>
+                                <li className="flex items-start gap-2">• skłonności do powstawania bliznowców,</li>
+                                <li className="flex items-start gap-2">• świeżo wykonanych zabiegów w tym samym obszarze,</li>
+                                <li className="flex items-start gap-2">• innych przeciwwskazań wskazanych przez producenta preparatu.</li>
+                              </ul>
+                            </div>
+                            <div className="p-3 bg-[#FAF8F5] border border-luxury-sand/60 text-[11px] font-mono text-luxury-dark/90">
+                              Ostateczna kwalifikacja odbywa się podczas konsultacji przed zabiegiem.
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Naturalna poprawa jakości skóry - podsumowanie filozofii */}
+                        <div className="max-w-4xl mx-auto bg-gradient-to-br from-[#FAF8F5] to-white border border-luxury-gold/50 p-8 rounded-sm text-center space-y-4 shadow-sm">
+                          <span className="font-mono text-[9px] tracking-[0.25em] text-luxury-gold uppercase font-bold block">
+                            Filozofia Slow Skin Concept™
+                          </span>
+                          <h3 className="font-serif text-2xl md:text-3xl font-light text-luxury-dark">
+                            Naturalna poprawa jakości skóry
+                          </h3>
+                          <p className="text-xs md:text-sm text-luxury-dark/95 font-light max-w-2xl mx-auto leading-relaxed">
+                            Celem terapii nie jest zmiana rysów twarzy ani tworzenie sztucznej objętości. Stymulatory tkankowe mają wspierać biologiczne procesy zachodzące w skórze, aby stopniowo poprawiać jej gęstość, sprężystość i zdolność do regeneracji.
+                          </p>
+                          <p className="font-serif italic text-sm text-luxury-gold">
+                            Rodzaj preparatu i plan terapii zostaną dobrane do aktualnej kondycji oraz rzeczywistych potrzeb Twojej skóry.
+                          </p>
                         </div>
 
                       </div>
@@ -10657,20 +11208,34 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         </div>
 
                         {/* Zasada działania & Urządzenie Ceragem VE */}
-                        <div className="bg-luxury-gold/10 border border-luxury-gold/40 p-6 md:p-8 rounded-sm max-w-4xl mx-auto text-left flex flex-col md:flex-row items-center gap-6 shadow-xs">
-                          <div className="w-16 h-16 rounded-full bg-luxury-gold text-white flex items-center justify-center shrink-0 shadow-md">
-                            <ShieldCheck className="w-8 h-8" />
+                        <div className="bg-luxury-gold/10 border border-luxury-gold/40 p-6 md:p-8 rounded-sm max-w-4xl mx-auto text-left shadow-xs space-y-6">
+                          <div className="w-full h-64 sm:h-80 md:h-96 rounded-xs overflow-hidden border border-luxury-gold/30 shadow-md relative">
+                            <img
+                              src="/src/assets/images/ceragem_thermal_bed_therapy_1791108980537.jpg"
+                              alt="Terapia masażu termicznego na łóżku Ceragem VE z projekcją ciepła jadeitowego"
+                              className="w-full h-full object-cover"
+                              referrerPolicy="no-referrer"
+                            />
+                            <div className="absolute bottom-2 left-2 bg-black/70 backdrop-blur-xs text-white font-mono text-[9px] px-2.5 py-1 rounded-xs border border-white/20">
+                              Ceragem VE (model CGM MB-1101) • Termoterapia jadeitowa &amp; skanowanie krzywizny kręgosłupa
+                            </div>
                           </div>
-                          <div className="space-y-1.5 flex-1">
-                            <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
-                              Automatyczne Łóżko do Masażu Termicznego
-                            </span>
-                            <h4 className="font-serif text-base md:text-lg font-medium text-luxury-dark">
-                              Ceragem VE, model CGM MB-1101
-                            </h4>
-                            <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
-                              Przed rozpoczęciem programu urządzenie rozpoznaje długość pleców, a następnie dopasowuje do niej ruch elementów masujących. Ich intensywność oraz temperaturę można regulować zgodnie z Twoimi odczuciami.
-                            </p>
+
+                          <div className="flex flex-col md:flex-row items-center gap-6">
+                            <div className="w-16 h-16 rounded-full bg-luxury-gold text-white flex items-center justify-center shrink-0 shadow-md">
+                              <ShieldCheck className="w-8 h-8" />
+                            </div>
+                            <div className="space-y-1.5 flex-1">
+                              <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
+                                Automatyczne Łóżko do Masażu Termicznego
+                              </span>
+                              <h4 className="font-serif text-base md:text-lg font-medium text-luxury-dark">
+                                Ceragem VE, model CGM MB-1101
+                              </h4>
+                              <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
+                                Przed rozpoczęciem programu urządzenie rozpoznaje długość pleców, a następnie dopasowuje do niej ruch elementów masujących. Ich intensywność oraz temperaturę można regulować zgodnie z Twoimi odczuciami.
+                              </p>
+                            </div>
                           </div>
                         </div>
 
@@ -10870,7 +11435,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                               <div className="space-y-3">
                                 <div className="aspect-[16/10] overflow-hidden bg-luxury-sand border border-luxury-sand/50 relative rounded-xs group">
                                   <img 
-                                    src="/src/assets/images/pst_h300_couch_1790504011410.jpg"
+                                    src="/src/assets/images/pst_couch_bed_therapy_1791109628792.jpg"
                                     alt="Aparat PST H-300 — leżanka zabiegowa do regeneracji kręgosłupa i stawów biodrowych"
                                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-102"
                                     referrerPolicy="no-referrer"
@@ -10897,7 +11462,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                               <div className="space-y-3">
                                 <div className="aspect-[16/10] overflow-hidden bg-luxury-sand border border-luxury-sand/50 relative rounded-xs group">
                                   <img 
-                                    src="/src/assets/images/pst_h200_armchair_1790504000403.jpg"
+                                    src="/src/assets/images/pst_chair_therapy_1791109644424.jpg"
                                     alt="Aparat PST H-200 — sesja w fotelu na stawy obwodowe (kolana, stopy, dłonie, łokcie)"
                                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-102"
                                     referrerPolicy="no-referrer"
@@ -11059,7 +11624,6 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     </div>
                   </div>
 
-                  <ShopBridge compact/>
                   {/* Treatment FAQ Accordion Section */}
                   <TreatmentFAQ faqList={selectedTreatment.faq || []} />
 
@@ -11536,7 +12100,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         <div className="flex items-center gap-2">
                           <span className={`w-2.5 h-2.5 rounded-full ${barrierHealthState === "healthy" ? "bg-emerald-500 animate-pulse" : "bg-red-500 animate-pulse"}`} />
                           <h5 className={`font-mono text-[9px] uppercase tracking-widest font-bold ${barrierHealthState === "healthy" ? "text-emerald-800" : "text-emerald-800"}`}>
-                            {barrierHealthState === "healthy" ? "Stan skóry: Pełny Spokój Bionomiczny" : "Stan skóry: Oporność Immunologiczna Osłabiona"}
+                            {barrierHealthState === "healthy" ? "Stan skóry: Prawidłowa Równowaga Bariery" : "Stan skóry: Bariera Ochronna Osłabiona"}
                           </h5>
                         </div>
                         <p className="text-[11px] text-luxury-dark/95 font-light leading-relaxed">
@@ -11662,7 +12226,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   <div className="border-t border-luxury-sand/45 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-left">
                     <div className="space-y-0.5">
                       <p className="font-mono text-[10px] text-luxury-gold uppercase tracking-widest font-bold">Chcesz poznać swój unikalny profil?</p>
-                      <p className="text-xs text-luxury-dark/95 font-light">Przejdź do naszego spersonalizowanego audytu bionomicznego online, aby otrzymać autorski Paszport Skóry™.</p>
+                      <p className="text-xs text-luxury-dark/95 font-light">Przejdź do naszego spersonalizowanego audytu skóry online, aby otrzymać autorski Paszport Skóry™.</p>
                     </div>
                     <button
                       onClick={() => setDiagnoseSubTab("form")}
@@ -12667,6 +13231,11 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
         </AnimatePresence>
       </main>
 
+      {/* ELEGANCKA SEKCJA NEWSLETTERA: ZOSTAŃMY W KONTAKCIE (10% NA KONSULTACJĘ) */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 mt-16 mb-4">
+        <NewsletterSection variant="full" />
+      </div>
+
       {/* FOOTER */}
       <footer className="border-t border-luxury-sand bg-white py-16 px-6 mt-16 text-xs text-luxury-dark/95 font-light">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12">
@@ -12683,7 +13252,6 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               Kameralny gabinet pielęgnacji skóry w Jelczu-Laskowicach. Tworzymy przyjazną, spokojną przestrzeń, w której wspieramy naturalną regenerację i zdrowie Twojej skóry.
             </p>
             
-            <nav aria-label="Sklep i pielęgnacja domowa" className="grid gap-2 pt-2 text-xs"><a href="https://slow-skin.shop/sklep/kosmetyki" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">Sklep — pielęgnacja domowa ↗</a><a href="https://slow-skin.shop/ebooki" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">Ebooki Katarzyny ↗</a><a href="https://slow-skin.shop/konsultacje/indywidualna-konsultacja" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">Konsultacja online ↗</a></nav>
             {/* Social Media icons in Quiet Luxury style */}
             <div className="pt-2 flex items-center gap-4 text-luxury-dark/90">
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-luxury-gold transition-colors duration-300" aria-label="Instagram">
@@ -12915,12 +13483,32 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   <span className="text-luxury-gold">→</span>
                 </button>
                 <button 
+                  onClick={() => handleLinkClick("/sonaris-pro-therapy/")}
+                  className="text-luxury-dark/95 hover:text-luxury-gold transition-colors flex items-center justify-between font-mono text-[10px] uppercase text-left"
+                >
+                  <span className="flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-luxury-gold"></span>
+                    <span>Sonaris Pro Therapy (od 180 zł)</span>
+                  </span>
+                  <span className="text-luxury-gold">→</span>
+                </button>
+                <button 
+                  onClick={() => handleLinkClick("/tissue-stimulators/")}
+                  className="text-luxury-dark/95 hover:text-luxury-gold transition-colors flex items-center justify-between font-mono text-[10px] uppercase text-left"
+                >
+                  <span className="flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-luxury-gold"></span>
+                    <span>Stymulatory Tkankowe (od 800 zł)</span>
+                  </span>
+                  <span className="text-luxury-gold">→</span>
+                </button>
+                <button 
                   onClick={() => handleLinkClick("/pst-signal-therapy/")}
                   className="text-luxury-dark/95 hover:text-luxury-gold transition-colors flex items-center justify-between font-mono text-[10px] uppercase text-left"
                 >
                   <span className="flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-luxury-sand"></span>
-                    <span>Terapia Sygnałem PST</span>
+                    <span>Terapia Sygnałem PST (od 110 zł)</span>
                   </span>
                   <span className="text-luxury-gold">→</span>
                 </button>
@@ -12946,52 +13534,9 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
             </div>
           </div>
 
-          {/* Col 4: Pre-booking newsletter info (Formularz zapisu na newsletter) */}
-          <div className="lg:col-span-3 space-y-4">
-            <h4 className="font-mono text-[10px] tracking-widest text-luxury-gold uppercase font-medium">Kameralny Dziennik Slow Skin</h4>
-            <div className="space-y-2">
-              <p className="text-xs text-luxury-dark/90 leading-relaxed">
-                Zapisz się do naszego zamkniętego kręgu czytelników. Zyskaj bezkompromisowe korzyści:
-              </p>
-              <ul className="text-[11px] text-luxury-dark/95 font-light space-y-1">
-                <li className="flex items-center gap-1.5">• Kwartalne artykuły eksperckie o biologii i neuro-fizjologii skóry</li>
-                <li className="flex items-center gap-1.5">• Wcześniejszy dostęp do nowych wolnych terminów wizyt</li>
-                <li className="flex items-center gap-1.5">• Osobiste, autorskie porady pielęgnacyjne Katarzyny Brzezińskiej</li>
-              </ul>
-            </div>
-            
-            <form onSubmit={handleSubscribeNewsletter} className="space-y-3 pt-1">
-              <div className="flex gap-2 border-b border-luxury-dark pb-2">
-                <input 
-                  type="email" 
-                  value={newsletterEmail}
-                  onChange={(e) => setNewsletterEmail(e.target.value)}
-                  placeholder="Twój adres e-mail (Quiet Luxury)" 
-                  className="bg-transparent border-0 outline-0 text-xs w-full placeholder:text-luxury-dark/90 font-serif focus:ring-0 focus:outline-hidden"
-                  disabled={newsletterStatus === "submitting" || newsletterStatus === "success"}
-                  required
-                />
-                <button 
-                  type="submit"
-                  disabled={newsletterStatus === "submitting" || newsletterStatus === "success"}
-                  className={`text-luxury-gold font-mono uppercase text-[10px] tracking-widest cursor-pointer transition-opacity duration-300 hover:opacity-80 disabled:opacity-50`}
-                >
-                  {newsletterStatus === "submitting" ? "ŁĄCZENIE..." : "DOŁĄCZ"}
-                </button>
-              </div>
-
-              {newsletterStatus === "success" && (
-                <p className="text-[10px] font-mono text-green-700 bg-green-50/70 p-2 border border-green-100 animate-fade-in">
-                  ✓ {newsletterMessage}
-                </p>
-              )}
-
-              {newsletterStatus === "error" && (
-                <p className="text-[10px] font-mono text-amber-800 bg-amber-50/70 p-2 border border-amber-100 animate-fade-in">
-                  ✕ {newsletterMessage}
-                </p>
-              )}
-            </form>
+          {/* Col 4: Newsletter Section (Wspólny newsletter ze sklepem slow-skin.shop, 10% rabat na konsultację) */}
+          <div className="lg:col-span-3">
+            <NewsletterSection variant="compact" />
           </div>
 
         </div>
@@ -13487,6 +14032,30 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
           <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662a11.87 11.87 0 005.715 1.455h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
         </svg>
       </a>
+
+      {/* Floating Manager & Universal Active Photo Mode */}
+      <div className="fixed bottom-6 left-6 z-40 flex items-center gap-2">
+        <button
+          onClick={() => setIsImageManagerOpen(true)}
+          className="bg-luxury-dark hover:bg-black text-luxury-gold border border-luxury-gold/80 px-4 py-2.5 rounded-full shadow-2xl text-[10px] font-mono uppercase tracking-wider flex items-center gap-2.5 transition-all hover:scale-105 cursor-pointer backdrop-blur-xs group"
+          title="Tryb Wymiany Zdjęć jest aktywny na każdym zdjęciu na stronie. Kliknij, aby otworzyć panel zbiorczy."
+        >
+          <Camera className="w-4 h-4 text-luxury-gold group-hover:rotate-12 transition-transform" />
+          <span className="font-semibold text-white">Tryb Wymiany Zdjęć: <span className="text-luxury-gold font-bold">AKTYWNY</span></span>
+          <span className="bg-luxury-gold text-luxury-dark text-[8px] font-bold px-1.5 py-0.5 rounded-full">ON</span>
+        </button>
+      </div>
+
+      <OriginalImageManagerModal
+        isOpen={isImageManagerOpen}
+        onClose={() => setIsImageManagerOpen(false)}
+        onImageUpdated={(key, url) => {
+          setCustomTreatmentImages(prev => ({ ...prev, [key]: url }));
+          if (key === "hero") {
+            setHeroCustomUrl(url);
+          }
+        }}
+      />
 
       <WcagWidget />
       <CookieBot onOpenPolicy={() => setIsCookiesPolicyOpen(true)} />

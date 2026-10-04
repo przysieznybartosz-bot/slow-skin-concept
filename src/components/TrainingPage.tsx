@@ -116,10 +116,10 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({ onLinkClick, onOpenB
       includes: [
         "Gotowe szablony kart diagnostycznych i zaleceń pozabiegowych",
         "Dostęp do zamkniętej grupy wymiany doświadczeń gabinetowych",
-        "Imienny certyfikat Diagnosty Bionomicznego",
+        "Imienny certyfikat Eksperta Prowadzenia Skóry Slow Skin™",
         "Materiały do wdrożenia w gabinecie od pierwszego dnia"
       ],
-      portalLink: "https://szkolenia.slowskinconcept.pl/diagnostyka-bionomiczna/"
+      portalLink: "https://szkolenia.slowskinconcept.pl/diagnostyka-skory/"
     }
   ];
 

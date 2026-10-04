@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "motion/react";
+import { EditableImage } from "./EditableImage";
 import { 
   Sparkles, 
   ShieldCheck, 
@@ -165,6 +166,13 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       desc: "Bezpośrednie podanie nieusieciowanego kwasu hialuronowego, aminokwasów i polinukleotydów do warstwy skóry właściwej."
     },
     {
+      id: "stymulatory-tkankowe",
+      url: "/tissue-stimulators/",
+      name: "Stymulatory tkankowe",
+      role: "Indywidualna biostymulacja iniekcyjna",
+      desc: "Stopniowa przebudowa tkanek i poprawa jakości skóry bez dodawania objętości: polinukleotydy, kwas hialuronowy, kompleksy aminokwasowe lub induktory kolagenu, zawsze z fototerapią LED."
+    },
+    {
       name: "Radiofrekwencja mikroigłowa",
       role: "Mikronakłuwanie + energia fali RF",
       desc: "Dwuetapowa przebudowa struktury skóry: mechaniczne mikronakłucie i jednoczesne termiczne zagęszczenie włókien podporowych."
@@ -195,6 +203,13 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       name: "Carboksyterapia CARBOregen",
       role: "Iniekcyjna stymulacja CO₂ & Efekt Bohra",
       desc: "Kontrolowane podanie medycznego dwutlenku węgla wywołujące zjawisko efektu Bohra — gwałtowne rozszerzenie naczyń, dotlenienie tkanek, odżywienie komórkowe i syntezę kolagenu."
+    },
+    {
+      id: "sonaris-pro-therapy",
+      url: "/sonaris-pro/",
+      name: "Sonaris Pro Therapy",
+      role: "Impulsy elektromagnetyczne",
+      desc: "Komfortowa, nieinwazyjna stymulacja poprawiająca napięcie, mikrokrążenie i elastyczność skóry twarzy oraz delikatnej okolicy oczu bez nakłuwania."
     },
     {
       name: "Metody manualne",
@@ -605,15 +620,19 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
             >
               <div className="space-y-3">
                 <div className="h-36 overflow-hidden rounded-xs relative">
-                  <img 
-                    src={therapy.image} 
+                  <EditableImage
+                    id={therapy.id}
+                    slotName={therapy.title}
+                    src={therapy.image}
                     alt={therapy.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                  <span className="absolute bottom-2 left-2 font-mono text-[8px] bg-luxury-dark/90 text-white px-2 py-0.5 uppercase tracking-wider font-semibold">
-                    {therapy.time} • {therapy.price}
-                  </span>
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    aspectRatioClass="h-full w-full"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+                    <span className="absolute bottom-2 left-2 font-mono text-[8px] bg-luxury-dark/90 text-white px-2 py-0.5 uppercase tracking-wider font-semibold pointer-events-none">
+                      {therapy.time} • {therapy.price}
+                    </span>
+                  </EditableImage>
                 </div>
 
                 <span className="font-mono text-[8px] uppercase tracking-widest text-luxury-gold font-bold block">
@@ -756,7 +775,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
                 <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-emerald-800 font-bold">
-                  Dostępna z każdego miejsca • Bionomiczna Diagnoza Online
+                  Dostępna z każdego miejsca • Konsultacja Kosmetologiczna Online
                 </span>
                 <span className="bg-emerald-800 text-white font-mono text-[8px] uppercase tracking-wider px-2 py-0.5 font-semibold">
                   Google Meet
@@ -764,7 +783,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
               </div>
 
               <h3 className="font-serif text-2xl text-luxury-dark font-normal">
-                Bionomiczna Videokonsultacja Skóry Online
+                Videokonsultacja Kosmetologiczna Skóry Online
               </h3>
 
               <p className="text-xs text-luxury-dark/95 leading-relaxed">
@@ -802,8 +821,8 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
 
         {/* Bramka Masażu Termicznego Ceragem */}
         <div id="ceragem-masaz" className="border border-luxury-gold/50 bg-gradient-to-br from-[#faf7f2] via-white to-[#f5eee3] p-6 sm:p-8 rounded-sm shadow-sm relative overflow-hidden max-w-5xl mx-auto scroll-mt-28">
-          <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-            <div className="space-y-3 max-w-2xl">
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+            <div className="lg:col-span-8 space-y-3">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-luxury-gold animate-pulse" />
                 <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-luxury-gold font-bold">
@@ -829,23 +848,35 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
               </div>
             </div>
 
-            <div className="shrink-0 w-full md:w-auto flex flex-col sm:flex-row md:flex-col gap-2.5">
-              <button
-                onClick={() => {
-                  const ceragemTgt = treatments.find(t => t.id === "ceragem-thermal-massage") || treatments[0];
-                  onOpenBooking(ceragemTgt);
-                }}
-                className="px-6 py-3.5 bg-luxury-gold hover:bg-luxury-dark text-white font-mono text-xs uppercase tracking-widest font-bold shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer text-center"
-              >
-                <span>Zarezerwuj sesję (50 zł)</span>
-              </button>
-              
-              <button
-                onClick={() => handleSelectById("ceragem-thermal-massage")}
-                className="px-6 py-2 border border-luxury-gold/60 text-luxury-dark hover:bg-luxury-gold/10 font-mono text-[10px] uppercase tracking-wider transition-all text-center cursor-pointer"
-              >
-                Zobacz szczegóły →
-              </button>
+            <div className="lg:col-span-4 flex flex-col gap-3">
+              <div className="w-full h-36 rounded-xs overflow-hidden border border-luxury-gold/40 shadow-xs relative">
+                <img
+                  src="/src/assets/images/ceragem_thermal_bed_therapy_1791108980537.jpg"
+                  alt="Łóżko do masażu termicznego Ceragem VE"
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute bottom-1 right-1 bg-black/60 text-white font-mono text-[8px] px-1.5 py-0.5 rounded-2xs">
+                  Ceragem VE CGM MB-1101
+                </div>
+              </div>
+              <div className="flex flex-col sm:flex-row lg:flex-col gap-2">
+                <button
+                  onClick={() => {
+                    const ceragemTgt = treatments.find(t => t.id === "ceragem-thermal-massage") || treatments[0];
+                    onOpenBooking(ceragemTgt);
+                  }}
+                  className="w-full py-3 bg-luxury-gold hover:bg-luxury-dark text-white font-mono text-xs uppercase tracking-widest font-bold shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer text-center"
+                >
+                  <span>Zarezerwuj sesję (50 zł)</span>
+                </button>
+                <button
+                  onClick={() => handleSelectById("ceragem-thermal-massage")}
+                  className="w-full py-2 border border-luxury-gold/60 text-luxury-dark hover:bg-luxury-gold/10 font-mono text-[10px] uppercase tracking-wider transition-all text-center cursor-pointer"
+                >
+                  Zobacz szczegóły →
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -885,8 +916,8 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
                   className="p-2 bg-white/95 border border-luxury-sand/70 rounded-xs flex items-center gap-2.5 cursor-pointer hover:border-luxury-gold transition-colors group"
                 >
                   <img 
-                    src="/src/assets/images/pst_h300_couch_1790504011410.jpg" 
-                    alt="PST H-300 w gabinecie — kręgosłup i biodra" 
+                    src="/src/assets/images/pst_couch_bed_therapy_1791109628792.jpg" 
+                    alt="PST H-300 w gabinecie — leżanka zabiegowa do kręgosłupa i bioder" 
                     className="w-12 h-10 object-cover rounded-xs shrink-0" 
                     referrerPolicy="no-referrer"
                   />
@@ -901,8 +932,8 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
                   className="p-2 bg-white/95 border border-luxury-sand/70 rounded-xs flex items-center gap-2.5 cursor-pointer hover:border-luxury-gold transition-colors group"
                 >
                   <img 
-                    src="/src/assets/images/pst_h200_armchair_1790504000403.jpg" 
-                    alt="PST H-200 w gabinecie — kolana i stawy" 
+                    src="/src/assets/images/pst_chair_therapy_1791109644424.jpg" 
+                    alt="PST H-200 w gabinecie — fotel zabiegowy do stawów i kolan" 
                     className="w-12 h-10 object-cover rounded-xs shrink-0" 
                     referrerPolicy="no-referrer"
                   />

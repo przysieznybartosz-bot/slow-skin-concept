@@ -14,27 +14,27 @@ interface VideoThumbnailCard {
 const THUMBNAIL_CARDS: VideoThumbnailCard[] = [
   {
     id: "ritual",
-    title: "1. Seans Bionomiczny & Masaż",
-    subtitle: "Rytuał wyciszający naczynia włosowate i barierę hydrolipidową",
+    title: "01 / Pielęgnacja w gabinecie",
+    subtitle: "Uważna praca ze skórą i zabieg dobrany do jej potrzeb.",
     poster: "/src/assets/images/video_scene_facial_1786132960849.jpg",
     badge: "KADR WIDEO 01",
-    description: "Autorski masaż powięziowy i sensoryczne wyciszenie układu nerwowego naskórka."
+    description: "Uważna praca ze skórą i zabieg dobrany do jej potrzeb."
   },
   {
     id: "lllt",
-    title: "2. Fotobiomodulacja LLLT 590nm",
-    subtitle: "Stymulacja syntezy ceramidów bez ogrzewania skóry",
+    title: "02 / Technologie w pielęgnacji skóry",
+    subtitle: "Zobacz, jak wykorzystuję urządzenia podczas zabiegów.",
     poster: "/src/assets/images/video_scene_lllt_1786132976505.jpg",
     badge: "KADR WIDEO 02",
-    description: "Światłoterapia medyczna wspierająca regenerację na poziomie mitochondrialnym."
+    description: "Zobacz, jak wykorzystuję urządzenia podczas zabiegów."
   },
   {
     id: "lab",
-    title: "3. Receptury Bionomowe (0% PEG/Silikonu)",
-    subtitle: "Czystość komórkowa w laboratorium Slow Skin Concept",
+    title: "03 / Indywidualne kompozycje pielęgnacyjne",
+    subtitle: "Przygotowanie kompozycji na bazie dermaviduals, dobranej do potrzeb skóry.",
     poster: "/src/assets/images/video_scene_lab_1786132989115.jpg",
     badge: "KADR WIDEO 03",
-    description: "Czyste formulacje gabinetowe i domowe zgodne z zasadą bionomicznej harmonii biologicznej."
+    description: "Przygotowanie kompozycji na bazie dermaviduals, dobranej do potrzeb skóry."
   },
 ];
 
@@ -236,7 +236,7 @@ export const VideoPlayerSection: React.FC = () => {
 
                   <div className="flex items-center gap-2">
                     <span className="text-[9px] font-mono text-luxury-cream/80 tracking-widest uppercase bg-black/50 px-2.5 py-1 border border-white/10 rounded-xs">
-                      HD BIONOMIC
+                      HD VIDEO
                     </span>
                   </div>
                 </div>
@@ -375,7 +375,7 @@ export const VideoPlayerSection: React.FC = () => {
                     </span>
                   </div>
                   <h4 className="font-serif text-[13px] font-semibold text-luxury-dark truncate">{chap.title}</h4>
-                  <p className="text-[10px] text-luxury-dark/95 font-serif line-clamp-1 italic">{chap.subtitle}</p>
+                  <p className="text-[10px] text-luxury-dark/95 font-serif line-clamp-2 italic leading-tight">{chap.subtitle}</p>
                 </div>
               </div>
             </button>
@@ -383,15 +383,15 @@ export const VideoPlayerSection: React.FC = () => {
         })}
       </div>
 
-      {/* Bionomic Quality Assurance Badge */}
-      <div className="flex items-center justify-center gap-6 pt-2 text-[10px] font-mono text-luxury-dark/95 tracking-wider uppercase">
+      {/* Quality Assurance Badges */}
+      <div className="flex flex-wrap items-center justify-center gap-6 pt-2 text-[10px] font-mono text-luxury-dark/95 tracking-wider uppercase font-semibold">
         <div className="flex items-center gap-1.5">
           <ShieldCheck className="w-3.5 h-3.5 text-luxury-gold" />
-          <span>Gwarancja Bionomicznej Czystości</span>
+          <span>INDYWIDUALNY DOBÓR PIELĘGNACJI</span>
         </div>
         <div className="flex items-center gap-1.5">
           <Compass className="w-3.5 h-3.5 text-luxury-gold" />
-          <span>Autorski Model Pracy ze Skórą</span>
+          <span>UWAŻNA PRACA ZE SKÓRĄ</span>
         </div>
       </div>
     </div>

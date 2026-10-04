@@ -103,7 +103,98 @@ async function startServer() {
   const app = express();
   const PORT = 3000;
 
-  app.use(express.json());
+  app.use(express.json({ limit: "50mb" }));
+  app.use(express.urlencoded({ limit: "50mb", extended: true }));
+
+  // Endpoint to allow uploading and saving user's exact original hero photo directly to disk
+  app.post("/api/upload-hero-image", (req, res) => {
+    try {
+      const { dataUrl, filename } = req.body;
+      if (!dataUrl) {
+        return res.status(400).json({ error: "Brak danych pliku (dataUrl)" });
+      }
+      const matches = dataUrl.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+      if (!matches || matches.length !== 3) {
+        return res.status(400).json({ error: "Nieprawidłowy format base64" });
+      }
+      const buffer = Buffer.from(matches[2], "base64");
+      
+      // Save to public/hero-main.png so it is statically served at /hero-main.png
+      const publicDir = path.join(process.cwd(), "public");
+      if (!fs.existsSync(publicDir)) {
+        fs.mkdirSync(publicDir, { recursive: true });
+      }
+      const publicFile = path.join(publicDir, "hero-main.png");
+      fs.writeFileSync(publicFile, buffer);
+
+      // Also save to src/assets/images/hero-main.png
+      const srcImagesDir = path.join(process.cwd(), "src", "assets", "images");
+      if (!fs.existsSync(srcImagesDir)) {
+        fs.mkdirSync(srcImagesDir, { recursive: true });
+      }
+      fs.writeFileSync(path.join(srcImagesDir, "hero-main.png"), buffer);
+
+      console.log(`[Upload] Pomyślnie zapisano oryginalne zdjęcie Hero: ${publicFile} (${buffer.length} bajtów)`);
+      return res.json({ success: true, url: "/hero-main.png?v=" + Date.now() });
+    } catch (err: any) {
+      console.error("[Upload] Błąd podczas zapisywania zdjęcia:", err);
+      return res.status(500).json({ error: err.message });
+    }
+  });
+
+  // Endpoint to allow uploading and saving user's exact original treatment photos directly to disk
+  app.post("/api/upload-treatment-image", (req, res) => {
+    try {
+      const { dataUrl, treatmentKey } = req.body;
+      if (!dataUrl || !treatmentKey) {
+        return res.status(400).json({ error: "Brak danych pliku lub klucza zabiegu" });
+      }
+      const matches = dataUrl.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+      if (!matches || matches.length !== 3) {
+        return res.status(400).json({ error: "Nieprawidłowy format base64" });
+      }
+      const buffer = Buffer.from(matches[2], "base64");
+      
+      const filenameMap: Record<string, string> = {
+        "hero": "hero-main.png",
+        "cover": "cover_magazine.png",
+        "cover_magazine": "cover_magazine.png",
+        "pst-couch": "pst_couch.png",
+        "pst-chair": "pst_chair.png",
+        "ceragem": "ceragem_bed.png",
+        "sonaris-pro": "sonaris_pro.png",
+        "stymulatory": "stymulatory_tkankowe.png"
+      };
+
+      const filename = filenameMap[treatmentKey] || `${treatmentKey}.png`;
+      const publicDir = path.join(process.cwd(), "public");
+      if (!fs.existsSync(publicDir)) {
+        fs.mkdirSync(publicDir, { recursive: true });
+      }
+      fs.writeFileSync(path.join(publicDir, filename), buffer);
+
+      // Also write immediately to dist if it exists (so production serves it without needing rebuild)
+      const distDir = path.join(process.cwd(), "dist");
+      if (fs.existsSync(distDir)) {
+        fs.writeFileSync(path.join(distDir, filename), buffer);
+      }
+
+      const srcImagesDir = path.join(process.cwd(), "src", "assets", "images");
+      if (fs.existsSync(srcImagesDir)) {
+        fs.writeFileSync(path.join(srcImagesDir, filename), buffer);
+      }
+      const distSrcImagesDir = path.join(process.cwd(), "dist", "src", "assets", "images");
+      if (fs.existsSync(distSrcImagesDir)) {
+        fs.writeFileSync(path.join(distSrcImagesDir, filename), buffer);
+      }
+
+      console.log(`[Upload] Zapisano oryginalne zdjęcie dla ${treatmentKey}: ${filename} (${buffer.length} bajtów)`);
+      return res.json({ success: true, url: `/${filename}?v=${Date.now()}` });
+    } catch (err: any) {
+      console.error("[Upload] Błąd podczas zapisywania zdjęcia zabiegu:", err);
+      return res.status(500).json({ error: err.message });
+    }
+  });
 
   // Health check route for production monitoring and Cloud Run probes
   app.get("/api/health", (req, res) => {
@@ -414,6 +505,163 @@ async function startServer() {
       });
     } catch (e: any) {
       res.status(500).json({ error: e.message || "Nie udało się zapisać rezerwacji" });
+    }
+  });
+
+  // ==========================================
+  // Newsletter Integration with slow-skin.shop
+  // ==========================================
+  const ALLOWED_NEWSLETTER_ORIGINS = [
+    "https://slow-skin-concept.pl",
+    "https://www.slow-skin-concept.pl",
+    "https://slow-skin.shop",
+    "https://www.slow-skin.shop"
+  ];
+
+  // In-memory rate limiting map: ip -> timestamps[] (5 requests per 10 minutes)
+  const newsletterRateLimitMap = new Map<string, number[]>();
+
+  app.options("/api/newsletter", (req, res) => {
+    const origin = req.headers.origin || "";
+    if (ALLOWED_NEWSLETTER_ORIGINS.includes(origin) || process.env.NODE_ENV !== "production") {
+      res.setHeader("Access-Control-Allow-Origin", origin || "*");
+    } else {
+      res.setHeader("Access-Control-Allow-Origin", "https://slow-skin-concept.pl");
+    }
+    res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    res.setHeader("Access-Control-Max-Age", "86400");
+    return res.status(204).end();
+  });
+
+  app.post("/api/newsletter", async (req, res) => {
+    const origin = req.headers.origin || "";
+    if (ALLOWED_NEWSLETTER_ORIGINS.includes(origin) || process.env.NODE_ENV !== "production") {
+      res.setHeader("Access-Control-Allow-Origin", origin || "*");
+    } else {
+      res.setHeader("Access-Control-Allow-Origin", "https://slow-skin-concept.pl");
+    }
+
+    try {
+      // 1. IP Rate Limiting (max 5 requests per 10 minutes per IP)
+      const clientIp = (req.headers["x-forwarded-for"] as string)?.split(",")[0]?.trim() || req.socket.remoteAddress || "unknown";
+      const now = Date.now();
+      const windowMs = 10 * 60 * 1000;
+      const maxRequests = 5;
+
+      const timestamps = (newsletterRateLimitMap.get(clientIp) || []).filter(t => now - t < windowMs);
+      if (timestamps.length >= maxRequests) {
+        newsletterRateLimitMap.set(clientIp, timestamps);
+        return res.status(429).json({
+          error: "TOO_MANY_REQUESTS",
+          message: "Zbyt wiele prób zapisu z tego adresu IP. Odczekaj chwilę przed kolejną próbą."
+        });
+      }
+      timestamps.push(now);
+      newsletterRateLimitMap.set(clientIp, timestamps);
+
+      // 2. Validate payload matching slow-skin.shop contract
+      const { action, email, consent, version, website } = req.body || {};
+
+      // Anti-bot honeypot check (field must be empty)
+      if (website && typeof website === "string" && website.trim().length > 0) {
+        console.warn(`[NEWSLETTER BOT BLOCKED] Honeypot triggered by ${clientIp}`);
+        return res.status(200).json({
+          success: true,
+          message: "Jeśli adres wymaga potwierdzenia, wyślemy link. Sprawdź pocztę i spam. Link jest ważny 24 godziny."
+        });
+      }
+
+      if (action !== "subscribe") {
+        return res.status(400).json({
+          error: "INVALID_ACTION",
+          message: "Nieprawidłowa akcja (wymagane: 'subscribe')."
+        });
+      }
+
+      if (!email || typeof email !== "string" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+        return res.status(400).json({
+          error: "INVALID_EMAIL",
+          message: "Wprowadź prawidłowy adres e-mail."
+        });
+      }
+
+      if (consent !== true) {
+        return res.status(400).json({
+          error: "CONSENT_REQUIRED",
+          message: "Zgoda na otrzymywanie newslettera i akceptacja zasad jest wymagana."
+        });
+      }
+
+      const cleanEmail = email.trim().toLowerCase();
+      const payloadVersion = version || "newsletter-2026-10-02-v1";
+
+      // 3. Forward to shop's central backend (slow-skin.shop)
+      const shopNewsletterUrl = "https://slow-skin.shop/api/newsletter";
+      
+      const payload = {
+        action: "subscribe",
+        email: cleanEmail,
+        consent: true,
+        version: payloadVersion,
+        website: ""
+      };
+
+      // Forward request with Origin of slow-skin-concept.pl
+      const shopResponse = await fetch(shopNewsletterUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Origin": "https://slow-skin-concept.pl",
+          "User-Agent": "SlowSkinConcept-Integration/1.0",
+          "X-Forwarded-For": clientIp
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const responseText = await shopResponse.text();
+      let responseJson: any = null;
+      try {
+        responseJson = JSON.parse(responseText);
+      } catch {
+        responseJson = { raw: responseText };
+      }
+
+      if (shopResponse.ok) {
+        // Success from shop backend!
+        return res.status(200).json({
+          success: true,
+          message: responseJson.message || "Jeśli adres wymaga potwierdzenia, wyślemy link. Sprawdź pocztę i spam. Link jest ważny 24 godziny.",
+          shopConfirmed: true
+        });
+      }
+
+      // Check if shop rejected due to origin whitelist pending
+      if (shopResponse.status === 403 || responseJson?.error === "INVALID_ORIGIN" || (responseJson?.error && typeof responseJson.error === "string" && responseJson.error.toLowerCase().includes("origin"))) {
+        console.warn(`[NEWSLETTER SHOP INTEGRATION] slow-skin.shop returned ${shopResponse.status}. Whitelisting of https://slow-skin-concept.pl in shop backend is pending.`);
+        return res.status(200).json({
+          success: false,
+          code: "ORIGIN_WHITELIST_PENDING",
+          message: "Centralny system sklepu wymaga dodania domeny https://slow-skin-concept.pl do dozwolonych źródeł (CORS/Origin). Dokończ zapis jednym kliknięciem bezpośrednio w sklepie:",
+          shopUrl: `https://slow-skin.shop/#newsletter?email=${encodeURIComponent(cleanEmail)}`,
+          email: cleanEmail
+        });
+      }
+
+      // Other error from shop
+      return res.status(shopResponse.status).json({
+        error: responseJson?.error || "SHOP_ERROR",
+        message: responseJson?.message || "Nie udało się zrealizować zapisu w systemie sklepu.",
+        shopUrl: `https://slow-skin.shop/#newsletter?email=${encodeURIComponent(cleanEmail)}`
+      });
+
+    } catch (err: any) {
+      console.error("[NEWSLETTER PROXY ERROR]:", err);
+      return res.status(500).json({
+        error: "INTERNAL_ERROR",
+        message: "Wystąpił przejściowy błąd połączenia z serwerem newslettera. Skorzystaj z formularza w sklepie.",
+        shopUrl: "https://slow-skin.shop/#newsletter"
+      });
     }
   });
 
@@ -1331,6 +1579,26 @@ Nigdy nie zmyślaj innych identyfikatorów ani nie dopisuj linków zewnętrznych
       console.error("Assistant endpoint error:", error);
       res.status(500).json({ error: "Wystąpił błąd podczas komunikacji z asystentem." });
     }
+  });
+
+  // Serve static assets directly from public in both dev and production
+  const publicDirStatic = path.join(process.cwd(), "public");
+  if (fs.existsSync(publicDirStatic)) {
+    app.use(express.static(publicDirStatic));
+  }
+
+  // Explicit route for uploaded root images (.png, .jpg, .webp) from public or dist
+  app.get("/:imageFile(*.(png|jpg|jpeg|webp|svg))", (req, res, next) => {
+    const filename = req.params.imageFile;
+    const pubFile = path.join(process.cwd(), "public", filename);
+    const distFile = path.join(process.cwd(), "dist", filename);
+    if (fs.existsSync(pubFile)) {
+      return res.sendFile(pubFile);
+    }
+    if (fs.existsSync(distFile)) {
+      return res.sendFile(distFile);
+    }
+    next();
   });
 
   // Serve static assets directly from src/assets or dist/src/assets
