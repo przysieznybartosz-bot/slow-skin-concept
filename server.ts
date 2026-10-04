@@ -196,6 +196,46 @@ async function startServer() {
     }
   });
 
+  // Endpoint to allow uploading and saving the official video reel directly to disk
+  app.post("/api/upload-video", (req, res) => {
+    try {
+      const { dataUrl, filename = "rolka-glowna.mp4" } = req.body;
+      if (!dataUrl) {
+        return res.status(400).json({ error: "Brak danych pliku wideo (dataUrl)" });
+      }
+      const matches = dataUrl.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+      if (!matches || matches.length !== 3) {
+        return res.status(400).json({ error: "Nieprawidłowy format base64 wideo" });
+      }
+      const buffer = Buffer.from(matches[2], "base64");
+      
+      const targetFilename = "rolka-glowna.mp4";
+      const publicVideosDir = path.join(process.cwd(), "public", "videos");
+      if (!fs.existsSync(publicVideosDir)) {
+        fs.mkdirSync(publicVideosDir, { recursive: true });
+      }
+      fs.writeFileSync(path.join(publicVideosDir, targetFilename), buffer);
+
+      const srcVideosDir = path.join(process.cwd(), "src", "assets", "videos");
+      if (!fs.existsSync(srcVideosDir)) {
+        fs.mkdirSync(srcVideosDir, { recursive: true });
+      }
+      fs.writeFileSync(path.join(srcVideosDir, targetFilename), buffer);
+      fs.writeFileSync(path.join(srcVideosDir, "film.mp4"), buffer);
+
+      const distVideosDir = path.join(process.cwd(), "dist", "videos");
+      if (fs.existsSync(distVideosDir)) {
+        fs.writeFileSync(path.join(distVideosDir, targetFilename), buffer);
+      }
+
+      console.log(`[Upload] Zapisano wideo ${targetFilename} (${buffer.length} bajtów)`);
+      return res.json({ success: true, url: `/videos/${targetFilename}?v=${Date.now()}` });
+    } catch (err: any) {
+      console.error("[Upload] Błąd podczas zapisywania wideo:", err);
+      return res.status(500).json({ error: err.message });
+    }
+  });
+
   // Health check route for production monitoring and Cloud Run probes
   app.get("/api/health", (req, res) => {
     res.json({ status: "ok", service: "Slow Skin Concept", timestamp: new Date().toISOString() });
