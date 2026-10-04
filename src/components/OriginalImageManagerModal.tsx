@@ -98,7 +98,7 @@ export const PRIMARY_SLOTS: OriginalImageSlot[] = [
     category: "key_tech",
     treatmentName: "Kompleksowe Terapie Bionomiczne (Karta 1)",
     suggestedFilename: "meso_remodeling.png",
-    currentUrl: "/src/assets/images/meso_remodeling_card_1786128520065.jpg",
+    currentUrl: "/how_help_meso_remodeling.png",
     description: "Fotografia kafelka Meso Remodeling w sekcji 'Jak możemy Ci pomóc?' na stronie głównej."
   },
   {
@@ -107,7 +107,7 @@ export const PRIMARY_SLOTS: OriginalImageSlot[] = [
     category: "key_tech",
     treatmentName: "Kompleksowe Terapie Bionomiczne (Karta 2)",
     suggestedFilename: "pierwsza_wizyta_diagnostyka.png",
-    currentUrl: "/src/assets/images/regenerated_image_1781694292285.jpg",
+    currentUrl: "/how_help_first_visit.png",
     description: "Fotografia kafelka Pierwsza wizyta i diagnostyka skóry w sekcji 'Jak możemy Ci pomóc?' na stronie głównej."
   },
   {
@@ -116,7 +116,7 @@ export const PRIMARY_SLOTS: OriginalImageSlot[] = [
     category: "key_tech",
     treatmentName: "Kompleksowe Terapie Bionomiczne (Karta 3)",
     suggestedFilename: "neurolifting.png",
-    currentUrl: "/src/assets/images/facial_acupuncture_led_1785534009485.jpg",
+    currentUrl: "/how_help_neurolifting.png",
     description: "Fotografia kafelka Neurolifting w sekcji 'Jak możemy Ci pomóc?' na stronie głównej."
   },
   {
@@ -125,7 +125,7 @@ export const PRIMARY_SLOTS: OriginalImageSlot[] = [
     category: "key_tech",
     treatmentName: "Kompleksowe Terapie Bionomiczne (Karta 4)",
     suggestedFilename: "terapia_skory_wrazliwej.png",
-    currentUrl: "/src/assets/images/regenerated_image_17816942749.jpg",
+    currentUrl: "/how_help_sensitive_skin.png",
     description: "Fotografia kafelka Terapia skóry wrażliwej w sekcji 'Jak możemy Ci pomóc?' na stronie głównej."
   }
 ];

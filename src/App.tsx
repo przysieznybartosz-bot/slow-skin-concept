@@ -4126,8 +4126,8 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         <EditableImage
                           id="bionomic_diagnosis"
                           slotName="Diagnoza Bionomiczna (Sondaż Barierowy)"
-                          src={customTreatmentImages["bionomic_diagnosis"] || "/src/assets/images/regenerated_image_1781694292749.jpg"}
-                          fallbackSrc="/src/assets/images/regenerated_image_1781694292749.jpg"
+                          src={customTreatmentImages["bionomic_diagnosis"] || "/bionomic_diagnosis.png"}
+                          fallbackSrc="/bionomic_diagnosis.png"
                           alt="Bionomiczna diagnostyka potrzeb skóry w Slow Skin Concept"
                           className="w-full h-full object-cover grayscale opacity-95 transition-all duration-[6000ms] group-hover:scale-105 group-hover:opacity-100"
                           aspectRatioClass="h-full w-full"
@@ -4369,8 +4369,8 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           <EditableImage
                             id="method_biological"
                             slotName="Metoda Autorska (Stymulacja Biologiczna)"
-                            src={customTreatmentImages["method_biological"] || "/src/assets/images/biological_skin_stimulation_1786128275438.jpg"}
-                            fallbackSrc="/src/assets/images/biological_skin_stimulation_1786128275438.jpg"
+                            src={customTreatmentImages["method_biological"] || "/method_biological.png"}
+                            fallbackSrc="/method_biological.png"
                             alt="Indywidualny plan dla Twojej skóry - kosmetolog tworzący notatki i plan terapii"
                             className="w-full h-full object-cover object-top grayscale opacity-95 transition-transform duration-[6000ms] group-hover:scale-102 group-hover:opacity-100"
                             aspectRatioClass="h-full w-full min-h-[480px] sm:min-h-[540px] md:min-h-[600px] lg:min-h-[640px]"
@@ -4426,7 +4426,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         id: "how_help_meso_remodeling",
                         title: "Meso Remodeling",
                         desc: "Komórkowa odbudowa mitochondrialna z ochroną telomerów i stymulacją głębokiej odnowy naskórka. Zaawansowana terapia bionomiczna.",
-                        image: "/src/assets/images/meso_remodeling_card_1786128520065.jpg",
+                        image: "/how_help_meso_remodeling.png",
                         actionUrl: "/meso-remodeling/",
                         cta: "Dowiedz się więcej"
                       },
@@ -4434,8 +4434,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         id: "how_help_first_visit",
                         title: "Pierwsza wizyta i diagnostyka skóry",
                         desc: "Szczegółowa konsultacja oraz zaawansowana analiza Thessia, dzięki której poznamy biologiczne potrzeby Twojej skóry i dobierzemy precyzyjny kierunek terapii.",
-                        image: "/src/assets/images/regenerated_image_1781694292285.jpg",
-                        video: "/src/assets/videos/pierwsza-wizyta-1.mp4",
+                        image: "/how_help_first_visit.png",
                         actionUrl: "/pierwsza-wizyta-diagnostyka-skory/",
                         cta: "Dowiedz się więcej"
                       },
@@ -4443,7 +4442,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         id: "how_help_neurolifting",
                         title: "Neurolifting",
                         desc: "Naturalny lifting i rozluźnienie głębokich napięć mięśniowych twarzy. Daje natychmiastową poprawę owalu, wygładzenie zmarszczek oraz młody, wypoczęty wygląd.",
-                        image: "/src/assets/images/facial_acupuncture_led_1785534009485.jpg",
+                        image: "/how_help_neurolifting.png",
                         actionUrl: "/neurolifting/",
                         cta: "Dowiedz się więcej"
                       },
