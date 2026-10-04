@@ -7175,7 +7175,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
             >
               {selectedTreatment ? (
                 /* EXPERT TREATMENT DEEP DETAILS SUBPAGE */
-                <div className="space-y-12 text-left animate-fade-in" id="treatment-detail-subpage">
+                <div className="space-y-10 text-left animate-fade-in pt-3 sm:pt-5 scroll-mt-32 md:scroll-mt-36" id="treatment-detail-subpage">
                   
                   {/* Return Header */}
                   <div className="flex items-center justify-between border-b border-luxury-sand/50 pb-4">
@@ -7204,28 +7204,36 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   )}
 
                   {/* Intro Grid */}
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-                    <div className="lg:col-span-5 space-y-4 flex flex-col justify-between">
-                      <div className="space-y-4">
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    <div className="lg:col-span-5 space-y-4">
+                      <div className="space-y-3">
                         <span className="font-mono text-[9px] tracking-[0.25em] text-luxury-gold uppercase block font-bold">
                           {(selectedTreatment.id === "hifu-ultrasound" || selectedTreatment.id === "rf-microneedling")
                             ? "TECHNOLOGIE LIFTINGUJĄCE"
                             : selectedTreatment.id === "neurolifting-face"
                             ? "LIFTING I PRACA Z NAPIĘCIEM MIĘŚNIOWYM"
-                            : "Autorski Rytuał Premium"}
+                            : (selectedTreatment.id === "ceragem-thermal-massage" || selectedTreatment.id === "ceragem")
+                            ? "MASAŻ TERMICZNY CERAGEM VE"
+                            : selectedTreatment.id === "skin-readiness"
+                            ? "DIAGNOZA I PIERWSZA WIZYTA"
+                            : "TERAPIA I PIELĘGNACJA GABINETOWA"}
                         </span>
                         <h1 className="font-serif text-3xl md:text-4xl font-light text-luxury-dark leading-tight">{selectedTreatment.title}</h1>
-                        <p className="text-xs font-mono text-luxury-gold tracking-widest uppercase italic">{selectedTreatment.subtitle}</p>
+                        <p className="text-xs sm:text-sm font-sans text-luxury-dark/90 font-medium tracking-normal mt-1 leading-snug">{selectedTreatment.subtitle}</p>
                         
-                        <div className="pt-4 text-sm md:text-base font-light text-luxury-dark leading-relaxed font-serif">
-                          &ldquo;{selectedTreatment.description}&rdquo;
+                        <div className="pt-4 text-xs sm:text-sm font-light text-luxury-dark/95 leading-relaxed font-sans space-y-3">
+                          {selectedTreatment.description.split("\n\n").map((para, pIdx) => (
+                            <p key={pIdx} className="leading-relaxed text-justify">
+                              {para.replace(/^[„"“]|["”]$/g, "").trim()}
+                            </p>
+                          ))}
                         </div>
                       </div>
                     </div>
 
                     {/* Gorgeous Editorial Treatment Photo on the details page */}
-                    <div className="lg:col-span-4 border border-luxury-sand p-2 bg-white flex flex-col justify-between">
-                      <div className="aspect-[4/3] w-full min-h-[220px] overflow-hidden bg-luxury-sand relative group">
+                    <div className="lg:col-span-4 self-start border border-luxury-sand p-2 bg-white rounded-none shadow-xs">
+                      <div className="w-full overflow-hidden bg-luxury-sand relative group aspect-[4/3]">
                         <img 
                           src={selectedTreatment.id === "pst-signal-therapy" ? PST_IMAGES[selectedPstImageIndex].url : getEffectiveTreatmentImage(selectedTreatment)} 
                           onError={(e) => {
@@ -7275,7 +7283,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       )}
                     </div>
 
-                    <div className={`lg:col-span-3 p-6 flex flex-col justify-between font-mono text-[11px] gap-4 ${
+                    <div className={`lg:col-span-3 self-start p-6 flex flex-col justify-between font-mono text-[11px] gap-4 ${
                       (selectedTreatment.id === "skin-readiness" || selectedTreatment.id === "slow-skin-first")
                         ? "bg-gradient-to-b from-[#fdfbf7] to-[#faf5e9] border-2 border-luxury-gold shadow-md"
                         : "bg-white border border-luxury-sand"

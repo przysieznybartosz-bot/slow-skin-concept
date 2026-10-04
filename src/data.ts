@@ -62,11 +62,11 @@ export const TREATMENTS: Treatment[] = [
   },
   {
     id: "skin-readiness",
-    title: "SKIN READINESS • PIERWSZA WIZYTA",
-    subtitle: "Biologiczny Reset Skóry — Diagnoza, fizjologiczne oczyszczenie i przygotowanie skóry do dalszych etapów terapii",
+    title: "SKIN READINESS — Pierwsza wizyta",
+    subtitle: "Poznajemy potrzeby skóry i przygotowujemy ją do dalszej terapii",
     duration: "120 minut",
     price: "400 PLN — 600 PLN",
-    description: "„Pierwsza wizyta nie rozpoczyna się od wyboru zabiegu. Rozpoczyna się od zrozumienia skóry.” Biologiczny Reset Skóry to pierwsza, pogłębiona wizyta w Slow Skin Concept. Łączy diagnozę aktualnej kondycji skóry z indywidualnie dobranym zabiegiem oczyszczającym i przygotowującym ją do dalszych działań. Celem wizyty jest rozpoznanie biologicznego punktu wyjścia: kondycji bariery naskórkowej, poziomu nawodnienia, reaktywności, sposobu rogowacenia, aktywności gruczołów łojowych, pigmentacji oraz tolerancji dotychczasowej pielęgnacji i wcześniejszych zabiegów. Reset nie oznacza intensywnego złuszczania — oznacza uporządkowanie skóry i przygotowanie jej do tego, czego rzeczywiście potrzebuje.",
+    description: "Pierwsza wizyta zaczyna się od poznania Twojej skóry. Rozmawiamy o jej potrzebach, codziennej pielęgnacji i wcześniejszych zabiegach. Oceniam jej aktualną kondycję, nawilżenie, reaktywność oraz stan bariery naskórkowej.\n\nNa tej podstawie dobieram odpowiednie postępowanie gabinetowe. Jeśli kondycja skóry na to pozwala, wizyta obejmuje również delikatny zabieg oczyszczający i przygotowujący do dalszej pracy.\n\nOtrzymujesz indywidualne zalecenia pielęgnacyjne i plan kolejnych kroków, dopasowany do potrzeb oraz tolerancji Twojej skóry.",
     focus: "Diagnoza biologiczna, fizjologiczne oczyszczenie, regeneracja bariery naskórkowej, określenie biologicznego punktu wyjścia",
     image: "/how_help_first_visit.png",
     indications: [
@@ -229,10 +229,10 @@ export const TREATMENTS: Treatment[] = [
   {
     id: "rosacea-calm-therapy",
     title: "Rosacea Calm Therapy",
-    subtitle: "Spersonalizowany zabieg dla skóry z rumieniem, nadreaktywnością i osłabioną barierą",
+    subtitle: "Indywidualna pielęgnacja skóry z rumieniem, wrażliwej i reaktywnej",
     duration: "75–90 minut",
     price: "380 PLN — 480 PLN",
-    description: "Rosacea Calm Therapy to indywidualnie komponowany zabieg przeznaczony dla skóry skłonnej do zaczerwienienia, pieczenia, uczucia gorąca i nadmiernej reaktywności. Łączy delikatne postępowanie z zastosowaniem substancji biologicznie aktywnych dobranych do aktualnego problemu, kondycji bariery i tolerancji skóry. Celem zabiegu jest poprawa komfortu, zwiększenie nawodnienia, wsparcie architektury lipidowej oraz pielęgnacja skóry naczyniowej i wrażliwej. Rosacea Calm Therapy nie jest jednym, gotowym protokołem. Dwie skóry z podobnym rumieniem mogą potrzebować innego rodzaju wsparcia, ponieważ różnią się stanem bariery, poziomem nawodnienia, reaktywnością i tolerancją składników aktywnych.",
+    description: "Rosacea Calm Therapy to indywidualnie komponowany zabieg przeznaczony dla skóry skłonnej do zaczerwienienia, pieczenia, uczucia gorąca i nadmiernej reaktywności. Dwie skóry z podobnym rumieniem mogą potrzebować innego rodzaju wsparcia, ponieważ różnią się stanem bariery, poziomem nawodnienia, reaktywnością i tolerancją składników aktywnych.\n\nŁączę delikatne postępowanie z zastosowaniem biozgodnych substancji aktywnych dobranych do aktualnego stanu naskórka, kondycji naczyń i tolerancji skóry.\n\nCelem zabiegu jest wyciszenie rumienia, poprawa komfortu, zwiększenie nawodnienia oraz pielęgnacja i wzmocnienie bariery ochronnej skóry wrażliwej.",
     focus: "Kierunek działania: UKOJENIE • BARIERA • NAWODNIENIE • Wyciszenie rumienia i pieczenia, wsparcie mikrośrodowiska",
     image: "/how_help_sensitive_skin.png",
     indications: [
@@ -336,10 +336,10 @@ export const TREATMENTS: Treatment[] = [
   {
     id: "pigment-balance-therapy",
     title: "Pigment Balance Therapy",
-    subtitle: "Spersonalizowana terapia przebarwień i nierównomiernego kolorytu",
+    subtitle: "Indywidualna terapia skóry z przebarwieniami i nierównomiernym kolorytem",
     duration: "80–90 minut",
     price: "400 PLN — 550 PLN, zależnie od zakresu zabiegu",
-    description: "Pigment Balance Therapy to indywidualnie projektowana terapia dla skóry z przebarwieniami posłonecznymi, pozapalnymi, melasmą oraz nierównomiernym kolorytem. Przebarwienie nie jest wyłącznie zmianą widoczną na powierzchni — na jego powstawanie i utrwalanie wpływają promieniowanie UV, stan zapalny, reaktywność skóry, hormony, temperatura, urazy oraz niewłaściwie dobrana pielęgnacja. Dlatego terapia rozpoczyna się od rozpoznania rodzaju przebarwienia, kondycji bariery i czynników mogących podtrzymywać problem. Dopiero na tej podstawie dobierane są substancje biologicznie aktywne, technologia, intensywność i kolejność działań.",
+    description: "Pigment Balance Therapy to indywidualnie projektowana terapia dla skóry z przebarwieniami posłonecznymi, pozapalnymi, melasmą oraz nierównomiernym kolorytem. Przebarwienie nie jest wyłącznie zmianą widoczną na powierzchni — na jego powstawanie i utrwalanie wpływają promieniowanie UV, stan zapalny, reaktywność skóry, hormony, temperatura, urazy oraz niewłaściwie dobrana pielęgnacja.\n\nDlatego terapia rozpoczyna się od rozpoznania rodzaju przebarwienia, kondycji bariery i czynników mogących podtrzymywać problem. Dopiero na tej podstawie dobierane są substancje biologicznie aktywne, technologia, intensywność i kolejność działań.\n\nCelem jest bezpieczne rozjaśnienie zmian barwnikowych, wyrównanie kolorytu i przywrócenie skórze świeżości bez wywoływania stanu zapalnego.",
     focus: "Kierunek działania: PRZEBARWIENIA • KOLORYT • ODNOWA • OCHRONA • Bezpieczna terapia bez stanu zapalnego",
     image: "/src/assets/images/pigment_balance_1790249364420.jpg",
     indications: [

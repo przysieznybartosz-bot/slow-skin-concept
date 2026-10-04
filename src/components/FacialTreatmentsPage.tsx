@@ -56,7 +56,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       id: "rosacea-calm-therapy",
       url: "/rosacea-calm-therapy/",
       title: "Rosacea Calm Therapy",
-      subtitle: "Spersonalizowany zabieg dla skóry z rumieniem, nadreaktywnością i osłabioną barierą",
+      subtitle: "Indywidualna pielęgnacja skóry z rumieniem, wrażliwej i reaktywnej",
       tag: "UKOJENIE • BARIERA • NAWODNIENIE",
       time: "75–90 minut",
       price: "380–480 zł",
@@ -67,7 +67,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       id: "skin-remodeling-therapy",
       aliasId: "lift-firm-therapy",
       url: "/skin-remodeling-therapy/",
-      title: "Skin Remodeling Therapy",
+      title: "Skin Remodeling Therapy (Lift & Firm)",
       subtitle: "Indywidualnie projektowana terapia jędrności, gęstości i owalu twarzy",
       tag: "JĘDRNOŚĆ • GĘSTOŚĆ • OWAL • REGENERACJA",
       time: "około 90 minut",
@@ -123,7 +123,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       id: "pigment-balance-therapy",
       url: "/pigment-balance-therapy/",
       title: "Pigment Balance Therapy",
-      subtitle: "Spersonalizowana terapia przebarwień i nierównomiernego kolorytu",
+      subtitle: "Indywidualna terapia skóry z przebarwieniami i nierównomiernym kolorytem",
       tag: "PRZEBARWIENIA • KOLORYT • ODNOWA • OCHRONA",
       time: "80–90 minut",
       price: "400–550 zł",
@@ -379,7 +379,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       </section>
 
       {/* OBSZAR 1: PIERWSZA WIZYTA I SKIN READINESS */}
-      <section className="border-2 border-luxury-gold/40 bg-white p-8 md:p-14 space-y-10 rounded-sm shadow-md scroll-mt-24" id="obszar-1-pierwsza-wizyta">
+      <section className="border-2 border-luxury-gold/40 bg-white p-8 md:p-14 space-y-10 rounded-sm shadow-md scroll-mt-32 md:scroll-mt-36" id="obszar-1-pierwsza-wizyta">
         
         {/* Header Sekcji */}
         <div className="space-y-4 max-w-3xl">
@@ -391,49 +391,42 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
           </div>
 
           <h2 className="font-serif text-3xl sm:text-4xl font-light text-luxury-dark">
-            SKIN READINESS • PIERWSZA WIZYTA — Biologiczny Reset Skóry
+            SKIN READINESS — Pierwsza wizyta
           </h2>
 
-          <p className="font-mono text-xs text-luxury-gold uppercase tracking-wider">
-            Diagnoza, fizjologiczne oczyszczenie i przygotowanie skóry do dalszych etapów terapii
+          <p className="font-sans text-xs sm:text-sm text-luxury-dark/90 font-medium">
+            Poznajemy potrzeby skóry i przygotowujemy ją do dalszej terapii
           </p>
-
-          <div className="p-4 border-l-2 border-luxury-gold bg-[#FAF8F5] italic font-serif text-sm sm:text-base text-luxury-dark">
-            „Pierwsza wizyta nie rozpoczyna się od wyboru zabiegu. Rozpoczyna się od zrozumienia skóry.”
-          </div>
         </div>
 
         {/* Zdjęcie i Wprowadzenie Merytoryczne */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          <div className="lg:col-span-5 relative group overflow-hidden rounded-sm border border-luxury-sand shadow-sm">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <div className="lg:col-span-5 relative group overflow-hidden rounded-none border border-luxury-sand shadow-sm self-start">
             <img 
               src="/src/assets/images/skin_readiness_diag_1790249295522.jpg" 
               alt="Diagnoza biologiczna i konsultacja Skin Readiness"
-              className="w-full h-[360px] object-cover object-center group-hover:scale-102 transition-transform duration-700"
+              className="w-full h-auto max-h-[380px] object-cover object-center group-hover:scale-102 transition-transform duration-700"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-            <div className="absolute bottom-4 left-4 right-4 text-white space-y-1">
-              <span className="font-mono text-[9px] uppercase tracking-widest text-luxury-gold bg-black/60 px-2 py-0.5 rounded-xs">
-                Spokojna Konsultacja & Analiza
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute bottom-3 left-3 right-3 text-white space-y-0.5 pointer-events-none">
+              <span className="font-mono text-[8px] uppercase tracking-widest text-luxury-gold bg-black/60 px-2 py-0.5">
+                Konsultacja i diagnoza
               </span>
-              <p className="text-xs font-serif italic text-luxury-cream">
-                Pełny audyt stanu bariery i reaktywności bez agresywnych procedur
+              <p className="text-[11px] font-sans text-luxury-cream">
+                Poznanie potrzeb skóry i ocena stanu bariery naskórkowej
               </p>
             </div>
           </div>
 
-          <div className="lg:col-span-7 space-y-4 text-xs md:text-sm text-luxury-dark font-light leading-relaxed">
-            <p className="font-medium text-luxury-dark text-sm">
-              Biologiczny Reset Skóry to pierwsza, pogłębiona wizyta w Slow Skin Concept. Łączy diagnozę aktualnej kondycji skóry z indywidualnie dobranym zabiegiem oczyszczającym i przygotowującym ją do dalszych działań.
+          <div className="lg:col-span-7 space-y-4 text-xs sm:text-sm text-luxury-dark/95 font-light leading-relaxed font-sans">
+            <p>
+              Pierwsza wizyta zaczyna się od poznania Twojej skóry. Rozmawiamy o jej potrzebach, codziennej pielęgnacji i wcześniejszych zabiegach. Oceniam jej aktualną kondycję, nawilżenie, reaktywność oraz stan bariery naskórkowej.
             </p>
             <p>
-              Celem wizyty jest rozpoznanie biologicznego punktu wyjścia: kondycji bariery naskórkowej, poziomu nawodnienia, reaktywności, sposobu rogowacenia, aktywności gruczołów łojowych, pigmentacji oraz tolerancji dotychczasowej pielęgnacji i wcześniejszych zabiegów.
+              Na tej podstawie dobieram odpowiednie postępowanie gabinetowe. Jeśli kondycja skóry na to pozwala, wizyta obejmuje również delikatny zabieg oczyszczający i przygotowujący do dalszej pracy.
             </p>
             <p>
-              W Slow Skin Concept nie wykonuje się intensywnych procedur bez wcześniejszego przygotowania skóry. Jeżeli bariera naskórkowa jest osłabiona, a tkanki nie mają odpowiednich zasobów do regeneracji, silne bodźce nie przyniosą oczekiwanych rezultatów, a mogą nasilić podrażnienie, rumień lub stan zapalny.
-            </p>
-            <p className="font-serif italic text-luxury-gold text-xs">
-              Dlatego pierwsza wizyta ma charakter porządkujący i przygotowawczy — pozwala bezpiecznie rozpocząć proces świadomej terapii.
+              Otrzymujesz indywidualne zalecenia pielęgnacyjne i plan kolejnych kroków, dopasowany do potrzeb oraz tolerancji Twojej skóry.
             </p>
           </div>
         </div>
@@ -590,7 +583,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       </section>
 
       {/* OBSZAR 2: TERAPIE SKÓRY */}
-      <section className="space-y-8 scroll-mt-24" id="obszar-2-terapie-skory">
+      <section className="space-y-8 scroll-mt-32 md:scroll-mt-36" id="obszar-2-terapie-skory">
         <div className="space-y-3 max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-luxury-gold/10 border border-luxury-gold/30 rounded-full">
             <Layers className="w-3.5 h-3.5 text-luxury-gold" />
@@ -658,7 +651,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       </section>
 
       {/* OBSZAR 3: TECHNOLOGIE I METODY */}
-      <section className="border border-luxury-sand bg-white p-8 md:p-14 space-y-8 rounded-sm shadow-sm scroll-mt-24" id="obszar-3-technologie">
+      <section className="border border-luxury-sand bg-white p-8 md:p-14 space-y-8 rounded-sm shadow-sm scroll-mt-32 md:scroll-mt-36" id="obszar-3-technologie">
         <div className="space-y-3 max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-luxury-gold/10 border border-luxury-gold/30 rounded-full">
             <Cpu className="w-3.5 h-3.5 text-luxury-gold" />
@@ -715,7 +708,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       </section>
 
       {/* OBSZAR 4: PROGRAMY PROWADZENIA SKÓRY */}
-      <section className="border border-luxury-sand bg-[#FAF8F5] p-8 md:p-14 space-y-8 rounded-sm shadow-sm scroll-mt-24" id="obszar-4-programy">
+      <section className="border border-luxury-sand bg-[#FAF8F5] p-8 md:p-14 space-y-8 rounded-sm shadow-sm scroll-mt-32 md:scroll-mt-36" id="obszar-4-programy">
         <div className="space-y-3 max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-luxury-gold/10 border border-luxury-gold/30 rounded-full">
             <Activity className="w-3.5 h-3.5 text-luxury-gold" />
@@ -820,7 +813,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
         </div>
 
         {/* Bramka Masażu Termicznego Ceragem */}
-        <div id="ceragem-masaz" className="border border-luxury-gold/50 bg-gradient-to-br from-[#faf7f2] via-white to-[#f5eee3] p-6 sm:p-8 rounded-sm shadow-sm relative overflow-hidden max-w-5xl mx-auto scroll-mt-28">
+        <div id="ceragem-masaz" className="border border-luxury-gold/50 bg-gradient-to-br from-[#faf7f2] via-white to-[#f5eee3] p-6 sm:p-8 rounded-sm shadow-sm relative overflow-hidden max-w-5xl mx-auto scroll-mt-32 md:scroll-mt-36">
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
             <div className="lg:col-span-8 space-y-3">
               <div className="flex items-center gap-2">
