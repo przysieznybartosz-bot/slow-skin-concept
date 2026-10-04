@@ -51,7 +51,7 @@ export default function SkincareAssistant({
     {
       role: "assistant",
       content:
-        "Witaj w Slow Skin Concept™. Jestem Twoim Wirtualnym Asystentem Skóry. Pomogę Ci odnaleźć idealne zabiegi dla Twojej cery, przedstawię wskazania, cennik i metody oraz ułatwię wygodną rezerwację wizyty w gabinecie w Jelczu-Laskowicach.\n\nO co chcesz mnie zapytać?",
+        "Witaj w Slow Skin Concept. Jestem Twoim Wirtualnym Asystentem Skóry. Pomogę Ci odnaleźć idealne zabiegi dla Twojej cery, przedstawię wskazania, cennik i metody oraz ułatwię wygodną rezerwację wizyty w gabinecie w Jelczu-Laskowicach.\n\nO co chcesz mnie zapytać?",
     },
   ]);
   const [inputVal, setInputVal] = useState("");
@@ -389,9 +389,9 @@ export default function SkincareAssistant({
                       }
                     }}
                     className="font-serif text-base tracking-wide text-luxury-gold cursor-pointer select-none"
-                    title="Konsjerż Slow Skin™"
+                    title="Konsjerż Slow Skin"
                   >
-                    {showSettings ? "Integracja OpenAI" : "Konsjerż Slow Skin™"}
+                    {showSettings ? "Integracja OpenAI" : "Konsjerż Slow Skin"}
                   </h3>
                   <p className="text-[10px] font-mono tracking-wider opacity-80 uppercase">
                     {showSettings ? "Panel Konfiguracji AI" : "Asystent AI Odbudowy Komórkowej"}

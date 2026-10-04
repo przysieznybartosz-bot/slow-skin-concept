@@ -28,7 +28,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
   return (
     <img
       src="/slow-skin-logo.svg"
-      alt="Instytut Zdrowej Skóry SLOW SKIN CONCEPT™"
+      alt="Instytut Zdrowej Skóry SLOW SKIN CONCEPT"
       className={`object-contain object-left transition-all duration-300 ${className}`}
       onError={() => setHasError(true)}
       referrerPolicy="no-referrer"

@@ -42,7 +42,7 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({ onLinkClick, onOpenB
     city: "",
     phone: "",
     email: "",
-    program: "Akredytacja Gabinetu Partnerskiego Slow Skin Concept™",
+    program: "Akredytacja Gabinetu Partnerskiego Slow Skin Concept",
     experienceYears: "3-5 lat",
     message: ""
   });
@@ -53,15 +53,15 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({ onLinkClick, onOpenB
       id: "partner-accreditation",
       category: "partner",
       badge: "Licencja & Wyłączność",
-      title: "Akredytacja Gabinetu Partnerskiego Slow Skin Concept™",
+      title: "Akredytacja Gabinetu Partnerskiego Slow Skin Concept",
       subtitle: "Kompleksowe wdrożenie autorskiej filozofii Quiet Luxury & Bionomic Skin Care",
       duration: "4 Dni (Intensywny Transfer Know-How) + Wsparcie Roczne",
       mode: "Stacjonarnie w Instytucie + Dedykowana Platforma B2B",
       targetAudience: "Właściciele salonów kosmetologicznych, instytutów beauty i gabinetów estetycznych",
-      lead: "Dołącz do elitarnej sieci partnerskiej Slow Skin Concept™. Oferujemy pełną wyłączność terytorialną w Twoim mieście/dzielnicy, autorskie protokoły zabiegowe oraz dostęp do preparatów bionomicznych.",
+      lead: "Dołącz do elitarnej sieci partnerskiej Slow Skin Concept. Oferujemy pełną wyłączność terytorialną w Twoim mieście/dzielnicy, autorskie protokoły zabiegowe oraz dostęp do preparatów bionomicznych.",
       pillars: [
         { title: "Wyłączność Terytorialna", desc: "Tylko jeden akredytowany gabinet partnerski w wyznaczonej strefie geograficznej." },
-        { title: "Pełne Portfolio Protokołów", desc: "Wdrożenie Skin Readiness™, Rosacea Calm, Lift & Firm oraz autorskich procedur Nati V3." },
+        { title: "Pełne Portfolio Protokołów", desc: "Wdrożenie Skin Readiness, Rosacea Calm, Lift & Firm oraz autorskich procedur Nati V3." },
         { title: "Pakiet Startowy Preparatów", desc: "Zapas profesjonalnych produktów bionomicznych oraz próbek dla Twoich klientów." },
         { title: "Wsparcie Marketingowe & PR", desc: "Obecność na ogólnopolskiej mapie gabinetów, gotowe materiały graficzne, oprawa Quiet Luxury." }
       ],
@@ -93,7 +93,7 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({ onLinkClick, onOpenB
         "Praktyka na modelkach pod okiem głównego szkoleniowca",
         "Skrypt metodyczny (120 stron, schematy anatomiczne i układy punktów)",
         "Komplet materiałów wideo do powtórek w portalu e-learningowym",
-        "Imienny Certyfikat Terapeuty Neuro-Modelingu Slow Skin™"
+        "Imienny Certyfikat Terapeuty Neuro-Modelingu Slow Skin"
       ],
       portalLink: "https://szkolenia.slowskinconcept.pl/neuromodeling-masterclass/"
     },
@@ -116,7 +116,7 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({ onLinkClick, onOpenB
       includes: [
         "Gotowe szablony kart diagnostycznych i zaleceń pozabiegowych",
         "Dostęp do zamkniętej grupy wymiany doświadczeń gabinetowych",
-        "Imienny certyfikat Eksperta Prowadzenia Skóry Slow Skin™",
+        "Imienny certyfikat Eksperta Prowadzenia Skóry Slow Skin",
         "Materiały do wdrożenia w gabinecie od pierwszego dnia"
       ],
       portalLink: "https://szkolenia.slowskinconcept.pl/diagnostyka-skory/"
@@ -134,7 +134,7 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({ onLinkClick, onOpenB
     const subject = encodeURIComponent(`[Szkolenia Slow Skin] Zgłoszenie: ${applicationData.program} — ${applicationData.ownerName} (${applicationData.salonName})`);
     const body = encodeURIComponent(
       `Dzień dobry!\n\n` +
-      `Przesyłam zgłoszenie do programu szkoleniowego / akredytacji Slow Skin Concept™:\n\n` +
+      `Przesyłam zgłoszenie do programu szkoleniowego / akredytacji Slow Skin Concept:\n\n` +
       `• Program / Szkolenie: ${applicationData.program}\n` +
       `• Imię i Nazwisko: ${applicationData.ownerName}\n` +
       `• Nazwa Gabinetu: ${applicationData.salonName}\n` +
@@ -161,11 +161,11 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({ onLinkClick, onOpenB
     },
     {
       q: "Na czym polega wyłączność terytorialna dla Gabinetu Partnerskiego?",
-      a: "Dbamy o rentowność i prestiż naszych partnerów. Gwarantujemy, że w ustalonym promieniu (dla mniejszych miast całe miasto, dla metropolii dedykowana dzielnica) nie udzielimy licencji ani nie wdrożymy autorskiej metody Slow Skin Concept™ w innym gabinecie."
+      a: "Dbamy o rentowność i prestiż naszych partnerów. Gwarantujemy, że w ustalonym promieniu (dla mniejszych miast całe miasto, dla metropolii dedykowana dzielnica) nie udzielimy licencji ani nie wdrożymy autorskiej metody Slow Skin Concept w innym gabinecie."
     },
     {
       q: "Czy szkolenia kończą się egzaminem i certyfikacją?",
-      a: "Tak. Każde szkolenie kończy się walidacją praktyczną i wręczeniem imiennego Certyfikatu Jakości Slow Skin Concept™, uprawniającego do posługiwania się zastrzeżonymi znakami towarowymi i protokołami."
+      a: "Tak. Każde szkolenie kończy się walidacją praktyczną i wręczeniem imiennego Certyfikatu Jakości Slow Skin Concept, uprawniającego do posługiwania się zastrzeżonymi znakami towarowymi i protokołami."
     },
     {
       q: "Czy istnieje możliwość dofinansowania szkolenia z BUR lub KFS?",
@@ -197,7 +197,7 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({ onLinkClick, onOpenB
           AKADEMIA DLA GABINETÓW Z CAŁEJ POLSKI • ROZWÓJ BIZNESOWY
         </span>
         <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-light tracking-tight text-luxury-dark leading-tight">
-          Szkolenia & Partnerstwo <span className="italic font-normal text-luxury-gold">Slow Skin Concept™</span>
+          Szkolenia & Partnerstwo <span className="italic font-normal text-luxury-gold">Slow Skin Concept</span>
         </h1>
         <p className="text-sm sm:text-base text-luxury-dark/95 leading-relaxed font-light">
           Wprowadź autorską metodologię biologicznej stymulacji skóry, neuro-modelingu i diagnostyki komórkowej do swojego gabinetu. 
@@ -403,7 +403,7 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({ onLinkClick, onOpenB
             WARTOŚĆ DLA TWOJEGO BIZNESU
           </span>
           <h2 className="font-serif text-2xl sm:text-3xl font-light text-luxury-dark">
-            Dlaczego Warto Wdrożyć Metodę Slow Skin™ w Swoim Mieście?
+            Dlaczego Warto Wdrożyć Metodę Slow Skin w Swoim Mieście?
           </h2>
           <p className="text-xs sm:text-sm text-luxury-dark/95 font-light">
             Odpowiedź na rosnące zmęczenie klientów agresywnymi i bolesnymi zabiegami. Wprowadź standard Quiet Luxury, który buduje lojalność na lata.
@@ -598,7 +598,7 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({ onLinkClick, onOpenB
                     onChange={(e) => setApplicationData({ ...applicationData, program: e.target.value })}
                     className="w-full bg-white border border-luxury-sand p-3 text-xs focus:outline-none focus:border-luxury-gold"
                   >
-                    <option value="Akredytacja Gabinetu Partnerskiego Slow Skin Concept™">Akredytacja Gabinetu Partnerskiego Slow Skin Concept™ (Licencja & Wyłączność)</option>
+                    <option value="Akredytacja Gabinetu Partnerskiego Slow Skin Concept">Akredytacja Gabinetu Partnerskiego Slow Skin Concept (Licencja & Wyłączność)</option>
                     <option value="Masterclass: Neuro-Modeling Twarzy, Fale Nogiera & Akupunktura">Masterclass: Neuro-Modeling Twarzy, Fale Nogiera & Akupunktura (2 dni)</option>
                     <option value="Warsztat: Zaawansowana Diagnostyka Nati V3 & Terapia Bariery">Warsztat: Zaawansowana Diagnostyka Nati V3 & Terapia Bariery (1 dzień)</option>
                     <option value="Dostęp do Portalu Szkoleniowego B2B (E-Learning)">Dostęp do Portalu Szkoleniowego B2B (E-Learning)</option>
@@ -700,7 +700,7 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({ onLinkClick, onOpenB
       {/* Direct link footer note */}
       <div className="text-center py-6 border-t border-luxury-sand/50 space-y-2">
         <p className="text-xs text-luxury-dark/95 font-mono">
-          SLOW SKIN CONCEPT™ • AKADEMIA BIONOMII I NEURO-MODELINGU • JELCZ-LASKOWICE
+          SLOW SKIN CONCEPT • AKADEMIA BIONOMII I NEURO-MODELINGU • JELCZ-LASKOWICE
         </p>
         <a 
           href="https://szkolenia.slowskinconcept.pl" 

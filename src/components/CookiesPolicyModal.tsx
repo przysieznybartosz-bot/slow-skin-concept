@@ -43,7 +43,7 @@ export const CookiesPolicyModal: React.FC<CookiesPolicyModalProps> = ({
             </div>
             <div>
               <span className="font-mono text-[8.5px] tracking-[0.25em] text-luxury-gold uppercase block font-bold">
-                SLOW SKIN CONCEPT™ • POLITYKA PRYWATNOŚCI & COOKIES
+                SLOW SKIN CONCEPT • POLITYKA PRYWATNOŚCI & COOKIES
               </span>
               <h2
                 id="cookies-policy-title"
@@ -558,7 +558,7 @@ export const CookiesPolicyModal: React.FC<CookiesPolicyModalProps> = ({
         {/* Sticky Footer in Modal */}
         <div className="p-4 sm:p-5 border-t border-luxury-sand/60 bg-white/95 backdrop-blur-md flex flex-wrap items-center justify-between gap-3 sticky bottom-0 z-20 print:hidden">
           <div className="text-[10px] font-mono text-luxury-dark/70">
-            Slow Skin Concept™ • Wersja 1.0 (3 września 2026 r.)
+            Slow Skin Concept • Wersja 1.0 (3 września 2026 r.)
           </div>
           <div className="flex items-center gap-2">
             {onOpenSettings && (

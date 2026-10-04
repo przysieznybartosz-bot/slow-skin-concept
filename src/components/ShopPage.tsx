@@ -175,7 +175,7 @@ export const ShopPage: React.FC<ShopPageProps> = ({ onLinkClick, onOpenBooking }
     },
     {
       q: "Czym wyróżniają się autorskie formuły SKIN INFUZION™ Katarzyny Brzezińskiej?",
-      a: "Formuły SKIN INFUZION™ by Slow Skin Concept™ zostały opracowane z myślą o fizjologii i codziennym komforcie skóry. BALANCE CREAM łączy oleje roślinne (ryżowy, z herbaty, jojoba, bawełniany) i skwalan z humektantami, ektoiną i N-acetyloglukozaminą (NAG). Z kolei RESET FOAM łączy łagodne glukozydy z kompleksem NMF, gliceryną i fermentami, zapewniając czystość bez uczucia ściągnięcia."
+      a: "Formuły SKIN INFUZION™ by Slow Skin Concept zostały opracowane z myślą o fizjologii i codziennym komforcie skóry. BALANCE CREAM łączy oleje roślinne (ryżowy, z herbaty, jojoba, bawełniany) i skwalan z humektantami, ektoiną i N-acetyloglukozaminą (NAG). Z kolei RESET FOAM łączy łagodne glukozydy z kompleksem NMF, gliceryną i fermentami, zapewniając czystość bez uczucia ściągnięcia."
     },
     {
       q: "Czy właściwości kremu BALANCE CREAM zostały zbadane aplikacyjnie?",
@@ -211,7 +211,7 @@ export const ShopPage: React.FC<ShopPageProps> = ({ onLinkClick, onOpenBooking }
           KOSMETOLOGIA BIONOMICZNA • AUTORSKIE PREPARATY
         </span>
         <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-light tracking-tight text-luxury-dark leading-tight">
-          Sklep <span className="italic font-normal text-luxury-gold">Slow Skin Concept™</span>
+          Sklep <span className="italic font-normal text-luxury-gold">Slow Skin Concept</span>
         </h1>
         <p className="text-sm sm:text-base text-luxury-dark/95 leading-relaxed font-light">
           Przenosimy standardy naszej biologicznej terapii gabinetowej do Twojej codziennej pielęgnacji domowej. 
@@ -229,7 +229,7 @@ export const ShopPage: React.FC<ShopPageProps> = ({ onLinkClick, onOpenBooking }
               <span>Oficjalny Sklep Internetowy • Bezpieczne Płatności & Szybka Dostawa</span>
             </div>
             <h2 className="font-serif text-2xl sm:text-3xl font-light text-luxury-dark">
-              SKIN INFUZION™ <span className="text-luxury-gold italic">by Slow Skin Concept™</span>
+              SKIN INFUZION™ <span className="text-luxury-gold italic">by Slow Skin Concept</span>
             </h2>
             <p className="text-xs sm:text-sm text-luxury-dark/90 leading-relaxed max-w-2xl font-light">
               Nasze autorskie preparaty — pianka oczyszczająca <strong>RESET FOAM</strong> oraz krem nawilżający na dzień i noc <strong>BALANCE CREAM</strong> — są dostępne bezpośrednio w naszym oficjalnym sklepie internetowym <strong>slow-skin.shop</strong>. Zamawiaj z bezpieczną dostawą w 24–48h lub zarezerwuj preparaty do odbioru osobistego w gabinecie.
@@ -442,7 +442,7 @@ export const ShopPage: React.FC<ShopPageProps> = ({ onLinkClick, onOpenBooking }
             CZYSTA FIZJOLOGIA • ZERO KOMPROMISÓW
           </span>
           <h2 className="font-serif text-2xl sm:text-3xl font-light text-luxury-dark">
-            Karta Czystości Bionomicznej Slow Skin™
+            Karta Czystości Bionomicznej Slow Skin
           </h2>
           <p className="text-xs sm:text-sm text-luxury-dark/95 font-light">
             Formułujemy preparaty zgodnie z najsurowszymi regułami bionomicznej zgodności biologicznej.
@@ -705,7 +705,7 @@ export const ShopPage: React.FC<ShopPageProps> = ({ onLinkClick, onOpenBooking }
       {/* Direct link footer note */}
       <div className="text-center py-6 border-t border-luxury-sand/50 space-y-2">
         <p className="text-xs text-luxury-dark/95 font-mono">
-          SLOW SKIN CONCEPT™ • OFICJALNY SYSTEM BIONOMICZNY • JELCZ-LASKOWICE
+          SLOW SKIN CONCEPT • OFICJALNY SYSTEM BIONOMICZNY • JELCZ-LASKOWICE
         </p>
         <a 
           href="https://slow-skin.shop/" 

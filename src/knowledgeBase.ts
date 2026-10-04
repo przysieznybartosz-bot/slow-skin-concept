@@ -47,7 +47,7 @@ export interface KnowledgeBase {
 
 export const KNOWLEDGE_BASE_DATA: KnowledgeBase = {
   institute: {
-    name: "Slow Skin Concept™",
+    name: "Slow Skin Concept",
     location: "Jelcz-Laskowice",
     address: "ul. Szkolna 5, Jelcz-Laskowice (koło Wrocławia, Dolny Śląsk)",
     expert: "Katarzyna Brzezińska",
@@ -61,7 +61,7 @@ export const KNOWLEDGE_BASE_DATA: KnowledgeBase = {
     ]
   },
   method: {
-    name: "Slow Skin Concept™",
+    name: "Slow Skin Concept",
     origins: "Stworzona autorsko przez Katarzynę Brzezińską w oparciu o bionomiczne standardy oraz biofizyczne podstawy częstotliwości dr. Paula Nogiera.",
     coreMechanism: "Re-edukacja receptorów naskórka za pomocą precyzyjnych mikroczęstotliwości elektromagnetycznych (tzw. fale Nogiera) i synergiczne połączenie z chromoterapią LED oraz biomimetyczną okluzją ceramidowo-lipidową.",
     principles: [
@@ -101,7 +101,7 @@ export const KNOWLEDGE_BASE_DATA: KnowledgeBase = {
 // Raw text version of the entire database to easily inject as system instructions context into Gemini
 export const getKnowledgeBaseTextContext = (): string => {
   return `
-=== BAZA WIEDZY I CENNIK INSTYTUTU SLOW SKIN CONCEPT™ ===
+=== BAZA WIEDZY I CENNIK INSTYTUTU SLOW SKIN CONCEPT ===
 
 O INSTYTUCIE:
 - Nazwa: ${KNOWLEDGE_BASE_DATA.institute.name}

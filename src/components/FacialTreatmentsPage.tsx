@@ -55,7 +55,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
     {
       id: "rosacea-calm-therapy",
       url: "/rosacea-calm-therapy/",
-      title: "Rosacea Calm Therapy™",
+      title: "Rosacea Calm Therapy",
       subtitle: "Spersonalizowany zabieg dla skóry z rumieniem, nadreaktywnością i osłabioną barierą",
       tag: "UKOJENIE • BARIERA • NAWODNIENIE",
       time: "75–90 minut",
@@ -67,7 +67,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       id: "skin-remodeling-therapy",
       aliasId: "lift-firm-therapy",
       url: "/skin-remodeling-therapy/",
-      title: "Skin Remodeling Therapy™",
+      title: "Skin Remodeling Therapy",
       subtitle: "Indywidualnie projektowana terapia jędrności, gęstości i owalu twarzy",
       tag: "JĘDRNOŚĆ • GĘSTOŚĆ • OWAL • REGENERACJA",
       time: "około 90 minut",
@@ -78,7 +78,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
     {
       id: "healthy-glow-therapy",
       url: "/healthy-glow-therapy/",
-      title: "Healthy Glow Therapy™",
+      title: "Healthy Glow Therapy",
       subtitle: "Spersonalizowana terapia dla skóry zmęczonej, szarej i pozbawionej blasku",
       tag: "NAWODNIENIE • ROZŚWIETLENIE • ANTYOKSYDACJA",
       time: "75–90 minut",
@@ -89,7 +89,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
     {
       id: "acne-balance-therapy",
       url: "/acne-balance-therapy/",
-      title: "Acne Balance Therapy™",
+      title: "Acne Balance Therapy",
       subtitle: "Spersonalizowana terapia dla skóry z niedoskonałościami, zaskórnikami i zaburzoną równowagą sebum",
       tag: "OCZYSZCZENIE • SEBUM • ROGOWACENIE • MIKROBIOM",
       time: "75–90 minut",
@@ -100,7 +100,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
     {
       id: "adult-acne-therapy",
       url: "/adult-acne-therapy/",
-      title: "Acne Balance 25+ Therapy™",
+      title: "Acne Balance 25+ Therapy",
       subtitle: "Spersonalizowana terapia niedoskonałości skóry dorosłej",
       tag: "NIEDOSKONAŁOŚCI • BARIERA • SEBUM • PRZEBARWIENIA",
       time: "80–90 minut",
@@ -111,7 +111,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
     {
       id: "couperose-therapy",
       url: "/couperose-therapy/",
-      title: "Couperose Therapy™",
+      title: "Couperose Therapy",
       subtitle: "Spersonalizowana terapia skóry naczyniowej, reaktywnej i skłonnej do zaczerwienienia",
       tag: "NACZYNKA • RUMIEŃ • BARIERA • KOMFORT",
       time: "60–75 minut",
@@ -122,7 +122,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
     {
       id: "pigment-balance-therapy",
       url: "/pigment-balance-therapy/",
-      title: "Pigment Balance Therapy™",
+      title: "Pigment Balance Therapy",
       subtitle: "Spersonalizowana terapia przebarwień i nierównomiernego kolorytu",
       tag: "PRZEBARWIENIA • KOLORYT • ODNOWA • OCHRONA",
       time: "80–90 minut",
@@ -316,7 +316,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
           <div className="w-20 h-[1.5px] bg-luxury-gold/70" />
 
           <p className="text-sm md:text-base font-serif italic text-luxury-dark/95 leading-relaxed">
-            W Slow Skin Concept™ technologia nie jest punktem wyjścia. Każda terapia rozpoczyna się od zrozumienia aktualnej kondycji skóry, a jej przebieg powstaje poprzez indywidualny dobór metod, intensywności i kolejności działań.
+            W Slow Skin Concept technologia nie jest punktem wyjścia. Każda terapia rozpoczyna się od zrozumienia aktualnej kondycji skóry, a jej przebieg powstaje poprzez indywidualny dobór metod, intensywności i kolejności działań.
           </p>
 
           <p className="text-xs md:text-sm text-luxury-dark font-light leading-relaxed">
@@ -378,7 +378,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
         </div>
       </section>
 
-      {/* OBSZAR 1: PIERWSZA WIZYTA I SKIN READINESS™ */}
+      {/* OBSZAR 1: PIERWSZA WIZYTA I SKIN READINESS */}
       <section className="border-2 border-luxury-gold/40 bg-white p-8 md:p-14 space-y-10 rounded-sm shadow-md scroll-mt-24" id="obszar-1-pierwsza-wizyta">
         
         {/* Header Sekcji */}
@@ -391,7 +391,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
           </div>
 
           <h2 className="font-serif text-3xl sm:text-4xl font-light text-luxury-dark">
-            SKIN READINESS™ • PIERWSZA WIZYTA — Biologiczny Reset Skóry
+            SKIN READINESS • PIERWSZA WIZYTA — Biologiczny Reset Skóry
           </h2>
 
           <p className="font-mono text-xs text-luxury-gold uppercase tracking-wider">
@@ -424,13 +424,13 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
 
           <div className="lg:col-span-7 space-y-4 text-xs md:text-sm text-luxury-dark font-light leading-relaxed">
             <p className="font-medium text-luxury-dark text-sm">
-              Biologiczny Reset Skóry to pierwsza, pogłębiona wizyta w Slow Skin Concept™. Łączy diagnozę aktualnej kondycji skóry z indywidualnie dobranym zabiegiem oczyszczającym i przygotowującym ją do dalszych działań.
+              Biologiczny Reset Skóry to pierwsza, pogłębiona wizyta w Slow Skin Concept. Łączy diagnozę aktualnej kondycji skóry z indywidualnie dobranym zabiegiem oczyszczającym i przygotowującym ją do dalszych działań.
             </p>
             <p>
               Celem wizyty jest rozpoznanie biologicznego punktu wyjścia: kondycji bariery naskórkowej, poziomu nawodnienia, reaktywności, sposobu rogowacenia, aktywności gruczołów łojowych, pigmentacji oraz tolerancji dotychczasowej pielęgnacji i wcześniejszych zabiegów.
             </p>
             <p>
-              W Slow Skin Concept™ nie wykonuje się intensywnych procedur bez wcześniejszego przygotowania skóry. Jeżeli bariera naskórkowa jest osłabiona, a tkanki nie mają odpowiednich zasobów do regeneracji, silne bodźce nie przyniosą oczekiwanych rezultatów, a mogą nasilić podrażnienie, rumień lub stan zapalny.
+              W Slow Skin Concept nie wykonuje się intensywnych procedur bez wcześniejszego przygotowania skóry. Jeżeli bariera naskórkowa jest osłabiona, a tkanki nie mają odpowiednich zasobów do regeneracji, silne bodźce nie przyniosą oczekiwanych rezultatów, a mogą nasilić podrażnienie, rumień lub stan zapalny.
             </p>
             <p className="font-serif italic text-luxury-gold text-xs">
               Dlatego pierwsza wizyta ma charakter porządkujący i przygotowawczy — pozwala bezpiecznie rozpocząć proces świadomej terapii.
@@ -451,7 +451,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
             </div>
             <ul className="space-y-2.5 text-xs text-luxury-dark font-light">
               {[
-                "Dla osób, które rozpoczynają terapię w Slow Skin Concept™",
+                "Dla osób, które rozpoczynają terapię w Slow Skin Concept",
                 "Gdy nie wiesz, jakiego zabiegu aktualnie potrzebuje Twoja skóra",
                 "Gdy stosujesz wiele kosmetyków, a stan skóry nie ulega poprawie",
                 "Przy uczuciu suchości, ściągnięcia, pieczenia lub nadmiernej reaktywności",
@@ -495,7 +495,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
                 {
                   num: "4",
                   title: "Kierunek dalszej terapii",
-                  desc: "Na podstawie odpowiedzi skóry określany jest kolejny etap Biologicznej Spirali Inteligencji Skóry™. Ustalane są również podstawowe zalecenia pielęgnacji domowej."
+                  desc: "Na podstawie odpowiedzi skóry określany jest kolejny etap Biologicznej Spirali Inteligencji Skóry. Ustalane są również podstawowe zalecenia pielęgnacji domowej."
                 }
               ].map((step, idx) => (
                 <div key={idx} className="flex items-start gap-3">
@@ -787,7 +787,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
               </h3>
 
               <p className="text-xs text-luxury-dark/95 leading-relaxed">
-                Spotkanie wideo 1:1 z <strong>mgr Katarzyną Brzezińską</strong>. Pogłębiona diagnoza barierowa, analiza kosmetyków i stylu życia oraz autorski <strong>Beauty Plan™ (PDF)</strong> wysyłany po konsultacji. Połączenie przez bezpieczny pokój <strong>Google Meet</strong>.
+                Spotkanie wideo 1:1 z <strong>mgr Katarzyną Brzezińską</strong>. Pogłębiona diagnoza barierowa, analiza kosmetyków i stylu życia oraz autorski <strong>Beauty Plan (PDF)</strong> wysyłany po konsultacji. Połączenie przez bezpieczny pokój <strong>Google Meet</strong>.
               </p>
 
               <div className="flex flex-wrap items-center gap-4 text-[10px] font-mono text-emerald-900 pt-1">

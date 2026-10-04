@@ -203,7 +203,7 @@ export default function CookieBot({ onOpenPolicy }: CookieBotProps) {
                     Wersja 1.0 • RODO & PKE
                   </span>
                   <h3 id="cookie-title" className="font-serif text-base font-semibold tracking-wide text-luxury-dark uppercase leading-tight">
-                    COOKIES W SLOW SKIN CONCEPT™
+                    COOKIES W SLOW SKIN CONCEPT
                   </h3>
                 </div>
               </div>
@@ -405,7 +405,7 @@ export default function CookieBot({ onOpenPolicy }: CookieBotProps) {
 
                 {/* Sub-footer Link and Version info */}
                 <div className="flex items-center justify-between text-[8.5px] font-mono tracking-wider text-luxury-dark/70 uppercase pt-1">
-                  <span>SLOW SKIN CONCEPT™</span>
+                  <span>SLOW SKIN CONCEPT</span>
                   <button
                     onClick={handleOpenPolicyFromBanner}
                     className="hover:text-luxury-gold underline transition-colors cursor-pointer"

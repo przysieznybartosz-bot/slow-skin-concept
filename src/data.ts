@@ -4,10 +4,10 @@ export const TREATMENTS: Treatment[] = [
   {
     id: "videokonsultacja",
     title: "Videokonsultacja Kosmetologiczna Online",
-    subtitle: "Konsultacja kosmetologiczna online 1:1 • Diagnoza barierowa, wywiad kosmetologiczny i autorski Beauty Plan™",
+    subtitle: "Konsultacja kosmetologiczna online 1:1 • Diagnoza barierowa, wywiad kosmetologiczny i autorski Beauty Plan",
     duration: "60 minut",
     price: "250 PLN",
-    description: "Dedykowana videokonsultacja online prowadzona w standardzie Slow Skin Concept™ przez mgr Katarzynę Brzezińską. Idealne rozwiązanie dla osób z całej Polski i zza granicy, które nie mogą dotrzeć do gabinetu w Jelczu-Laskowicach, a pragną skonsultować trądzik dorosłych, trądzik różowaty, nadwrażliwość barierową, przewlekły rumień lub ułożyć bezpieczną, bionomiczną pielęgnację domową. Podczas 60-minutowego spotkania wideo przez Google Meet dokładnie analizujemy historię skóry, dotychczasowe kosmetyki, nawyki i dietę, a po spotkaniu otrzymujesz szczegółowy, spersonalizowany Beauty Plan™ (PDF) z dokładnymi zaleceniami rano/wieczór oraz wskazówkami regeneracyjnymi.",
+    description: "Dedykowana videokonsultacja online prowadzona w standardzie Slow Skin Concept przez mgr Katarzynę Brzezińską. Idealne rozwiązanie dla osób z całej Polski i zza granicy, które nie mogą dotrzeć do gabinetu w Jelczu-Laskowicach, a pragną skonsultować trądzik dorosłych, trądzik różowaty, nadwrażliwość barierową, przewlekły rumień lub ułożyć bezpieczną, bionomiczną pielęgnację domową. Podczas 60-minutowego spotkania wideo przez Google Meet dokładnie analizujemy historię skóry, dotychczasowe kosmetyki, nawyki i dietę, a po spotkaniu otrzymujesz szczegółowy, spersonalizowany Beauty Plan (PDF) z dokładnymi zaleceniami rano/wieczór oraz wskazówkami regeneracyjnymi.",
     focus: "Diagnoza barierowa online, analiza nawyków i składów kosmetyków, ułożenie autorskiego planu pielęgnacji (PDF), bezpieczne połączenie wideo przez Google Meet",
     image: "/src/assets/images/regenerated_image_1781694292749.jpg",
     indications: [
@@ -21,7 +21,7 @@ export const TREATMENTS: Treatment[] = [
       "Brak przeciwwskazań — konsultacja ma charakter merytoryczno-diagnostyczny i odbywa się w bezpiecznej, komfortowej formule online"
     ],
     postTreatmentCare: [
-      "Wdrożenie otrzymanego autorskiego Beauty Planu™ krok po kroku (faza wyciszenia i odbudowy płaszcza lipidowego)",
+      "Wdrożenie otrzymanego autorskiego Beauty Planu krok po kroku (faza wyciszenia i odbudowy płaszcza lipidowego)",
       "Wyeliminowanie drażniących substancji zapachowych, wysuszających alkoholi i agresywnych peelingów ziarnistych",
       "Możliwość kontaktu mailowego i kontroli efektów po 4-6 tygodniach stosowania zaleceń"
     ],
@@ -34,7 +34,7 @@ export const TREATMENTS: Treatment[] = [
     protocolSteps: [
       { phase: "I — Przygotowanie & Kwestionariusz Konsultacyjny", description: "Wypełnienie wywiadu zdrowotno-kosmetycznego i przesłanie zdjęć skóry w świetle dziennym przed połączeniem." },
       { phase: "II — Połączenie Wideo Google Meet (60 min)", description: "Szczegółowa rozmowa z mgr Katarzyną Brzezińską: analiza objawów, audyt używanych preparatów i ocena barierowości." },
-      { phase: "III — Opracowanie Spersonalizowanego Beauty Planu™", description: "Dobór celowanych substancji biozgodnych, harmonogram pielęgnacji rano/wieczór oraz wskazówki dietetyczno-lifestyle'owe." },
+      { phase: "III — Opracowanie Spersonalizowanego Beauty Planu", description: "Dobór celowanych substancji biozgodnych, harmonogram pielęgnacji rano/wieczór oraz wskazówki dietetyczno-lifestyle'owe." },
       { phase: "IV — Przesłanie Raportu PDF & Wsparcie", description: "Otrzymanie kompletnego dokumentu z zaleceniami na e-mail wraz z dedykowanymi rekomendacjami zakupowymi." }
     ],
     faq: [
@@ -50,7 +50,7 @@ export const TREATMENTS: Treatment[] = [
       },
       {
         question: "Co otrzymuję po Videokonsultacji?",
-        answer: "W ciągu 48 godzin od spotkania otrzymujesz autorski dokument Beauty Plan™ (plik PDF) zawierający spersonalizowany harmonogram pielęgnacji porannej i wieczornej, listę rekomendowanych produktów z fizjologicznymi składami oraz zalecenia holistyczne.",
+        answer: "W ciągu 48 godzin od spotkania otrzymujesz autorski dokument Beauty Plan (plik PDF) zawierający spersonalizowany harmonogram pielęgnacji porannej i wieczornej, listę rekomendowanych produktów z fizjologicznymi składami oraz zalecenia holistyczne.",
         category: "Efekty"
       },
       {
@@ -62,15 +62,15 @@ export const TREATMENTS: Treatment[] = [
   },
   {
     id: "skin-readiness",
-    title: "SKIN READINESS™ • PIERWSZA WIZYTA",
+    title: "SKIN READINESS • PIERWSZA WIZYTA",
     subtitle: "Biologiczny Reset Skóry — Diagnoza, fizjologiczne oczyszczenie i przygotowanie skóry do dalszych etapów terapii",
     duration: "120 minut",
     price: "400 PLN — 600 PLN",
-    description: "„Pierwsza wizyta nie rozpoczyna się od wyboru zabiegu. Rozpoczyna się od zrozumienia skóry.” Biologiczny Reset Skóry to pierwsza, pogłębiona wizyta w Slow Skin Concept™. Łączy diagnozę aktualnej kondycji skóry z indywidualnie dobranym zabiegiem oczyszczającym i przygotowującym ją do dalszych działań. Celem wizyty jest rozpoznanie biologicznego punktu wyjścia: kondycji bariery naskórkowej, poziomu nawodnienia, reaktywności, sposobu rogowacenia, aktywności gruczołów łojowych, pigmentacji oraz tolerancji dotychczasowej pielęgnacji i wcześniejszych zabiegów. Reset nie oznacza intensywnego złuszczania — oznacza uporządkowanie skóry i przygotowanie jej do tego, czego rzeczywiście potrzebuje.",
+    description: "„Pierwsza wizyta nie rozpoczyna się od wyboru zabiegu. Rozpoczyna się od zrozumienia skóry.” Biologiczny Reset Skóry to pierwsza, pogłębiona wizyta w Slow Skin Concept. Łączy diagnozę aktualnej kondycji skóry z indywidualnie dobranym zabiegiem oczyszczającym i przygotowującym ją do dalszych działań. Celem wizyty jest rozpoznanie biologicznego punktu wyjścia: kondycji bariery naskórkowej, poziomu nawodnienia, reaktywności, sposobu rogowacenia, aktywności gruczołów łojowych, pigmentacji oraz tolerancji dotychczasowej pielęgnacji i wcześniejszych zabiegów. Reset nie oznacza intensywnego złuszczania — oznacza uporządkowanie skóry i przygotowanie jej do tego, czego rzeczywiście potrzebuje.",
     focus: "Diagnoza biologiczna, fizjologiczne oczyszczenie, regeneracja bariery naskórkowej, określenie biologicznego punktu wyjścia",
     image: "/how_help_first_visit.png",
     indications: [
-      "Rozpoczynanie terapii w Slow Skin Concept™",
+      "Rozpoczynanie terapii w Slow Skin Concept",
       "Brak pewności, jakiego zabiegu aktualnie potrzebuje skóra",
       "Stosowanie wielu kosmetyków bez widocznej lub trwałej poprawy",
       "Uczucie suchości, ściągnięcia, pieczenia lub nadmiernej reaktywności",
@@ -85,7 +85,7 @@ export const TREATMENTS: Treatment[] = [
       "Stosowanie zaleconej, łagodnej pielęgnacji wspierającej barierę naskórkową",
       "Czasowe odstawienie przypadkowych produktów i agresywnych peelingów",
       "Codzienna ochrona przeciwsłoneczna dopasowana do tolerancji cery",
-      "Wdrożenie wskazówek z indywidualnego planu pielęgnacji domowej (Beauty Plan™)"
+      "Wdrożenie wskazówek z indywidualnego planu pielęgnacji domowej (Beauty Plan)"
     ],
     activeSubstances: [
       "Indywidualnie dobrane bazy DMS i koncentraty aktywne dermaviduals® komponowane przy klientce",
@@ -97,7 +97,7 @@ export const TREATMENTS: Treatment[] = [
       { phase: "1. Rozmowa i wywiad", description: "Analizowane są dotychczasowa pielęgnacja, wcześniejsze zabiegi, reakcje skóry, styl życia oraz czynniki, które mogą wpływać na jej aktualną kondycję." },
       { phase: "2. Diagnoza biologiczna skóry", description: "Oceniane są najważniejsze parametry i widoczne cechy skóry. Określany jest jej aktualny priorytet oraz gotowość do kolejnych działań." },
       { phase: "3. Indywidualnie dobrany reset zabiegowy", description: "Sposób oczyszczania, intensywność działania i zastosowane metody dobierane są do kondycji skóry. Zabieg może obejmować łagodne oczyszczanie, fizjologiczne złuszczanie, wsparcie nawodnienia, ukojenie lub pielęgnację bariery." },
-      { phase: "4. Kierunek dalszej terapii", description: "Na podstawie odpowiedzi skóry określany jest kolejny etap Biologicznej Spirali Inteligencji Skóry™. Ustalane są również podstawowe zalecenia pielęgnacji domowej." }
+      { phase: "4. Kierunek dalszej terapii", description: "Na podstawie odpowiedzi skóry określany jest kolejny etap Biologicznej Spirali Inteligencji Skóry. Ustalane są również podstawowe zalecenia pielęgnacji domowej." }
     ],
     faq: [
       {
@@ -107,23 +107,23 @@ export const TREATMENTS: Treatment[] = [
       },
       {
         question: "Czym różni się wariant Standard od Premium pierwszej wizyty?",
-        answer: "Pakiet Standard (400 PLN) opiera się na wywiadzie kosmetologicznym, ocenie palpacyjno-wizualnej i resecie zabiegowym. Pakiet Premium (600 PLN) obejmuje dodatkowo wielospektralny audyt czujnikami komputerowymi Thessia Skin Scanner / Nati V3 / Iomet wraz z rozszerzonym Beauty Planem™.",
+        answer: "Pakiet Standard (400 PLN) opiera się na wywiadzie kosmetologicznym, ocenie palpacyjno-wizualnej i resecie zabiegowym. Pakiet Premium (600 PLN) obejmuje dodatkowo wielospektralny audyt czujnikami komputerowymi Thessia Skin Scanner / Nati V3 / Iomet wraz z rozszerzonym Beauty Planem.",
         category: "Warianty"
       },
       {
         question: "Dlaczego na pierwszej wizycie nie wybiera się od razu konkretnej procedury aparaturowej?",
-        answer: "W Slow Skin Concept™ technologia nie jest punktem wyjścia. Zanim zastosujemy jakąkolwiek silniejszą procedurę stymulującą, musimy dokładnie poznać barierę, reaktywność i zdolności regeneracyjne skóry, aby bodziec przyniósł oczekiwany, trwały rezultat bez powikłań.",
+        answer: "W Slow Skin Concept technologia nie jest punktem wyjścia. Zanim zastosujemy jakąkolwiek silniejszą procedurę stymulującą, musimy dokładnie poznać barierę, reaktywność i zdolności regeneracyjne skóry, aby bodziec przyniósł oczekiwany, trwały rezultat bez powikłań.",
         category: "Bezpieczeństwo"
       }
     ]
   },
   {
     id: "acne-balance-therapy",
-    title: "Acne Balance Therapy™",
+    title: "Acne Balance Therapy",
     subtitle: "Spersonalizowana terapia dla skóry z niedoskonałościami, zaskórnikami i zaburzoną równowagą sebum",
     duration: "75–90 minut",
     price: "350 PLN — 450 PLN, zależnie od zakresu zabiegu",
-    description: "Acne Balance Therapy™ to indywidualnie komponowany zabieg dla skóry skłonnej do zaskórników, grudek, krostek, nadmiernego wydzielania sebum i nawracających niedoskonałości. Terapia nie opiera się na intensywnym przesuszaniu ani jednym protokole oczyszczającym. Jej przebieg wynika z diagnozy biologicznej obejmującej stan bariery, sposób rogowacenia, charakter zmian, poziom reaktywności oraz tolerancję dotychczasowej pielęgnacji. Celem zabiegu jest łagodne oczyszczenie, wsparcie prawidłowego procesu rogowacenia, pielęgnacja skóry łojotokowej oraz stworzenie warunków sprzyjających równowadze bariery i mikrobiomu. W przypadku zdiagnozowanego trądziku zabieg może stanowić element wspierającej pielęgnacji kosmetologicznej, prowadzonej z uwzględnieniem zaleceń dermatologa.",
+    description: "Acne Balance Therapy to indywidualnie komponowany zabieg dla skóry skłonnej do zaskórników, grudek, krostek, nadmiernego wydzielania sebum i nawracających niedoskonałości. Terapia nie opiera się na intensywnym przesuszaniu ani jednym protokole oczyszczającym. Jej przebieg wynika z diagnozy biologicznej obejmującej stan bariery, sposób rogowacenia, charakter zmian, poziom reaktywności oraz tolerancję dotychczasowej pielęgnacji. Celem zabiegu jest łagodne oczyszczenie, wsparcie prawidłowego procesu rogowacenia, pielęgnacja skóry łojotokowej oraz stworzenie warunków sprzyjających równowadze bariery i mikrobiomu. W przypadku zdiagnozowanego trądziku zabieg może stanowić element wspierającej pielęgnacji kosmetologicznej, prowadzonej z uwzględnieniem zaleceń dermatologa.",
     focus: "Kierunek działania: OCZYSZCZENIE • SEBUM • ROGOWACENIE • MIKROBIOM • Poszanowanie bariery ochronnej",
     image: "/src/assets/images/acne_balance_1790249354155.jpg",
     indications: [
@@ -165,19 +165,19 @@ export const TREATMENTS: Treatment[] = [
     ],
     faq: [
       {
-        question: "Dlaczego Acne Balance Therapy™ nie przesusza skóry agresywnymi spirytusami czy mocnymi kwasami?",
-        answer: "Skóra z niedoskonałościami nie zawsze potrzebuje silniejszego oczyszczania. Agresywne przesuszanie uszkadza barierę naskórkową, co prowadzi do łojotoku reaktywnego i nasilenia stanów zapalnych. W Slow Skin Concept™ przywracamy równowagę mikrobiomu i fizjologiczne złuszczanie przy pełnym poszanowaniu bariery.",
+        question: "Dlaczego Acne Balance Therapy nie przesusza skóry agresywnymi spirytusami czy mocnymi kwasami?",
+        answer: "Skóra z niedoskonałościami nie zawsze potrzebuje silniejszego oczyszczania. Agresywne przesuszanie uszkadza barierę naskórkową, co prowadzi do łojotoku reaktywnego i nasilenia stanów zapalnych. W Slow Skin Concept przywracamy równowagę mikrobiomu i fizjologiczne złuszczanie przy pełnym poszanowaniu bariery.",
         category: "Zasada terapii"
       }
     ]
   },
   {
     id: "adult-acne-therapy",
-    title: "Acne Balance 25+ Therapy™",
+    title: "Acne Balance 25+ Therapy",
     subtitle: "Spersonalizowana terapia niedoskonałości skóry dorosłej",
     duration: "80–90 minut",
     price: "380 PLN — 480 PLN, zależnie od zakresu zabiegu",
-    description: "Acne Balance 25+ Therapy™ została stworzona dla skóry dorosłej, w której zaskórniki, grudki, krostki i nadmierne wydzielanie sebum mogą współistnieć z odwodnieniem, reaktywnością, przebarwieniami oraz pierwszymi oznakami starzenia. Skóra po 25. roku życia wymaga innego podejścia niż skóra nastoletnia — intensywne przesuszanie osłabia barierę oraz zmniejsza tolerancję pielęgnacji. Dlatego terapia łączy działania ukierunkowane na niedoskonałości z jednoczesnym wsparciem nawodnienia, bariery i procesów regeneracyjnych. Przebieg zabiegu wynika z diagnozy biologicznej i uwzględnia stres, zmiany hormonalne, styl życia i dotychczasową pielęgnację.",
+    description: "Acne Balance 25+ Therapy została stworzona dla skóry dorosłej, w której zaskórniki, grudki, krostki i nadmierne wydzielanie sebum mogą współistnieć z odwodnieniem, reaktywnością, przebarwieniami oraz pierwszymi oznakami starzenia. Skóra po 25. roku życia wymaga innego podejścia niż skóra nastoletnia — intensywne przesuszanie osłabia barierę oraz zmniejsza tolerancję pielęgnacji. Dlatego terapia łączy działania ukierunkowane na niedoskonałości z jednoczesnym wsparciem nawodnienia, bariery i procesów regeneracyjnych. Przebieg zabiegu wynika z diagnozy biologicznej i uwzględnia stres, zmiany hormonalne, styl życia i dotychczasową pielęgnację.",
     focus: "Kierunek działania: NIEDOSKONAŁOŚCI • BARIERA • SEBUM • PRZEBARWIENIA • Terapia skóry dorosłej 25+",
     image: "/src/assets/images/acne_balance_1790249354155.jpg",
     indications: [
@@ -228,11 +228,11 @@ export const TREATMENTS: Treatment[] = [
   },
   {
     id: "rosacea-calm-therapy",
-    title: "Rosacea Calm Therapy™",
+    title: "Rosacea Calm Therapy",
     subtitle: "Spersonalizowany zabieg dla skóry z rumieniem, nadreaktywnością i osłabioną barierą",
     duration: "75–90 minut",
     price: "380 PLN — 480 PLN",
-    description: "Rosacea Calm Therapy™ to indywidualnie komponowany zabieg przeznaczony dla skóry skłonnej do zaczerwienienia, pieczenia, uczucia gorąca i nadmiernej reaktywności. Łączy delikatne postępowanie z zastosowaniem substancji biologicznie aktywnych dobranych do aktualnego problemu, kondycji bariery i tolerancji skóry. Celem zabiegu jest poprawa komfortu, zwiększenie nawodnienia, wsparcie architektury lipidowej oraz pielęgnacja skóry naczyniowej i wrażliwej. Rosacea Calm Therapy™ nie jest jednym, gotowym protokołem. Dwie skóry z podobnym rumieniem mogą potrzebować innego rodzaju wsparcia, ponieważ różnią się stanem bariery, poziomem nawodnienia, reaktywnością i tolerancją składników aktywnych.",
+    description: "Rosacea Calm Therapy to indywidualnie komponowany zabieg przeznaczony dla skóry skłonnej do zaczerwienienia, pieczenia, uczucia gorąca i nadmiernej reaktywności. Łączy delikatne postępowanie z zastosowaniem substancji biologicznie aktywnych dobranych do aktualnego problemu, kondycji bariery i tolerancji skóry. Celem zabiegu jest poprawa komfortu, zwiększenie nawodnienia, wsparcie architektury lipidowej oraz pielęgnacja skóry naczyniowej i wrażliwej. Rosacea Calm Therapy nie jest jednym, gotowym protokołem. Dwie skóry z podobnym rumieniem mogą potrzebować innego rodzaju wsparcia, ponieważ różnią się stanem bariery, poziomem nawodnienia, reaktywnością i tolerancją składników aktywnych.",
     focus: "Kierunek działania: UKOJENIE • BARIERA • NAWODNIENIE • Wyciszenie rumienia i pieczenia, wsparcie mikrośrodowiska",
     image: "/how_help_sensitive_skin.png",
     indications: [
@@ -273,7 +273,7 @@ export const TREATMENTS: Treatment[] = [
     ],
     faq: [
       {
-        question: "Czy Rosacea Calm Therapy™ może być stosowana przy zdiagnozowanym trądziku różowatym?",
+        question: "Czy Rosacea Calm Therapy może być stosowana przy zdiagnozowanym trądziku różowatym?",
         answer: "Tak. W przypadku zdiagnozowanego trądziku różowatego zabieg może stanowić element pielęgnacji wspierającej, prowadzonej z uwzględnieniem zaleceń dermatologa. Działa wybitnie kojąco, wzmacnia barierę i zmniejsza uczucie pieczenia.",
         category: "Kwalifikacja"
       }
@@ -281,11 +281,11 @@ export const TREATMENTS: Treatment[] = [
   },
   {
     id: "couperose-therapy",
-    title: "Couperose Therapy™",
+    title: "Couperose Therapy",
     subtitle: "Spersonalizowana terapia skóry naczyniowej, reaktywnej i skłonnej do zaczerwienienia",
     duration: "60–75 minut",
     price: "350 PLN — 500 PLN, zależnie od zakresu zabiegu",
-    description: "Couperose Therapy™ to indywidualnie komponowany zabieg dla skóry z widocznymi naczynkami, okresowym lub utrwalonym zaczerwienieniem oraz tendencją do nadmiernej reaktywności. Terapia łączy delikatne postępowanie z zastosowaniem substancji biologicznie aktywnych dobranych do aktualnej kondycji skóry. Jej celem jest poprawa komfortu, ochrona antyoksydacyjna, wsparcie bariery naskórkowej oraz pielęgnacja skóry naczyniowej bez jej nadmiernego rozgrzewania i przeciążania. Widoczne zaczerwienienie może współistnieć z odwodnieniem i osłabioną barierą, dlatego przebieg zabiegu wynika z diagnozy biologicznej i aktualnej tolerancji cery.",
+    description: "Couperose Therapy to indywidualnie komponowany zabieg dla skóry z widocznymi naczynkami, okresowym lub utrwalonym zaczerwienieniem oraz tendencją do nadmiernej reaktywności. Terapia łączy delikatne postępowanie z zastosowaniem substancji biologicznie aktywnych dobranych do aktualnej kondycji skóry. Jej celem jest poprawa komfortu, ochrona antyoksydacyjna, wsparcie bariery naskórkowej oraz pielęgnacja skóry naczyniowej bez jej nadmiernego rozgrzewania i przeciążania. Widoczne zaczerwienienie może współistnieć z odwodnieniem i osłabioną barierą, dlatego przebieg zabiegu wynika z diagnozy biologicznej i aktualnej tolerancji cery.",
     focus: "Kierunek działania: NACZYNKA • RUMIEŃ • BARIERA • KOMFORT • Pielęgnacja bez przegrzewania tkanki",
     image: "/src/assets/images/rosacea_calm_1790249310213.jpg",
     indications: [
@@ -327,7 +327,7 @@ export const TREATMENTS: Treatment[] = [
     ],
     faq: [
       {
-        question: "Czy Couperose Therapy™ trwale zamyka naczynka?",
+        question: "Czy Couperose Therapy trwale zamyka naczynka?",
         answer: "Pielęgnacja kosmetologiczna wspiera kondycję skóry naczyniowej, łagodzi rumień i wzmacnia odporność naskórka, ale nie służy inwazyjnemu usuwaniu utrwalonych zmian naczyniowych. Procedury laserowego zamykania naczyń stanowią odrębną dziedzinę specjalistyczną.",
         category: "Efekty"
       }
@@ -335,11 +335,11 @@ export const TREATMENTS: Treatment[] = [
   },
   {
     id: "pigment-balance-therapy",
-    title: "Pigment Balance Therapy™",
+    title: "Pigment Balance Therapy",
     subtitle: "Spersonalizowana terapia przebarwień i nierównomiernego kolorytu",
     duration: "80–90 minut",
     price: "400 PLN — 550 PLN, zależnie od zakresu zabiegu",
-    description: "Pigment Balance Therapy™ to indywidualnie projektowana terapia dla skóry z przebarwieniami posłonecznymi, pozapalnymi, melasmą oraz nierównomiernym kolorytem. Przebarwienie nie jest wyłącznie zmianą widoczną na powierzchni — na jego powstawanie i utrwalanie wpływają promieniowanie UV, stan zapalny, reaktywność skóry, hormony, temperatura, urazy oraz niewłaściwie dobrana pielęgnacja. Dlatego terapia rozpoczyna się od rozpoznania rodzaju przebarwienia, kondycji bariery i czynników mogących podtrzymywać problem. Dopiero na tej podstawie dobierane są substancje biologicznie aktywne, technologia, intensywność i kolejność działań.",
+    description: "Pigment Balance Therapy to indywidualnie projektowana terapia dla skóry z przebarwieniami posłonecznymi, pozapalnymi, melasmą oraz nierównomiernym kolorytem. Przebarwienie nie jest wyłącznie zmianą widoczną na powierzchni — na jego powstawanie i utrwalanie wpływają promieniowanie UV, stan zapalny, reaktywność skóry, hormony, temperatura, urazy oraz niewłaściwie dobrana pielęgnacja. Dlatego terapia rozpoczyna się od rozpoznania rodzaju przebarwienia, kondycji bariery i czynników mogących podtrzymywać problem. Dopiero na tej podstawie dobierane są substancje biologicznie aktywne, technologia, intensywność i kolejność działań.",
     focus: "Kierunek działania: PRZEBARWIENIA • KOLORYT • ODNOWA • OCHRONA • Bezpieczna terapia bez stanu zapalnego",
     image: "/src/assets/images/pigment_balance_1790249364420.jpg",
     indications: [
@@ -391,11 +391,11 @@ export const TREATMENTS: Treatment[] = [
   },
   {
     id: "skin-remodeling-therapy",
-    title: "Skin Remodeling Therapy™",
+    title: "Skin Remodeling Therapy",
     subtitle: "Indywidualnie projektowana terapia jędrności, gęstości i owalu twarzy",
     duration: "około 90 minut",
     price: "500 PLN — 750 PLN, zależnie od dobranej metody i zakresu zabiegu",
-    description: "Skin Remodeling Therapy™ to wielopoziomowa terapia dla skóry, która traci jędrność, elastyczność i wyraźny kontur. Nie opiera się na jednej technologii ani gotowym protokole. Jej przebieg projektowany jest na podstawie diagnozy biologicznej, aktualnej kondycji tkanek oraz gotowości skóry do określonego rodzaju stymulacji. W zależności od potrzeb dobierane są metody oddziałujące na różne poziomy — od pracy manualnej i neuromięśniowej, przez technologie nieinwazyjne, aż po intensywniejsze procedury przebudowujące. Znaczenie ma nie liczba zastosowanych metod, lecz ich właściwa kolejność, intensywność i czas potrzebny skórze na regenerację. Skin Remodeling Therapy™ nie oznacza zastosowania najsilniejszej technologii — oznacza wybór takiego bodźca, który skóra jest gotowa prawidłowo wykorzystać.",
+    description: "Skin Remodeling Therapy to wielopoziomowa terapia dla skóry, która traci jędrność, elastyczność i wyraźny kontur. Nie opiera się na jednej technologii ani gotowym protokole. Jej przebieg projektowany jest na podstawie diagnozy biologicznej, aktualnej kondycji tkanek oraz gotowości skóry do określonego rodzaju stymulacji. W zależności od potrzeb dobierane są metody oddziałujące na różne poziomy — od pracy manualnej i neuromięśniowej, przez technologie nieinwazyjne, aż po intensywniejsze procedury przebudowujące. Znaczenie ma nie liczba zastosowanych metod, lecz ich właściwa kolejność, intensywność i czas potrzebny skórze na regenerację. Skin Remodeling Therapy nie oznacza zastosowania najsilniejszej technologii — oznacza wybór takiego bodźca, który skóra jest gotowa prawidłowo wykorzystać.",
     focus: "Kierunek działania: JĘDRNOŚĆ • GĘSTOŚĆ • OWAL • REGENERACJA • Przebudowa tkanek na odpowiednim poziomie biologicznym",
     image: "/how_help_meso_remodeling.png",
     indications: [
@@ -438,7 +438,7 @@ export const TREATMENTS: Treatment[] = [
     ],
     faq: [
       {
-        question: "Dlaczego Skin Remodeling Therapy™ nie opiera się na jednym urządzeniu u każdego?",
+        question: "Dlaczego Skin Remodeling Therapy nie opiera się na jednym urządzeniu u każdego?",
         answer: "Ta sama oznaka starzenia może wynikać z zupełnie różnych mechanizmów. U jednej osoby kluczowa jest utrata gęstości naskórka, u innej napięcia mięśniowo-powięziowe, zmiana ułożenia tkanek lub osłabiona bariera. Dlatego najpierw określamy poziom wymagający wsparcia, a dopiero potem dobieramy odpowiednie narzędzie i sekwencję.",
         category: "Koncepcja"
       }
@@ -446,11 +446,11 @@ export const TREATMENTS: Treatment[] = [
   },
   {
     id: "lift-firm-therapy",
-    title: "Skin Remodeling Therapy™ (Lift & Firm)",
+    title: "Skin Remodeling Therapy (Lift & Firm)",
     subtitle: "Indywidualnie projektowana terapia jędrności, gęstości i owalu twarzy",
     duration: "około 90 minut",
     price: "500 PLN — 750 PLN, zależnie od dobranej metody i zakresu zabiegu",
-    description: "Skin Remodeling Therapy™ to wielopoziomowa terapia dla skóry, która traci jędrność, elastyczność i wyraźny kontur. Nie opiera się na jednej technologii ani gotowym protokole. Jej przebieg projektowany jest na podstawie diagnozy biologicznej, aktualnej kondycji tkanek oraz gotowości skóry do określonego rodzaju stymulacji. Znaczenie ma nie liczba zastosowanych metod, lecz ich właściwa kolejność, intensywność i czas potrzebny skórze na regenerację.",
+    description: "Skin Remodeling Therapy to wielopoziomowa terapia dla skóry, która traci jędrność, elastyczność i wyraźny kontur. Nie opiera się na jednej technologii ani gotowym protokole. Jej przebieg projektowany jest na podstawie diagnozy biologicznej, aktualnej kondycji tkanek oraz gotowości skóry do określonego rodzaju stymulacji. Znaczenie ma nie liczba zastosowanych metod, lecz ich właściwa kolejność, intensywność i czas potrzebny skórze na regenerację.",
     focus: "Kierunek działania: JĘDRNOŚĆ • GĘSTOŚĆ • OWAL • REGENERACJA • Przebudowa tkanek na odpowiednim poziomie biologicznym",
     image: "/src/assets/images/remodeling_therapy_1790249327484.jpg",
     indications: [
@@ -492,11 +492,11 @@ export const TREATMENTS: Treatment[] = [
   },
   {
     id: "healthy-glow-therapy",
-    title: "Healthy Glow Therapy™",
+    title: "Healthy Glow Therapy",
     subtitle: "Spersonalizowana terapia dla skóry zmęczonej, szarej i pozbawionej blasku",
     duration: "75–90 minut",
     price: "400 PLN — 500 PLN, zależnie od zakresu zabiegu",
-    description: "Healthy Glow Therapy™ to indywidualnie komponowany zabieg dla skóry, która utraciła świeżość, równomierny koloryt i naturalny blask. Łączy delikatne odświeżenie powierzchni naskórka z intensywnym nawilżeniem, ochroną antyoksydacyjną i zastosowaniem substancji biologicznie aktywnych dobranych do aktualnej kondycji skóry. To nie jest jeden zabieg bankietowy wykonywany według gotowego schematu. Innego wsparcia może potrzebować skóra odwodniona i przeciążona pielęgnacją, a innego skóra z nierównym kolorytem, oznakami stresu oksydacyjnego lub spowolnioną odnową naskórka. Healthy Glow Therapy™ nie maskuje skóry efektem powierzchownego rozświetlenia — łączy biologicznie uzasadnione składniki i indywidualnie dobraną technologię, aby wspierać jej nawodnienie, odnowę i naturalny blask.",
+    description: "Healthy Glow Therapy to indywidualnie komponowany zabieg dla skóry, która utraciła świeżość, równomierny koloryt i naturalny blask. Łączy delikatne odświeżenie powierzchni naskórka z intensywnym nawilżeniem, ochroną antyoksydacyjną i zastosowaniem substancji biologicznie aktywnych dobranych do aktualnej kondycji skóry. To nie jest jeden zabieg bankietowy wykonywany według gotowego schematu. Innego wsparcia może potrzebować skóra odwodniona i przeciążona pielęgnacją, a innego skóra z nierównym kolorytem, oznakami stresu oksydacyjnego lub spowolnioną odnową naskórka. Healthy Glow Therapy nie maskuje skóry efektem powierzchownego rozświetlenia — łączy biologicznie uzasadnione składniki i indywidualnie dobraną technologię, aby wspierać jej nawodnienie, odnowę i naturalny blask.",
     focus: "Kierunek działania: NAWODNIENIE • ROZŚWIETLENIE • ANTYOKSYDACJA • REWITALIZACJA",
     image: "/src/assets/images/healthy_glow_1790249342266.jpg",
     indications: [
@@ -536,8 +536,8 @@ export const TREATMENTS: Treatment[] = [
     ],
     faq: [
       {
-        question: "Czym Healthy Glow Therapy™ różni się od typowych zabiegów bankietowych?",
-        answer: "Typowe zabiegi bankietowe często dają krótkotrwały efekt powierzchownego filmu lub przekrwienia, który szybko mija. Healthy Glow Therapy™ to praca biologiczna: głębokie nawodnienie, wsparcie mikrobiomu i antyoksydacja, co daje autentyczny, długo utrzymujący się blask zdrowej i wypoczętej cery.",
+        question: "Czym Healthy Glow Therapy różni się od typowych zabiegów bankietowych?",
+        answer: "Typowe zabiegi bankietowe często dają krótkotrwały efekt powierzchownego filmu lub przekrwienia, który szybko mija. Healthy Glow Therapy to praca biologiczna: głębokie nawodnienie, wsparcie mikrobiomu i antyoksydacja, co daje autentyczny, długo utrzymujący się blask zdrowej i wypoczętej cery.",
         category: "Koncepcja"
       }
     ]
@@ -681,7 +681,7 @@ export const TREATMENTS: Treatment[] = [
     subtitle: "Nieinwazyjna terapia poprawiająca napięcie, gładkość i witalność skóry",
     duration: "45 — 75 minut",
     price: "180 zł — 350 zł (Pakiety 6 zabiegów od 900 zł)",
-    description: "Sonaris Pro Therapy jest komfortowym, nieinwazyjnym zabiegiem wykorzystującym impulsy elektromagnetyczne aplikowane za pomocą specjalnie zaprojektowanych głowic. Procedura nie narusza ciągłości naskórka i nie wymaga okresu rekonwalescencji. Zabieg przeznaczony jest dla skóry z pierwszymi oznakami starzenia, utratą elastyczności, drobnymi zmarszczkami oraz zmęczonym, nierównym kolorytem. Może być wykonywany na twarz, szyję, dekolt oraz delikatną okolicę oczu. W Slow Skin Concept™ technologia nie jest wykorzystywana według jednego, gotowego protokołu. Obszar pracy, rodzaj głowicy, intensywność oraz czas działania są dobierane indywidualnie do kondycji, wrażliwości i aktualnej gotowości biologicznej skóry.",
+    description: "Sonaris Pro Therapy jest komfortowym, nieinwazyjnym zabiegiem wykorzystującym impulsy elektromagnetyczne aplikowane za pomocą specjalnie zaprojektowanych głowic. Procedura nie narusza ciągłości naskórka i nie wymaga okresu rekonwalescencji. Zabieg przeznaczony jest dla skóry z pierwszymi oznakami starzenia, utratą elastyczności, drobnymi zmarszczkami oraz zmęczonym, nierównym kolorytem. Może być wykonywany na twarz, szyję, dekolt oraz delikatną okolicę oczu. W Slow Skin Concept technologia nie jest wykorzystywana według jednego, gotowego protokołu. Obszar pracy, rodzaj głowicy, intensywność oraz czas działania są dobierane indywidualnie do kondycji, wrażliwości i aktualnej gotowości biologicznej skóry.",
     focus: "Impulsy elektromagnetyczne, napięcie, gładkość i witalność skóry, delikatna okolica oka, brak naruszania naskórka",
     image: "/sonaris_pro.png",
     indications: [
@@ -776,7 +776,7 @@ export const TREATMENTS: Treatment[] = [
     subtitle: "Iniekcyjna stymulacja mikrokrążenia i naturalnych procesów przebudowy skóry",
     duration: "40 — 60 minut",
     price: "250 PLN — 450 PLN (Pakiety 5 zabiegów: 1100 — 2000 PLN)",
-    description: "Karboksyterapia jest zabiegiem iniekcyjnym polegającym na kontrolowanym podaniu medycznego dwutlenku węgla do wybranych warstw skóry. CO₂ stanowi precyzyjny bodziec fizjologiczny, który powoduje miejscowe rozszerzenie naczyń i przejściowe zwiększenie przepływu krwi. Sprzyja to lepszemu dotlenieniu oraz odżywieniu tkanek i tworzy warunki wspierające ich naturalną regenerację. W Slow Skin Concept™ nie jest stosowany jeden protokół dla każdej skóry. Obszar podania, głębokość iniekcji, przepływ oraz ilość gazu są dobierane indywidualnie — na podstawie kondycji skóry, jakości mikrokrążenia, wrażliwości tkanek i celu zabiegu.",
+    description: "Karboksyterapia jest zabiegiem iniekcyjnym polegającym na kontrolowanym podaniu medycznego dwutlenku węgla do wybranych warstw skóry. CO₂ stanowi precyzyjny bodziec fizjologiczny, który powoduje miejscowe rozszerzenie naczyń i przejściowe zwiększenie przepływu krwi. Sprzyja to lepszemu dotlenieniu oraz odżywieniu tkanek i tworzy warunki wspierające ich naturalną regenerację. W Slow Skin Concept nie jest stosowany jeden protokół dla każdej skóry. Obszar podania, głębokość iniekcji, przepływ oraz ilość gazu są dobierane indywidualnie — na podstawie kondycji skóry, jakości mikrokrążenia, wrażliwości tkanek i celu zabiegu.",
     focus: "Medyczny CO₂, stymulacja mikrokrążenia, dotlenienie tkanek (efekt Bohra), okolica oczu, redukcja cieni i blizn",
     image: "/src/assets/images/carboxytherapy_carboregen.webp",
     indications: [
@@ -1037,7 +1037,7 @@ export const TREATMENTS: Treatment[] = [
     subtitle: "Hydropeeling • Oczyszczenie powierzchni skóry • Wsparcie antyoksydacyjne",
     duration: "60 minut",
     price: "320 PLN — 420 PLN (Twarz, Szyja, Dekolt)",
-    description: "Łagodny, wieloetapowy zabieg hydropeelingu przeznaczony dla cery zanieczyszczonej, matowej, łojotokowej lub narażonej na stres miejski i smog. Łączy przepływ aktywnej wody nasyconej cząsteczkowym wodorem z kontrolowanym podciśnieniem, dzięki czemu skutecznie usuwa nadmiar utlenionego sebum, zrogowaciałe komórki i zanieczyszczenia z ujść mieszków włosowych bez naruszania bariery lipidowej naskórka. W Slow Skin Concept™ zabieg ma odciążyć skórę, a nie agresywnie ją wyjaławiać – procedurę uzupełnia spersonalizowany koncentrat pielęgnacyjny, sonoforeza i kompres wyciszający.",
+    description: "Łagodny, wieloetapowy zabieg hydropeelingu przeznaczony dla cery zanieczyszczonej, matowej, łojotokowej lub narażonej na stres miejski i smog. Łączy przepływ aktywnej wody nasyconej cząsteczkowym wodorem z kontrolowanym podciśnieniem, dzięki czemu skutecznie usuwa nadmiar utlenionego sebum, zrogowaciałe komórki i zanieczyszczenia z ujść mieszków włosowych bez naruszania bariery lipidowej naskórka. W Slow Skin Concept zabieg ma odciążyć skórę, a nie agresywnie ją wyjaławiać – procedurę uzupełnia spersonalizowany koncentrat pielęgnacyjny, sonoforeza i kompres wyciszający.",
     focus: "Woda nasycona wodorem, kontrolowane podciśnienie, odciążenie porów, brak przesuszenia, ochrona bariery lipidowej",
     image: "/src/assets/images/oczyszczanie_wodorowe.webp",
     indications: [
@@ -1087,7 +1087,7 @@ export const TREATMENTS: Treatment[] = [
       },
       {
         question: "Czy oczyszczanie wodorowe 'wypłukuje toksyny' ze skóry?",
-        answer: "W Slow Skin Concept™ stawiamy na rzetelną wiedzę biologiczną: cząsteczkowy wodór ma udowodnione właściwości antyoksydacyjne, jednak zabieg nie polega na 'wypłukiwaniu mitycznych toksyn'. Jego realnym i potwierdzonym działaniem jest dokładne, łagodne usunięcie martwych komórek, nadmiaru utlenionego sebum i miejskich pyłów oraz odciążenie aparatu włosowo-łojowego.",
+        answer: "W Slow Skin Concept stawiamy na rzetelną wiedzę biologiczną: cząsteczkowy wodór ma udowodnione właściwości antyoksydacyjne, jednak zabieg nie polega na 'wypłukiwaniu mitycznych toksyn'. Jego realnym i potwierdzonym działaniem jest dokładne, łagodne usunięcie martwych komórek, nadmiaru utlenionego sebum i miejskich pyłów oraz odciążenie aparatu włosowo-łojowego.",
         category: "Fizjologia"
       },
       {
@@ -1164,7 +1164,7 @@ export const TREATMENTS: Treatment[] = [
       },
       {
         question: "Czy preparaty aplikowane podczas zabiegu trafiają do skóry właściwej?",
-        answer: "W Slow Skin Concept™ stawiamy na uczciwość biologiczną: Nanobrazja działa w obrębie naskórka. Nie jest to zabieg iniekcyjny i nie transportuje kosmetyków w głąb skóry właściwej. Działa poprzez uporządkowanie warstwy rogowej, dzięki czemu zaaplikowane formuły aktywne są znacznie efektywniej wykorzystywane przez naskórek.",
+        answer: "W Slow Skin Concept stawiamy na uczciwość biologiczną: Nanobrazja działa w obrębie naskórka. Nie jest to zabieg iniekcyjny i nie transportuje kosmetyków w głąb skóry właściwej. Działa poprzez uporządkowanie warstwy rogowej, dzięki czemu zaaplikowane formuły aktywne są znacznie efektywniej wykorzystywane przez naskórek.",
         category: "Działanie"
       },
       {
@@ -1244,7 +1244,7 @@ export const TREATMENTS: Treatment[] = [
       },
       {
         question: "Dlaczego składniki dermaviduals® są dobierane przy klientce?",
-        answer: "W Slow Skin Concept™ nie wierzymy w uniwersalne gotowe ampułki. Każda skóra ma inną grubość naskórka, inny stopień ucieczki wody i inny poziom reaktywności. Formuła koncentratów aktywnych dermaviduals® powstaje na żywo podczas wizyty, ściśle odpowiadając na aktualne potrzeby biologiczne cery.",
+        answer: "W Slow Skin Concept nie wierzymy w uniwersalne gotowe ampułki. Każda skóra ma inną grubość naskórka, inny stopień ucieczki wody i inny poziom reaktywności. Formuła koncentratów aktywnych dermaviduals® powstaje na żywo podczas wizyty, ściśle odpowiadając na aktualne potrzeby biologiczne cery.",
         category: "Składniki"
       },
       {
@@ -1317,7 +1317,7 @@ export const TREATMENTS: Treatment[] = [
     faq: [
       {
         question: "Czy mezoterapia mikroigłowa jest bolesna?",
-        answer: "Zabieg wiąże się z odczuciem drapania lub mrowienia. W Slow Skin Concept™ dobieramy parametry tak, aby wywołać pożądaną stymulację biologiczną bez niepotrzebnego bólu i traumatyzacji. W razie potrzeby stosujemy preparat znieczulający.",
+        answer: "Zabieg wiąże się z odczuciem drapania lub mrowienia. W Slow Skin Concept dobieramy parametry tak, aby wywołać pożądaną stymulację biologiczną bez niepotrzebnego bólu i traumatyzacji. W razie potrzeby stosujemy preparat znieczulający.",
         category: "Komfort"
       },
       {
@@ -2267,15 +2267,15 @@ export const ARTICLES: MagazineArticle[] = [
     imageCaption: "Autorska filozofia bionomiczna w Slow Skin Concept: poszanowanie fizjologii komórkowej, biologiczna biozgodność i ochrona przed mikrozapaleniem.",
     inArticleGraphic: {
       image: "/src/assets/images/skin_cells_1788720444145.jpg",
-      imageCaption: "Fot. Badawcza 1: Mikroskopowa architektura naskórka i fizjologiczny cykl odnowy korneocytów w badaniu bionomicznym (Slow Skin Concept™).",
-      chartTitle: "Wykres Kliniczny: Agresywne Złuszczanie vs. Bionomiczny Rytm Slow Skin™",
+      imageCaption: "Fot. Badawcza 1: Mikroskopowa architektura naskórka i fizjologiczny cykl odnowy korneocytów w badaniu bionomicznym (Slow Skin Concept).",
+      chartTitle: "Wykres Kliniczny: Agresywne Złuszczanie vs. Bionomiczny Rytm Slow Skin",
       chartSubtitle: "Porównanie dynamiki regeneracji, poziomu stanu zapalnego (IL-1α) oraz integralności bariery w okresie 40 dni.",
       chartType: "comparison",
       data: [
         {
           label: "Poziom mikrozapalenia (cytokiny prozapalne IL-1α)",
           valuePrimary: "-68%",
-          sublabelPrimary: "Wyciszenie w Slow Skin™",
+          sublabelPrimary: "Wyciszenie w Slow Skin",
           valueSecondary: "+145%",
           sublabelSecondary: "Wzrost po silnych kwasach/peelingach",
           percentage: 68,
@@ -2313,13 +2313,13 @@ export const ARTICLES: MagazineArticle[] = [
           note: "Brak obrzęku pozornego — trwała poprawa nawilżenia dzięki biomimetycznym ciekłym kryształom DMS."
         }
       ],
-      clinicalConclusion: "Wniosek Kosmetologii Bionomicznej: Agresywne procedury dają jedynie krótkotrwały efekt pozorny (obrzęk pozapalny), kosztem długotrwałego osłabienia naskórka. Rytm bionomiczny Slow Skin Concept™ zapewnia trwałą odporność, gęstość i naturalny blask bez ryzyka powikłań naczyniowych."
+      clinicalConclusion: "Wniosek Kosmetologii Bionomicznej: Agresywne procedury dają jedynie krótkotrwały efekt pozorny (obrzęk pozapalny), kosztem długotrwałego osłabienia naskórka. Rytm bionomiczny Slow Skin Concept zapewnia trwałą odporność, gęstość i naturalny blask bez ryzyka powikłań naczyniowych."
     },
-    lead: "Żyjemy w kulturze pośpiechu i agresywnej stymulacji. W pogoni za natychmiastowym efektem skóra bywa poddawana inwazyjnym peelingom kwasowym, głębokiemu nakłuwaniu czy silnym procedurom termicznym, które wprowadzają naskórek w stan permanentnego alarmu biologicznego. W naszym autorskim instytucie Slow Skin Concept™ w Jelczu-Laskowicach udowadniamy, że trwała witalność cery rodzi się z cierpliwości, wsparcia naturalnych procesów samonaprawy i bezwzględnego poszanowania płaszcza hydrolipidowego.",
+    lead: "Żyjemy w kulturze pośpiechu i agresywnej stymulacji. W pogoni za natychmiastowym efektem skóra bywa poddawana inwazyjnym peelingom kwasowym, głębokiemu nakłuwaniu czy silnym procedurom termicznym, które wprowadzają naskórek w stan permanentnego alarmu biologicznego. W naszym autorskim instytucie Slow Skin Concept w Jelczu-Laskowicach udowadniamy, że trwała witalność cery rodzi się z cierpliwości, wsparcia naturalnych procesów samonaprawy i bezwzględnego poszanowania płaszcza hydrolipidowego.",
     content: [
       "Współczesna kosmetologia estetyczna zbyt długo opierała się na paradygmacie kontrolowanego uszkodzenia. Założenie, że naskórek musi zostać najpierw zraniony lub silnie złuszczony, aby pobudzić fibroblasty do produkcji kolagenu, doprowadziło u tysięcy kobiet do epidemii cery nadwrażliwej, reaktywnej i przedwcześnie zwiotczałej. Zjawisko to w dermatologii określane jest mianem <em>inflammaging</em> — utajonego, przewlekłego mikrozapalenia, które przyspiesza starzenie komórkowe.",
-      "W nurcie Slow Skin Concept™ odrzucamy walkę ze skórą na rzecz mądrego dialogu z jej fizjologią. Zamiast wymuszać natychmiastowe złuszczanie kosztem naturalnej bariery, w pierwszej kolejności odbudowujemy integralność cementu międzykomórkowego, wyciszamy nadreaktywne receptory czuciowe i przywracamy prawidłowe środowisko mikrobiomu. Efektem jest cera stabilna, odporna na czynniki zewnętrzne, która nie reaguje rumieniem na każdą zmianę temperatury czy emocje.",
-      "Każdy proces terapeutyczny w naszym gabinecie w Jelczu-Laskowicach rozpoczyna się od procedury <a href=\"/skin-readiness/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Skin Readiness™ — Przygotowanie Skóry do Pielęgnacji</a>. Sprawdzamy stan gotowości komórkowej, poziom przeznaskórkowej utraty wody (TEWL) oraz stopień unaczynienia, by nie aplikować aktywnych procedur na osłabiony naskórek.",
+      "W nurcie Slow Skin Concept odrzucamy walkę ze skórą na rzecz mądrego dialogu z jej fizjologią. Zamiast wymuszać natychmiastowe złuszczanie kosztem naturalnej bariery, w pierwszej kolejności odbudowujemy integralność cementu międzykomórkowego, wyciszamy nadreaktywne receptory czuciowe i przywracamy prawidłowe środowisko mikrobiomu. Efektem jest cera stabilna, odporna na czynniki zewnętrzne, która nie reaguje rumieniem na każdą zmianę temperatury czy emocje.",
+      "Każdy proces terapeutyczny w naszym gabinecie w Jelczu-Laskowicach rozpoczyna się od procedury <a href=\"/skin-readiness/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Skin Readiness — Przygotowanie Skóry do Pielęgnacji</a>. Sprawdzamy stan gotowości komórkowej, poziom przeznaskórkowej utraty wody (TEWL) oraz stopień unaczynienia, by nie aplikować aktywnych procedur na osłabiony naskórek.",
       "Dla osób, które pragną sprawdzić potrzeby swojej skóry przed wizytą w gabinecie, udostępniamy bezpłatne narzędzie diagnostyczne <a href=\"ai-analiza\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Analiza Skóry Online</a>, a pełną rezerwację terminu można sfinalizować przez <a href=\"rezerwacja-online\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Kalendarz Rezerwacji Wizyt</a>."
     ],
     sections: [
@@ -2371,7 +2371,7 @@ export const ARTICLES: MagazineArticle[] = [
         heading: "2. Biologiczny zegar komórkowy: Szacunek dla cyklu keratynizacji",
         paragraphs: [
           "Prawidłowy, fizjologiczny cykl odnowy naskórka (turnover time) u zdrowego dorosłego wynosi od 28 do 40 dni. W tym czasie keratynocyt wędruje z warstwy podstawnej do warstwy rogowej, ulegając stopniowemu różnicowaniu, syntezie ciałek blaszkowatych (Odlanda) oraz uwalnianiu lipidów cementu naskórkowego. W końcowej fazie komórka przekształca się w odporny korneocyt nasycony naturalnym czynnikiem nawilżającym (NMF).",
-          "Sztuczne, mechaniczne lub chemiczne przyspieszanie tego cyklu sprawia, że na powierzchnię trafiają komórki niedojrzałe biologicznie — pozbawione wykształconej osłonki rogowej i stabilnych połączeń lipidowych. W Slow Skin Concept szanujemy ten 28-40 dniowy rytm biologiczny: nasze terapie, takie jak <a href=\"/healthy-glow-therapy/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Healthy Glow Therapy™</a> czy zabiegi z kwasem bursztynowym, dostarczają komórkom energii metabolicznej w mitochondriach (cykl Krebsa), nie niszcząc naturalnej osłony wierzchniej."
+          "Sztuczne, mechaniczne lub chemiczne przyspieszanie tego cyklu sprawia, że na powierzchnię trafiają komórki niedojrzałe biologicznie — pozbawione wykształconej osłonki rogowej i stabilnych połączeń lipidowych. W Slow Skin Concept szanujemy ten 28-40 dniowy rytm biologiczny: nasze terapie, takie jak <a href=\"/healthy-glow-therapy/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Healthy Glow Therapy</a> czy zabiegi z kwasem bursztynowym, dostarczają komórkom energii metabolicznej w mitochondriach (cykl Krebsa), nie niszcząc naturalnej osłony wierzchniej."
         ]
       },
       {
@@ -2441,7 +2441,7 @@ export const ARTICLES: MagazineArticle[] = [
       image: "/src/assets/images/neuro_skin_care_1788720457257.jpg",
       imageCaption: "Fot. Badawcza 2: Wyciszenie osi stresowej mózg–skóra poprzez stymulację włókien czuciowych C-tactile i manualną relaksację powięzi.",
       chartTitle: "Wykres Neuro-Biologiczny: Reakcja Stresowa vs. Terapia Wyciszająca",
-      chartSubtitle: "Wpływ procedur relaksacyjnych Slow Skin™ na poziom hormonów stresu i neuropeptydów zapalnych w skórze.",
+      chartSubtitle: "Wpływ procedur relaksacyjnych Slow Skin na poziom hormonów stresu i neuropeptydów zapalnych w skórze.",
       chartType: "comparison",
       data: [
         {
@@ -2491,7 +2491,7 @@ export const ARTICLES: MagazineArticle[] = [
     content: [
       "Większość kobiet zgłaszających się do naszego instytutu w Jelczu-Laskowicach nie kojarzy swoich problemów skórnych ze stanem układu nerwowego. Zmiany trądzikowe na linii żuchwy, nagłe pieczenie policzków, poszarzały odcień cery czy nawracający rumień bywają błędnie diagnozowane jako proste defekty kosmetyczne. Wnikliwy wywiad kosmetologiczny pokazuje jednak, że u podłoża niemal każdej przewlekłej dermatozy leży nadaktywność współczulnego układu nerwowego i przeciążenie osi stresowej HPA.",
       "Skóra nie jest bierną powłoką. Jest gęsto unerwionym, autonomicznym narządem neuroendokrynnym, który potrafi samodzielnie syntetyzować hormony stresu oraz reagować na każdy impuls nerwowy. Kiedy organizm znajduje się w stanie chronicznej czujności, krew i składniki odżywcze są priorytetowo kierowane do serca i mięśni, a mikrokrążenie skórne ulega wazokonstrukcji (zwężeniu naczyń). W efekcie komórki skóry ulegają chronicznemu niedotlenieniu, a procesy naprawcze zostają wyhamowane.",
-      "Odpowiedzią na te wyzwania w Slow Skin Concept są procedury neurokosmetyczne oraz autorskie techniki manualne: <a href=\"/neurolifting-nogier/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Neurolifting — Rytuał Odprężający dla Twarzy</a> oraz terapia <a href=\"/adult-acne-therapy/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Adult Acne Therapy™</a>. Łączymy w nich stymulację włókien C-tactile z biozgodnymi substancjami uciszającymi receptory nerwowe.",
+      "Odpowiedzią na te wyzwania w Slow Skin Concept są procedury neurokosmetyczne oraz autorskie techniki manualne: <a href=\"/neurolifting-nogier/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Neurolifting — Rytuał Odprężający dla Twarzy</a> oraz terapia <a href=\"/adult-acne-therapy/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Adult Acne Therapy</a>. Łączymy w nich stymulację włókien C-tactile z biozgodnymi substancjami uciszającymi receptory nerwowe.",
       "Zapraszamy do sprawdzenia reaktywności swojej cery za pomocą kwestionariusza <a href=\"ai-analiza\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Analiza Skóry Online</a> lub bezpośredniego umówienia wizyty w naszym kameralnym gabinecie przez <a href=\"rezerwacja-online\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Formularz Rezerwacji Wizyty</a>."
     ],
     sections: [
@@ -2633,8 +2633,8 @@ export const ARTICLES: MagazineArticle[] = [
     content: [
       "Niemal 80% problemów, z którymi zgłaszają się do nas klientki — od uciążliwego ściągnięcia po myciu, poprzez nawracające zaostrzenia trądziku różowatego, aż po pieczenie policzków — ma jedno wspólne podłoże: uszkodzenie płaszcza hydrolipidowego. Niestety, w odpowiedzi na te objawy wiele osób sięga po jeszcze silniejsze preparaty oczyszczające lub agresywne kwasy, wpadając w błędne koło barierowej degradacji.",
       "Aby skutecznie pomóc skórze, musimy zrozumieć jej architekturę. Najbardziej zewnętrzna warstwa naskórka (stratum corneum) nie jest martwym pancerzem. To wysoce aktywna metabolicznie struktura, w której komórki bezjądrowe (korneocyty) są ściśle spojone wielowarstwową matrycą lipidową. Jeśli w tej matrycy zabraknie choćby jednego elementu — ceramidów, cholesterolu lub kwasów tłuszczowych — woda bez przeszkód odparowuje w głąb atmosfery, a alergeny i bakterie wnikają w głąb tkanek.",
-      "W naszym instytucie w Jelczu-Laskowicach nie zgadujemy stanu bariery. W ramach protokołu <a href=\"/skin-readiness/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Skin Readiness™</a> wykonujemy komputerowy pomiar aparatury Nati V3 / Iomet, badając rzeczywisty wskaźnik TEWL oraz poziom nawilżenia głębokiego.",
-      "Zanim zaplanujesz intensywne terapie odmładzające, takie jak <a href=\"/lift-firm-therapy/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Lift & Firm Therapy™</a>, musisz oddać skórze jej barierowość. Sprawdź kondycję swojej cery w bezpłatnym teście <a href=\"ai-analiza\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Analiza Skóry Online</a> lub zarezerwuj wizytę przez <a href=\"rezerwacja-online\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Kalendarz Wizyt</a>."
+      "W naszym instytucie w Jelczu-Laskowicach nie zgadujemy stanu bariery. W ramach protokołu <a href=\"/skin-readiness/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Skin Readiness</a> wykonujemy komputerowy pomiar aparatury Nati V3 / Iomet, badając rzeczywisty wskaźnik TEWL oraz poziom nawilżenia głębokiego.",
+      "Zanim zaplanujesz intensywne terapie odmładzające, takie jak <a href=\"/lift-firm-therapy/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Lift & Firm Therapy</a>, musisz oddać skórze jej barierowość. Sprawdź kondycję swojej cery w bezpłatnym teście <a href=\"ai-analiza\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Analiza Skóry Online</a> lub zarezerwuj wizytę przez <a href=\"rezerwacja-online\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Kalendarz Wizyt</a>."
     ],
     sections: [
       {
@@ -2723,7 +2723,7 @@ export const REVIEWS: Review[] = [
     problem: "7 lat bezskutecznego leczenia antybiotykami i sterydami, nawracający rumień, pieczenie i obrzęk",
     result: "Odbudowa bariery naskórkowej i mikrobiomu po 3 zabiegach, ustąpienie bólu i zaczerwienienia",
     duration: "Seria 3 zabiegów biologicznych + celowana pielęgnacja domowa",
-    service: "Rosacea Calm Therapy™ — Odbudowa Naskórka i Mikrobiomu",
+    service: "Rosacea Calm Therapy — Odbudowa Naskórka i Mikrobiomu",
     platform: "slow-skin.pl",
     rating: 5,
     verified: true,
@@ -2744,7 +2744,7 @@ export const REVIEWS: Review[] = [
     problem: "Uciążliwy trądzik różowaty, pieczenie policzków i nietolerancja kosmetyków",
     result: "Odstawienie farmakoterapii, wygaszenie rumienia i trwała stabilizacja cery",
     duration: "3 zabiegi gabinetowe + bionomiczny Beauty Plan",
-    service: "Rosacea Calm Therapy™",
+    service: "Rosacea Calm Therapy",
     platform: "slow-skin.pl",
     rating: 5,
     verified: true,
@@ -2764,8 +2764,8 @@ export const REVIEWS: Review[] = [
     title: "Spektakularny efekt świeżości i zdrowego blasku już po pierwszym zabiegu",
     problem: "Cera szara, ziemista, odwodniona pracą przed komputerem i w klimatyzacji",
     result: "Głębokie nawodnienie, promienny koloryt i aksamitna gładkość bez podkładu",
-    duration: "1 zabieg otwierający Skin Readiness™ + Healthy Glow",
-    service: "Healthy Glow Therapy™",
+    duration: "1 zabieg otwierający Skin Readiness + Healthy Glow",
+    service: "Healthy Glow Therapy",
     platform: "slow-skin.pl",
     rating: 5,
     verified: true,
@@ -2786,7 +2786,7 @@ export const REVIEWS: Review[] = [
     problem: "Przetrawiony, cienki naskórek, nadreaktywność i wypalenie barierowe (skin burnout)",
     result: "Odbudowa cementu międzykomórkowego, powrót sprężystości i odporności",
     duration: "Indywidualny proces naprawczy z preparatami DMS",
-    service: "Skin Readiness™ & Pielęgnacja Bionomiczna",
+    service: "Skin Readiness & Pielęgnacja Bionomiczna",
     platform: "slow-skin.pl",
     rating: 5,
     verified: true,
@@ -2827,8 +2827,8 @@ export const REVIEWS: Review[] = [
     title: "Meso Remodeling dał mi efekt naturalnego liftingu bez igieł i bez obrzęków",
     problem: "Utrata jędrności, rozszerzone pory, zmęczenie tkankowe i wiotczenie owalu twarzy",
     result: "Zagęszczenie struktury naskórka, zwężenie porów i uniesienie linii żuchwy",
-    duration: "Seria biostymulacji Meso Remodeling™",
-    service: "Meso Remodeling™ — Biologiczna Przebudowa Skóry",
+    duration: "Seria biostymulacji Meso Remodeling",
+    service: "Meso Remodeling — Biologiczna Przebudowa Skóry",
     platform: "slow-skin.pl",
     rating: 5,
     verified: true,
@@ -2848,7 +2848,7 @@ export const REVIEWS: Review[] = [
     title: "Ukojenie dla cery naczynkowej",
     text: "Wspaniałe, ciepłe miejsce w Jelczu-Laskowicach. Korzystam z zabiegów regularnie i moja skóra nigdy nie była tak spokojna i gładka. Terapia Rosacea Calm przyniosła ogromną ulgę mojej cerze naczynkowej. Atmosfera pełna spokoju, życzliwości i profesjonalizmu. Bardzo polecam!",
     rating: 5,
-    service: "Rosacea Calm Therapy™",
+    service: "Rosacea Calm Therapy",
     platform: "Google",
     verified: true
   },
@@ -2856,9 +2856,9 @@ export const REVIEWS: Review[] = [
     id: "rev-2",
     author: "Justyna Mazur",
     title: "Świetna diagnoza i relaks",
-    text: "Pełen profesjonalizm i wspaniałe podejście do klienta. Pierwsza wizyta Skin Readiness™ pozwoliła mi wreszcie zrozumieć, czego naprawdę potrzebuje moja skóra bez naciągania na drogie zabiegi. Pielęgnacja przyniosła natychmiastowe ukojenie i niesamowity relaks. Cudowny, przytulny gabinet!",
+    text: "Pełen profesjonalizm i wspaniałe podejście do klienta. Pierwsza wizyta Skin Readiness pozwoliła mi wreszcie zrozumieć, czego naprawdę potrzebuje moja skóra bez naciągania na drogie zabiegi. Pielęgnacja przyniosła natychmiastowe ukojenie i niesamowity relaks. Cudowny, przytulny gabinet!",
     rating: 5,
-    service: "Skin Readiness™",
+    service: "Skin Readiness",
     platform: "Google",
     verified: true
   },
@@ -2878,7 +2878,7 @@ export const REVIEWS: Review[] = [
     title: "Skuteczna pomoc dla cery z problemami",
     text: "Zgłosiłem się do gabinetu z nawracającymi problemami z cerą i przesuszeniem. Indywidualny plan pielęgnacyjny i zabiegi przyniosły widoczną poprawę i uspokoiły moją skórę. Bardzo rzetelne, pełne troski i profesjonalizmu podejście. Szczerze polecam każdemu.",
     rating: 5,
-    service: "Adult Acne Therapy™",
+    service: "Adult Acne Therapy",
     platform: "Google",
     verified: true
   },
@@ -2886,9 +2886,9 @@ export const REVIEWS: Review[] = [
     id: "rev-5",
     author: "Izabela Nowicka",
     title: "Healthy Glow przywróciło blask",
-    text: "Przesympatyczna pani kosmetolog z ogromną empatią i wiedzą. Zabieg Healthy Glow Therapy™ cudownie odświeżył moją zmęczoną, szarą twarz. Skóra po wizycie była miękka, nawilżona i pełna blasku. Pyszna herbata, dbałość o każdy detal i niezwykle serdeczna opieka.",
+    text: "Przesympatyczna pani kosmetolog z ogromną empatią i wiedzą. Zabieg Healthy Glow Therapy cudownie odświeżył moją zmęczoną, szarą twarz. Skóra po wizycie była miękka, nawilżona i pełna blasku. Pyszna herbata, dbałość o każdy detal i niezwykle serdeczna opieka.",
     rating: 5,
-    service: "Healthy Glow Therapy™",
+    service: "Healthy Glow Therapy",
     platform: "Google",
     verified: true
   }

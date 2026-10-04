@@ -166,7 +166,7 @@ export const MethodPage: React.FC<MethodPageProps> = ({ onLinkClick, onOpenBooki
       shortTitle: "Pielęgnacja domowa",
       tagline: "Zabieg inicjuje zmianę. Pielęgnacja nadaje jej ciągłość.",
       focus: "CIĄGŁOŚĆ • PROSTOTA • DOPASOWANIE",
-      description: "Zabieg jest pojedynczym bodźcem, natomiast pielęgnacja towarzyszy skórze każdego dnia. Jej zadaniem jest podtrzymywanie kierunku rozpoczętego w gabinecie, wspieranie komfortu i bariery oraz przygotowywanie skóry do kolejnych etapów terapii. Plan pielęgnacyjny powinien być prosty, czytelny i dopasowany do aktualnej kondycji skóry. Nie jest ustalany raz na zawsze — zmienia się wraz z jej potrzebami i odpowiedzią na prowadzone działania. Skin Infuzion™ stanowi domowe przedłużenie idei pielęgnacyjnej Slow Skin Concept™. System dermaviduals® umożliwia dalszą personalizację poprzez dobór odpowiednich produktów, baz i koncentratów aktywnych.",
+      description: "Zabieg jest pojedynczym bodźcem, natomiast pielęgnacja towarzyszy skórze każdego dnia. Jej zadaniem jest podtrzymywanie kierunku rozpoczętego w gabinecie, wspieranie komfortu i bariery oraz przygotowywanie skóry do kolejnych etapów terapii. Plan pielęgnacyjny powinien być prosty, czytelny i dopasowany do aktualnej kondycji skóry. Nie jest ustalany raz na zawsze — zmienia się wraz z jej potrzebami i odpowiedzią na prowadzone działania. Skin Infuzion™ stanowi domowe przedłużenie idei pielęgnacyjnej Slow Skin Concept. System dermaviduals® umożliwia dalszą personalizację poprzez dobór odpowiednich produktów, baz i koncentratów aktywnych.",
       rule: "Pielęgnacja domowa nie jest oddzielona od terapii gabinetowej. Stanowi jej codzienną, indywidualnie dopasowaną kontynuację.",
       scopeLabel: "ZAKRES DZIAŁAŃ",
       details: [
@@ -184,7 +184,7 @@ export const MethodPage: React.FC<MethodPageProps> = ({ onLinkClick, onOpenBooki
       shortTitle: "Neuroplastyczność skóry",
       tagline: "Siłę skóry poznaje się nie po braku reakcji, lecz po zdolności powrotu do równowagi.",
       focus: "ADAPTACJA • ODPOWIEDŹ • POWRÓT DO RÓWNOWAGI",
-      description: "W Slow Skin Concept™ neuroplastyczność skóry jest autorską interpretacją jej zdolności do adaptacji, proporcjonalnego reagowania oraz powrotu do równowagi po ustaniu bodźca. Odnosi się do wzajemnych zależności pomiędzy skórą, układem nerwowym i odpornościowym. Nie oznacza jednak, że skóra „uczy się” w taki sam sposób jak mózg. Neuroplastyczność skóry nie jest ostatnim zabiegiem ani oddzielnym etapem następującym po siedmiu wcześniejszych kręgach. Jest nadrzędnym kierunkiem całej Spirali, realizowanym poprzez odpowiednią kolejność pielęgnacji, zabiegów i kolejnych bodźców.",
+      description: "W Slow Skin Concept neuroplastyczność skóry jest autorską interpretacją jej zdolności do adaptacji, proporcjonalnego reagowania oraz powrotu do równowagi po ustaniu bodźca. Odnosi się do wzajemnych zależności pomiędzy skórą, układem nerwowym i odpornościowym. Nie oznacza jednak, że skóra „uczy się” w taki sam sposób jak mózg. Neuroplastyczność skóry nie jest ostatnim zabiegiem ani oddzielnym etapem następującym po siedmiu wcześniejszych kręgach. Jest nadrzędnym kierunkiem całej Spirali, realizowanym poprzez odpowiednią kolejność pielęgnacji, zabiegów i kolejnych bodźców.",
       rule: "Celem nie jest całkowity brak reakcji skóry, lecz odpowiedź adekwatna do bodźca i sprawny powrót do równowagi po jego ustaniu.",
       scopeLabel: "ZAKRES DZIAŁAŃ",
       details: [
@@ -202,7 +202,7 @@ export const MethodPage: React.FC<MethodPageProps> = ({ onLinkClick, onOpenBooki
     {
       id: "konsultacja",
       badge: "KROK PIERWSZY • ZAWSZE",
-      title: "Konsultacja Biological Skin Intelligence™",
+      title: "Konsultacja Biological Skin Intelligence",
       subtitle: "Punktem wyjścia jest pogłębiona konsultacja pozwalająca poznać aktualny sposób funkcjonowania skóry.",
       description: "Podczas konsultacji analizujemy aktualny stan skóry, dotychczasową pielęgnację, reakcje na kosmetyki i zabiegi, styl życia oraz aktualny poziom gotowości skóry do dalszej terapii. Efektem nie jest wybór przypadkowego zabiegu, ale spójny plan dalszego postępowania.",
       cta: "Umów konsultację",
@@ -232,7 +232,7 @@ export const MethodPage: React.FC<MethodPageProps> = ({ onLinkClick, onOpenBooki
     {
       id: "autorska-terapia",
       badge: "FLAGOWA FORMA PRACY",
-      title: "Autorska Terapia Slow Skin Concept™",
+      title: "Autorska Terapia Slow Skin Concept",
       subtitle: "Zabieg, który nie istnieje przed spotkaniem ze skórą.",
       description: "Indywidualnie projektowany, wielokierunkowy zabieg odpowiadający na aktualne biologiczne priorytety skóry. Nie korzystamy z jednego protokołu dla wszystkich. Łączy techniki manualne, odpowiednio dobrane składniki, preparaty zabiegowe i technologie wspierające.",
       cta: "Poznaj sposób pracy",
@@ -248,7 +248,7 @@ export const MethodPage: React.FC<MethodPageProps> = ({ onLinkClick, onOpenBooki
       id: "atelier",
       badge: "KAMERALNA OPIEKA",
       title: "Indywidualna Sesja Pielęgnacyjna Skóry",
-      subtitle: "Najbardziej spersonalizowana forma opieki w Slow Skin Concept™.",
+      subtitle: "Najbardziej spersonalizowana forma opieki w Slow Skin Concept.",
       description: "Sesja projektowana wyłącznie dla Twojej skóry – tak jak indywidualny plan tworzony jest dla konkretnej osoby. To nie pośpieszny zabieg z cennika, lecz spokojna, wieloetapowa pielęgnacja oparta na bieżących potrzebach Twojej cery.",
       cta: "Zarezerwuj czas na pielęgnację",
       url: "/zabiegi-na-twarz/",
@@ -294,7 +294,7 @@ export const MethodPage: React.FC<MethodPageProps> = ({ onLinkClick, onOpenBooki
       badge: "TECHNOLOGIA WSPERAJĄCA",
       title: "Neurolifting",
       subtitle: "Technologia wspierająca procedurę, a nie uniwersalny szablon pielęgnacji skóry.",
-      description: "Neurolifting w Slow Skin Concept™ jest jednym z narzędzi, które może zostać wykorzystane w indywidualnie projektowanej terapii. Nie jest uniwersalnym zabiegiem „na odmłodzenie” — jego zastosowanie i intensywność każdorazowo wynikają z aktualnego stanu skóry, celu terapii i kwalifikacji.",
+      description: "Neurolifting w Slow Skin Concept jest jednym z narzędzi, które może zostać wykorzystane w indywidualnie projektowanej terapii. Nie jest uniwersalnym zabiegiem „na odmłodzenie” — jego zastosowanie i intensywność każdorazowo wynikają z aktualnego stanu skóry, celu terapii i kwalifikacji.",
       cta: "Zapytaj, czy Neurolifting jest odpowiedni dla Ciebie",
       url: "/neurolifting/",
       bullets: [
@@ -319,7 +319,7 @@ export const MethodPage: React.FC<MethodPageProps> = ({ onLinkClick, onOpenBooki
         </div>
 
         <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-light tracking-tight text-luxury-dark leading-[1.15]">
-          Slow Skin Concept™
+          Slow Skin Concept
         </h1>
 
         <p className="font-serif text-xl sm:text-2xl italic text-luxury-gold font-normal max-w-2xl mx-auto">
@@ -330,7 +330,7 @@ export const MethodPage: React.FC<MethodPageProps> = ({ onLinkClick, onOpenBooki
 
         <div className="space-y-5 text-sm sm:text-base text-luxury-dark font-light leading-relaxed max-w-3xl mx-auto text-justify sm:text-center">
           <p>
-            <strong>Slow Skin Concept™</strong> to holistyczny sposób pracy ze skórą, oparty na kosmetologii interdyscyplinarnej i filozofii <strong>Slow Aging</strong>.
+            <strong>Slow Skin Concept</strong> to holistyczny sposób pracy ze skórą, oparty na kosmetologii interdyscyplinarnej i filozofii <strong>Slow Aging</strong>.
           </p>
           <p>
             Nie rozpoczynam od wyboru zabiegu ani od walki z pojedynczym objawem. Najpierw staram się zrozumieć, <strong>dlaczego skóra reaguje w określony sposób, czego potrzebuje właśnie teraz i na jakie działania jest rzeczywiście gotowa</strong>.
@@ -368,13 +368,13 @@ export const MethodPage: React.FC<MethodPageProps> = ({ onLinkClick, onOpenBooki
             </span>
             <h3 className="font-serif text-base font-normal text-luxury-dark">Długofalowa zdolność powrotu do równowagi</h3>
             <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
-              Celem Slow Skin Concept™ jest wspieranie homeodynamiki skóry — jej zdolności do reagowania na zmieniające się warunki, adaptacji oraz powrotu do równowagi. Rodzaj, intensywność i kolejność działań dobieram do aktualnej kondycji skóry i jej gotowości na kolejny bodziec.
+              Celem Slow Skin Concept jest wspieranie homeodynamiki skóry — jej zdolności do reagowania na zmieniające się warunki, adaptacji oraz powrotu do równowagi. Rodzaj, intensywność i kolejność działań dobieram do aktualnej kondycji skóry i jej gotowości na kolejny bodziec.
             </p>
           </div>
         </div>
       </DiscreetSection>
 
-      {/* 2. BIOLOGICZNA SPIRALA INTELIGENCJI SKÓRY™ */}
+      {/* 2. BIOLOGICZNA SPIRALA INTELIGENCJI SKÓRY */}
       <DiscreetSection className="space-y-12" id="biologiczna-spirala-sekcja">
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-luxury-gold/10 border border-luxury-gold/30 rounded-full">
@@ -384,10 +384,10 @@ export const MethodPage: React.FC<MethodPageProps> = ({ onLinkClick, onOpenBooki
             </span>
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-light text-luxury-dark">
-            Biologiczna Spirala Inteligencji Skóry™
+            Biologiczna Spirala Inteligencji Skóry
           </h2>
           <p className="text-xs sm:text-sm text-luxury-dark/95 font-light max-w-2xl mx-auto leading-relaxed">
-            Sercem Slow Skin Concept™ jest <strong>Biologiczna Spirala Inteligencji Skóry™</strong> – autorski model, który pomaga uporządkować biologiczne priorytety skóry i zdecydować, czego potrzebuje ona w danym momencie.
+            Sercem Slow Skin Concept jest <strong>Biologiczna Spirala Inteligencji Skóry</strong> – autorski model, który pomaga uporządkować biologiczne priorytety skóry i zdecydować, czego potrzebuje ona w danym momencie.
           </p>
           <p className="font-serif text-sm italic text-luxury-gold">
             Nie jest to gotowy protokół wykonywany identycznie u każdej osoby. To dynamiczna mapa terapeutyczna.
@@ -640,7 +640,7 @@ export const MethodPage: React.FC<MethodPageProps> = ({ onLinkClick, onOpenBooki
                   Nazywam się <strong>Katarzyna Brzezińska</strong>. Od ponad 17 lat pracuję ze skórą w nurcie kosmetologii interdyscyplinarnej.
                 </p>
                 <p>
-                  Jestem twórczynią <strong>Slow Skin Concept™</strong> oraz autorką <strong>Biologicznej Spirali Inteligencji Skóry™</strong>.
+                  Jestem twórczynią <strong>Slow Skin Concept</strong> oraz autorką <strong>Biologicznej Spirali Inteligencji Skóry</strong>.
                 </p>
                 <p>
                   W swojej pracy nie koncentruję się wyłącznie na tym, co widać na powierzchni. Patrzę na skórę w szerszym kontekście – jej bariery, reaktywności, mikrobiomu, stylu życia, stresu oraz kondycji całego organizmu.
@@ -730,19 +730,19 @@ export const MethodPage: React.FC<MethodPageProps> = ({ onLinkClick, onOpenBooki
                 <ul className="space-y-1.5 text-[11px] text-luxury-dark font-light">
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-luxury-gold" />
-                    <span><strong>Slow Skin Concept™</strong> — filozofia w rytmie biologii</span>
+                    <span><strong>Slow Skin Concept</strong> — filozofia w rytmie biologii</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-luxury-gold" />
-                    <span><strong>Biologiczna Spirala Inteligencji Skóry™</strong></span>
+                    <span><strong>Biologiczna Spirala Inteligencji Skóry</strong></span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-luxury-gold" />
-                    <span><strong>Biological Skin Intelligence™</strong></span>
+                    <span><strong>Biological Skin Intelligence</strong></span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-luxury-gold" />
-                    <span><strong>Atelier Biologicznej Terapii Skóry™</strong></span>
+                    <span><strong>Atelier Biologicznej Terapii Skóry</strong></span>
                   </li>
                 </ul>
               </div>
@@ -762,7 +762,7 @@ export const MethodPage: React.FC<MethodPageProps> = ({ onLinkClick, onOpenBooki
           </h2>
           <div className="w-16 h-[1.5px] bg-luxury-gold mx-auto my-2" />
           <p className="text-xs sm:text-sm text-luxury-dark/95 font-light max-w-2xl mx-auto leading-relaxed">
-            W Slow Skin Concept™ każda droga do zdrowej skóry ma uporządkowaną strukturę. Wybierz format odpowiadający Twoim aktualnym potrzebom.
+            W Slow Skin Concept każda droga do zdrowej skóry ma uporządkowaną strukturę. Wybierz format odpowiadający Twoim aktualnym potrzebom.
           </p>
         </div>
 

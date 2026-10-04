@@ -491,7 +491,7 @@ export default function WcagWidget() {
               {/* Informative compliant footer badge */}
               <div className="mt-3 text-center">
                 <span className="text-[8px] font-mono tracking-widest text-luxury-dark/50 uppercase block">
-                  Zgodność z WCAG 2.1 AA • Slow Skin™
+                  Zgodność z WCAG 2.1 AA • Slow Skin
                 </span>
               </div>
             </motion.div>
