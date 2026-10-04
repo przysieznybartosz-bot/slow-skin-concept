@@ -5141,15 +5141,16 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
 
                       {/* START SCREEN (KROK 0) */}
                       {quizStep === 0 && (
-                        <div className="text-center py-6 md:py-10 max-w-xl mx-auto space-y-6 relative z-10 animate-fade-in animate-duration-300">
+                        <div className="text-center py-6 md:py-8 max-w-md mx-auto space-y-5 relative z-10 animate-fade-in animate-duration-300">
                           <div className="w-12 h-12 rounded-full border border-luxury-sand flex items-center justify-center mx-auto text-luxury-gold">
                             <HelpCircle className="w-5 h-5" strokeWidth={1.3} />
                           </div>
-                          <div className="space-y-2">
-                            <span className="font-mono text-[8px] tracking-widest text-luxury-gold uppercase block">Bezpieczeństwo &amp; Uważność</span>
-                            <h3 className="font-serif text-xl md:text-2xl font-light text-luxury-dark">Poznaj potrzeby swojej skóry</h3>
-                            <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
-                              Odpowiedz na trzy krótkie pytania. Twoje odpowiedzi pomogą wskazać wstępny kierunek pielęgnacji i pracy gabinetowej. Ostateczny dobór zabiegu odbywa się podczas konsultacji i oceny skóry.
+                          <div className="space-y-1">
+                            <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase block font-semibold">
+                              Interaktywny dobór zabiegu
+                            </span>
+                            <p className="text-xs text-luxury-dark/80 font-light">
+                              3 proste pytania · wstępny kierunek terapii
                             </p>
                           </div>
                           <button
@@ -5159,9 +5160,9 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                               setQuizSensitivity(null);
                               setQuizGoal(null);
                             }}
-                            className="px-8 py-3.5 bg-luxury-dark text-luxury-cream hover:bg-luxury-gold hover:text-white transition-all text-xs font-mono tracking-widest uppercase cursor-pointer rounded-none mx-auto block"
+                            className="px-8 py-3.5 bg-luxury-dark text-luxury-cream hover:bg-luxury-gold hover:text-white transition-all text-xs font-mono tracking-widest uppercase cursor-pointer rounded-none mx-auto block shadow-md font-medium"
                           >
-                            Rozpocznij &rarr;
+                            Rozpocznij dobór &rarr;
                           </button>
                         </div>
                       )}
