@@ -5116,14 +5116,14 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     {/* Header sekcji */}
                     <div className="text-center max-w-2xl mx-auto space-y-3">
                       <span className="font-mono text-[9px] md:text-[10px] tracking-[0.25em] text-luxury-gold uppercase block font-semibold">
-                        Twoja Zindywidualizowana Ścieżka
+                        Pierwszy krok do indywidualnej pielęgnacji
                       </span>
                       <h2 className="font-serif text-[36px] md:text-[36px] font-light text-luxury-dark tracking-tight leading-tight">
-                        Poznaj potrzeby swojej skóry
+                        Od czego zacząć? Poznaj potrzeby swojej skóry
                       </h2>
                       <div className="w-12 h-[1px] bg-luxury-gold/40 mx-auto mt-2" />
                       <p className="text-xs md:text-sm text-luxury-dark/95 max-w-xl mx-auto leading-relaxed">
-                        Odpowiedz na trzy krótkie pytania. Twoje odpowiedzi pomogą wskazać wstępny kierunek pielęgnacji i pracy gabinetowej. Ostateczny dobór zabiegu odbywa się podczas konsultacji i oceny skóry.
+                        Nie wiesz, którą usługę wybrać? Odpowiedz na trzy krótkie pytania dotyczące Twojej skóry i oczekiwań. Twoje odpowiedzi pomogą wskazać propozycję konsultacji lub zabiegu. Ostateczny dobór ustalimy podczas indywidualnej oceny skóry.
                       </p>
                     </div>
 
@@ -5141,16 +5141,15 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
 
                       {/* START SCREEN (KROK 0) */}
                       {quizStep === 0 && (
-                        <div className="text-center py-6 md:py-8 max-w-md mx-auto space-y-5 relative z-10 animate-fade-in animate-duration-300">
+                        <div className="text-center py-6 md:py-8 max-w-xl mx-auto space-y-5 relative z-10 animate-fade-in animate-duration-300">
                           <div className="w-12 h-12 rounded-full border border-luxury-sand flex items-center justify-center mx-auto text-luxury-gold">
                             <HelpCircle className="w-5 h-5" strokeWidth={1.3} />
                           </div>
-                          <div className="space-y-1">
-                            <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase block font-semibold">
-                              Interaktywny dobór zabiegu
-                            </span>
-                            <p className="text-xs text-luxury-dark/80 font-light">
-                              3 proste pytania · wstępny kierunek terapii
+                          <div className="space-y-2">
+                            <span className="font-mono text-[8px] tracking-widest text-luxury-gold uppercase block">Bezpieczeństwo &amp; Uważność</span>
+                            <h3 className="font-serif text-xl md:text-2xl font-light text-luxury-dark">Dobór zabiegu w 30 sekund</h3>
+                            <p className="text-xs text-luxury-dark/95 font-light leading-relaxed max-w-lg mx-auto">
+                              Krótki kwestionariusz pomoże określić aktualne potrzeby Twojej skóry, stopień jej wrażliwości oraz priorytety pielęgnacyjne. Ułatwi to wybór odpowiedniej konsultacji lub wstępnego zabiegu gabinetowego.
                             </p>
                           </div>
                           <button
@@ -5162,7 +5161,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             }}
                             className="px-8 py-3.5 bg-luxury-dark text-luxury-cream hover:bg-luxury-gold hover:text-white transition-all text-xs font-mono tracking-widest uppercase cursor-pointer rounded-none mx-auto block shadow-md font-medium"
                           >
-                            Rozpocznij dobór &rarr;
+                            Rozpocznij dobór zabiegu &rarr;
                           </button>
                         </div>
                       )}
@@ -5389,7 +5388,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                       </div>
 
                                       <div className="space-y-1.5 pt-1">
-                                        <span className="font-mono text-[9px] tracking-wider text-[#a89060] uppercase block font-semibold">Główny cel estetyczno-barierowy:</span>
+                                        <span className="font-mono text-[9px] tracking-wider text-[#a89060] uppercase block font-semibold">Główny cel pielęgnacyjny:</span>
                                         <p className="text-xs text-luxury-dark/95 font-light leading-relaxed text-justify">{rec.treatment.description}</p>
                                       </div>
                                     </div>
@@ -11931,7 +11930,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     <motion.div initial={{ opacity:0 }} animate={{ opacity:1 }} className="space-y-6 text-center py-4">
                       <h3 className="font-serif text-2xl font-light text-luxury-dark">7. Oczekiwania wobec planowanej terapii</h3>
                       <p className="text-xs text-luxury-dark/95 font-light max-w-md mx-auto">
-                        Wybierz swój najważniejszy cel estetyczno-barierowy, który stanowi dla Ciebie absolutny priorytet dekompresji i odnowy.
+                        Wybierz swój najważniejszy cel pielęgnacyjny, który stanowi dla Ciebie priorytet podczas planowanej terapii gabinetowej.
                       </p>
                       
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-2xl mx-auto pt-2 text-left">
