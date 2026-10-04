@@ -4842,10 +4842,10 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       <div className="absolute right-0 top-0 w-32 h-32 bg-luxury-gold/5 blur-2xl rounded-full z-0 pointer-events-none" />
                       
                       <div className="text-left space-y-2 relative z-10 max-w-xl flex-grow">
-                        <span className="font-mono text-[8px] tracking-[0.2em] text-luxury-gold uppercase block font-bold leading-none">Masz dodatkowe obawy lub nietypowy przypadek?</span>
-                        <h4 className="font-serif text-lg text-luxury-dark leading-snug">Zadzwoń do nas. Rozmowa do niczego nie zobowiązuje.</h4>
+                        <span className="font-mono text-[8px] tracking-[0.2em] text-luxury-gold uppercase block font-bold leading-none">Masz pytania przed wizytą?</span>
+                        <h4 className="font-serif text-lg text-luxury-dark leading-snug">Zadzwoń. Spokojnie omówimy potrzeby Twojej skóry.</h4>
                         <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
-                          Nasz konsjerż cierpliwie wysłucha historii Twojej skóry, odpowie na każde pytanie o bezpieczeństwo i podpowie, który krok u nas będzie dla Ciebie najbardziej komfortowy.
+                          Wysłucham Twoich pytań i obaw, wyjaśnię, jak wygląda pierwsza wizyta, i pomogę wybrać odpowiedni rodzaj konsultacji. Rozmowa do niczego nie zobowiązuje.
                         </p>
                       </div>
 
@@ -4869,7 +4869,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           className="px-6 h-[46px] border border-luxury-sand text-luxury-dark hover:bg-luxury-sand/20 transition-all text-[11px] tracking-[0.12em] font-mono uppercase flex items-center justify-center gap-1.5"
                         >
                           <Calendar className="w-4 h-4 text-luxury-gold shrink-0" strokeWidth={1.5} />
-                          Konsultacja i diagnoza
+                          Konsultacja skinologiczna
                         </button>
                       </div>
                     </div>
