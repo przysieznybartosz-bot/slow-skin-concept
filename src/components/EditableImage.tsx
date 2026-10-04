@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Camera, Upload, Check, RefreshCw } from "lucide-react";
+import { isEditorMode } from "../utils/editorMode";
 
 export interface EditableImageProps {
   id: string;
@@ -117,33 +118,37 @@ export const EditableImage: React.FC<EditableImageProps> = ({
     }
   };
 
+  const canEdit = isEditorMode();
+
   return (
     <div
       className={`${containerClassName} ${aspectRatioClass} select-none`}
-      onDragOver={(e) => {
+      onDragOver={canEdit ? (e) => {
         e.preventDefault();
         setIsDragOver(true);
-      }}
-      onDragLeave={() => setIsDragOver(false)}
-      onDrop={(e) => {
+      } : undefined}
+      onDragLeave={canEdit ? () => setIsDragOver(false) : undefined}
+      onDrop={canEdit ? (e) => {
         e.preventDefault();
         setIsDragOver(false);
         if (e.dataTransfer.files && e.dataTransfer.files[0]) {
           handleUpload(e.dataTransfer.files[0]);
         }
-      }}
+      } : undefined}
     >
-      <input
-        type="file"
-        ref={fileInputRef}
-        accept="image/*"
-        className="hidden"
-        onChange={(e) => {
-          if (e.target.files && e.target.files[0]) {
-            handleUpload(e.target.files[0]);
-          }
-        }}
-      />
+      {canEdit && (
+        <input
+          type="file"
+          ref={fileInputRef}
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => {
+            if (e.target.files && e.target.files[0]) {
+              handleUpload(e.target.files[0]);
+            }
+          }}
+        />
+      )}
 
       {/* Main Image */}
       <img
@@ -158,8 +163,8 @@ export const EditableImage: React.FC<EditableImageProps> = ({
         referrerPolicy="no-referrer"
       />
 
-      {/* Drag & drop overlay */}
-      {isDragOver && (
+      {/* Drag & drop overlay - only when editing */}
+      {canEdit && isDragOver && (
         <div className="absolute inset-0 z-30 bg-luxury-gold/90 text-white flex flex-col items-center justify-center p-4 text-center backdrop-blur-xs border-2 border-dashed border-white">
           <Upload className="w-8 h-8 animate-bounce mb-2" />
           <p className="font-serif text-lg font-medium">Upuść tutaj swoje oryginalne zdjęcie</p>
@@ -169,8 +174,8 @@ export const EditableImage: React.FC<EditableImageProps> = ({
         </div>
       )}
 
-      {/* Uploading Spinner Overlay */}
-      {isUploading && (
+      {/* Uploading Spinner Overlay - only when editing */}
+      {canEdit && isUploading && (
         <div className="absolute inset-0 z-30 bg-white/90 text-luxury-dark flex flex-col items-center justify-center p-4 text-center backdrop-blur-xs">
           <RefreshCw className="w-6 h-6 animate-spin text-luxury-gold mb-2" />
           <p className="font-mono text-xs uppercase tracking-wider font-bold">Zapisywanie na serwerze...</p>
@@ -178,37 +183,41 @@ export const EditableImage: React.FC<EditableImageProps> = ({
         </div>
       )}
 
-      {/* Interactive Floating Button - ALWAYS AVAILABLE UNTIL DISABLED */}
-      <button
-        type="button"
-        onClick={(e) => {
-          e.stopPropagation();
-          fileInputRef.current?.click();
-        }}
-        className={`absolute top-3 right-3 z-20 px-2.5 py-1.5 rounded-2xs border text-[9px] font-mono uppercase tracking-wider transition-all duration-300 flex items-center gap-1.5 shadow-md cursor-pointer ${
-          isSuccess
-            ? "bg-emerald-600 text-white border-emerald-500 scale-105"
-            : "bg-white/95 hover:bg-white text-luxury-dark hover:text-luxury-gold border-luxury-gold/60 hover:shadow-lg"
-        }`}
-        title={`Kliknij lub przeciągnij plik, aby natychmiast zamienić zdjęcie: ${slotName}`}
-      >
-        {isSuccess ? (
-          <>
-            <Check className="w-3.5 h-3.5 text-white" />
-            <span className="font-bold">Zmieniono zdjęcie!</span>
-          </>
-        ) : (
-          <>
-            <Camera className="w-3.5 h-3.5 text-luxury-gold shrink-0" />
-            <span className="font-semibold">Zmień zdjęcie</span>
-          </>
-        )}
-      </button>
+      {/* Interactive Floating Button - visible ONLY in AI Studio / dev mode */}
+      {canEdit && (
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            fileInputRef.current?.click();
+          }}
+          className={`absolute top-3 right-3 z-20 px-2.5 py-1.5 rounded-2xs border text-[9px] font-mono uppercase tracking-wider transition-all duration-300 flex items-center gap-1.5 shadow-md cursor-pointer ${
+            isSuccess
+              ? "bg-emerald-600 text-white border-emerald-500 scale-105"
+              : "bg-white/95 hover:bg-white text-luxury-dark hover:text-luxury-gold border-luxury-gold/60 hover:shadow-lg"
+          }`}
+          title={`Kliknij lub przeciągnij plik, aby natychmiast zamienić zdjęcie: ${slotName}`}
+        >
+          {isSuccess ? (
+            <>
+              <Check className="w-3.5 h-3.5 text-white" />
+              <span className="font-bold">Zmieniono zdjęcie!</span>
+            </>
+          ) : (
+            <>
+              <Camera className="w-3.5 h-3.5 text-luxury-gold shrink-0" />
+              <span className="font-semibold">Zmień zdjęcie</span>
+            </>
+          )}
+        </button>
+      )}
 
-      {/* Subtle bottom tag indicating the slot */}
-      <div className="absolute top-3 left-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity bg-luxury-dark/80 backdrop-blur-xs text-white px-2 py-0.5 rounded-2xs text-[8px] font-mono tracking-wider uppercase border border-white/20 pointer-events-none">
-        📷 {slotName}
-      </div>
+      {/* Subtle bottom tag indicating the slot - visible ONLY in AI Studio / dev mode */}
+      {canEdit && (
+        <div className="absolute top-3 left-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity bg-luxury-dark/80 backdrop-blur-xs text-white px-2 py-0.5 rounded-2xs text-[8px] font-mono tracking-wider uppercase border border-white/20 pointer-events-none">
+          📷 {slotName}
+        </div>
+      )}
 
       {/* Custom Children (e.g. subtitles, gradients) */}
       {children}

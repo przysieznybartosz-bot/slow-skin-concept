@@ -68,6 +68,7 @@ import WcagWidget from "./components/WcagWidget";
 import CookieBot from "./components/CookieBot";
 import { OriginalImageManagerModal } from "./components/OriginalImageManagerModal";
 import { EditableImage } from "./components/EditableImage";
+import { isEditorMode } from "./utils/editorMode";
 import CookiesPolicyModal from "./components/CookiesPolicyModal";
 import { BeforeAfterSlider } from "./components/BeforeAfterSlider";
 import { DiscreetSection, DiscreetDiv, DiscreetCard } from "./components/DiscreetSection";
@@ -553,7 +554,20 @@ export default function App() {
     if (treatment.id === "pst-signal-therapy") {
       return customTreatmentImages["pst-couch"] || "/pst_couch.png" || treatment.image;
     }
-    return treatment.image;
+    // Automatyczna synchronizacja ze zdjęciami z sekcji "Jak możemy Ci pomóc":
+    if (treatment.id === "skin-readiness" || treatment.id === "videokonsultacja") {
+      return customTreatmentImages["how_help_first_visit"] || "/how_help_first_visit.png" || treatment.image;
+    }
+    if (treatment.id === "rosacea-calm-therapy" || treatment.id === "couperose-therapy") {
+      return customTreatmentImages["how_help_sensitive_skin"] || "/how_help_sensitive_skin.png" || treatment.image;
+    }
+    if (treatment.id === "neurolifting-nogier" || treatment.id === "neurolifting-face") {
+      return customTreatmentImages["how_help_neurolifting"] || "/how_help_neurolifting.png" || treatment.image;
+    }
+    if (treatment.id === "epigenetic-aging" || treatment.id === "skin-remodeling-therapy") {
+      return customTreatmentImages["how_help_meso_remodeling"] || "/how_help_meso_remodeling.png" || treatment.image;
+    }
+    return customTreatmentImages[treatment.id] || treatment.image;
   }, [customTreatmentImages]);
   const [selectedArticle, setSelectedArticle] = useState<MagazineArticle | null>(null);
   const [selectedTreatment, setSelectedTreatment] = useState<Treatment | null>(null);
@@ -7294,15 +7308,17 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             {PST_IMAGES[selectedPstImageIndex].tag}
                           </span>
                         )}
-                        {/* Quick Original Photo Uploader Button */}
-                        <button
-                          onClick={() => setIsImageManagerOpen(true)}
-                          className="absolute top-2 right-2 bg-white/90 hover:bg-white text-luxury-dark hover:text-luxury-gold px-2 py-1 text-[8px] font-mono uppercase tracking-wider rounded-2xs border border-luxury-sand/80 shadow-xs flex items-center gap-1 opacity-90 hover:opacity-100 transition-opacity cursor-pointer"
-                          title="Wstaw własne oryginalne zdjęcie dla tego zabiegu"
-                        >
-                          <Camera className="w-3 h-3 text-luxury-gold" />
-                          <span>Zmień zdjęcie</span>
-                        </button>
+                        {/* Quick Original Photo Uploader Button - visible ONLY in AI Studio / dev mode */}
+                        {isEditorMode() && (
+                          <button
+                            onClick={() => setIsImageManagerOpen(true)}
+                            className="absolute top-2 right-2 bg-white/90 hover:bg-white text-luxury-dark hover:text-luxury-gold px-2 py-1 text-[8px] font-mono uppercase tracking-wider rounded-2xs border border-luxury-sand/80 shadow-xs flex items-center gap-1 opacity-90 hover:opacity-100 transition-opacity cursor-pointer"
+                            title="Wstaw własne oryginalne zdjęcie dla tego zabiegu"
+                          >
+                            <Camera className="w-3 h-3 text-luxury-gold" />
+                            <span>Zmień zdjęcie</span>
+                          </button>
+                        )}
                       </div>
                       {selectedTreatment.id === "pst-signal-therapy" && (
                         <div className="grid grid-cols-2 gap-2 pt-2">
@@ -14032,18 +14048,20 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
         </svg>
       </a>
 
-      {/* Floating Manager & Universal Active Photo Mode */}
-      <div className="fixed bottom-6 left-6 z-40 flex items-center gap-2">
-        <button
-          onClick={() => setIsImageManagerOpen(true)}
-          className="bg-luxury-dark hover:bg-black text-luxury-gold border border-luxury-gold/80 px-4 py-2.5 rounded-full shadow-2xl text-[10px] font-mono uppercase tracking-wider flex items-center gap-2.5 transition-all hover:scale-105 cursor-pointer backdrop-blur-xs group"
-          title="Tryb Wymiany Zdjęć jest aktywny na każdym zdjęciu na stronie. Kliknij, aby otworzyć panel zbiorczy."
-        >
-          <Camera className="w-4 h-4 text-luxury-gold group-hover:rotate-12 transition-transform" />
-          <span className="font-semibold text-white">Tryb Wymiany Zdjęć: <span className="text-luxury-gold font-bold">AKTYWNY</span></span>
-          <span className="bg-luxury-gold text-luxury-dark text-[8px] font-bold px-1.5 py-0.5 rounded-full">ON</span>
-        </button>
-      </div>
+      {/* Floating Manager & Universal Active Photo Mode - visible ONLY in AI Studio / dev mode */}
+      {isEditorMode() && (
+        <div className="fixed bottom-6 left-6 z-40 flex items-center gap-2">
+          <button
+            onClick={() => setIsImageManagerOpen(true)}
+            className="bg-luxury-dark hover:bg-black text-luxury-gold border border-luxury-gold/80 px-4 py-2.5 rounded-full shadow-2xl text-[10px] font-mono uppercase tracking-wider flex items-center gap-2.5 transition-all hover:scale-105 cursor-pointer backdrop-blur-xs group"
+            title="Tryb Wymiany Zdjęć jest aktywny na każdym zdjęciu na stronie. Kliknij, aby otworzyć panel zbiorczy."
+          >
+            <Camera className="w-4 h-4 text-luxury-gold group-hover:rotate-12 transition-transform" />
+            <span className="font-semibold text-white">Tryb Wymiany Zdjęć: <span className="text-luxury-gold font-bold">AKTYWNY</span></span>
+            <span className="bg-luxury-gold text-luxury-dark text-[8px] font-bold px-1.5 py-0.5 rounded-full">ON</span>
+          </button>
+        </div>
+      )}
 
       <OriginalImageManagerModal
         isOpen={isImageManagerOpen}

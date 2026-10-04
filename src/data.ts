@@ -68,7 +68,7 @@ export const TREATMENTS: Treatment[] = [
     price: "400 PLN — 600 PLN",
     description: "„Pierwsza wizyta nie rozpoczyna się od wyboru zabiegu. Rozpoczyna się od zrozumienia skóry.” Biologiczny Reset Skóry to pierwsza, pogłębiona wizyta w Slow Skin Concept™. Łączy diagnozę aktualnej kondycji skóry z indywidualnie dobranym zabiegiem oczyszczającym i przygotowującym ją do dalszych działań. Celem wizyty jest rozpoznanie biologicznego punktu wyjścia: kondycji bariery naskórkowej, poziomu nawodnienia, reaktywności, sposobu rogowacenia, aktywności gruczołów łojowych, pigmentacji oraz tolerancji dotychczasowej pielęgnacji i wcześniejszych zabiegów. Reset nie oznacza intensywnego złuszczania — oznacza uporządkowanie skóry i przygotowanie jej do tego, czego rzeczywiście potrzebuje.",
     focus: "Diagnoza biologiczna, fizjologiczne oczyszczenie, regeneracja bariery naskórkowej, określenie biologicznego punktu wyjścia",
-    image: "/src/assets/images/skin_readiness_diag_1790249295522.jpg",
+    image: "/how_help_first_visit.png",
     indications: [
       "Rozpoczynanie terapii w Slow Skin Concept™",
       "Brak pewności, jakiego zabiegu aktualnie potrzebuje skóra",
@@ -234,7 +234,7 @@ export const TREATMENTS: Treatment[] = [
     price: "380 PLN — 480 PLN",
     description: "Rosacea Calm Therapy™ to indywidualnie komponowany zabieg przeznaczony dla skóry skłonnej do zaczerwienienia, pieczenia, uczucia gorąca i nadmiernej reaktywności. Łączy delikatne postępowanie z zastosowaniem substancji biologicznie aktywnych dobranych do aktualnego problemu, kondycji bariery i tolerancji skóry. Celem zabiegu jest poprawa komfortu, zwiększenie nawodnienia, wsparcie architektury lipidowej oraz pielęgnacja skóry naczyniowej i wrażliwej. Rosacea Calm Therapy™ nie jest jednym, gotowym protokołem. Dwie skóry z podobnym rumieniem mogą potrzebować innego rodzaju wsparcia, ponieważ różnią się stanem bariery, poziomem nawodnienia, reaktywnością i tolerancją składników aktywnych.",
     focus: "Kierunek działania: UKOJENIE • BARIERA • NAWODNIENIE • Wyciszenie rumienia i pieczenia, wsparcie mikrośrodowiska",
-    image: "/src/assets/images/rosacea_calm_1790249310213.jpg",
+    image: "/how_help_sensitive_skin.png",
     indications: [
       "Skóra łatwo i często się czerwieni",
       "Reaguje na zmiany temperatury, stres, emocje lub pielęgnację",
@@ -397,7 +397,7 @@ export const TREATMENTS: Treatment[] = [
     price: "500 PLN — 750 PLN, zależnie od dobranej metody i zakresu zabiegu",
     description: "Skin Remodeling Therapy™ to wielopoziomowa terapia dla skóry, która traci jędrność, elastyczność i wyraźny kontur. Nie opiera się na jednej technologii ani gotowym protokole. Jej przebieg projektowany jest na podstawie diagnozy biologicznej, aktualnej kondycji tkanek oraz gotowości skóry do określonego rodzaju stymulacji. W zależności od potrzeb dobierane są metody oddziałujące na różne poziomy — od pracy manualnej i neuromięśniowej, przez technologie nieinwazyjne, aż po intensywniejsze procedury przebudowujące. Znaczenie ma nie liczba zastosowanych metod, lecz ich właściwa kolejność, intensywność i czas potrzebny skórze na regenerację. Skin Remodeling Therapy™ nie oznacza zastosowania najsilniejszej technologii — oznacza wybór takiego bodźca, który skóra jest gotowa prawidłowo wykorzystać.",
     focus: "Kierunek działania: JĘDRNOŚĆ • GĘSTOŚĆ • OWAL • REGENERACJA • Przebudowa tkanek na odpowiednim poziomie biologicznym",
-    image: "/src/assets/images/remodeling_therapy_1790249327484.jpg",
+    image: "/how_help_meso_remodeling.png",
     indications: [
       "Utrata jędrności, elastyczności i gęstości skóry",
       "Zmiana owalu twarzy i opadanie tkanek",
@@ -550,7 +550,7 @@ export const TREATMENTS: Treatment[] = [
     price: "600 PLN / 900 PLN (Wariant rozszerzony z pielęgnacją domową)",
     description: "Głęboko relaksujący, autorski rytuał pracy z mięśniami i tkankami twarzy. Łączy techniki masażu rozluźniającego spięte mięśnie mimiczne z delikatnymi, bezpiecznymi mikroimpulsami. Pomaga zmniejszyć obrzęki, wygładzić rysy twarzy zmęczone stresem i przywrócić cerze wypoczęty, promienny wygląd.",
     focus: "Rozluźnienie napięć mięśni mimicznych, redukcja obrzęków i zastojów, ukojenie i naturalny lifting",
-    image: "/src/assets/images/neurolifting_acupuncture_treatment.png",
+    image: "/how_help_neurolifting.png",
     indications: [
       "Osoby poszukujące w pełni naturalnych metod poprawy owalu i zagęszczenia tkanek",
       "Skłonność do obrzęków, zastojów limfatycznych i worków pod oczami",
@@ -1564,7 +1564,7 @@ export const TREATMENTS: Treatment[] = [
     price: "Cena ustalana podczas kwalifikacji mięśniowo-powięziowej",
     description: "Specjalistyczny zabieg kosmetologiczny łączący precyzyjną elektrostymulację za pomocą cienkich, jednorazowych igieł z pracą nad układem mięśniowo-powięziowym twarzy. Podczas zabiegu wykorzystywane są programy impulsowe oparte na częstotliwościach Nogiera. Rozmieszczenie igieł, rodzaj częstotliwości, intensywność impulsów oraz czas stymulacji dobierane są indywidualnie po ocenie mimiki, symetrii i napięcia tkanek. Celem jest przywrócenie równowagi pomiędzy obszarami osłabionymi i nadmiernie spiętymi.",
     focus: "Elektrostymulacja igłowa, częstotliwości Nogiera, tonizacja powięziowa, modelowanie owalu i uniesienie tkanek bez zamrażania mimiki",
-    image: "/src/assets/images/neurolifting_face.webp",
+    image: "/how_help_neurolifting.png",
     indications: [
       "Utrata napięcia i wyrazistości owalu twarzy",
       "Opadanie tkanek policzków lub kącików ust",
@@ -1636,7 +1636,7 @@ export const TREATMENTS: Treatment[] = [
     price: "480 PLN — 600 PLN",
     description: "Troskliwy zabieg rewitalizujący, który dostarcza skórze składników odżywczych, peptydów i antyoksydantów. Wspomaga naturalną zdolność cery do regeneracji, poprawia nawilżenie i elastyczność oraz chroni przed oznakami przedwczesnego starzenia spowodowanego stresem i zanieczyszczeniami.",
     focus: "Ochrona antyoksydacyjna, wygładzenie drobnych zmarszczek, głęboka regeneracja",
-    image: "/src/assets/images/meso_remodeling_card_1786128520065.jpg",
+    image: "/how_help_meso_remodeling.png",
     indications: [
       "Widoczne oznaki starzenia chronologicznego i fotostarzenia",
       "Utrata blasku, suchość głęboka, drobne i głębokie zmarszczki",

@@ -47,6 +47,32 @@ const TreatmentCard = React.memo(function TreatmentCard({
   const shiftX = isHovered ? -mousePosition.x * 12 : 0;
   const shiftY = isHovered ? -mousePosition.y * 12 : 0;
 
+  // Dynamic image resolution linked with homepage and editor changes
+  const cardImage = (() => {
+    if (typeof window !== "undefined") {
+      const keyMap: Record<string, string[]> = {
+        "skin-readiness": ["how_help_first_visit", "skin-readiness"],
+        "videokonsultacja": ["how_help_first_visit", "videokonsultacja"],
+        "rosacea-calm-therapy": ["how_help_sensitive_skin", "rosacea-calm-therapy"],
+        "couperose-therapy": ["how_help_sensitive_skin", "couperose-therapy"],
+        "neurolifting-nogier": ["how_help_neurolifting", "neurolifting-nogier"],
+        "neurolifting-face": ["how_help_neurolifting", "neurolifting-face"],
+        "epigenetic-aging": ["how_help_meso_remodeling", "epigenetic-aging"],
+        "skin-remodeling-therapy": ["how_help_meso_remodeling", "skin-remodeling-therapy"],
+        "ceragem-thermal-massage": ["ceragem", "ceragem-thermal-massage"],
+        "sonaris-pro-therapy": ["sonaris-pro", "sonaris-pro-therapy"],
+        "stymulatory-tkankowe": ["stymulatory", "stymulatory-tkankowe"],
+        "pst-signal-therapy": ["pst-couch", "pst-signal-therapy"],
+      };
+      const keysToCheck = keyMap[treatment.id] || [treatment.id];
+      for (const k of keysToCheck) {
+        const stored = localStorage.getItem(`custom_img_${k}`);
+        if (stored) return stored;
+      }
+    }
+    return treatment.image;
+  })();
+
   return (
     <motion.div 
       ref={cardRef}
@@ -72,7 +98,7 @@ const TreatmentCard = React.memo(function TreatmentCard({
       {/* Elite Editorial Photo as Header of each treatment card with smooth parallax tracking */}
       <div className="aspect-[16/10] overflow-hidden bg-luxury-sand relative">
         <img 
-          src={treatment.image} 
+          src={cardImage} 
           alt={treatment.title} 
           style={{
             transform: isHovered 
