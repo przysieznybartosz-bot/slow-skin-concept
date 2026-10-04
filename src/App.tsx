@@ -122,7 +122,7 @@ const circadianRoutines = [
       title: "Głęboka Odbudowa Lipidowa",
       desc: "Najwyższy moment podziałów komórkowych i integracji ceramidów w płaszczu naskórkowym.",
       steps: [
-        "Oczyszczanie II-etapowe: Bionomowy olejek hydrofilny (oczyszczenie sebum i filtrów), następnie barierowa emulsja.",
+        "Oczyszczanie II-etapowe: Bionomiczny olejek hydrofilny (oczyszczenie sebum i filtrów), następnie barierowa emulsja.",
         "Odżywianie: Serum barierowe z ceramidami NP, AP, EOP, cholesterolem i kwasami lipidowymi Omega-3,6.",
         "Okluzja: Gruby kompres lipidowy z mądrym kremem na noc celem stworzenia sztucznej okluzji komórkowej."
       ],
@@ -160,7 +160,7 @@ const circadianRoutines = [
       title: "Regeneracja Parasympatyczna",
       desc: "Faza regeneracji bariery naskórkowej bez obciążeń termicznych.",
       steps: [
-        "Demakijaż: Delikatna bionomowa pianka oczyszczająca (fizjologiczna formuła) aplikowana dłońmi.",
+        "Demakijaż: Delikatna pianka bionomiczna (fizjologiczna formuła) aplikowana dłońmi.",
         "Kompres: Neuro-kojący eliksir olejowy z nasion ogórecznika (bogaty w kwas GLA) wraz dawką liposomalnego pantenolu.",
         "Maska: Warstwa biocelulozowej maski wyciszającej lub bogatego kremu kojącego na bazie fito-lipidów."
       ],
@@ -234,7 +234,7 @@ const circadianRoutines = [
       title: "Stymulacja Syntezy Kolagenu",
       desc: "Czas na głęboką przebudowę strukturalną na poziomie nowo tworzonych włókien.",
       steps: [
-        "Przygotowanie: Dokładny, bionomowy demakijaż i tonizacja stabilizująca pH naskórka.",
+        "Przygotowanie: Dokładny, bionomiczny demakijaż i tonizacja stabilizująca pH naskórka.",
         "Przebudowa: Retinol roślinny (kwas retinolowy z nasion dzikiej róży lub Bakuchiol 1%) wspierające odnowę komórkową.",
         "Kompres: Silny neopeptydowy krem z lipidami i koenzymem Q10 stymulującym neokolagenezę."
       ],
@@ -4887,21 +4887,21 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       <span className="font-mono text-[9px] md:text-[10px] tracking-[0.25em] text-luxury-gold uppercase block font-semibold">
                         Gabinety Slow Skin w Praktyce
                       </span>
-                      <h2 className="font-serif text-[36px] md:text-[36px] font-light text-luxury-dark tracking-tight leading-tight uppercase">
-                        Portrety Przemian. Efekty Terapii
+                      <h2 className="font-serif text-[36px] md:text-[36px] font-light text-luxury-dark tracking-tight leading-tight">
+                        Portrety przemian. Efekty indywidualnej pracy ze skórą
                       </h2>
                       <div className="w-16 h-[1px] bg-luxury-gold/50 mx-auto mt-2" />
                       <p className="text-xs md:text-sm text-luxury-dark/95 max-w-xl mx-auto leading-relaxed">
-                        Prawdziwa opieka nad skórą nie polega na maskowaniu problemów, lecz na zrozumieniu jej fizjologii i przywróceniu naturalnej równowagi. Poznaj rezultaty uważnej, indywidualnie dobranej pielęgnacji.
+                        Każda skóra ma swoją historię. Poznaj przykłady pracy gabinetowej, w której indywidualnie dobrana terapia i pielęgnacja domowa wspierają poprawę kondycji skóry, jej komfortu i wyglądu.
                       </p>
                     </div>
 
-                    {/* Zakładki wyboru pacjenta */}
+                    {/* Zakładki wyboru przypadku */}
                     <div className="flex flex-wrap justify-center border-b border-luxury-sand/60 pb-1 gap-2 md:gap-8">
                       {[
-                        { id: 0, title: "Skóra Reaktywna & Zaczerwieniona", name: "Potrzeby Skóry" },
-                        { id: 1, title: "Wiotkość Grawitacyjna", name: "Małgorzata (45 l.)" },
-                        { id: 2, title: "Trądzik Dorosłych & Odwodnienie", name: "Aleksandra (28 l.)" }
+                        { id: 0, title: "Skóra reaktywna i zaczerwieniona", name: "Indywidualna terapia" },
+                        { id: 1, title: "Poprawa jędrności i elastyczności", name: "Indywidualna terapia" },
+                        { id: 2, title: "Wyciszenie i normalizacja cery", name: "Indywidualna terapia" }
                       ].map((tab) => (
                         <button
                           key={tab.id}
@@ -4929,15 +4929,17 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           categoryLabel: "POTRZEBY SKÓRY",
                           name: "Skóra reaktywna i zaczerwieniona",
                           problem: "Pielęgnacja ukierunkowana na komfort skóry i wsparcie bariery naskórkowej.",
-                          duration: "Efekt uważnej pielęgnacji",
-                          imageBefore: "/src/assets/images/joanna_single_face_before_1786132708495.jpg",
-                          imageAfter: "/src/assets/images/joanna_single_face_after_1786132724722.jpg",
+                          duration: "Efekt indywidualnej pielęgnacji",
+                          idBefore: "case_0_before",
+                          idAfter: "case_0_after",
+                          imageBefore: customTreatmentImages["case_0_before"] || "/forehead_before.jpg",
+                          imageAfter: customTreatmentImages["case_0_after"] || "/forehead_after.jpg",
                           anatomyLabel: "PUNKT WYJŚCIA",
                           anatomy: "Zaczerwienienie, pieczenie i nadmierna reakcja na kosmetyki wymagają uważnej oceny. Podczas konsultacji analizuję kondycję skóry, jej tolerancję oraz dotychczasową pielęgnację.",
                           remedyLabel: "PIELĘGNACJA W GABINECIE",
                           remedy: "Dobieram łagodne etapy zabiegu oraz indywidualną kompozycję składników wspierających nawilżenie, ukojenie i barierę naskórkową. Rodzaj zabiegu oraz ewentualne wykorzystanie urządzeń zależą od aktualnych potrzeb skóry.",
-                          homeCareLabel: "PIELĘGNACJA DOMOWA",
-                          homeCare: "Układam spójny plan oczyszczania, pielęgnacji i ochrony przeciwsłonecznej. Zalecenia dostosowuję do tolerancji skóry i jej reakcji na stosowane produkty.",
+                          homeCareLabel: "REKOMENDOWANA PIELĘGNACJA DOMOWA",
+                          homeCare: "Pielęgnacja bionomiczna oparta na biomimetyce — indywidualnie dobrana do potrzeb skóry, wspierająca jej barierę ochronną, nawilżenie i komfort.",
                           ctaSubtitle: "CHCESZ POZNAĆ POTRZEBY SWOJEJ SKÓRY?",
                           ctaTitle: "Zarezerwuj pierwszą konsultację",
                           buttonText: "Chcę poznać potrzeby swojej skóry →",
@@ -4949,46 +4951,50 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         },
                         {
                           categoryLabel: "POTRZEBY SKÓRY",
-                          name: "Małgorzata, lat 45",
-                          problem: "Utrata napięcia tkanek, wiotkość grawitacyjna, spowolniony metabolizm komórkowy",
-                          duration: "8 tygodni (3 seanse + terapia domowa)",
-                          imageBefore: "/src/assets/images/malgorzata_before_1786129083321.jpg",
-                          imageAfter: "/src/assets/images/regenerated_image_1781694290837.png",
+                          name: "Poprawa jędrności i elastyczności",
+                          problem: "Wsparcie fizjologicznej gęstości, napięcia i naturalnych procesów odnowy skóry.",
+                          duration: "Efekt indywidualnej terapii",
+                          idBefore: "case_1_before",
+                          idAfter: "case_1_after",
+                          imageBefore: customTreatmentImages["case_1_before"] || "/src/assets/images/malgorzata_before_1786129083321.jpg",
+                          imageAfter: customTreatmentImages["case_1_after"] || "/src/assets/images/regenerated_image_1781694290837.png",
                           anatomyLabel: "PUNKT WYJŚCIA",
-                          anatomy: "Zaburzenia owalu twarzy, spadek gęstości kolagenu, zmęczony wyraz twarzy, obrzęki limfatyczne w obszarze jarzmowym.",
+                          anatomy: "Spadek elastyczności, zmęczenie tkanek i wiotczenie owalu wymagają stymulacji biologicznej bez agresywnych ingerencji. Podczas diagnozy oceniamy stan skóry i jej gotowość regeneracyjną.",
                           remedyLabel: "PIELĘGNACJA W GABINECIE",
-                          remedy: "Masaż rzeźbiarski Myoplasty (manualne opracowanie punktów powięziowych) połączony z peptydowym koktajlem stymulacyjnym o wysokiej biodostępności.",
-                          homeCareLabel: "PIELĘGNACJA DOMOWA",
-                          homeCare: "Zaawansowany eliksir z peptydami sygnałowymi stymulującymi kolagen typu I i III, lipidowy krem okluzyjny z masłem shea bionomowym.",
-                          ctaSubtitle: "INSPIRUJE CIĘ TEN REZULTAT?",
+                          remedy: "Terapia łącząca techniki manualne i biostymulację dopasowaną do poziomu wrażliwości skóry, wspierająca naturalne procesy odnowy i mikrokrążenie.",
+                          homeCareLabel: "REKOMENDOWANA PIELĘGNACJA DOMOWA",
+                          homeCare: "Pielęgnacja bionomiczna oparta na biomimetyce — indywidualnie dobrana do potrzeb skóry, wspierająca jej barierę ochronną, nawilżenie i komfort.",
+                          ctaSubtitle: "CHCESZ POZNAĆ POTRZEBY SWOJEJ SKÓRY?",
                           ctaTitle: "Zarezerwuj pierwszą konsultację",
-                          buttonText: "Chcę zadbać o swoją skórę →",
+                          buttonText: "Chcę poznać potrzeby swojej skóry →",
                           results: [
-                            { label: "Uniesienie linii żuchwy (lifting)", value: "Widoczne +4.2mm" },
-                            { label: "Redukcja bruzd nosowo-wargowych", value: "o 47%" },
-                            { label: "Jędrność i elastyczność skóry", value: "+68%" }
+                            { label: "Napięcie i elastyczność", value: "Poprawa" },
+                            { label: "Struktura naskórka", value: "Wygładzenie" },
+                            { label: "Witalność cery", value: "Odnowa" }
                           ]
                         },
                         {
                           categoryLabel: "POTRZEBY SKÓRY",
-                          name: "Aleksandra, lat 28",
-                          problem: "Trądzik dorosłych (acne tarda), nadprodukcja sebum przy odwodnieniu naskórka",
-                          duration: "5 tygodni (3 seanse oczyszczająco-regulujące)",
-                          imageBefore: "/src/assets/images/aleksandra_before_1786129097233.jpg",
-                          imageAfter: "/src/assets/images/aleksandra_after_1786129109685.jpg",
+                          name: "Wyciszenie i normalizacja cery",
+                          problem: "Wsparcie skóry z tendencją do niedoskonałości przy jednoczesnym odwodnieniu i wrażliwości.",
+                          duration: "Efekt indywidualnej terapii",
+                          idBefore: "case_2_before",
+                          idAfter: "case_2_after",
+                          imageBefore: customTreatmentImages["case_2_before"] || "/src/assets/images/aleksandra_before_1786129097233.jpg",
+                          imageAfter: customTreatmentImages["case_2_after"] || "/src/assets/images/aleksandra_after_1786129109685.jpg",
                           anatomyLabel: "PUNKT WYJŚCIA",
-                          anatomy: "Zablokowane ujścia mieszków włosowych, zmiany zapalne podskórne, skrajne odwodnienie spowodowane wysuszającymi żelami aptecznymi.",
+                          anatomy: "Zaburzenia w wydzielaniu sebum często współwystępują z naruszoną barierą naskórkową. Agresywne wysuszanie pogłębia problem, dlatego punktem wyjścia jest przywrócenie równowagi fizjologicznej.",
                           remedyLabel: "PIELĘGNACJA W GABINECIE",
-                          remedy: "Przywrócenie fizjologicznego pH. Łagodne uwalnianie zanieczyszczeń kwasem salicylowym w nośniku lipidowym, regulacja mikrobiomu i sebostaza komórkowa.",
-                          homeCareLabel: "PIELĘGNACJA DOMOWA",
-                          homeCare: "Żel bionomowy z olejkiem z drzewa herbacianego (stężenie farmaceutyczne), lekki hydrożel z niacynamidem 4% i kwasem hialuronowym.",
-                          ctaSubtitle: "INSPIRUJE CIĘ TEN REZULTAT?",
+                          remedy: "Fizjologiczne oczyszczanie, regulacja pracy gruczołów łojowych oraz wzmocnienie mikrobiomu z zachowaniem pełnej integralności naskórka.",
+                          homeCareLabel: "REKOMENDOWANA PIELĘGNACJA DOMOWA",
+                          homeCare: "Pielęgnacja bionomiczna oparta na biomimetyce — indywidualnie dobrana do potrzeb skóry, wspierająca jej barierę ochronną, nawilżenie i komfort.",
+                          ctaSubtitle: "CHCESZ POZNAĆ POTRZEBY SWOJEJ SKÓRY?",
                           ctaTitle: "Zarezerwuj pierwszą konsultację",
-                          buttonText: "Chcę zadbać o swoją skórę →",
+                          buttonText: "Chcę poznać potrzeby swojej skóry →",
                           results: [
-                            { label: "Redukcja zmian zapalnych", value: "-89%" },
-                            { label: "Wydzielanie sebum (sebostaza)", value: "-52%" },
-                            { label: "Gładkość i wyrównanie tekstury", value: "+74%" }
+                            { label: "Niedoskonałości i rumień", value: "Wyciszenie" },
+                            { label: "Równowaga lipidowa", value: "Normalizacja" },
+                            { label: "Komfort naskórkowy", value: "Regeneracja" }
                           ]
                         }
                       ][activeResultIdx];
@@ -4999,11 +5005,16 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           {/* Lewo: Interaktywny Widget Suwaka Przed / Po */}
                           <div className="lg:col-span-6 flex flex-col justify-between space-y-4">
                             <BeforeAfterSlider
+                              idBefore={caseData.idBefore}
+                              idAfter={caseData.idAfter}
                               imageBefore={caseData.imageBefore}
                               imageAfter={caseData.imageAfter}
                               altBefore={`Stan przed terapią - ${caseData.name}`}
                               altAfter={`Stan po terapii - ${caseData.name}`}
                               duration={caseData.duration}
+                              onImageChange={(slot, url) => {
+                                setCustomTreatmentImages(prev => ({ ...prev, [slot]: url }));
+                              }}
                             />
 
                             {/* Kluczowe wskaźniki pod obrazkiem dla wyjątkowej czytelności mierzalnej */}
@@ -5098,7 +5109,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                 </section>
                 {/* KONIEC PROPOZYCJI 2 */}
  
-                {/* PROPOZYCJA 3: Interaktywny Szybki Test Doboru Rytuału (Wirtualny Doradca Komórkowy Slow Skin) - WYRÓŻNIONA KROK PO KROKU DLA KLIENTA */}
+                {/* PROPOZYCJA 3: Interaktywny Szybki Test Doboru Rytuału (Poznaj potrzeby swojej skóry) */}
                 <section className="pt-20 pb-20 border-y-2 border-luxury-gold/35 bg-luxury-cream -mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 shadow-[0_16px_50px_rgba(179,155,114,0.06)] relative overflow-hidden" id="ritual-finder-quiz">
                   <div className="max-w-5xl mx-auto space-y-12">
                     
@@ -5108,11 +5119,11 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         Twoja Zindywidualizowana Ścieżka
                       </span>
                       <h2 className="font-serif text-[36px] md:text-[36px] font-light text-luxury-dark tracking-tight leading-tight">
-                        Wirtualny Doradca Komórkowy. Dobierz swój Rytuał
+                        Poznaj potrzeby swojej skóry
                       </h2>
                       <div className="w-12 h-[1px] bg-luxury-gold/40 mx-auto mt-2" />
                       <p className="text-xs md:text-sm text-luxury-dark/95 max-w-xl mx-auto leading-relaxed">
-                        Nie wiesz, od którego kroku zacząć i jaki zabieg będzie bezpieczny dla Twojej bariery lipidowej? Odpowiedz na 3 szybkie pytania fizjologiczne. Nasz algorytm wyselekcjonuje zabieg skrojony na miarę.
+                        Odpowiedz na trzy krótkie pytania. Twoje odpowiedzi pomogą wskazać wstępny kierunek pielęgnacji i pracy gabinetowej. Ostateczny dobór zabiegu odbywa się podczas konsultacji i oceny skóry.
                       </p>
                     </div>
 
@@ -5136,9 +5147,9 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           </div>
                           <div className="space-y-2">
                             <span className="font-mono text-[8px] tracking-widest text-luxury-gold uppercase block">Bezpieczeństwo &amp; Uważność</span>
-                            <h3 className="font-serif text-xl md:text-2xl font-light text-luxury-dark">Dobór Zabiegu w 30 sekund</h3>
+                            <h3 className="font-serif text-xl md:text-2xl font-light text-luxury-dark">Poznaj potrzeby swojej skóry</h3>
                             <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
-                              Ten prosty kwestionariusz analizuje poziom wrażliwości receptorowej Twojej skóry, stopień odwodnienia i najważniejszy cel estetyczno-barierowy. Pomoże Ci to podjąć decyzję w 100% bezpieczną i biomimetyczną.
+                              Odpowiedz na trzy krótkie pytania. Twoje odpowiedzi pomogą wskazać wstępny kierunek pielęgnacji i pracy gabinetowej. Ostateczny dobór zabiegu odbywa się podczas konsultacji i oceny skóry.
                             </p>
                           </div>
                           <button
@@ -5150,7 +5161,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             }}
                             className="px-8 py-3.5 bg-luxury-dark text-luxury-cream hover:bg-luxury-gold hover:text-white transition-all text-xs font-mono tracking-widest uppercase cursor-pointer rounded-none mx-auto block"
                           >
-                            Rozpocznij dobór rytuału &rarr;
+                            Rozpocznij &rarr;
                           </button>
                         </div>
                       )}
@@ -5204,7 +5215,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         <div className="space-y-6 relative z-10 animate-fade-in animate-duration-300">
                           <div className="flex justify-between items-center border-b border-luxury-sand/30 pb-4">
                             <span className="font-mono text-[9px] text-luxury-gold uppercase tracking-wider">Pytanie 2 z 3</span>
-                            <span className="font-mono text-[9px] text-luxury-dark/90 uppercase tracking-wider">STOPIEŃ WRAŻLIWOŚCI RECEPTOROWEJ</span>
+                            <span className="font-mono text-[9px] text-luxury-dark/90 uppercase tracking-wider">STOPIEŃ WRAŻLIWOŚCI</span>
                           </div>
                           <h3 className="font-serif text-lg md:text-xl font-light text-luxury-dark">
                             Jak oceniasz stopień wrażliwości swojej twarzy?
@@ -5370,7 +5381,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
 
                                     <div className="space-y-4">
                                       <div className="space-y-1.5">
-                                        <span className="font-mono text-[9px] tracking-wider text-[#a89060] uppercase block font-semibold">Dlaczego ta formuła bionomowa zadziała:</span>
+                                        <span className="font-mono text-[9px] tracking-wider text-[#a89060] uppercase block font-semibold">Dlaczego ta pielęgnacja bionomiczna zadziała:</span>
                                         <p className="text-xs text-luxury-dark/95 font-light leading-relaxed text-justify bg-white p-4 border border-luxury-sand/35 rounded-sm shadow-[0_2px_12px_rgba(0,0,0,0.01)]">
                                           {rec.reason}
                                         </p>

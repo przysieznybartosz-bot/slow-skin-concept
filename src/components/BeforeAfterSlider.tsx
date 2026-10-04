@@ -1,26 +1,150 @@
-import React, { useState, useRef, useCallback } from "react";
-import { MoveHorizontal } from "lucide-react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
+import { MoveHorizontal, Camera, Upload, Check, RefreshCw } from "lucide-react";
+import { isEditorMode } from "../utils/editorMode";
 
 interface BeforeAfterSliderProps {
+  idBefore?: string;
+  idAfter?: string;
   imageBefore: string;
   imageAfter: string;
   altBefore?: string;
   altAfter?: string;
   duration?: string;
   className?: string;
+  onImageChange?: (slotId: string, newUrl: string) => void;
 }
 
 export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
+  idBefore = "case_0_before",
+  idAfter = "case_0_after",
   imageBefore,
   imageAfter,
   altBefore = "Stan przed terapią (problem skóry)",
   altAfter = "Stan po terapii (efekty)",
   duration,
   className = "",
+  onImageChange,
 }) => {
   const [sliderPosition, setSliderPosition] = useState<number>(50); // percentage 0 - 100
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  
+  const fileInputBeforeRef = useRef<HTMLInputElement>(null);
+  const fileInputAfterRef = useRef<HTMLInputElement>(null);
+  
+  const [currentBefore, setCurrentBefore] = useState<string>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const stored = localStorage.getItem(`custom_img_${idBefore}`);
+        if (stored) return stored;
+      } catch {}
+    }
+    return imageBefore;
+  });
+
+  const [currentAfter, setCurrentAfter] = useState<string>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const stored = localStorage.getItem(`custom_img_${idAfter}`);
+        if (stored) return stored;
+      } catch {}
+    }
+    return imageAfter;
+  });
+
+  const [uploadingSlot, setUploadingSlot] = useState<"before" | "after" | null>(null);
+  const [successSlot, setSuccessSlot] = useState<"before" | "after" | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedBefore = localStorage.getItem(`custom_img_${idBefore}`);
+      if (storedBefore) {
+        setCurrentBefore(storedBefore);
+      } else {
+        setCurrentBefore(imageBefore);
+      }
+
+      const storedAfter = localStorage.getItem(`custom_img_${idAfter}`);
+      if (storedAfter) {
+        setCurrentAfter(storedAfter);
+      } else {
+        setCurrentAfter(imageAfter);
+      }
+    } else {
+      setCurrentBefore(imageBefore);
+      setCurrentAfter(imageAfter);
+    }
+  }, [idBefore, idAfter, imageBefore, imageAfter]);
+
+  const handleUpload = async (file: File, slot: "before" | "after") => {
+    if (!file || !file.type.startsWith("image/")) {
+      alert("Proszę wybrać plik graficzny (PNG, JPG, WEBP).");
+      return;
+    }
+
+    const slotKey = slot === "before" ? idBefore : idAfter;
+
+    try {
+      setUploadingSlot(slot);
+      const reader = new FileReader();
+      reader.onload = async () => {
+        const base64 = reader.result as string;
+        try {
+          const resp = await fetch("/api/upload-treatment-image", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              dataUrl: base64,
+              treatmentKey: slotKey,
+            }),
+          });
+          const data = await resp.json();
+          const targetUrl = data.success && data.url ? data.url : base64;
+
+          try {
+            localStorage.setItem(`custom_img_${slotKey}`, targetUrl);
+          } catch {}
+
+          if (slot === "before") {
+            setCurrentBefore(targetUrl);
+          } else {
+            setCurrentAfter(targetUrl);
+          }
+
+          setSuccessSlot(slot);
+          if (onImageChange) {
+            onImageChange(slotKey, targetUrl);
+          }
+
+          setTimeout(() => {
+            setSuccessSlot(null);
+          }, 3500);
+        } catch {
+          // Fallback to localStorage
+          try {
+            localStorage.setItem(`custom_img_${slotKey}`, base64);
+          } catch {}
+          if (slot === "before") {
+            setCurrentBefore(base64);
+          } else {
+            setCurrentAfter(base64);
+          }
+          setSuccessSlot(slot);
+          if (onImageChange) {
+            onImageChange(slotKey, base64);
+          }
+          setTimeout(() => {
+            setSuccessSlot(null);
+          }, 3500);
+        } finally {
+          setUploadingSlot(null);
+        }
+      };
+      reader.readAsDataURL(file);
+    } catch {
+      setUploadingSlot(null);
+    }
+  };
 
   const handleMove = useCallback((clientX: number) => {
     if (!containerRef.current) return;
@@ -55,8 +179,38 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
     setIsDragging(false);
   };
 
+  const canEdit = isEditorMode();
+
   return (
     <div className={`flex flex-col space-y-3 ${className}`}>
+      {/* Hidden file inputs for editor mode */}
+      {canEdit && (
+        <>
+          <input
+            type="file"
+            ref={fileInputBeforeRef}
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => {
+              if (e.target.files && e.target.files[0]) {
+                handleUpload(e.target.files[0], "before");
+              }
+            }}
+          />
+          <input
+            type="file"
+            ref={fileInputAfterRef}
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => {
+              if (e.target.files && e.target.files[0]) {
+                handleUpload(e.target.files[0], "after");
+              }
+            }}
+          />
+        </>
+      )}
+
       {/* Main Container */}
       <div
         ref={containerRef}
@@ -94,18 +248,28 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
           </div>
         )}
 
+        {/* Uploading Spinner Overlay */}
+        {uploadingSlot && (
+          <div className="absolute inset-0 z-40 bg-white/90 text-luxury-dark flex flex-col items-center justify-center p-4 text-center backdrop-blur-xs">
+            <RefreshCw className="w-6 h-6 animate-spin text-luxury-gold mb-2" />
+            <p className="font-mono text-xs uppercase tracking-wider font-bold">
+              Zapisywanie zdjęcia {uploadingSlot === "before" ? "PRZED" : "PO"}...
+            </p>
+          </div>
+        )}
+
         {/* 
           BASE LAYER (Bottom - BEFORE / PRZED TERAPIĄ - Problem skóry):
           Covers 100% of container frame.
         */}
         <img
-          src={imageBefore}
+          src={currentBefore}
           alt={altBefore}
           className="absolute inset-0 w-full h-full object-cover object-center z-0"
           referrerPolicy="no-referrer"
         />
         <span className="absolute bottom-4 left-4 z-10 text-[10px] font-mono tracking-widest text-white/90 bg-black/60 px-2.5 py-1 border border-white/20 uppercase pointer-events-none backdrop-blur-xs">
-          PRZED TERAPIĄ (PROBLEM)
+          PRZED
         </span>
 
         {/* 
@@ -113,7 +277,7 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
           Clipped from the right side according to slider position so sliding right reveals cleared skin!
         */}
         <img
-          src={imageAfter}
+          src={currentAfter}
           alt={altAfter}
           className="absolute inset-0 w-full h-full object-cover object-center z-10"
           style={{
@@ -125,7 +289,7 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
           className="absolute bottom-4 right-4 z-10 text-[10px] font-mono tracking-widest text-white/90 bg-black/60 px-2.5 py-1 border border-white/20 uppercase pointer-events-none backdrop-blur-xs transition-opacity duration-200"
           style={{ opacity: sliderPosition > 10 ? 1 : 0 }}
         >
-          PO (EFEKT)
+          PO (EFEKTY)
         </span>
 
         {/* Vertical divider line and handle */}
@@ -148,6 +312,63 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
           PRZESUŃ SUWAK PRZED / PO
         </div>
       </div>
+
+      {/* Editor mode toolbar: quick photo change buttons for Before and After */}
+      {canEdit && (
+        <div className="flex items-center justify-between gap-2 p-2 bg-luxury-dark/95 border border-luxury-gold/50 rounded-xs">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              fileInputBeforeRef.current?.click();
+            }}
+            className={`flex-1 py-1 px-2 text-[9px] font-mono uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 rounded-2xs border cursor-pointer ${
+              successSlot === "before"
+                ? "bg-emerald-600 text-white border-emerald-500"
+                : "bg-white/10 hover:bg-white/20 text-white border-luxury-gold/40 hover:border-luxury-gold"
+            }`}
+            title="Kliknij, aby podmienić zdjęcie PRZED dla tego przypadku"
+          >
+            {successSlot === "before" ? (
+              <>
+                <Check className="w-3 h-3 text-white" />
+                <span>Zmieniono PRZED!</span>
+              </>
+            ) : (
+              <>
+                <Camera className="w-3 h-3 text-luxury-gold" />
+                <span>Zmień zdjęcie: PRZED</span>
+              </>
+            )}
+          </button>
+
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              fileInputAfterRef.current?.click();
+            }}
+            className={`flex-1 py-1 px-2 text-[9px] font-mono uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 rounded-2xs border cursor-pointer ${
+              successSlot === "after"
+                ? "bg-emerald-600 text-white border-emerald-500"
+                : "bg-white/10 hover:bg-white/20 text-white border-luxury-gold/40 hover:border-luxury-gold"
+            }`}
+            title="Kliknij, aby podmienić zdjęcie PO dla tego przypadku"
+          >
+            {successSlot === "after" ? (
+              <>
+                <Check className="w-3 h-3 text-white" />
+                <span>Zmieniono PO!</span>
+              </>
+            ) : (
+              <>
+                <Camera className="w-3 h-3 text-luxury-gold" />
+                <span>Zmień zdjęcie: PO</span>
+              </>
+            )}
+          </button>
+        </div>
+      )}
 
       {/* Control buttons */}
       <div className="flex items-center justify-between gap-2 pt-1">
