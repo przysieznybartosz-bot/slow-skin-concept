@@ -3874,37 +3874,39 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
 
               {/* Bento Grid: Storytelling Highlights */}
               <div className="border-t border-luxury-sand pt-16">
-                <div className="text-center max-w-xl mx-auto mb-12">
-                  <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase">Filozofia Marki</span>
-                  <h2 className="font-serif text-3xl font-light mt-2">Dla klientek, które pragną czegoś więcej niż standardowych zabiegów</h2>
+                <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
+                  <span className="font-mono text-[9px] tracking-widest text-[#8C6B2D] uppercase font-bold">FILOZOFIA MARKI</span>
+                  <h2 className="font-serif text-2xl sm:text-3xl font-light text-luxury-dark leading-tight">
+                    Twoja skóra zasługuje na uważność i indywidualną pielęgnację
+                  </h2>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   
                   {/* Card 1 */}
-                  <div className="p-8 border border-luxury-sand bg-white/50 backdrop-blur-sm space-y-4 hover:border-luxury-gold/50 transition-colors">
-                    <div className="font-serif text-2xl text-luxury-gold">01 / Jakość & Formuła</div>
-                    <h3 className="font-mono text-xs tracking-wider uppercase font-medium">Starannie dobrane składniki</h3>
-                    <p className="text-xs text-luxury-dark/95 leading-relaxed">
-                      W gabinecie sięgamy po łagodne, bezpieczne formuły z ektoiną, peptydami i kwasem laktobionowym, które dbają o nawilżenie i ukojenie skóry bez podrażnień.
+                  <div className="p-8 border border-luxury-sand bg-white/70 backdrop-blur-sm space-y-4 hover:border-luxury-gold transition-colors shadow-xs">
+                    <div className="font-serif text-2xl text-[#8C6B2D] font-normal">01 / Jakość i kompozycja</div>
+                    <h3 className="font-mono text-xs tracking-wider uppercase font-bold text-luxury-dark">SKŁADNIKI DOBRANE DO TWOJEJ SKÓRY</h3>
+                    <p className="text-xs text-luxury-dark/95 leading-relaxed font-light">
+                      Korzystam z szerokiej gamy składników aktywnych i baz biomimetycznych. Dobieram je do aktualnej kondycji skóry, jej tolerancji oraz celu zabiegu. Każda kompozycja odpowiada na indywidualne potrzeby — od nawilżenia i ukojenia po wsparcie bariery naskórkowej i pielęgnację skóry dojrzałej.
                     </p>
                   </div>
 
                   {/* Card 2 */}
-                  <div className="p-8 border border-luxury-sand bg-white/50 backdrop-blur-sm space-y-4 hover:border-luxury-gold/50 transition-colors">
-                    <div className="font-serif text-2xl text-luxury-gold">02 / Cisza & Komfort</div>
-                    <h3 className="font-mono text-xs tracking-wider uppercase font-medium">Kojący odpoczynek</h3>
-                    <p className="text-xs text-luxury-dark/95 leading-relaxed">
-                      Pomiędzy samopoczuciem a stanem skóry istnieje silna więź. Nasze zabiegi i masaże pomagają rozluźnić spięte mięśnie twarzy, zredukować stres i przynoszą głęboki spokój.
+                  <div className="p-8 border border-luxury-sand bg-white/70 backdrop-blur-sm space-y-4 hover:border-luxury-gold transition-colors shadow-xs">
+                    <div className="font-serif text-2xl text-[#8C6B2D] font-normal">02 / Spokój i komfort</div>
+                    <h3 className="font-mono text-xs tracking-wider uppercase font-bold text-luxury-dark">CZAS NA ODPOCZYNEK</h3>
+                    <p className="text-xs text-luxury-dark/95 leading-relaxed font-light">
+                      Wizyta to również czas na spokojny odpoczynek. Kameralna atmosfera, uważny dotyk i tempo pracy dopasowane do Ciebie sprzyjają odprężeniu. Dbam o Twój komfort na każdym etapie zabiegu, uwzględniając odczucia i reakcje skóry.
                     </p>
                   </div>
 
                   {/* Card 3 */}
-                  <div className="p-8 border border-luxury-sand bg-white/50 backdrop-blur-sm space-y-4 hover:border-luxury-gold/50 transition-colors">
-                    <div className="font-serif text-2xl text-luxury-gold">03 / Zaufanie & Opieka</div>
-                    <h3 className="font-mono text-xs tracking-wider uppercase font-medium">Doświadczenie i troska</h3>
-                    <p className="text-xs text-luxury-dark/95 leading-relaxed">
-                      Nasz gabinet to bezpieczna, spokojna przestrzeń odpoczynku. Trafiasz pod opiekę doświadczonego kosmetologa, dla którego najważniejszy jest Twój komfort i dobre samopoczucie.
+                  <div className="p-8 border border-luxury-sand bg-white/70 backdrop-blur-sm space-y-4 hover:border-luxury-gold transition-colors shadow-xs">
+                    <div className="font-serif text-2xl text-[#8C6B2D] font-normal">03 / Zaufanie i opieka</div>
+                    <h3 className="font-mono text-xs tracking-wider uppercase font-bold text-luxury-dark">DOŚWIADCZENIE I UWAŻNOŚĆ</h3>
+                    <p className="text-xs text-luxury-dark/95 leading-relaxed font-light">
+                      Podczas wizyty korzystasz z mojego wieloletniego doświadczenia i indywidualnej opieki. Słucham, oceniam potrzeby skóry i wyjaśniam proponowane działania. Dobieram zabiegi oraz pielęgnację domową tak, aby tworzyły spójny, zrozumiały dla Ciebie plan.
                     </p>
                   </div>
 
@@ -7213,7 +7215,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             : selectedTreatment.id === "neurolifting-face"
                             ? "LIFTING I PRACA Z NAPIĘCIEM MIĘŚNIOWYM"
                             : (selectedTreatment.id === "ceragem-thermal-massage" || selectedTreatment.id === "ceragem")
-                            ? "MASAŻ TERMICZNY CERAGEM VE"
+                            ? "Relaks i komfort pleców"
                             : selectedTreatment.id === "skin-readiness"
                             ? "DIAGNOZA I PIERWSZA WIZYTA"
                             : "TERAPIA I PIELĘGNACJA GABINETOWA"}

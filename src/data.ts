@@ -2076,7 +2076,7 @@ export const TREATMENTS: Treatment[] = [
   },
   {
     id: "ceragem-thermal-massage",
-    title: "Masaż Termiczny Ceragem",
+    title: "Masaż termiczny Ceragem",
     subtitle: "Ciepło i masaż dopasowane do Twoich pleców • Urządzenie Ceragem VE (model CGM MB-1101)",
     duration: "około 36 minut",
     price: "50 PLN",
