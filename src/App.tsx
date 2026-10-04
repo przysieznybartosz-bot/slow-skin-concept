@@ -3979,7 +3979,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           </div>
                           <div className="space-y-3 leading-relaxed">
                             <p className="text-xs md:text-sm text-luxury-dark/95 font-light"><strong className="text-luxury-dark font-semibold">Biologiczna przyczyna:</strong> Niedobór cementu międzykomórkowego (ceramidów, kwasów tłuszczowych i cholesterolu), co osłabia naturalną okluzję, zwiększa przeznaskórkową utratę wody oraz uwrażliwia wolne zakończenia nerwowe, wywołując uczucie pieczenia i ściągnięcia.</p>
-                            <p className="text-xs md:text-sm text-luxury-dark/95 font-light"><strong className="text-luxury-gold font-semibold">Nasze rozwiązanie:</strong> Rezygnujemy z agresywnych peelingów kwasowych i silnych detergentów. Wprowadzamy biomimetyczną pielęgnację z ektoiną i ceramidami, która odbudowuje naturalny płaszcz lipidowy i przynosi natychmiastowe ukojenie.</p>
+                            <p className="text-xs md:text-sm text-luxury-dark/95 font-light"><strong className="text-luxury-gold font-semibold">Nasze rozwiązanie:</strong> Ograniczamy bodźce, które nasilają podrażnienie, i dobieramy indywidualną pielęgnację wspierającą barierę naskórkową. Łączymy składniki nawilżające, kojące i lipidowe odpowiednio do aktualnej kondycji skóry. Celem jest poprawa jej komfortu, ograniczenie utraty wody i wsparcie odbudowy bariery.</p>
                           </div>
                           <div className="pt-3.5 border-t border-luxury-sand flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                             <div>
@@ -7462,19 +7462,26 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       {/* Active Substances */}
                       <div className="bg-white border border-luxury-sand p-8 space-y-4">
                         <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase flex items-center gap-2">
-                          <FlaskConical className="w-4 h-4 text-luxury-gold" /> Molekularne Substancje Aktywne i Kosmeceutyki
+                          <FlaskConical className="w-4 h-4 text-luxury-gold" /> Indywidualne kompozycje pielęgnacyjne
                         </span>
-                        <h3 className="font-serif text-xl font-light text-luxury-dark border-b border-luxury-sand/40 pb-2">Kompozycja bioaktywnych eliksirów</h3>
-                        <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
-                          Formuły stymulujące używane w kabinie są konfekcjonowane bezpośrednio przed sesją z najwyższej jakości surowców biomimetycznych o laboratoryjnej czystości działania:
-                        </p>
+                        <h3 className="font-serif text-xl font-light text-luxury-dark border-b border-luxury-sand/40 pb-2">
+                          Składniki aktywne dobrane do potrzeb Twojej skóry
+                        </h3>
+                        <div className="text-xs text-luxury-dark/95 font-light leading-relaxed space-y-2.5">
+                          <p>
+                            W gabinecie przygotowuję indywidualne kompozycje na bazie DMS i koncentratów dermaviduals. Dobieram je do aktualnej kondycji skóry, jej wrażliwości oraz celu zabiegu. Kompozycja powstaje bezpośrednio przed zastosowaniem — przy Tobie, z uwzględnieniem potrzeb Twojej skóry.
+                          </p>
+                          <p>
+                            W zależności od tych potrzeb dobieram składniki wspierające ukojenie, nawilżenie, barierę lipidową oraz ochronę antyoksydacyjną. Dzięki temu pielęgnacja odpowiada na to, czego skóra potrzebuje w danym momencie.
+                          </p>
+                        </div>
                         <div className="space-y-4 pt-2">
                           {selectedTreatment.activeSubstances.map((sub, i) => {
                             const [title, ...descParts] = sub.split(" (");
                             const desc = descParts.join(" (").replace(/\)$/, "");
                             return (
                               <div key={i} className="space-y-1">
-                                <h4 className="font-serif text-sm font-medium text-luxury-gold">{title}</h4>
+                                <h4 className="font-serif text-sm font-semibold text-luxury-dark">{title}</h4>
                                 {desc && <p className="text-xs text-luxury-dark/95 font-light leading-relaxed pl-3 border-l border-luxury-sand/60">{desc}</p>}
                               </div>
                             );
@@ -11563,19 +11570,19 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   <div className="bg-white border border-luxury-sand p-8 md:p-12 space-y-8">
                     <div className="text-center max-w-xl mx-auto space-y-2">
                       <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase flex items-center justify-center gap-2">
-                        <Dna className="w-4 h-4 text-luxury-gold" /> Autorskie Fazy Zabiegu Slow Skin Concept
+                        <Dna className="w-4 h-4 text-luxury-gold" /> Indywidualne etapy pielęgnacji Slow Skin Concept
                       </span>
-                      <h3 className="font-serif text-2xl font-light text-luxury-dark font-normal">Przebieg Rytuału w Gabinecie</h3>
-                      <p className="text-xs text-luxury-dark/90 font-light">
-                        Przekonaj się, jak krok po kroku prowadzona jest precyzyjna stymulacja neuronów i odnowa biochemiczna Twojej skóry podczas sesji:
+                      <h3 className="font-serif text-2xl font-light text-luxury-dark font-normal">Przebieg zabiegu w gabinecie</h3>
+                      <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
+                        Każdy zabieg rozpoczynam od oceny aktualnej kondycji skóry. Dobieram kolejne etapy, składniki aktywne i ewentualne technologie do jej potrzeb oraz tolerancji.
                       </p>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 pt-4">
                       {selectedTreatment.protocolSteps.map((step, idx) => (
                         <div key={idx} className="border border-luxury-sand p-5 space-y-3 bg-luxury-cream/10 relative" id={`subpage-step-${idx}`}>
-                          <span className="font-mono text-[9px] text-luxury-gold/75 uppercase tracking-widest block">{step.phase}</span>
-                          <p className="text-xs text-luxury-dark font-light leading-relaxed">
+                          <span className="font-mono text-[10px] text-luxury-dark font-semibold uppercase tracking-wider block border-b border-luxury-sand/50 pb-1.5">{step.phase}</span>
+                          <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
                             {step.description}
                           </p>
                         </div>
@@ -11587,16 +11594,26 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   <TreatmentFAQ faqList={selectedTreatment.faq || []} />
 
                   {/* Bottom booking CTA board */}
-                  <div className="border-2 border-luxury-gold p-8 md:p-12 text-center bg-white space-y-6 max-w-2xl mx-auto">
-                    <span className="font-mono text-[9px] tracking-[0.25em] text-luxury-gold uppercase block animate-pulse">Kameralne Doświadczenie</span>
-                    <h3 className="font-serif text-3xl font-light text-luxury-dark uppercase">Przejdź Odnowę Komórkową SLOW SKIN CONCEPT</h3>
-                    <p className="text-xs text-luxury-dark/95 font-light max-w-md mx-auto leading-relaxed">
-                      Zarezerwuj swój termin na rytuał <span className="font-serif italic font-semibold text-luxury-gold">{selectedTreatment.title}</span>. Nasza diagnostka skontaktuje się z Tobą w celu uzgodnienia intymnej, spersonalizowanej godziny wizyty.
+                  <div className="border-2 border-luxury-gold p-8 md:p-12 text-center bg-white space-y-6 max-w-2xl mx-auto shadow-sm">
+                    <span className="font-mono text-[9px] tracking-[0.25em] text-luxury-gold uppercase block font-semibold">
+                      Indywidualna pielęgnacja
+                    </span>
+                    <h3 className="font-serif text-2xl sm:text-3xl font-light text-luxury-dark">
+                      {selectedTreatment.id === "rosacea-calm-therapy"
+                        ? "Zadbaj o komfort swojej skóry"
+                        : "Zadbaj o swoją skórę"}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-luxury-dark/95 font-light max-w-lg mx-auto leading-relaxed">
+                      {selectedTreatment.id === "rosacea-calm-therapy" ? (
+                        <>Umów wizytę na zabieg Rosacea Calm Therapy. Po przesłaniu zgłoszenia skontaktuję się z Tobą, aby ustalić dogodny termin. Pielęgnację dobiorę do aktualnej kondycji i potrzeb Twojej skóry.</>
+                      ) : (
+                        <>Umów wizytę na zabieg <span className="font-serif italic font-semibold text-luxury-dark">{selectedTreatment.title}</span>. Po przesłaniu zgłoszenia skontaktuję się z Tobą, aby ustalić dogodny termin. Pielęgnację dobiorę do aktualnej kondycji i potrzeb Twojej skóry.</>
+                      )}
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center items-center font-mono text-[11px] text-luxury-dark/95 pb-2">
-                      <span>Cena rytuału: <strong className="text-luxury-gold text-xs font-bold">{selectedTreatment.price}</strong></span>
+                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-6 justify-center items-center font-mono text-[11px] text-luxury-dark/95 pb-1">
+                      <span>Cena zabiegu: <strong className="text-luxury-dark text-xs font-bold">{selectedTreatment.id === "rosacea-calm-therapy" ? "380–480 zł" : selectedTreatment.price}</strong></span>
                       <span className="hidden sm:inline-block text-luxury-sand">•</span>
-                      <span>Seans gabinetowy: {selectedTreatment.duration}</span>
+                      <span>Czas zabiegu: <strong className="text-luxury-dark font-medium">{selectedTreatment.duration.replace("około ", "")}</strong></span>
                     </div>
                     <button 
                       onClick={() => {
@@ -11607,7 +11624,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         setBookingPhone("");
                         setBookingDate("");
                       }}
-                      className="px-8 py-4 bg-luxury-dark text-white hover:bg-luxury-gold hover:text-white text-xs font-mono tracking-widest uppercase transition-all font-bold cursor-pointer"
+                      className="px-8 py-4 bg-luxury-dark text-white hover:bg-luxury-gold hover:text-white text-xs font-mono tracking-widest uppercase transition-all font-bold cursor-pointer shadow-md"
                     >
                       {selectedTreatment.id === "hifu-ultrasound"
                         ? "UMÓW KONSULTACJĘ DO ZABIEGU HIFU"
@@ -11621,7 +11638,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         ? "UMÓW KONSULTACJĘ / TERAPIĘ PST"
                         : selectedTreatment.id === "carboksyterapia-carboregen"
                         ? "UMÓW ZABIEG CARBOREGEN W KALENDARZU"
-                        : "Wybierz termin i zarezerwuj wizytę"}
+                        : "UMÓW WIZYTĘ"}
                     </button>
                   </div>
 

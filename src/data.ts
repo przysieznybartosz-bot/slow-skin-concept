@@ -266,10 +266,10 @@ export const TREATMENTS: Treatment[] = [
       "Kompleksy antyoksydacyjne i bioflawonoidy chroniące naczynia krwionośne"
     ],
     protocolSteps: [
-      { phase: "1. Diagnoza biologiczna", description: "Oceniane są reaktywność, widoczne zaczerwienienie, nawodnienie, komfort i stan bariery. Analizowane są również czynniki, które mogą nasilać reakcje skóry." },
-      { phase: "2. Delikatne oczyszczanie", description: "Sposób oczyszczania dobierany jest do aktualnej tolerancji skóry. Celem jest przygotowanie jej do kolejnych etapów bez intensywnego tarcia i nadmiernego odtłuszczania." },
-      { phase: "3. Spersonalizowany koktajl zabiegowy", description: "Bezpośrednio przy klientce komponowany jest koktajl z bazy i koncentratów aktywnych dermaviduals®. Jego skład odpowiada aktualnym potrzebom i biologicznym priorytetom skóry." },
-      { phase: "4. Wyciszenie i ochrona", description: "Końcowy etap wspiera komfort, nawodnienie i barierę naskórkową. W zależności od gotowości skóry zabieg może zostać uzupełniony odpowiednio dobraną metodą aparaturową lub pielęgnacją ochronną." }
+      { phase: "1. Ocena kondycji skóry", description: "Oceniam reaktywność, zaczerwienienie, nawilżenie, komfort i stan bariery naskórkowej. Rozmawiam z Tobą również o pielęgnacji i czynnikach, które mogą nasilać reakcje skóry." },
+      { phase: "2. Delikatne oczyszczanie", description: "Dobieram sposób oczyszczania do aktualnej tolerancji skóry. Przygotowuję ją do dalszej pielęgnacji, unikając nadmiernego tarcia i odtłuszczania." },
+      { phase: "3. Indywidualna kompozycja i pielęgnacja zabiegowa", description: "Bezpośrednio przed zastosowaniem przygotowuję kompozycję z bazy DMS i koncentratów dermaviduals. Dobieram składniki do potrzeb skóry. Jeśli jej kondycja na to pozwala, na tym etapie mogę włączyć odpowiednią technologię zabiegową." },
+      { phase: "4. Ukojenie i ochrona", description: "Zabieg kończę pielęgnacją wspierającą nawilżenie, komfort i barierę naskórkową. Przekazuję też wskazówki dotyczące pielęgnacji domowej i ochrony przeciwsłonecznej." }
     ],
     faq: [
       {
