@@ -363,5 +363,19 @@ html.wcag-invert .wcag-no-invert {
   filter: none !important;
 }
 
+@keyframes slow-spiral-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spiral-slow {
+  animation: slow-spiral-rotate 120s linear infinite;
+  transform-origin: center center;
+}
+
 
 

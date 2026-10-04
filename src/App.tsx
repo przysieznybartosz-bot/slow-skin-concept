@@ -3703,6 +3703,21 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                 </button>
               </motion.div>
             </div>
+
+            {/* Złota spirala — harmonijne przejście pomiędzy Hero a pierwszą sekcją */}
+            <div 
+              className="absolute right-4 sm:right-8 md:right-14 lg:right-20 -bottom-16 sm:-bottom-24 md:-bottom-32 lg:-bottom-40 z-20 pointer-events-none select-none"
+              aria-hidden="true"
+            >
+              <div className="relative w-36 h-36 sm:w-52 sm:h-52 md:w-68 md:h-68 lg:w-84 lg:h-84 drop-shadow-[0_12px_36px_rgba(197,138,42,0.22)] animate-spiral-slow">
+                <img 
+                  src="/czysta-zlota-spirala.svg" 
+                  alt="Złota spirala — przejście pomiędzy hero a pierwszą sekcją"
+                  className="w-full h-full object-contain filter drop-shadow-[0_3px_12px_rgba(197,138,42,0.3)] opacity-95 hover:opacity-100 transition-opacity"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
