@@ -5065,7 +5065,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
 
                                 <div className="space-y-1 pt-1">
                                   <span className="font-mono text-[9px] tracking-wider text-luxury-gold uppercase font-bold block">
-                                    {caseData.homeCareLabel || "Pielęgnacja Domowa"}
+                                    {caseData.homeCareLabel || "Rekomendowana pielęgnacja domowa"}
                                   </span>
                                   <p className="font-light leading-relaxed text-justify">{caseData.homeCare}</p>
                                 </div>
@@ -12180,7 +12180,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                               recommendation: "Biomimetyczne nasycenie komórkowe o wysokim stopniu wchłanialności."
                             },
                             damaged: {
-                              desc: "Stres oksydacyjny, promienie UV i podwyższony kortyzol uszkadzają białka połączeń ścisłych. NMF ulega wymyciu, przez co skóra traci pierwotną zdolność wiązania wody w naczyniach bionomowych.",
+                              desc: "Stres oksydacyjny, promienie UV i podwyższony kortyzol uszkadzają białka połączeń ścisłych. NMF ulega wymyciu, przez co skóra traci pierwotną zdolność wiązania wody w naskórku i strukturach komórkowych.",
                               symptoms: "Odwodnienie głębokie (wiotkość), powstawanie drobnych zmarszczek dehydratacyjnych, skóra wygląda na 'papierową' i cienką.",
                               ingredients: "Unikaj wielogodzinnej ekspozycji na słońce bez filtrów fizycznych, klimatyzacji wysuszającej naskórek.",
                               recommendation: "Mezoterapia bezigłowa i tlenoterapia biomimetyczna wspierające szczelność komórkową naskórka."
