@@ -3704,16 +3704,16 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               </motion.div>
             </div>
 
-            {/* Złota spirala — harmonijne przejście pomiędzy Hero a pierwszą sekcją */}
+            {/* Złota spirala — harmonijne przejście na Hero (przesunięta o 200px wyżej, pełna bez uciętych krawędzi) */}
             <div 
-              className="absolute right-4 sm:right-8 md:right-14 lg:right-20 -bottom-16 sm:-bottom-24 md:-bottom-32 lg:-bottom-40 z-20 pointer-events-none select-none"
+              className="absolute right-4 sm:right-8 md:right-12 lg:right-16 bottom-[120px] sm:bottom-[150px] md:bottom-[180px] lg:bottom-[210px] z-20 pointer-events-none select-none"
               aria-hidden="true"
             >
-              <div className="relative w-36 h-36 sm:w-52 sm:h-52 md:w-68 md:h-68 lg:w-84 lg:h-84 drop-shadow-[0_12px_36px_rgba(197,138,42,0.22)] animate-spiral-slow">
+              <div className="relative w-40 h-40 sm:w-56 sm:h-56 md:w-72 md:h-72 lg:w-88 lg:h-88 drop-shadow-[0_14px_40px_rgba(197,138,42,0.25)] animate-spiral-slow">
                 <img 
                   src="/czysta-zlota-spirala.svg" 
-                  alt="Złota spirala — przejście pomiędzy hero a pierwszą sekcją"
-                  className="w-full h-full object-contain filter drop-shadow-[0_3px_12px_rgba(197,138,42,0.3)] opacity-95 hover:opacity-100 transition-opacity"
+                  alt="Złota spirala — symbol Slow Skin Concept"
+                  className="w-full h-full object-contain filter drop-shadow-[0_4px_16px_rgba(197,138,42,0.3)] opacity-95"
                   referrerPolicy="no-referrer"
                 />
               </div>
@@ -4472,80 +4472,88 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     ))}
                   </div>
 
-                  {/* Sekcja: Jak prowadzimy Cię krok po kroku - WYRÓŻNIONA KROK PO KROKU DLA KLIENTA */}
-                  <div className="my-20 p-8 md:p-14 bg-luxury-dark border-2 border-luxury-gold rounded-md max-w-5xl mx-auto px-6 md:px-12 text-center animate-fade-in shadow-[0_22px_60px_rgba(4,37,31,0.15)] relative overflow-hidden" id="timeline-highlighted">
+                  {/* Sekcja: Jak prowadzimy Cię krok po kroku - ROZSZERZONA NA CAŁĄ SZEROKOŚĆ Z DUŻYMI CZYTELNYMI LITERAMI */}
+                  <div className="-mx-4 sm:-mx-6 md:-mx-8 lg:-mx-12 xl:-mx-20 px-6 sm:px-10 md:px-16 lg:px-20 xl:px-28 py-16 md:py-24 bg-luxury-dark border-y-2 border-luxury-gold border-x-0 my-20 text-center animate-fade-in shadow-[0_22px_60px_rgba(4,37,31,0.2)] relative overflow-hidden" id="timeline-highlighted">
                     {/* Floating gold aesthetic accents */}
-                    <div className="absolute top-0 left-0 w-32 h-32 bg-luxury-gold/15 blur-2xl rounded-full pointer-events-none" />
-                    <div className="absolute bottom-0 right-0 w-32 h-32 bg-luxury-gold/15 blur-2xl rounded-full pointer-events-none" />
-                    <div className="absolute top-4 right-4 bg-luxury-gold/20 border border-luxury-gold/60 text-[8px] font-mono tracking-widest text-brand-gold-light uppercase px-2.5 py-1 rounded-full z-20">
+                    <div className="absolute top-0 left-0 w-64 h-64 bg-luxury-gold/15 blur-3xl rounded-full pointer-events-none" />
+                    <div className="absolute bottom-0 right-0 w-64 h-64 bg-luxury-gold/15 blur-3xl rounded-full pointer-events-none" />
+                    <div className="absolute top-6 right-6 bg-luxury-gold/20 border border-luxury-gold/60 text-[9px] md:text-[10px] font-mono tracking-widest text-brand-gold-light uppercase px-3.5 py-1.5 rounded-full z-20 font-semibold">
                       Standard Opieki Slow Skin Concept
                     </div>
 
-                    <div className="space-y-3 relative z-10">
-                      <span className="font-mono text-[9px] md:text-[10px] tracking-[0.25em] text-brand-gold-light uppercase block font-semibold text-center h-4">
+                    <div className="space-y-3 relative z-10 max-w-4xl mx-auto">
+                      <span className="font-mono text-xs md:text-sm tracking-[0.28em] text-brand-gold-light uppercase block font-semibold text-center">
                         Ścieżka Terapii Slow Skin
                       </span>
-                      <h3 className="font-serif text-[36px] font-light text-white text-center tracking-tight leading-none">
+                      <h3 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light text-white text-center tracking-tight leading-tight">
                         Jak prowadzimy Cię krok po kroku
                       </h3>
-                      <div className="w-12 h-[1px] bg-luxury-gold/60 mx-auto mt-2" />
+                      <div className="w-16 h-[1.5px] bg-luxury-gold mx-auto my-3" />
+                      <p className="text-sm sm:text-base md:text-lg text-luxury-cream/90 font-serif italic max-w-2xl mx-auto leading-relaxed">
+                        Od pierwszej konsultacji i diagnozy pod lupą, przez bezpieczne zabiegi gabinetowe, aż po zrozumiałą pielęgnację domową.
+                      </p>
                     </div>
 
                     {/* Timeline Container */}
-                    <div className="relative pt-6 z-10">
+                    <div className="relative pt-12 z-10 max-w-7xl mx-auto">
                       {/* Łącząca przerywana linia poziomowa na desktop */}
-                      <div className="hidden md:block absolute top-[52px] left-[10%] right-[10%] h-[1px] bg-gradient-to-r from-transparent via-luxury-gold/40 to-transparent z-0" />
+                      <div className="hidden md:block absolute top-[94px] left-[8%] right-[8%] h-[1.5px] bg-gradient-to-r from-transparent via-luxury-gold/50 to-transparent z-0" />
 
                       {/* Łącząca przerywana linia pionowa na mobile */}
-                      <div className="block md:hidden absolute left-[38px] top-6 bottom-10 w-[1px] bg-gradient-to-b from-transparent via-luxury-gold/30 to-transparent z-0" />
+                      <div className="block md:hidden absolute left-[44px] top-12 bottom-12 w-[1.5px] bg-gradient-to-b from-transparent via-luxury-gold/40 to-transparent z-0" />
 
-                      <div className="grid grid-cols-1 md:grid-cols-5 gap-12 md:gap-6 relative z-10">
+                      <div className="grid grid-cols-1 md:grid-cols-5 gap-12 md:gap-6 lg:gap-8 xl:gap-10 relative z-10">
                         {[
                           {
                             step: 1,
                             title: "Rozmowa i analiza potrzeb",
-                            icon: <MessageSquare className="w-5 h-5 text-luxury-gold" strokeWidth={1.2} />
+                            desc: "Poznajemy historię Twojej skóry, dotychczasowe nawyki oraz cele wizyty.",
+                            icon: <MessageSquare className="w-6 h-6 md:w-7 md:h-7 text-luxury-gold" strokeWidth={1.3} />
                           },
                           {
                             step: 2,
                             title: "Diagnostyka skóry",
-                            icon: <Activity className="w-5 h-5 text-luxury-gold" strokeWidth={1.2} />
+                            desc: "Ocena bariery hydrolipidowej i reaktywności pod lampą z lupą.",
+                            icon: <Activity className="w-6 h-6 md:w-7 md:h-7 text-luxury-gold" strokeWidth={1.3} />
                           },
                           {
                             step: 3,
                             title: "Dobór kierunku terapii",
-                            icon: <ClipboardList className="w-5 h-5 text-luxury-gold" strokeWidth={1.2} />
+                            desc: "Indywidualny plan zabiegów gabinetowych bez ryzyka podrażnień.",
+                            icon: <ClipboardList className="w-6 h-6 md:w-7 md:h-7 text-luxury-gold" strokeWidth={1.3} />
                           },
                           {
                             step: 4,
                             title: "Zakupy i pielęgnacja domowa",
-                            icon: <FlaskConical className="w-5 h-5 text-luxury-gold" strokeWidth={1.2} />
+                            desc: "Konkretne formuły bionomiczne wspierające naskórek każdego dnia.",
+                            icon: <FlaskConical className="w-6 h-6 md:w-7 md:h-7 text-luxury-gold" strokeWidth={1.3} />
                           },
                           {
                             step: 5,
                             title: "Kontrola efektów i kolejne kroki",
-                            icon: <TrendingUp className="w-5 h-5 text-luxury-gold" strokeWidth={1.2} />
+                            desc: "Bieżąca obserwacja regeneracji skóry i elastyczne dopasowywanie planu.",
+                            icon: <TrendingUp className="w-6 h-6 md:w-7 md:h-7 text-luxury-gold" strokeWidth={1.3} />
                           }
                         ].map((stepItem, idx) => (
                           <div 
                             key={idx} 
-                            className="flex flex-row md:flex-col items-center md:items-center space-x-6 md:space-x-0 md:space-y-4 group text-left md:text-center relative py-2 px-1 rounded-sm transition-all duration-300 pointer-events-auto"
+                            className="flex flex-row md:flex-col items-center md:items-center space-x-6 md:space-x-0 md:space-y-4 group text-left md:text-center relative py-3 px-2 rounded-sm transition-all duration-300 pointer-events-auto"
                           >
                             {/* Duża konturowa cyfra szeryfowa w tle (Luxury Serif Outline Number with Overlay Effect) */}
-                            <div className="absolute -top-6 md:-top-10 left-3 md:left-1/2 md:-translate-x-1/2 font-serif text-[72px] md:text-[88px] font-thin select-none pointer-events-none text-transparent leading-none z-0 transition-all duration-700 [WebkitTextStroke:1px_rgba(215,193,139,0.22)] group-hover:[WebkitTextStroke:1.5px_rgba(215,193,139,0.6)] group-hover:scale-110 group-hover:-translate-y-1">
+                            <div className="absolute -top-7 md:-top-12 left-2 md:left-1/2 md:-translate-x-1/2 font-serif text-[84px] md:text-[104px] lg:text-[118px] font-thin select-none pointer-events-none text-transparent leading-none z-0 transition-all duration-700 [WebkitTextStroke:1px_rgba(215,193,139,0.25)] group-hover:[WebkitTextStroke:1.5px_rgba(215,193,139,0.7)] group-hover:scale-105 group-hover:-translate-y-1">
                               0{stepItem.step}
                             </div>
 
                             {/* Koło z ikoną i dwiema luksusowymi ramkami nałożonymi na cyfrę */}
                             <div className="flex-shrink-0 relative flex items-center justify-center z-10">
-                              <div className={`w-14 h-14 rounded-full border border-luxury-gold/50 flex items-center justify-center transition-all duration-500 shadow-md group-hover:border-white group-hover:shadow-lg ${
+                              <div className={`w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 rounded-full border-2 border-luxury-gold/60 flex items-center justify-center transition-all duration-500 shadow-lg group-hover:border-white group-hover:shadow-2xl ${
                                 stepItem.step === 1 ? "bg-[#D8DDD3]" : 
                                 stepItem.step === 2 ? "bg-[#EFE7D8]" : 
                                 stepItem.step === 3 ? "bg-[#D8B7A3]" : 
                                 stepItem.step === 4 ? "bg-[#D8DDD3]" : "bg-[#EFE7D8]"
                               }`}>
                                 {/* Inner dashed micro-border for luxury accent */}
-                                <div className="absolute inset-1 rounded-full border border-dashed border-luxury-dark/15 group-hover:border-luxury-dark/35 transition-colors duration-500" />
+                                <div className="absolute inset-1.5 rounded-full border border-dashed border-luxury-dark/20 group-hover:border-luxury-dark/40 transition-colors duration-500" />
                                 <div className="z-10 group-hover:scale-110 transition-transform duration-500 text-luxury-charcoal">
                                   {stepItem.icon}
                                 </div>
@@ -4553,13 +4561,17 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             </div>
 
                             {/* Kontener na tekst nałożony / wyrównany */}
-                            <div className="flex flex-col space-y-1 relative z-10 flex-grow md:pt-2">
+                            <div className="flex flex-col space-y-1.5 relative z-10 flex-grow md:pt-3">
                               {/* Subtelna nadkafla */}
-                              <span className="font-mono text-[10px] tracking-[0.2em] text-[#D7C18B] uppercase">KROK 0{stepItem.step}</span>
+                              <span className="font-mono text-xs md:text-sm tracking-[0.22em] text-[#D7C18B] font-bold uppercase">KROK 0{stepItem.step}</span>
                               {/* Tytuł kroku */}
-                              <h4 className="font-serif text-[13px] md:text-[14px] font-medium text-luxury-cream/90 group-hover:text-luxury-gold transition-colors duration-300 leading-snug md:max-w-[150px]">
+                              <h4 className="font-serif text-lg sm:text-xl md:text-xl lg:text-2xl font-normal text-white group-hover:text-brand-gold-light transition-colors duration-300 leading-snug">
                                 {stepItem.title}
                               </h4>
+                              {/* Opis kroku o powiększonych, wysoce czytelnych literach */}
+                              <p className="text-xs sm:text-sm text-luxury-cream/80 font-sans font-light leading-relaxed pt-1">
+                                {stepItem.desc}
+                              </p>
                             </div>
                           </div>
                         ))}
