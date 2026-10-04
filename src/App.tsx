@@ -3356,11 +3356,16 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
             <div 
               className="absolute inset-0 z-0 bg-[#F7F4EE] overflow-hidden"
               onDragOver={(e) => {
+                if (!isEditorMode()) return;
                 e.preventDefault();
                 setIsHeroDragOver(true);
               }}
-              onDragLeave={() => setIsHeroDragOver(false)}
+              onDragLeave={() => {
+                if (!isEditorMode()) return;
+                setIsHeroDragOver(false);
+              }}
               onDrop={(e) => {
+                if (!isEditorMode()) return;
                 e.preventDefault();
                 setIsHeroDragOver(false);
                 if (e.dataTransfer.files && e.dataTransfer.files[0]) {
@@ -3368,17 +3373,19 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                 }
               }}
             >
-              <input
-                type="file"
-                ref={heroFileInputRef}
-                accept="image/*"
-                className="hidden"
-                onChange={(e) => {
-                  if (e.target.files && e.target.files[0]) {
-                    handleHeroFileChange(e.target.files[0]);
-                  }
-                }}
-              />
+              {isEditorMode() && (
+                <input
+                  type="file"
+                  ref={heroFileInputRef}
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files[0]) {
+                      handleHeroFileChange(e.target.files[0]);
+                    }
+                  }}
+                />
+              )}
               <img 
                 src={heroCustomUrl}
                 onError={() => {
@@ -3402,8 +3409,8 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               <div className="absolute inset-0 bg-gradient-to-r from-[#FAF8F5]/90 via-[#FAF8F5]/55 via-45% to-transparent pointer-events-none" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#FAF8F5] via-[#FAF8F5]/30 via-25% to-transparent pointer-events-none" />
 
-              {/* Drag & drop overlay indicator */}
-              {isHeroDragOver && (
+              {/* Drag & drop overlay indicator — active only in AI Studio editor mode */}
+              {isEditorMode() && isHeroDragOver && (
                 <div className="absolute inset-0 bg-luxury-dark/40 backdrop-blur-xs flex items-center justify-center z-20 border-4 border-dashed border-luxury-gold pointer-events-none">
                   <div className="bg-white p-6 shadow-xl text-center space-y-2">
                     <Camera className="w-10 h-10 text-luxury-gold mx-auto animate-bounce" />
@@ -3413,17 +3420,19 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                 </div>
               )}
 
-              {/* Discreet button to select and upload original photo */}
-              <div className="absolute top-4 right-4 z-20">
-                <button
-                  onClick={() => heroFileInputRef.current?.click()}
-                  title="Wstaw własny oryginalny plik zdjęcia (np. Profesjonalna ocena skóry pod lupą.png)"
-                  className="bg-white/90 hover:bg-white text-luxury-dark hover:text-luxury-gold border border-luxury-sand/80 px-3 py-1.5 text-[9px] font-mono uppercase tracking-wider transition-all shadow-xs rounded-2xs flex items-center gap-1.5 cursor-pointer backdrop-blur-xs font-semibold"
-                >
-                  <Camera className="w-3.5 h-3.5 text-luxury-gold shrink-0" />
-                  <span>{isUploadingHero ? "Wstawianie..." : "Wstaw oryginalny plik zdjęcia"}</span>
-                </button>
-              </div>
+              {/* Discreet button to select and upload original photo — active only in AI Studio editor mode */}
+              {isEditorMode() && (
+                <div className="absolute top-4 right-4 z-20">
+                  <button
+                    onClick={() => heroFileInputRef.current?.click()}
+                    title="Wstaw własny oryginalny plik zdjęcia (np. Profesjonalna ocena skóry pod lupą.png)"
+                    className="bg-white/90 hover:bg-white text-luxury-dark hover:text-luxury-gold border border-luxury-sand/80 px-3 py-1.5 text-[9px] font-mono uppercase tracking-wider transition-all shadow-xs rounded-2xs flex items-center gap-1.5 cursor-pointer backdrop-blur-xs font-semibold"
+                  >
+                    <Camera className="w-3.5 h-3.5 text-luxury-gold shrink-0" />
+                    <span>{isUploadingHero ? "Wstawianie..." : "Wstaw oryginalny plik zdjęcia"}</span>
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Content Overlay */}
