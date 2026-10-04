@@ -4885,23 +4885,23 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     {/* Header sekcji */}
                     <div className="text-center max-w-2xl mx-auto space-y-3">
                       <span className="font-mono text-[9px] md:text-[10px] tracking-[0.25em] text-luxury-gold uppercase block font-semibold">
-                        Gabinety Slow Skin w Praktyce
+                        Efekty pracy w gabinecie
                       </span>
                       <h2 className="font-serif text-[36px] md:text-[36px] font-light text-luxury-dark tracking-tight leading-tight">
-                        Portrety przemian. Efekty indywidualnej pracy ze skórą
+                        Historie skóry. Efekty indywidualnej pielęgnacji
                       </h2>
                       <div className="w-16 h-[1px] bg-luxury-gold/50 mx-auto mt-2" />
                       <p className="text-xs md:text-sm text-luxury-dark/95 max-w-xl mx-auto leading-relaxed">
-                        Każda skóra ma swoją historię. Poznaj przykłady pracy gabinetowej, w której indywidualnie dobrana terapia i pielęgnacja domowa wspierają poprawę kondycji skóry, jej komfortu i wyglądu.
+                        Każda skóra ma inną historię i potrzebuje indywidualnego podejścia. Zobacz fotografie dokumentujące zmiany w jej wyglądzie podczas pracy gabinetowej połączonej z pielęgnacją domową. Zakres i tempo efektów zależą od wyjściowej kondycji skóry oraz dobranego planu.
                       </p>
                     </div>
 
                     {/* Zakładki wyboru przypadku */}
                     <div className="flex flex-wrap justify-center border-b border-luxury-sand/60 pb-1 gap-2 md:gap-8">
                       {[
-                        { id: 0, title: "Skóra reaktywna i zaczerwieniona", name: "Indywidualna terapia" },
-                        { id: 1, title: "Poprawa jędrności i elastyczności", name: "Indywidualna terapia" },
-                        { id: 2, title: "Wyciszenie i normalizacja cery", name: "Indywidualna terapia" }
+                        { id: 0, title: "01 / Skóra wrażliwa i zaczerwieniona" },
+                        { id: 1, title: "02 / Utrata jędrności i zmiana owalu" },
+                        { id: 2, title: "03 / Niedoskonałości i odwodnienie" }
                       ].map((tab) => (
                         <button
                           key={tab.id}
@@ -4915,9 +4915,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                               : "text-luxury-dark/90 border-transparent hover:text-luxury-dark hover:border-luxury-sand/50"
                           }`}
                         >
-                          <span className="block text-[8px] opacity-75 leading-none mb-1 font-sans">PRZYPADEK 0{tab.id+1}</span>
-                          <span className="text-[11px] md:text-xs">{tab.title}</span>
-                          <span className="block text-[10px] font-sans italic opacity-60 mt-0.5">{tab.name}</span>
+                          <span className="text-[11px] md:text-xs uppercase">{tab.title}</span>
                         </button>
                       ))}
                     </div>
@@ -4927,7 +4925,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       const caseData = [
                         {
                           categoryLabel: "POTRZEBY SKÓRY",
-                          name: "Skóra reaktywna i zaczerwieniona",
+                          name: "Skóra wrażliwa i zaczerwieniona",
                           problem: "Pielęgnacja ukierunkowana na komfort skóry i wsparcie bariery naskórkowej.",
                           duration: "Efekt indywidualnej pielęgnacji",
                           idBefore: "case_0_before",
@@ -4951,7 +4949,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         },
                         {
                           categoryLabel: "POTRZEBY SKÓRY",
-                          name: "Poprawa jędrności i elastyczności",
+                          name: "Utrata jędrności i zmiana owalu",
                           problem: "Wsparcie fizjologicznej gęstości, napięcia i naturalnych procesów odnowy skóry.",
                           duration: "Efekt indywidualnej terapii",
                           idBefore: "case_1_before",
@@ -4975,7 +4973,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         },
                         {
                           categoryLabel: "POTRZEBY SKÓRY",
-                          name: "Wyciszenie i normalizacja cery",
+                          name: "Niedoskonałości i odwodnienie",
                           problem: "Wsparcie skóry z tendencją do niedoskonałości przy jednoczesnym odwodnieniu i wrażliwości.",
                           duration: "Efekt indywidualnej terapii",
                           idBefore: "case_2_before",
