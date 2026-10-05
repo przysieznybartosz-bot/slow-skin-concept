@@ -53,6 +53,12 @@
   background: var(--color-luxury-gold);
 }
 
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
+}
+
 /* Hide Google Translate generic top-bar and floating widgets silently to keep quiet luxury clean layout */
 body {
   top: 0px !important;
