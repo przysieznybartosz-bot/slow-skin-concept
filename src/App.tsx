@@ -1934,7 +1934,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
       </AnimatePresence>
 
       {/* Editorial Announcement Bar */}
-      <div className="bg-luxury-dark text-luxury-cream/80 text-[9px] sm:text-[10px] tracking-[0.20em] sm:tracking-[0.25em] uppercase text-center py-2 sm:py-2.5 px-4 font-mono select-none">
+      <div className="bg-luxury-dark text-luxury-cream text-xs sm:text-[10px] tracking-wider sm:tracking-[0.25em] uppercase text-center py-2 sm:py-2.5 px-3 sm:px-4 font-mono select-none font-medium">
         Biologiczna Terapia Skóry, Neurobiologia i Fizjologia — Jelcz-Laskowice
       </div>
 
@@ -3443,15 +3443,15 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.8 }}
-                className="font-mono text-[9px] sm:text-[11px] md:text-[12px] tracking-[0.10em] sm:tracking-[0.20em] text-[#846b41] uppercase font-bold select-none flex flex-wrap items-center gap-1.5 sm:gap-2"
+                className="font-mono text-xs sm:text-[11px] md:text-[12px] tracking-normal sm:tracking-[0.20em] text-[#6E5325] uppercase font-bold select-none flex flex-wrap items-center gap-1.5 sm:gap-2"
               >
-                <span className="bg-white/85 backdrop-blur-xs px-2 sm:px-2.5 py-0.5 border border-luxury-sand/60 shadow-2xs">diagnostyka</span>
+                <span className="bg-white/95 px-2.5 py-1 border border-luxury-sand text-luxury-dark font-semibold shadow-2xs">diagnostyka</span>
                 <span className="text-luxury-dark/40">&middot;</span>
-                <span className="bg-white/85 backdrop-blur-xs px-2 sm:px-2.5 py-0.5 border border-luxury-sand/60 shadow-2xs">regeneracja</span>
+                <span className="bg-white/95 px-2.5 py-1 border border-luxury-sand text-luxury-dark font-semibold shadow-2xs">regeneracja</span>
                 <span className="text-luxury-dark/40">&middot;</span>
-                <span className="bg-white/85 backdrop-blur-xs px-2 sm:px-2.5 py-0.5 border border-luxury-sand/60 shadow-2xs">naturalny slow-aging</span>
+                <span className="bg-white/95 px-2.5 py-1 border border-luxury-sand text-luxury-dark font-semibold shadow-2xs">naturalny slow-aging</span>
                 <span className="text-luxury-dark/40">&middot;</span>
-                <span className="bg-white/85 backdrop-blur-xs px-2 sm:px-2.5 py-0.5 border border-luxury-sand/60 shadow-2xs">indywidualne zabiegi</span>
+                <span className="bg-white/95 px-2.5 py-1 border border-luxury-sand text-luxury-dark font-semibold shadow-2xs">indywidualne zabiegi</span>
               </motion.div>
 
               {/* Classic Serif Title with enhanced contrast */}
@@ -3459,9 +3459,9 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.8 }}
-                className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-light text-[#1a1917] leading-tight tracking-[0.03em] sm:tracking-[0.08em] uppercase select-none drop-shadow-[0_2px_4px_rgba(255,255,255,0.85)] max-w-full break-words"
+                className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-normal text-[#04251F] leading-tight tracking-[0.02em] sm:tracking-[0.08em] uppercase select-none drop-shadow-[0_2px_4px_rgba(255,255,255,0.95)] max-w-full break-words"
               >
-                Slow Skin Concept<span className="text-xs md:text-sm lg:text-base align-super text-[#846b41] ml-1 font-sans font-bold">TM</span>
+                Slow Skin Concept<span className="text-xs md:text-sm lg:text-base align-super text-[#6E5325] ml-1 font-sans font-bold">TM</span>
               </motion.h1>
 
               {/* Tagline Statement with crisp contrast */}
@@ -3469,7 +3469,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6, duration: 0.8 }}
-                className="text-base sm:text-lg md:text-xl lg:text-2xl text-[#24221f] max-w-3xl font-medium tracking-normal sm:tracking-wide leading-relaxed select-none font-serif italic drop-shadow-[0_1px_3px_rgba(255,255,255,0.85)]"
+                className="text-base sm:text-lg md:text-xl lg:text-2xl text-[#1a1917] max-w-3xl font-medium tracking-normal sm:tracking-wide leading-relaxed select-none font-serif italic drop-shadow-[0_1px_3px_rgba(255,255,255,0.95)]"
               >
                 Biologiczna terapia skóry, która zaczyna się od jej zrozumienia
               </motion.p>
@@ -3512,12 +3512,12 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           placeholder="Wyszukaj zabieg lub problem skóry (np. suchość, rumień, zmarszczki)..."
                           value={globalSearchQuery}
                           onChange={(e) => setGlobalSearchQuery(e.target.value)}
-                          className="w-full bg-transparent border-none text-xs sm:text-sm md:text-base text-luxury-dark placeholder:text-luxury-dark/50 font-serif focus:outline-none focus:ring-0 italic py-1 sm:py-1.5"
+                          className="w-full bg-transparent border-none text-sm md:text-base text-luxury-dark placeholder:text-luxury-dark/70 font-serif focus:outline-none focus:ring-0 italic py-1 sm:py-1.5 font-normal"
                         />
                         {globalSearchQuery && (
                           <button
                             onClick={() => setGlobalSearchQuery("")}
-                            className="text-luxury-dark/60 hover:text-luxury-gold transition-colors text-[10px] uppercase font-mono tracking-widest cursor-pointer focus:outline-none flex items-center gap-1 shrink-0"
+                            className="text-luxury-dark/60 hover:text-luxury-gold transition-colors text-xs font-mono tracking-wider cursor-pointer focus:outline-none flex items-center gap-1 shrink-0 font-medium"
                           >
                             <X className="w-3.5 h-3.5" />
                             <span className="hidden sm:inline">Wyczyść</span>
@@ -3526,17 +3526,17 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       </div>
 
                       {/* Small elegant description below input */}
-                      <div className="text-[9px] sm:text-[10px] text-luxury-dark/75 font-mono tracking-wider mt-2 sm:mt-2.5 uppercase select-none flex flex-wrap gap-1.5 sm:gap-2 items-center">
-                        <span className="text-luxury-dark font-semibold">Szybki wybór:</span>
-                        <button onClick={() => setGlobalSearchQuery("suchość")} className="text-luxury-gold hover:text-luxury-dark font-medium underline transition-colors cursor-pointer">suchość</button>
+                      <div className="text-xs sm:text-[10px] text-luxury-dark font-mono tracking-normal sm:tracking-wider mt-2.5 uppercase select-none flex flex-wrap gap-2 items-center">
+                        <span className="text-luxury-dark font-bold">Szybki wybór:</span>
+                        <button onClick={() => setGlobalSearchQuery("suchość")} className="text-[#7A571E] hover:text-luxury-dark font-semibold underline underline-offset-2 transition-colors cursor-pointer">suchość</button>
                         <span>&middot;</span>
-                        <button onClick={() => setGlobalSearchQuery("zmarszczki")} className="text-luxury-gold hover:text-luxury-dark font-medium underline transition-colors cursor-pointer">zmarszczki</button>
+                        <button onClick={() => setGlobalSearchQuery("zmarszczki")} className="text-[#7A571E] hover:text-luxury-dark font-semibold underline underline-offset-2 transition-colors cursor-pointer">zmarszczki</button>
                         <span>&middot;</span>
-                        <button onClick={() => setGlobalSearchQuery("trądzik")} className="text-luxury-gold hover:text-luxury-dark font-medium underline transition-colors cursor-pointer">trądzik</button>
+                        <button onClick={() => setGlobalSearchQuery("trądzik")} className="text-[#7A571E] hover:text-luxury-dark font-semibold underline underline-offset-2 transition-colors cursor-pointer">trądzik</button>
                         <span>&middot;</span>
-                        <button onClick={() => setGlobalSearchQuery("naczynka")} className="text-luxury-gold hover:text-luxury-dark font-medium underline transition-colors cursor-pointer">naczynka</button>
+                        <button onClick={() => setGlobalSearchQuery("naczynka")} className="text-[#7A571E] hover:text-luxury-dark font-semibold underline underline-offset-2 transition-colors cursor-pointer">naczynka</button>
                         <span>&middot;</span>
-                        <button onClick={() => setGlobalSearchQuery("wiotkość")} className="text-luxury-gold hover:text-luxury-dark font-medium underline transition-colors cursor-pointer">wiotkość</button>
+                        <button onClick={() => setGlobalSearchQuery("wiotkość")} className="text-[#7A571E] hover:text-luxury-dark font-semibold underline underline-offset-2 transition-colors cursor-pointer">wiotkość</button>
                       </div>
                     </div>
 
@@ -3693,7 +3693,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       el.scrollIntoView({ behavior: "smooth" });
                     }
                   }}
-                  className="w-full sm:w-auto px-6 sm:px-8 py-3.5 bg-luxury-gold hover:bg-luxury-dark text-white hover:text-white text-[10px] md:text-xs font-mono tracking-widest uppercase transition-all duration-300 border border-luxury-gold font-bold shadow-md cursor-pointer text-center"
+                  className="w-full sm:w-auto px-6 sm:px-8 py-3.5 bg-luxury-gold hover:bg-luxury-dark text-white hover:text-white text-xs sm:text-xs font-mono tracking-wider sm:tracking-widest uppercase transition-all duration-300 border border-luxury-gold font-bold shadow-md cursor-pointer text-center"
                 >
                   Odkryj Rytuały &darr;
                 </button>
@@ -3706,7 +3706,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     setBookingPhone("");
                     setBookingDate("");
                   }}
-                  className="w-full sm:w-auto px-6 sm:px-8 py-3.5 border-2 border-luxury-dark hover:bg-luxury-dark text-luxury-dark hover:text-white text-[10px] md:text-xs font-mono tracking-widest uppercase bg-white/95 hover:bg-luxury-dark backdrop-blur-xs transition-all duration-300 font-bold shadow-md cursor-pointer text-center"
+                  className="w-full sm:w-auto px-6 sm:px-8 py-3.5 border-2 border-luxury-dark hover:bg-luxury-dark text-luxury-dark hover:text-white text-xs sm:text-xs font-mono tracking-wider sm:tracking-widest uppercase bg-white hover:bg-luxury-dark backdrop-blur-xs transition-all duration-300 font-bold shadow-md cursor-pointer text-center"
                 >
                   Umów konsultację
                 </button>
@@ -3735,7 +3735,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
       <main className="flex-grow w-full max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-10">
         
         {/* Elegancja i Nawigacja: Breadcrumbs w stylu Quiet Luxury */}
-        <div className="mb-8 pb-4 border-b border-luxury-sand/50 flex items-center justify-between text-[11px] font-mono tracking-widest text-luxury-dark/90" id="editorial-breadcrumbs">
+        <div className="mb-8 pb-4 border-b border-luxury-sand/50 flex items-center justify-between text-xs sm:text-[11px] font-mono tracking-wider sm:tracking-widest text-luxury-dark font-medium" id="editorial-breadcrumbs">
           <div className="flex items-center flex-wrap gap-2 text-left">
             <button 
               onClick={() => { setActiveTab("cover"); setSelectedArticle(null); setSelectedTreatment(null); setBookingTreatment(null); }}
@@ -3865,30 +3865,30 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
 
                 {/* Editorial Copy Block */}
                 <div className="lg:col-span-5 flex flex-col justify-center space-y-6">
-                  <div className="font-mono text-[10px] tracking-[0.3em] text-luxury-gold uppercase flex items-center gap-2">
+                  <div className="font-mono text-xs sm:text-[10px] tracking-wider sm:tracking-[0.3em] text-[#6E5325] uppercase flex items-center gap-2 font-bold">
                     <Fingerprint className="w-3 pb-0.5" /> Ekspercka Diagnoza Komórkowa
                   </div>
                   
-                  <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light leading-[1.15] text-luxury-dark tracking-tight break-words">
+                  <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal leading-[1.15] text-luxury-dark tracking-tight break-words">
                     Wolne starzenie.<br />
-                    <span className="italic pl-2 sm:pl-4 text-luxury-gold font-normal">Sztuka wyciszania</span><br />
+                    <span className="italic pl-2 sm:pl-4 text-[#7A571E] font-medium">Sztuka wyciszania</span><br />
                     stanu zapalnego.
                   </h1>
 
-                  <p className="text-sm text-luxury-dark/95 font-light leading-relaxed max-w-md">
+                  <p className="text-base sm:text-sm text-luxury-dark font-normal leading-relaxed max-w-md">
                     Projektujemy spersonalizowaną architekturę Twojej skóry. Odrzucamy agresywne terapie i schematy na rzecz unikalnych biomolekularnych formuł, spokoju neurologicznego oraz autorskiej diagnostyki komórkowej. Twoja skóra zasługuje na ciche wsparcie, a nie ciągłą walkę.
                   </p>
 
                   <div className="pt-6 flex flex-col sm:flex-row gap-4">
                     <button 
                       onClick={() => setActiveTab("diagnose")}
-                      className="px-8 py-4 bg-luxury-dark text-luxury-cream text-xs font-mono tracking-widest uppercase hover:bg-luxury-gold hover:text-white transition-all flex items-center justify-center gap-2"
+                      className="px-8 py-4 bg-luxury-dark text-luxury-cream text-xs font-mono tracking-wider sm:tracking-widest uppercase hover:bg-luxury-gold hover:text-white transition-all flex items-center justify-center gap-2 font-semibold cursor-pointer"
                     >
                       Rozpocznij Diagnozę <ArrowRight className="w-4 h-4" />
                     </button>
                     <button 
                       onClick={() => setActiveTab("method")}
-                      className="px-8 py-4 border border-luxury-dark/30 text-luxury-dark text-xs font-mono tracking-widest uppercase hover:border-luxury-dark transition-all text-center"
+                      className="px-8 py-4 border border-luxury-dark/30 text-luxury-dark text-xs font-mono tracking-wider sm:tracking-widest uppercase hover:border-luxury-dark transition-all text-center font-semibold cursor-pointer"
                     >
                       Nasza Metoda
                     </button>
@@ -3899,8 +3899,8 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               {/* Bento Grid: Storytelling Highlights */}
               <div className="border-t border-luxury-sand pt-16">
                 <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
-                  <span className="font-mono text-[9px] tracking-widest text-[#8C6B2D] uppercase font-bold">FILOZOFIA MARKI</span>
-                  <h2 className="font-serif text-2xl sm:text-3xl font-light text-luxury-dark leading-tight">
+                  <span className="font-mono text-xs sm:text-[9px] tracking-wider sm:tracking-widest text-[#7A571E] uppercase font-bold">FILOZOFIA MARKI</span>
+                  <h2 className="font-serif text-2xl sm:text-3xl font-normal text-luxury-dark leading-snug">
                     Twoja skóra zasługuje na uważność i indywidualną pielęgnację
                   </h2>
                 </div>
@@ -3908,28 +3908,28 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   
                   {/* Card 1 */}
-                  <div className="p-8 border border-luxury-sand bg-white/70 backdrop-blur-sm space-y-4 hover:border-luxury-gold transition-colors shadow-xs">
-                    <div className="font-serif text-2xl text-[#8C6B2D] font-normal">01 / Jakość i kompozycja</div>
+                  <div className="p-6 sm:p-8 border border-luxury-sand bg-white/70 backdrop-blur-sm space-y-4 hover:border-luxury-gold transition-colors shadow-xs">
+                    <div className="font-serif text-2xl text-[#7A571E] font-medium">01 / Jakość i kompozycja</div>
                     <h3 className="font-mono text-xs tracking-wider uppercase font-bold text-luxury-dark">SKŁADNIKI DOBRANE DO TWOJEJ SKÓRY</h3>
-                    <p className="text-xs text-luxury-dark/95 leading-relaxed font-light">
+                    <p className="text-sm sm:text-xs text-luxury-dark leading-relaxed font-normal">
                       Korzystam z szerokiej gamy składników aktywnych i baz biomimetycznych. Dobieram je do aktualnej kondycji skóry, jej tolerancji oraz celu zabiegu. Każda kompozycja odpowiada na indywidualne potrzeby — od nawilżenia i ukojenia po wsparcie bariery naskórkowej i pielęgnację skóry dojrzałej.
                     </p>
                   </div>
 
                   {/* Card 2 */}
-                  <div className="p-8 border border-luxury-sand bg-white/70 backdrop-blur-sm space-y-4 hover:border-luxury-gold transition-colors shadow-xs">
-                    <div className="font-serif text-2xl text-[#8C6B2D] font-normal">02 / Spokój i komfort</div>
+                  <div className="p-6 sm:p-8 border border-luxury-sand bg-white/70 backdrop-blur-sm space-y-4 hover:border-luxury-gold transition-colors shadow-xs">
+                    <div className="font-serif text-2xl text-[#7A571E] font-medium">02 / Spokój i komfort</div>
                     <h3 className="font-mono text-xs tracking-wider uppercase font-bold text-luxury-dark">CZAS NA ODPOCZYNEK</h3>
-                    <p className="text-xs text-luxury-dark/95 leading-relaxed font-light">
+                    <p className="text-sm sm:text-xs text-luxury-dark leading-relaxed font-normal">
                       Wizyta to również czas na spokojny odpoczynek. Kameralna atmosfera, uważny dotyk i tempo pracy dopasowane do Ciebie sprzyjają odprężeniu. Dbam o Twój komfort na każdym etapie zabiegu, uwzględniając odczucia i reakcje skóry.
                     </p>
                   </div>
 
                   {/* Card 3 */}
-                  <div className="p-8 border border-luxury-sand bg-white/70 backdrop-blur-sm space-y-4 hover:border-luxury-gold transition-colors shadow-xs">
-                    <div className="font-serif text-2xl text-[#8C6B2D] font-normal">03 / Zaufanie i opieka</div>
+                  <div className="p-6 sm:p-8 border border-luxury-sand bg-white/70 backdrop-blur-sm space-y-4 hover:border-luxury-gold transition-colors shadow-xs">
+                    <div className="font-serif text-2xl text-[#7A571E] font-medium">03 / Zaufanie i opieka</div>
                     <h3 className="font-mono text-xs tracking-wider uppercase font-bold text-luxury-dark">DOŚWIADCZENIE I UWAŻNOŚĆ</h3>
-                    <p className="text-xs text-luxury-dark/95 leading-relaxed font-light">
+                    <p className="text-sm sm:text-xs text-luxury-dark leading-relaxed font-normal">
                       Podczas wizyty korzystasz z mojego wieloletniego doświadczenia i indywidualnej opieki. Słucham, oceniam potrzeby skóry i wyjaśniam proponowane działania. Dobieram zabiegi oraz pielęgnację domową tak, aby tworzyły spójny, zrozumiały dla Ciebie plan.
                     </p>
                   </div>
@@ -4460,10 +4460,10 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           </div>
 
                           <div className="space-y-2">
-                            <h3 className="font-serif text-sm font-medium text-luxury-dark group-hover:text-luxury-gold transition-colors duration-300 min-h-[40px] flex items-center justify-center">
+                            <h3 className="font-serif text-base sm:text-sm font-medium text-luxury-dark group-hover:text-luxury-gold transition-colors duration-300 min-h-[40px] flex items-center justify-center">
                               {card.title}
                             </h3>
-                            <p className="text-[11px] leading-relaxed text-luxury-dark/95 font-light min-h-[72px]">
+                            <p className="text-sm sm:text-[11px] leading-relaxed text-luxury-dark font-normal min-h-[72px]">
                               {card.desc}
                             </p>
                           </div>
@@ -4472,7 +4472,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         <div className="pt-2">
                           <button 
                             onClick={() => handleLinkClick(card.actionUrl)}
-                            className="w-full py-2 border border-luxury-sand group-hover:border-luxury-gold text-[10px] font-mono uppercase tracking-[0.2em] text-luxury-dark hover:text-white hover:bg-luxury-gold/90 bg-transparent transition-all duration-300 rounded-sm cursor-pointer"
+                            className="w-full py-2.5 sm:py-2 border border-luxury-sand group-hover:border-luxury-gold text-xs sm:text-[10px] font-mono uppercase tracking-wider font-semibold text-luxury-dark hover:text-white hover:bg-luxury-gold bg-transparent transition-all duration-300 rounded-sm cursor-pointer"
                           >
                             {card.cta}
                           </button>
@@ -4487,19 +4487,19 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     <div className="absolute top-0 left-0 w-48 sm:w-64 h-48 sm:h-64 bg-luxury-gold/15 blur-3xl rounded-full pointer-events-none" />
                     <div className="absolute bottom-0 right-0 w-48 sm:w-64 h-48 sm:h-64 bg-luxury-gold/15 blur-3xl rounded-full pointer-events-none" />
                     
-                    <div className="inline-block md:absolute md:top-6 md:right-6 bg-luxury-gold/20 border border-luxury-gold/60 text-[8px] sm:text-[9px] md:text-[10px] font-mono tracking-widest text-brand-gold-light uppercase px-3 py-1 md:px-3.5 md:py-1.5 rounded-full z-20 font-semibold mb-3 md:mb-0">
+                    <div className="inline-block md:absolute md:top-6 md:right-6 bg-luxury-gold/25 border border-luxury-gold/70 text-xs sm:text-[9px] md:text-[10px] font-mono tracking-wider sm:tracking-widest text-brand-gold-light uppercase px-3.5 py-1.5 rounded-full z-20 font-bold mb-3 md:mb-0">
                       Standard Opieki Slow Skin Concept
                     </div>
 
                     <div className="space-y-2.5 sm:space-y-3 relative z-10 max-w-4xl mx-auto">
-                      <span className="font-mono text-[10px] sm:text-xs md:text-sm tracking-[0.22em] sm:tracking-[0.28em] text-brand-gold-light uppercase block font-semibold text-center">
+                      <span className="font-mono text-xs sm:text-xs md:text-sm tracking-wider sm:tracking-[0.28em] text-brand-gold-light uppercase block font-bold text-center">
                         Ścieżka Terapii Slow Skin
                       </span>
-                      <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white text-center tracking-tight leading-tight">
+                      <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium text-white text-center tracking-tight leading-tight">
                         Jak prowadzimy Cię krok po kroku
                       </h3>
                       <div className="w-12 sm:w-16 h-[1.5px] bg-luxury-gold mx-auto my-2.5 sm:my-3" />
-                      <p className="text-xs sm:text-sm md:text-base text-luxury-cream/90 font-serif italic max-w-2xl mx-auto leading-relaxed px-2">
+                      <p className="text-sm sm:text-sm md:text-base text-luxury-cream font-serif italic max-w-2xl mx-auto leading-relaxed px-2 font-normal">
                         Od pierwszej konsultacji i diagnozy pod lupą, przez bezpieczne zabiegi gabinetowe, aż po zrozumiałą pielęgnację domową.
                       </p>
                     </div>
@@ -4573,13 +4573,13 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             {/* Kontener na tekst nałożony / wyrównany */}
                             <div className="flex flex-col space-y-1 relative z-10 flex-grow min-w-0 pr-6 md:pr-0 md:pt-3 text-left md:text-center">
                               {/* Subtelna nadkafla */}
-                              <span className="font-mono text-[10px] sm:text-xs md:text-xs tracking-[0.20em] text-[#D7C18B] font-bold uppercase">KROK 0{stepItem.step}</span>
+                              <span className="font-mono text-xs sm:text-xs md:text-xs tracking-wider text-[#D7C18B] font-bold uppercase">KROK 0{stepItem.step}</span>
                               {/* Tytuł kroku */}
-                              <h4 className="font-serif text-base sm:text-lg md:text-lg lg:text-xl font-normal text-white group-hover:text-brand-gold-light transition-colors duration-300 leading-snug break-words">
+                              <h4 className="font-serif text-lg sm:text-lg md:text-lg lg:text-xl font-medium text-white group-hover:text-brand-gold-light transition-colors duration-300 leading-snug break-words">
                                 {stepItem.title}
                               </h4>
                               {/* Opis kroku o powiększonych, wysoce czytelnych literach */}
-                              <p className="text-xs sm:text-sm text-luxury-cream/80 font-sans font-light leading-relaxed pt-0.5">
+                              <p className="text-sm sm:text-sm text-luxury-cream font-sans font-normal leading-relaxed pt-0.5">
                                 {stepItem.desc}
                               </p>
                             </div>

@@ -202,6 +202,124 @@ body, input, select, textarea, button, p, span, li, label, h1, h2, h3, h4, h5, h
 .text-\[96px\] { font-size: 98px !important; }
 
 /* 
+ * ==============================================================================
+ * DEDICATED MOBILE-FIRST TYPOGRAPHY & LEGIBILITY BOOST (@media max-width: 768px)
+ * ==============================================================================
+ * Resolves small, faint, washed-out fonts on smartphones and mobile screens.
+ * Enforces minimum readable sizes (13.5px+ for labels, 14.5px+ for descriptions),
+ * increases contrast, solidifies serif headings, and tightens over-stretched tracking.
+ */
+@media (max-width: 768px) {
+  /* Scale up all micro-typography classes to comfortable readable sizes on smartphones */
+  .text-\[5\.5px\],
+  .text-\[6\.5px\],
+  .text-\[7px\],
+  .text-\[8px\],
+  .text-\[8\.5px\],
+  .text-\[9px\],
+  .text-\[9\.5px\],
+  .text-\[10px\] {
+    font-size: 13.5px !important;
+    line-height: 1.45 !important;
+    font-weight: 500 !important;
+  }
+
+  .text-\[10\.5px\],
+  .text-\[11px\],
+  .text-\[11\.5px\],
+  .text-\[12px\],
+  .text-xs {
+    font-size: 14.5px !important;
+    line-height: 1.55 !important;
+  }
+
+  .text-sm {
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+  }
+
+  .text-base {
+    font-size: 17.5px !important;
+    line-height: 1.65 !important;
+  }
+
+  /* Solidify Cormorant Garamond serif headings on mobile — eliminates hair-thin, fuzzy strokes */
+  .font-serif {
+    font-weight: 500 !important;
+  }
+
+  .font-serif.font-light,
+  .font-serif.font-thin {
+    font-weight: 450 !important;
+  }
+
+  /* Eliminate faint weights across mobile copy */
+  .font-light {
+    font-weight: 400 !important;
+  }
+
+  /* Prevent over-extended letter-spacing from fragmenting words on mobile viewports */
+  .tracking-\[0\.20em\],
+  .tracking-\[0\.22em\],
+  .tracking-\[0\.25em\],
+  .tracking-\[0\.28em\],
+  .tracking-\[0\.3em\],
+  .tracking-widest {
+    letter-spacing: 0.08em !important;
+  }
+
+  /* Deepen body text contrast on warm cream backgrounds */
+  body, p, li, dd, label {
+    color: #04251F !important;
+  }
+
+  /* Deepen muted text opacities so descriptions are dark and punchy */
+  .text-luxury-dark\/30,
+  .text-luxury-dark\/40,
+  .text-luxury-dark\/50,
+  .text-luxury-dark\/60,
+  .text-luxury-dark\/70,
+  .text-luxury-dark\/75 {
+    color: #04251F !important;
+    opacity: 0.95 !important;
+  }
+
+  /* High-contrast amber-bronze for gold text on light backgrounds (meets WCAG AA) */
+  .text-luxury-gold {
+    color: #7A571E !important;
+    font-weight: 600 !important;
+  }
+
+  /* High-contrast crisp readability on dark green sections (timeline, banners) */
+  .bg-luxury-dark p,
+  .bg-luxury-dark li,
+  .bg-luxury-dark span.text-luxury-cream\/80,
+  .bg-luxury-dark span.text-luxury-cream\/90,
+  .bg-luxury-charcoal p {
+    color: #FAF7F0 !important;
+    opacity: 1 !important;
+  }
+
+  .bg-luxury-dark .text-luxury-gold,
+  .bg-luxury-dark .text-brand-gold-light,
+  .bg-luxury-charcoal .text-luxury-gold,
+  .bg-luxury-charcoal .text-brand-gold-light {
+    color: #F5E2B8 !important;
+    font-weight: 600 !important;
+  }
+
+  /* Form inputs, placeholders and buttons on mobile */
+  input, select, textarea {
+    font-size: 15px !important;
+  }
+
+  input::placeholder {
+    color: rgba(4, 37, 31, 0.70) !important;
+    font-size: 13.5px !important;
+  }
+}
+
+/* 
  * ==========================================
  * WCAG 2.1 CYFROWA DOSTĘPNOŚĆ OVERRIDES
  * ==========================================
