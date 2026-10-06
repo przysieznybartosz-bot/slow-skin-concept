@@ -7,7 +7,7 @@
   <!-- Strona Główna -->
   <url>
     <loc>https://slow-skin-concept.pl/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -15,174 +15,174 @@
   <!-- Kluczowe Strony Terapii i Diagnozy -->
   <url>
     <loc>https://slow-skin-concept.pl/pierwsza-wizyta-diagnostyka-skory/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://slow-skin-concept.pl/zabiegi-na-twarz/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://slow-skin-concept.pl/zabiegi-slow-aging/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://slow-skin-concept.pl/odbudowa-bariery-hydrolipidowej/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://slow-skin-concept.pl/terapia-skory-wrazliwej-i-reaktywnej/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://slow-skin-concept.pl/cera-naczynkowa-rumien/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://slow-skin-concept.pl/neurolifting/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://slow-skin-concept.pl/meso-remodeling/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
 
   <!-- Metoda, Filozofia i Autorski Model -->
   <url>
     <loc>https://slow-skin-concept.pl/metoda/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://slow-skin-concept.pl/filozofia/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://slow-skin-concept.pl/katarzyna-brzezinska/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- Szkolenia i Sklep -->
+  <!-- Szkolenia, Opinie i Kontakt -->
   <url>
     <loc>https://slow-skin-concept.pl/szkolenia/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://slow-skin-concept.pl/sklep/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
+    <loc>https://slow-skin-concept.pl/opinie/</loc>
+    <lastmod>2026-10-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
     <loc>https://slow-skin-concept.pl/kontakt/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- Baza Wiedzy i Artykuły -->
+  <!-- Baza Wiedzy i Artykuły Eksperckie -->
   <url>
     <loc>https://slow-skin-concept.pl/baza-wiedzy/jak-odbudowac-bariere-hydrolipidowa/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://slow-skin-concept.pl/baza-wiedzy/skora-wrazliwa-reaktywna/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://slow-skin-concept.pl/baza-wiedzy/neurolifting-dla-kogo/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://slow-skin-concept.pl/baza-wiedzy/jak-przygotowac-sie-do-wizyty/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
   </url>
 
   <!-- Technologie Gabinetowe -->
   <url>
     <loc>https://slow-skin-concept.pl/hifu-lifting/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://slow-skin-concept.pl/rf-microneedling/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://slow-skin-concept.pl/hydrogen-purification/</loc>
-    <lastmod>2026-09-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://slow-skin-concept.pl/laser-carbon/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://slow-skin-concept.pl/ceragem/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.65</priority>
   </url>
 
   <url>
     <loc>https://slow-skin-concept.pl/pst/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.65</priority>
   </url>
 
 </urlset>

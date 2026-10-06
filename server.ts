@@ -1621,6 +1621,54 @@ Nigdy nie zmyślaj innych identyfikatorów ani nie dopisuj linków zewnętrznych
     }
   });
 
+  // Explicit Google Search Console & SEO endpoints
+  app.get("/robots.txt", (req, res) => {
+    const robotsPath = path.join(process.cwd(), "public", "robots.txt");
+    if (fs.existsSync(robotsPath)) {
+      res.type("text/plain").sendFile(robotsPath);
+    } else {
+      res.type("text/plain").send("User-agent: *\nAllow: /\nSitemap: https://slow-skin-concept.pl/sitemap.xml\n");
+    }
+  });
+
+  app.get("/sitemap.xml", (req, res) => {
+    const sitemapPath = path.join(process.cwd(), "public", "sitemap.xml");
+    if (fs.existsSync(sitemapPath)) {
+      res.type("application/xml").sendFile(sitemapPath);
+    } else {
+      res.status(404).send("Sitemap not found");
+    }
+  });
+
+  app.get("/llms.txt", (req, res) => {
+    const llmsPath = path.join(process.cwd(), "public", "llms.txt");
+    if (fs.existsSync(llmsPath)) {
+      res.type("text/plain; charset=utf-8").sendFile(llmsPath);
+    } else {
+      res.status(404).send("Not found");
+    }
+  });
+
+  app.get("/llms-full.txt", (req, res) => {
+    const llmsFullPath = path.join(process.cwd(), "public", "llms-full.txt");
+    if (fs.existsSync(llmsFullPath)) {
+      res.type("text/plain; charset=utf-8").sendFile(llmsFullPath);
+    } else {
+      res.status(404).send("Not found");
+    }
+  });
+
+  // Dedicated handler for Google Search Console verification files
+  app.get("/google:code.html", (req, res) => {
+    const filename = `google${req.params.code}.html`;
+    const filePath = path.join(process.cwd(), "public", filename);
+    if (fs.existsSync(filePath)) {
+      return res.type("text/html").sendFile(filePath);
+    }
+    // Dynamic fallback so any Google Search Console HTML verification file works out of the box
+    res.type("text/html").send(`google-site-verification: ${filename}`);
+  });
+
   // Serve static assets directly from public in both dev and production
   const publicDirStatic = path.join(process.cwd(), "public");
   if (fs.existsSync(publicDirStatic)) {

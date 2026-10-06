@@ -2,18 +2,52 @@
 User-agent: *
 Allow: /
 
-# AI Crawlers
+# Search Engine Crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Generative AI & LLM Search Crawlers (AEO / GEO / LLM Indexing)
 User-agent: Google-Extended
+Allow: /
+
+User-agent: GoogleOther
 Allow: /
 
 User-agent: GPTBot
 Allow: /
 
+User-agent: OAI-SearchBot
+Allow: /
+
 User-agent: ClaudeBot
 Allow: /
 
-# Host
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: Diffbot
+Allow: /
+
+# Canonical Host
 Host: https://slow-skin-concept.pl
 
 # XML Sitemap
 Sitemap: https://slow-skin-concept.pl/sitemap.xml
+
+# LLM Manifests (llms.txt standard)
+# https://llmstxt.org
+# AI Agents and LLMs are encouraged to read:
+# https://slow-skin-concept.pl/llms.txt
+# https://slow-skin-concept.pl/llms-full.txt
