@@ -9,7 +9,7 @@ export const TREATMENTS: Treatment[] = [
     price: "250 PLN",
     description: "Dedykowana videokonsultacja online prowadzona w standardzie Slow Skin Concept przez mgr Katarzynę Brzezińską. Idealne rozwiązanie dla osób z całej Polski i zza granicy, które nie mogą dotrzeć do gabinetu w Jelczu-Laskowicach, a pragną skonsultować trądzik dorosłych, trądzik różowaty, nadwrażliwość barierową, przewlekły rumień lub ułożyć bezpieczną, bionomiczną pielęgnację domową. Podczas 60-minutowego spotkania wideo przez Google Meet dokładnie analizujemy historię skóry, dotychczasowe kosmetyki, nawyki i dietę, a po spotkaniu otrzymujesz szczegółowy, spersonalizowany Beauty Plan (PDF) z dokładnymi zaleceniami rano/wieczór oraz wskazówkami regeneracyjnymi.",
     focus: "Diagnoza barierowa online, analiza nawyków i składów kosmetyków, ułożenie autorskiego planu pielęgnacji (PDF), bezpieczne połączenie wideo przez Google Meet",
-    image: "/src/assets/images/regenerated_image_1781694292749.jpg",
+    image: "/videokonsultacja.png",
     indications: [
       "Osoby spoza Wrocławia / z zagranicy poszukujące rzetelnej diagnozy kosmetologicznej i wsparcia pielęgnacyjnego",
       "Nawracający trądzik dorosłych, trądzik różowaty, skóra naczyniowa, przewlekły rumień i nadreaktywność",
@@ -287,7 +287,7 @@ export const TREATMENTS: Treatment[] = [
     price: "350 PLN — 500 PLN, zależnie od zakresu zabiegu",
     description: "Couperose Therapy to indywidualnie komponowany zabieg dla skóry z widocznymi naczynkami, okresowym lub utrwalonym zaczerwienieniem oraz tendencją do nadmiernej reaktywności. Terapia łączy delikatne postępowanie z zastosowaniem substancji biologicznie aktywnych dobranych do aktualnej kondycji skóry. Jej celem jest poprawa komfortu, ochrona antyoksydacyjna, wsparcie bariery naskórkowej oraz pielęgnacja skóry naczyniowej bez jej nadmiernego rozgrzewania i przeciążania. Widoczne zaczerwienienie może współistnieć z odwodnieniem i osłabioną barierą, dlatego przebieg zabiegu wynika z diagnozy biologicznej i aktualnej tolerancji cery.",
     focus: "Kierunek działania: NACZYNKA • RUMIEŃ • BARIERA • KOMFORT • Pielęgnacja bez przegrzewania tkanki",
-    image: "/src/assets/images/rosacea_calm_1790249310213.jpg",
+    image: "/couperose-therapy.png",
     indications: [
       "Widoczne, rozszerzone naczynka krwionośne (teleangiektazje)",
       "Okresowe lub utrwalone zaczerwienienie skóry",
@@ -498,7 +498,7 @@ export const TREATMENTS: Treatment[] = [
     price: "400 PLN — 500 PLN, zależnie od zakresu zabiegu",
     description: "Healthy Glow Therapy to indywidualnie komponowany zabieg dla skóry, która utraciła świeżość, równomierny koloryt i naturalny blask. Łączy delikatne odświeżenie powierzchni naskórka z intensywnym nawilżeniem, ochroną antyoksydacyjną i zastosowaniem substancji biologicznie aktywnych dobranych do aktualnej kondycji skóry. To nie jest jeden zabieg bankietowy wykonywany według gotowego schematu. Innego wsparcia może potrzebować skóra odwodniona i przeciążona pielęgnacją, a innego skóra z nierównym kolorytem, oznakami stresu oksydacyjnego lub spowolnioną odnową naskórka. Healthy Glow Therapy nie maskuje skóry efektem powierzchownego rozświetlenia — łączy biologicznie uzasadnione składniki i indywidualnie dobraną technologię, aby wspierać jej nawodnienie, odnowę i naturalny blask.",
     focus: "Kierunek działania: NAWODNIENIE • ROZŚWIETLENIE • ANTYOKSYDACJA • REWITALIZACJA",
-    image: "/src/assets/images/healthy_glow_1790249342266.jpg",
+    image: "/healthy-glow-therapy.png",
     indications: [
       "Skóra wygląda na szarą, zmęczoną i pozbawioną blasku",
       "Jest odwodniona, szorstka lub ma nierówną powierzchnię",
@@ -596,7 +596,7 @@ export const TREATMENTS: Treatment[] = [
     price: "450 PLN",
     description: "Autorski rytuał rewitalizacji skóry, łączący łagodne wygładzenie naskórka, odżywczy kwas bursztynowy, relaksujący masaż modelujący oraz kojącą maskę pod światłem LED. Pomaga przywrócić cerze energię, promienny blask i aksamitną gładkość.",
     focus: "Rewitalizacja cery, wygładzenie, naturalny blask i odprężenie",
-    image: "/src/assets/images/regenerated_image_1781694292285.jpg",
+    image: "/amber-regeneration.png",
     indications: [
       "Skóra zmęczona, szara, pozbawiona blasku",
       "Pierwsze oznaki utraty jędrności i elastyczności",
@@ -778,7 +778,7 @@ export const TREATMENTS: Treatment[] = [
     price: "250 PLN — 450 PLN (Pakiety 5 zabiegów: 1100 — 2000 PLN)",
     description: "Karboksyterapia jest zabiegiem iniekcyjnym polegającym na kontrolowanym podaniu medycznego dwutlenku węgla do wybranych warstw skóry. CO₂ stanowi precyzyjny bodziec fizjologiczny, który powoduje miejscowe rozszerzenie naczyń i przejściowe zwiększenie przepływu krwi. Sprzyja to lepszemu dotlenieniu oraz odżywieniu tkanek i tworzy warunki wspierające ich naturalną regenerację. W Slow Skin Concept nie jest stosowany jeden protokół dla każdej skóry. Obszar podania, głębokość iniekcji, przepływ oraz ilość gazu są dobierane indywidualnie — na podstawie kondycji skóry, jakości mikrokrążenia, wrażliwości tkanek i celu zabiegu.",
     focus: "Medyczny CO₂, stymulacja mikrokrążenia, dotlenienie tkanek (efekt Bohra), okolica oczu, redukcja cieni i blizn",
-    image: "/src/assets/images/carboxytherapy_carboregen.webp",
+    image: "/carboksyterapia-carboregen.png",
     indications: [
       "Zmęczony, ziemisty lub nierówny koloryt",
       "Utrata jędrności i elastyczności skóry",
@@ -963,7 +963,7 @@ export const TREATMENTS: Treatment[] = [
     price: "350 PLN — 450 PLN (Pakiety 4 zabiegów od 1260 PLN)",
     description: "Dwuetapowy, bezpieczny zabieg łączący delikatne mikrozłuszczanie naskórka z zaawansowaną aplikacją składników aktywnych pod ciśnieniem czystego tlenu. W pierwszym etapie chłodny strumień tlenu i soli fizjologicznej bezdotykowo usuwa martwe komórki naskórka, odświeża i koi skórę. W drugim etapie spersonalizowany koktajl odżywczy (nawilżający, kojący barierę, wyrównujący koloryt lub regenerujący) jest wprowadzany infuzją tlenową. Zabieg w 100% nieinwazyjny, idealny przed ważnym wydarzeniem oraz dla cer wrażliwych i naczyniowych.",
     focus: "Tlenowo-solna mikrodermabrazja, czysty tlen pod ciśnieniem, NMF, ectoina, peptydy, brak rekonwalescencji, efekt 'red carpet'",
-    image: "/src/assets/images/oksybrazja_infuzja_tlenowa.webp",
+    image: "/oksybrazja-infuzja-tlenowa.png",
     indications: [
       "Skóra sucha, odwodniona, ściągnięta i szorstka w dotyku",
       "Cera poszarzała, matowa, zmęczona i pozbawiona naturalnego blasku",
@@ -1039,7 +1039,7 @@ export const TREATMENTS: Treatment[] = [
     price: "320 PLN — 420 PLN (Twarz, Szyja, Dekolt)",
     description: "Łagodny, wieloetapowy zabieg hydropeelingu przeznaczony dla cery zanieczyszczonej, matowej, łojotokowej lub narażonej na stres miejski i smog. Łączy przepływ aktywnej wody nasyconej cząsteczkowym wodorem z kontrolowanym podciśnieniem, dzięki czemu skutecznie usuwa nadmiar utlenionego sebum, zrogowaciałe komórki i zanieczyszczenia z ujść mieszków włosowych bez naruszania bariery lipidowej naskórka. W Slow Skin Concept zabieg ma odciążyć skórę, a nie agresywnie ją wyjaławiać – procedurę uzupełnia spersonalizowany koncentrat pielęgnacyjny, sonoforeza i kompres wyciszający.",
     focus: "Woda nasycona wodorem, kontrolowane podciśnienie, odciążenie porów, brak przesuszenia, ochrona bariery lipidowej",
-    image: "/src/assets/images/oczyszczanie_wodorowe.webp",
+    image: "/oczyszczanie-wodorowe.png",
     indications: [
       "Skóra zanieczyszczona, z tendencją do powstawania zaskórników i rozszerzonych porów",
       "Cera przetłuszczająca się, łojotokowa z widocznym nadmiarem utlenionego sebum",
@@ -1350,7 +1350,7 @@ export const TREATMENTS: Treatment[] = [
     price: "450 PLN — 550 PLN (Pakiety 4 i 6 zabiegów z rabatem do 15%)",
     description: "Innowacyjna, bezinwazyjna terapia łącząca dwa komplementarne etapy podczas jednej wizyty: przygotowanie i stymulację mikrokrążenia za pomocą luksusowej złotej głowicy ESM oraz bezigłową aplikację wyselekcjonowanych substancji aktywnych głowicą MESO PORO. Czasowe zwiększenie przepuszczalności naskórka pozwala na dogłębne nasycenie tkanek kwasem hialuronowym, peptydami, ektoiną i składnikami barierowymi bez naruszania ciągłości skóry i bez okresu rekonwalescencji.",
     focus: "Złota głowica rolkowa ESM, impulsy MESO PORO, bezbolesny elektroporacyjny transport składników, natychmiastowe napięcie i nawodnienie",
-    image: "/src/assets/images/meso_poro_gold.webp",
+    image: "/mesoporacja-dwufazowa-mesoporo.png",
     indications: [
       "Skóra odwodniona, sucha, szorstka lub pozbawiona komfortu",
       "Cera zmęczona, ziemista, matowa i pozbawiona świeżości",
@@ -1819,7 +1819,7 @@ export const TREATMENTS: Treatment[] = [
     price: "od 100 PLN (Pakiety łączone od 330 PLN)",
     description: "Metoda stopniowego ograniczania niechcianego owłosienia za pomocą kontrolowanych impulsów światła LPL. Energia pochłaniana jest przez melaninę obecną w łodydze i opuszce włosa, a następnie przekształcana w ciepło oddziałujące na struktury odpowiedzialne za jego wzrost. Zabieg jest doskonałą alternatywą dla wosku i maszynki, szczególnie przy problemie bolesnego wrastania włosków i zapalenia mieszków.",
     focus: "Stopniowa redukcja owłosienia, redukcja podrażnień po goleniu, eliminacja wrastających włosków, gładkość ciała",
-    image: "/src/assets/images/lpl_photoepilacja.webp",
+    image: "/fotoepilacja-lpl.png",
     indications: [
       "Chęć długotrwałego ograniczenia niechcianego owłosienia twarzy lub ciała",
       "Ciemne i wyraźnie widoczne włosy w fazie anagenu",
@@ -1889,7 +1889,7 @@ export const TREATMENTS: Treatment[] = [
     price: "320 PLN — 420 PLN",
     description: "Wielofunkcyjna procedura oczyszczająca wykorzystująca mikroskopijne cząsteczki aktywnego wodoru. Wodór jako najmniejszy pierwiastek przenika w głąb porów, neutralizując reaktywne formy tlenu (wolne rodniki) i dogłębnie wypłukując zanieczyszczenia, sebum i martwy naskórek pod ciśnieniem sterylnej wody.",
     focus: "Głęboki detoks wodorowy, oczyszczenie porów, neutralizacja wolnych rodników",
-    image: "/src/assets/images/video_scene_lab_1786132989115.jpg",
+    image: "/hydrogen-purification.png",
     indications: [
       "Zanieczyszczona cera, zaskórniki, szary odcień skóry miejskiej",
       "Zmęczenie stresem oksydacyjnym i smogiem",
@@ -1928,7 +1928,7 @@ export const TREATMENTS: Treatment[] = [
     price: "300 PLN — 380 PLN",
     description: "Wyjątkowo bezpieczna odmiana mikrodermabrazji, w której czynnikiem złuszczającym jest strumień rozproszonych kropelek soli fizjologicznej podawany pod ciśnieniem sprężonego tlenu. Bezinwazyjnie usuwa zrogowaciały naskórek, dotlenia komórki, obniża temperaturę tkanek i koi stany zapalne.",
     focus: "Dotlenienie naskórka, bezdotykowe złuszczanie, ukojenie rumienia",
-    image: "/src/assets/images/video_scene_facial_1786132960849.jpg",
+    image: "/oxybrasion.png",
     indications: [
       "Skóra wrażliwa, naczynkowa, skłonna do podrażnień i rumienia",
       "Skóra szara, niedotleniona, potrzebująca świeżości",
@@ -2005,7 +2005,7 @@ export const TREATMENTS: Treatment[] = [
     price: "420 PLN",
     description: "Sezonowa autorska ceremonia regeneracyjna opracowana z myślą o skórze po okresie intensywnego nasłonecznienia. Przywraca utraconą równowagę barierową, uzupełnia lipidy wypłukane przez promieniowanie UV, rozjaśnia posłoneczne plamy pigmentacyjne i głęboko nasyca tkanki antyoksydantami.",
     focus: "Naprawa uszkodzeń posłonecznych, antyoksydacyjny reset komórkowy",
-    image: "/src/assets/images/mesoremodeling_treatment_1785536055742.jpg",
+    image: "/autumn-reset.png",
     indications: [
       "Skóra przesuszona, zgrubiała i szorstka po wakacjach i kąpielach słonecznych",
       "Widoczne przebarwienia posłoneczne i nierówny koloryt",
@@ -2045,7 +2045,7 @@ export const TREATMENTS: Treatment[] = [
     price: "450 PLN — 700 PLN",
     description: "Indywidualna sesja pielęgnacyjna komponowana na bieżąco przez kosmetologa na podstawie aktualnego stanu Twojej skóry, samopoczucia i potrzeb. Może łączyć delikatne technologie aparaturowe z autorskimi technikami masażu modelującego i odżywczymi, bezpiecznymi składnikami łagodzącymi.",
     focus: "Pełna personalizacja, holistyczne podejście, troskliwy dotyk i nowoczesna pielęgnacja",
-    image: "/src/assets/images/facial_acupuncture_led_1785534009485.jpg",
+    image: "/bespoke-ceremony.png",
     indications: [
       "Osoby poszukujące w pełni zindywidualizowanego, serdecznego podejścia",
       "Cery o złożonych potrzebach (wrażliwość, suchość, potrzeba odświeżenia)",
