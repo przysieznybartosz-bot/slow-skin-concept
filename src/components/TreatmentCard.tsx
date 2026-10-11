@@ -52,9 +52,9 @@ const TreatmentCard = React.memo(function TreatmentCard({
     if (typeof window !== "undefined") {
       const keyMap: Record<string, string[]> = {
         "skin-readiness": ["how_help_first_visit", "skin-readiness"],
-        "videokonsultacja": ["how_help_first_visit", "videokonsultacja"],
+        "videokonsultacja": ["videokonsultacja"],
         "rosacea-calm-therapy": ["how_help_sensitive_skin", "rosacea-calm-therapy"],
-        "couperose-therapy": ["how_help_sensitive_skin", "couperose-therapy"],
+        "couperose-therapy": ["couperose-therapy"],
         "neurolifting-nogier": ["how_help_neurolifting", "neurolifting-nogier"],
         "neurolifting-face": ["how_help_neurolifting", "neurolifting-face"],
         "epigenetic-aging": ["how_help_meso_remodeling", "epigenetic-aging"],

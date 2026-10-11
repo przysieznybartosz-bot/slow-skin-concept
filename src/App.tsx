@@ -555,11 +555,17 @@ export default function App() {
       return customTreatmentImages["pst-couch"] || "/pst_couch.png" || treatment.image;
     }
     // Automatyczna synchronizacja ze zdjęciami z sekcji "Jak możemy Ci pomóc":
-    if (treatment.id === "skin-readiness" || treatment.id === "videokonsultacja") {
+    if (treatment.id === "skin-readiness") {
       return customTreatmentImages["how_help_first_visit"] || "/how_help_first_visit.png" || treatment.image;
     }
-    if (treatment.id === "rosacea-calm-therapy" || treatment.id === "couperose-therapy") {
+    if (treatment.id === "videokonsultacja") {
+      return customTreatmentImages["videokonsultacja"] || treatment.image || "/videokonsultacja.png";
+    }
+    if (treatment.id === "rosacea-calm-therapy") {
       return customTreatmentImages["how_help_sensitive_skin"] || "/how_help_sensitive_skin.png" || treatment.image;
+    }
+    if (treatment.id === "couperose-therapy") {
+      return customTreatmentImages["couperose-therapy"] || treatment.image || "/couperose-therapy.png";
     }
     if (treatment.id === "neurolifting-nogier" || treatment.id === "neurolifting-face") {
       return customTreatmentImages["how_help_neurolifting"] || "/how_help_neurolifting.png" || treatment.image;

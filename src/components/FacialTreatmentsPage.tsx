@@ -84,7 +84,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       time: "75–90 minut",
       price: "400–500 zł",
       desc: "Delikatne odświeżenie powierzchni naskórka z intensywnym nawilżeniem i ochroną antyoksydacyjną. Przywraca autentyczny, świeży blask bez powierzchownego maskowania.",
-      image: "/src/assets/images/healthy_glow_1790249342266.jpg"
+      image: "/healthy-glow-therapy.png"
     },
     {
       id: "acne-balance-therapy",
@@ -117,7 +117,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       time: "60–75 minut",
       price: "350–500 zł",
       desc: "Pielęgnacja skóry z widocznymi teleangiektazjami i napadowym rumieniem. Ochrona antyoksydacyjna, wzmocnienie śródbłonka i ukojenie bez przegrzewania tkanek.",
-      image: "/src/assets/images/rosacea_calm_1790249310213.jpg"
+      image: "/couperose-therapy.png"
     },
     {
       id: "pigment-balance-therapy",
