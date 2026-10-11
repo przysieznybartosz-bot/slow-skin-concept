@@ -3457,20 +3457,20 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
             {/* Content Overlay */}
             <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-12 pb-8 sm:pb-12 md:pb-20 text-left flex flex-col items-start gap-3 sm:gap-4 md:gap-5">
               
-              {/* Elegant Subtitle / Categories with backdrop pills for crystal clear readability */}
+              {/* Elegant Subtitle / Categories — pure typography without background */}
               <motion.div 
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.8 }}
-                className="font-mono text-xs sm:text-[11px] md:text-[12px] tracking-normal sm:tracking-[0.20em] text-[#6E5325] uppercase font-bold select-none flex flex-wrap items-center gap-1.5 sm:gap-2"
+                className="font-mono text-xs sm:text-[11px] md:text-[12px] tracking-[0.16em] sm:tracking-[0.22em] text-[#6E5325] uppercase font-semibold select-none flex flex-wrap items-center gap-2 sm:gap-2.5"
               >
-                <span className="bg-white/95 px-2.5 py-1 border border-luxury-sand text-luxury-dark font-semibold shadow-2xs">diagnostyka</span>
-                <span className="text-luxury-dark/40">&middot;</span>
-                <span className="bg-white/95 px-2.5 py-1 border border-luxury-sand text-luxury-dark font-semibold shadow-2xs">regeneracja</span>
-                <span className="text-luxury-dark/40">&middot;</span>
-                <span className="bg-white/95 px-2.5 py-1 border border-luxury-sand text-luxury-dark font-semibold shadow-2xs">naturalny slow-aging</span>
-                <span className="text-luxury-dark/40">&middot;</span>
-                <span className="bg-white/95 px-2.5 py-1 border border-luxury-sand text-luxury-dark font-semibold shadow-2xs">indywidualne zabiegi</span>
+                <span>diagnostyka</span>
+                <span className="text-[#6E5325]/40">&middot;</span>
+                <span>regeneracja</span>
+                <span className="text-[#6E5325]/40">&middot;</span>
+                <span>naturalny slow-aging</span>
+                <span className="text-[#6E5325]/40">&middot;</span>
+                <span>indywidualne zabiegi</span>
               </motion.div>
 
               {/* Classic Serif Title with enhanced contrast */}
