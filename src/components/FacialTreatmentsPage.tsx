@@ -84,7 +84,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       time: "75–90 minut",
       price: "400–500 zł",
       desc: "Delikatne odświeżenie powierzchni naskórka z intensywnym nawilżeniem i ochroną antyoksydacyjną. Przywraca autentyczny, świeży blask bez powierzchownego maskowania.",
-      image: "/healthy-glow-therapy.png"
+      image: "/src/assets/images/healthy_glow_1790249342266.jpg"
     },
     {
       id: "acne-balance-therapy",
@@ -117,7 +117,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       time: "60–75 minut",
       price: "350–500 zł",
       desc: "Pielęgnacja skóry z widocznymi teleangiektazjami i napadowym rumieniem. Ochrona antyoksydacyjna, wzmocnienie śródbłonka i ukojenie bez przegrzewania tkanek.",
-      image: "/couperose-therapy.png"
+      image: "/src/assets/images/rosacea_calm_1790249310213.jpg"
     },
     {
       id: "pigment-balance-therapy",
@@ -139,7 +139,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       time: "40–75 minut",
       price: "250–350 zł",
       desc: "Nieinwazyjna stymulacja częstotliwościami Nogiera i technikami manualnymi uwalniająca spiętą powięź, wspomagająca drenaż chłonki i przynosząca głęboki relaks.",
-      image: "/src/assets/images/neurolifting_ceremony_1786131495914.jpg"
+      image: "/src/assets/images/neurolifting_face_1790248736062.jpg"
     }
   ];
 

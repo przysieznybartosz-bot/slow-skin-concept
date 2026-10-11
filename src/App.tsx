@@ -566,13 +566,13 @@ export default function App() {
       return customTreatmentImages["how_help_first_visit"] || "/how_help_first_visit.png" || treatment.image;
     }
     if (treatment.id === "videokonsultacja") {
-      return customTreatmentImages["videokonsultacja"] || treatment.image || "/videokonsultacja.png";
+      return customTreatmentImages["videokonsultacja"] || treatment.image;
     }
     if (treatment.id === "rosacea-calm-therapy") {
       return customTreatmentImages["how_help_sensitive_skin"] || "/how_help_sensitive_skin.png" || treatment.image;
     }
     if (treatment.id === "couperose-therapy") {
-      return customTreatmentImages["couperose-therapy"] || treatment.image || "/couperose-therapy.png";
+      return customTreatmentImages["couperose-therapy"] || treatment.image;
     }
     if (treatment.id === "neurolifting-nogier" || treatment.id === "neurolifting-face") {
       return customTreatmentImages["how_help_neurolifting"] || "/how_help_neurolifting.png" || treatment.image;

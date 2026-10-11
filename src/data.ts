@@ -9,7 +9,7 @@ export const TREATMENTS: Treatment[] = [
     price: "250 PLN",
     description: "Dedykowana videokonsultacja online prowadzona w standardzie Slow Skin Concept przez mgr Katarzynę Brzezińską. Idealne rozwiązanie dla osób z całej Polski i zza granicy, które nie mogą dotrzeć do gabinetu w Jelczu-Laskowicach, a pragną skonsultować trądzik dorosłych, trądzik różowaty, nadwrażliwość barierową, przewlekły rumień lub ułożyć bezpieczną, bionomiczną pielęgnację domową. Podczas 60-minutowego spotkania wideo przez Google Meet dokładnie analizujemy historię skóry, dotychczasowe kosmetyki, nawyki i dietę, a po spotkaniu otrzymujesz szczegółowy, spersonalizowany Beauty Plan (PDF) z dokładnymi zaleceniami rano/wieczór oraz wskazówkami regeneracyjnymi.",
     focus: "Diagnoza barierowa online, analiza nawyków i składów kosmetyków, ułożenie autorskiego planu pielęgnacji (PDF), bezpieczne połączenie wideo przez Google Meet",
-    image: "/videokonsultacja.png",
+    image: "/src/assets/images/regenerated_image_1781694292749.jpg",
     indications: [
       "Osoby spoza Wrocławia / z zagranicy poszukujące rzetelnej diagnozy kosmetologicznej i wsparcia pielęgnacyjnego",
       "Nawracający trądzik dorosłych, trądzik różowaty, skóra naczyniowa, przewlekły rumień i nadreaktywność",
@@ -287,7 +287,7 @@ export const TREATMENTS: Treatment[] = [
     price: "350 PLN — 500 PLN, zależnie od zakresu zabiegu",
     description: "Couperose Therapy to indywidualnie komponowany zabieg dla skóry z widocznymi naczynkami, okresowym lub utrwalonym zaczerwienieniem oraz tendencją do nadmiernej reaktywności. Terapia łączy delikatne postępowanie z zastosowaniem substancji biologicznie aktywnych dobranych do aktualnej kondycji skóry. Jej celem jest poprawa komfortu, ochrona antyoksydacyjna, wsparcie bariery naskórkowej oraz pielęgnacja skóry naczyniowej bez jej nadmiernego rozgrzewania i przeciążania. Widoczne zaczerwienienie może współistnieć z odwodnieniem i osłabioną barierą, dlatego przebieg zabiegu wynika z diagnozy biologicznej i aktualnej tolerancji cery.",
     focus: "Kierunek działania: NACZYNKA • RUMIEŃ • BARIERA • KOMFORT • Pielęgnacja bez przegrzewania tkanki",
-    image: "/couperose-therapy.png",
+    image: "/src/assets/images/rosacea_calm_1790249310213.jpg",
     indications: [
       "Widoczne, rozszerzone naczynka krwionośne (teleangiektazje)",
       "Okresowe lub utrwalone zaczerwienienie skóry",
@@ -498,7 +498,7 @@ export const TREATMENTS: Treatment[] = [
     price: "400 PLN — 500 PLN, zależnie od zakresu zabiegu",
     description: "Healthy Glow Therapy to indywidualnie komponowany zabieg dla skóry, która utraciła świeżość, równomierny koloryt i naturalny blask. Łączy delikatne odświeżenie powierzchni naskórka z intensywnym nawilżeniem, ochroną antyoksydacyjną i zastosowaniem substancji biologicznie aktywnych dobranych do aktualnej kondycji skóry. To nie jest jeden zabieg bankietowy wykonywany według gotowego schematu. Innego wsparcia może potrzebować skóra odwodniona i przeciążona pielęgnacją, a innego skóra z nierównym kolorytem, oznakami stresu oksydacyjnego lub spowolnioną odnową naskórka. Healthy Glow Therapy nie maskuje skóry efektem powierzchownego rozświetlenia — łączy biologicznie uzasadnione składniki i indywidualnie dobraną technologię, aby wspierać jej nawodnienie, odnowę i naturalny blask.",
     focus: "Kierunek działania: NAWODNIENIE • ROZŚWIETLENIE • ANTYOKSYDACJA • REWITALIZACJA",
-    image: "/healthy-glow-therapy.png",
+    image: "/src/assets/images/healthy_glow_1790249342266.jpg",
     indications: [
       "Skóra wygląda na szarą, zmęczoną i pozbawioną blasku",
       "Jest odwodniona, szorstka lub ma nierówną powierzchnię",
@@ -596,7 +596,7 @@ export const TREATMENTS: Treatment[] = [
     price: "450 PLN",
     description: "Autorski rytuał rewitalizacji skóry, łączący łagodne wygładzenie naskórka, odżywczy kwas bursztynowy, relaksujący masaż modelujący oraz kojącą maskę pod światłem LED. Pomaga przywrócić cerze energię, promienny blask i aksamitną gładkość.",
     focus: "Rewitalizacja cery, wygładzenie, naturalny blask i odprężenie",
-    image: "/amber-regeneration.png",
+    image: "/src/assets/images/regenerated_image_1781694292285.jpg",
     indications: [
       "Skóra zmęczona, szara, pozbawiona blasku",
       "Pierwsze oznaki utraty jędrności i elastyczności",
@@ -1350,7 +1350,7 @@ export const TREATMENTS: Treatment[] = [
     price: "450 PLN — 550 PLN (Pakiety 4 i 6 zabiegów z rabatem do 15%)",
     description: "Innowacyjna, bezinwazyjna terapia łącząca dwa komplementarne etapy podczas jednej wizyty: przygotowanie i stymulację mikrokrążenia za pomocą luksusowej złotej głowicy ESM oraz bezigłową aplikację wyselekcjonowanych substancji aktywnych głowicą MESO PORO. Czasowe zwiększenie przepuszczalności naskórka pozwala na dogłębne nasycenie tkanek kwasem hialuronowym, peptydami, ektoiną i składnikami barierowymi bez naruszania ciągłości skóry i bez okresu rekonwalescencji.",
     focus: "Złota głowica rolkowa ESM, impulsy MESO PORO, bezbolesny elektroporacyjny transport składników, natychmiastowe napięcie i nawodnienie",
-    image: "/mesoporacja-dwufazowa-mesoporo.png",
+    image: "/src/assets/images/meso_poro_gold.webp",
     indications: [
       "Skóra odwodniona, sucha, szorstka lub pozbawiona komfortu",
       "Cera zmęczona, ziemista, matowa i pozbawiona świeżości",
@@ -1819,7 +1819,7 @@ export const TREATMENTS: Treatment[] = [
     price: "od 100 PLN (Pakiety łączone od 330 PLN)",
     description: "Metoda stopniowego ograniczania niechcianego owłosienia za pomocą kontrolowanych impulsów światła LPL. Energia pochłaniana jest przez melaninę obecną w łodydze i opuszce włosa, a następnie przekształcana w ciepło oddziałujące na struktury odpowiedzialne za jego wzrost. Zabieg jest doskonałą alternatywą dla wosku i maszynki, szczególnie przy problemie bolesnego wrastania włosków i zapalenia mieszków.",
     focus: "Stopniowa redukcja owłosienia, redukcja podrażnień po goleniu, eliminacja wrastających włosków, gładkość ciała",
-    image: "/fotoepilacja-lpl.png",
+    image: "/src/assets/images/lpl_photoepilacja.webp",
     indications: [
       "Chęć długotrwałego ograniczenia niechcianego owłosienia twarzy lub ciała",
       "Ciemne i wyraźnie widoczne włosy w fazie anagenu",
