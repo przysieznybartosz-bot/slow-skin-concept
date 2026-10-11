@@ -74,10 +74,6 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({ onLinkClick, onOpenB
     }
   ];
 
-  const filteredModules = selectedModuleTab === "all"
-    ? trainingModules
-    : trainingModules.filter(m => m.category === selectedModuleTab);
-
   const handleApplicationSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsApplicationSuccess(true);

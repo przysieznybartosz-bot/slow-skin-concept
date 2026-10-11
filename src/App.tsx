@@ -2936,12 +2936,22 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       onClick={() => {
                         setActiveTab("training");
                         setIsTrainingMenuOpen(false);
-                        window.scrollTo({ top: 0, behavior: "smooth" });
+                        setTimeout(() => {
+                          const el = document.getElementById("training-application-form");
+                          if (el) {
+                            el.scrollIntoView({ behavior: "smooth" });
+                          } else {
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                          }
+                        }, 100);
                       }}
                     >
-                      <p className="text-xs font-serif font-semibold text-luxury-dark group-hover:text-luxury-gold transition-colors">
-                        Akredytacja Gabinetu Partnerskiego Slow Skin Concept
-                      </p>
+                      <div className="flex items-center justify-between">
+                        <p className="text-xs font-serif font-semibold text-luxury-dark group-hover:text-luxury-gold transition-colors">
+                          Akredytacja Gabinetu Partnerskiego Slow Skin Concept
+                        </p>
+                        <span className="text-[9px] font-mono uppercase text-luxury-gold tracking-wider font-semibold group-hover:translate-x-0.5 transition-transform">Formularz →</span>
+                      </div>
                       <p className="text-[10px] text-luxury-dark/95 mt-1 font-mono leading-relaxed">
                         Pełna licencja terytorialna (wyłączność w rejonie), transfer know-how, autorskie procedury bionomiczne i ciągła opieka merytoryczna.
                       </p>
@@ -2978,11 +2988,18 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       onClick={() => {
                         setActiveTab("training");
                         setIsTrainingMenuOpen(false);
-                        window.scrollTo({ top: 0, behavior: "smooth" });
+                        setTimeout(() => {
+                          const el = document.getElementById("training-application-form");
+                          if (el) {
+                            el.scrollIntoView({ behavior: "smooth" });
+                          } else {
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                          }
+                        }, 100);
                       }}
                       className="text-[10px] font-mono text-luxury-gold uppercase tracking-widest hover:underline flex items-center gap-1 font-semibold"
                     >
-                      Sprawdź szczegóły oferty szkoleniowej w aplikacji →
+                      Formularz zgłoszeniowy dla gabinetów partnerskich →
                     </button>
                   </div>
                 </div>
@@ -3015,12 +3032,18 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       onClick={() => {
                         setActiveTab("training");
                         setIsTrainingMenuOpen(false);
-                        const el = document.getElementById("training-application-form");
-                        el?.scrollIntoView({ behavior: "smooth" });
+                        setTimeout(() => {
+                          const el = document.getElementById("training-application-form");
+                          if (el) {
+                            el.scrollIntoView({ behavior: "smooth" });
+                          } else {
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                          }
+                        }, 100);
                       }}
-                      className="w-full bg-white border border-luxury-sand hover:border-luxury-gold text-luxury-dark text-[10px] font-mono tracking-[0.15em] uppercase py-2.5 transition-colors text-center"
+                      className="w-full bg-white border border-luxury-sand hover:border-luxury-gold text-luxury-dark text-[10px] font-mono tracking-[0.15em] uppercase py-2.5 transition-colors text-center font-semibold"
                     >
-                      Zgłoś Gabinet / Sprawdź Rejon
+                      Formularz: Zgłoś Gabinet / Rejon
                     </button>
                   </div>
                 </div>
@@ -3233,8 +3256,25 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       <span className="font-mono text-[8px] text-white bg-luxury-dark px-2 py-0.5 uppercase tracking-widest font-bold">Akademia</span>
                     </button>
                     <div className="pl-4 py-2 mt-1 flex flex-col space-y-2 text-xs border-l border-luxury-sand/30">
-                      <button onClick={() => { setActiveTab("training"); setIsMobileMenuOpen(false); }} className="text-left text-luxury-dark/95 hover:text-luxury-gold">Akredytacja Gabinetu (Licencja & Wyłączność)</button>
-                      <a href="https://szkolenia.slowskinconcept.pl" target="_blank" rel="noopener noreferrer" className="text-left text-luxury-gold font-mono text-[10px] uppercase font-semibold">Portal Szkoleniowy ↗</a>
+                      <button 
+                        onClick={() => { 
+                          setActiveTab("training"); 
+                          setIsMobileMenuOpen(false); 
+                          setTimeout(() => {
+                            const el = document.getElementById("training-application-form");
+                            if (el) {
+                              el.scrollIntoView({ behavior: "smooth" });
+                            } else {
+                              window.scrollTo({ top: 0, behavior: "smooth" });
+                            }
+                          }, 100);
+                        }} 
+                        className="text-left text-luxury-dark/95 hover:text-luxury-gold flex items-center justify-between"
+                      >
+                        <span>Akredytacja Gabinetu (Formularz B2B)</span>
+                        <span className="text-[10px] text-luxury-gold font-mono uppercase font-semibold">Zapisz →</span>
+                      </button>
+                      <a href="https://szkolenia.slowskinconcept.pl" target="_blank" rel="noopener noreferrer" className="text-left text-luxury-gold font-mono text-[10px] uppercase font-semibold">Portal Szkoleniowy B2B ↗</a>
                     </div>
                   </div>
 
