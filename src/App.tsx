@@ -1289,6 +1289,16 @@ export default function App() {
       return;
     }
 
+    // Explicit clinical treatment navigation for videokonsultacja
+    if (url === "/videokonsultacja/" || url === "/videokonsultacja") {
+      setActiveTab("clinic");
+      const videoT = TREATMENTS.find(t => t.id === "videokonsultacja") || TREATMENTS[0];
+      setSelectedTreatment(videoT);
+      setSelectedArticle(null);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
     // CTA mappings
     if (url === "videokonsultacja" || url === "konsultacja-online" || url.includes("videokonsultac")) {
       const videoT = TREATMENTS.find(t => t.id === "videokonsultacja") || TREATMENTS[0];
@@ -2145,19 +2155,21 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               id="prouve-mega-menu"
             >
               <div className="max-w-7xl mx-auto px-8 py-10 grid grid-cols-12 gap-8 text-left">
-                {/* Kolumna 1: Rytuały Autorskie */}
-                <div className="col-span-3 space-y-4">
-                  <h4 className="font-mono text-[10px] tracking-widest text-luxury-gold uppercase font-semibold border-b border-luxury-sand pb-2 flex justify-between items-center">
-                    <span>Rytuały Autorskie</span>
-                    <span className="text-[8px] font-mono text-luxury-gold/50 font-normal">01</span>
-                  </h4>
+                {/* Kolumna 1: Rytuały Autorskie & Terapie Twarzy */}
+                <div className="col-span-3 space-y-3">
+                  <div className="border-b border-luxury-sand pb-2 flex justify-between items-center">
+                    <h4 className="font-mono text-[10px] tracking-widest text-luxury-gold uppercase font-semibold">
+                      Rytuały Autorskie & Twarz
+                    </h4>
+                    <span className="text-[8px] font-mono text-luxury-gold/70 bg-luxury-gold/10 px-1.5 py-0.5 rounded-2xs font-semibold">12 zabiegów</span>
+                  </div>
                   <ul className="space-y-1.5 text-xs">
                     <li>
                       <button 
                         onClick={() => handleLinkClick("/zabiegi-na-twarz-jelcz-laskowice/")}
-                        className="hover:text-luxury-gold text-luxury-dark/90 transition-colors duration-200 text-left block w-full uppercase tracking-wider font-mono text-[9px] font-semibold mb-2"
+                        className="hover:text-luxury-gold text-luxury-dark/90 transition-colors duration-200 text-left block w-full uppercase tracking-wider font-mono text-[9px] font-semibold mb-1 pb-1 border-b border-luxury-sand/20"
                       >
-                        Wszystkie Zabiegi Twarzy
+                        Wszystkie Zabiegi Twarzy (Katalog) →
                       </button>
                     </li>
                     <li>
@@ -2165,8 +2177,20 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         onClick={() => handleLinkClick("/skin-readiness/")}
                         className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
                       >
-                        <span>Skin Readiness</span>
-                        <span className="text-[9px] font-mono text-luxury-gold/40">od 400 zł</span>
+                        <span>Skin Readiness (Pierwsza wizyta)</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">od 400 zł</span>
+                      </button>
+                    </li>
+                    <li>
+                      <button 
+                        onClick={() => handleLinkClick("/videokonsultacja/")}
+                        className="hover:text-luxury-gold text-luxury-dark font-medium transition-colors duration-200 text-left block w-full flex justify-between items-center group"
+                      >
+                        <span className="flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-luxury-gold"></span>
+                          <span>Videokonsultacja Online 1:1</span>
+                        </span>
+                        <span className="text-[9px] font-mono text-luxury-gold font-bold">250 zł</span>
                       </button>
                     </li>
                     <li>
@@ -2174,26 +2198,17 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         onClick={() => handleLinkClick("/rosacea-calm-therapy/")}
                         className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
                       >
-                        <span>Rosacea Calm Therapy</span>
-                        <span className="text-[9px] font-mono text-luxury-gold/40">380 zł</span>
+                        <span>Rosacea Calm Therapy (Rumień)</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">380 zł</span>
                       </button>
                     </li>
                     <li>
                       <button 
-                        onClick={() => handleLinkClick("/lift-firm-therapy/")}
+                        onClick={() => handleLinkClick("/couperose-therapy/")}
                         className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
                       >
-                        <span>Lift & Firm Therapy</span>
-                        <span className="text-[9px] font-mono text-luxury-gold/40">500 zł</span>
-                      </button>
-                    </li>
-                    <li>
-                      <button 
-                        onClick={() => handleLinkClick("/healthy-glow-therapy/")}
-                        className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
-                      >
-                        <span>Healthy Glow Therapy</span>
-                        <span className="text-[9px] font-mono text-luxury-gold/40">400 zł</span>
+                        <span>Couperose Therapy (Naczynka)</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">350 zł</span>
                       </button>
                     </li>
                     <li>
@@ -2202,7 +2217,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
                       >
                         <span>Acne Balance Therapy</span>
-                        <span className="text-[9px] font-mono text-luxury-gold/40">350 zł</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">350 zł</span>
                       </button>
                     </li>
                     <li>
@@ -2210,17 +2225,8 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         onClick={() => handleLinkClick("/adult-acne-therapy/")}
                         className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
                       >
-                        <span>Adult Acne Therapy</span>
-                        <span className="text-[9px] font-mono text-luxury-gold/40">380 zł</span>
-                      </button>
-                    </li>
-                    <li>
-                      <button 
-                        onClick={() => handleLinkClick("/couperose-therapy/")}
-                        className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
-                      >
-                        <span>Couperose Therapy</span>
-                        <span className="text-[9px] font-mono text-luxury-gold/40">350 zł</span>
+                        <span>Adult Acne 25+ Therapy</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">380 zł</span>
                       </button>
                     </li>
                     <li>
@@ -2229,27 +2235,83 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
                       >
                         <span>Pigment Balance Therapy</span>
-                        <span className="text-[9px] font-mono text-luxury-gold/40">400 zł</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">400 zł</span>
+                      </button>
+                    </li>
+                    <li>
+                      <button 
+                        onClick={() => handleLinkClick("/healthy-glow-therapy/")}
+                        className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
+                      >
+                        <span>Healthy Glow Therapy</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">400 zł</span>
+                      </button>
+                    </li>
+                    <li>
+                      <button 
+                        onClick={() => handleLinkClick("/amber-regeneration/")}
+                        className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
+                      >
+                        <span>Regeneracja Kwasem Bursztynowym</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">450 zł</span>
+                      </button>
+                    </li>
+                    <li>
+                      <button 
+                        onClick={() => handleLinkClick("/autumn-reset/")}
+                        className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
+                      >
+                        <span>Jesienny Reset Skóry</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">420 zł</span>
+                      </button>
+                    </li>
+                    <li>
+                      <button 
+                        onClick={() => handleLinkClick("/bespoke-ceremony/")}
+                        className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
+                      >
+                        <span>Spersonalizowana Pielęgnacja</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">od 450 zł</span>
+                      </button>
+                    </li>
+                    <li>
+                      <button 
+                        onClick={() => handleLinkClick("/epigenetic-aging/")}
+                        className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
+                      >
+                        <span>Slow Aging — Odnowa & Wygładzenie</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">od 400 zł</span>
                       </button>
                     </li>
                   </ul>
                 </div>
 
-                {/* Kolumna 2: Lifting, Technologia & Laseroterapia */}
-                <div className="col-span-3 space-y-4">
-                  <h4 className="font-mono text-[10px] tracking-widest text-luxury-gold uppercase font-semibold border-b border-luxury-sand pb-2 flex justify-between items-center">
-                    <span>Lifting & Laseroterapia</span>
-                    <span className="text-[8px] font-mono text-luxury-gold/50 font-normal">02</span>
-                  </h4>
-                  <ul className="space-y-2 text-xs">
-                    <li className="text-[9px] uppercase tracking-wider font-mono text-luxury-gold/55 border-b border-luxury-sand/20 pb-0.5 mt-1">Zabiegi liftingujące</li>
+                {/* Kolumna 2: Lifting, Technologia, Lasery & Ciało */}
+                <div className="col-span-3 space-y-3">
+                  <div className="border-b border-luxury-sand pb-2 flex justify-between items-center">
+                    <h4 className="font-mono text-[10px] tracking-widest text-luxury-gold uppercase font-semibold">
+                      Lifting, Lasery & Ciało
+                    </h4>
+                    <span className="text-[8px] font-mono text-luxury-gold/70 bg-luxury-gold/10 px-1.5 py-0.5 rounded-2xs font-semibold">13 zabiegów</span>
+                  </div>
+                  <ul className="space-y-1.5 text-xs">
+                    <li className="text-[8.5px] uppercase tracking-wider font-mono text-luxury-gold/70 border-b border-luxury-sand/20 pb-0.5 mt-0.5">Lifting & Przebudowa Ovalu (8)</li>
                     <li>
                       <button 
                         onClick={() => handleLinkClick("/hifu-lifting/")}
                         className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
                       >
-                        <span>HIFU — Lifting Ultradźwiękowy</span>
-                        <span className="text-[9px] font-mono text-luxury-gold/40">od 600 zł</span>
+                        <span>HIFU — Lifting Bez Skalpela</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">od 600 zł</span>
+                      </button>
+                    </li>
+                    <li>
+                      <button 
+                        onClick={() => handleLinkClick("/hifu-ultrasound/")}
+                        className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
+                      >
+                        <span>HIFU Ultrasound — Owal Twarzy</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">od 600 zł</span>
                       </button>
                     </li>
                     <li>
@@ -2258,7 +2320,25 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
                       >
                         <span>RF Mikroigłowa — Termolifting</span>
-                        <span className="text-[9px] font-mono text-luxury-gold/40">od 500 zł</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">od 500 zł</span>
+                      </button>
+                    </li>
+                    <li>
+                      <button 
+                        onClick={() => handleLinkClick("/lift-firm-therapy/")}
+                        className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
+                      >
+                        <span>Skin Remodeling (Lift & Firm)</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">500 zł</span>
+                      </button>
+                    </li>
+                    <li>
+                      <button 
+                        onClick={() => handleLinkClick("/skin-remodeling-therapy/")}
+                        className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
+                      >
+                        <span>Skin Remodeling Therapy</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">od 450 zł</span>
                       </button>
                     </li>
                     <li>
@@ -2266,8 +2346,17 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         onClick={() => handleLinkClick("/neurolifting-nogier/")}
                         className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
                       >
-                        <span>Neurolifting — Fale Nogiera</span>
-                        <span className="text-[9px] font-mono text-luxury-gold/40">500 zł</span>
+                        <span>Neurolifting — Rytuał Nogiera</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">350 zł</span>
+                      </button>
+                    </li>
+                    <li>
+                      <button 
+                        onClick={() => handleLinkClick("/neurolifting-face/")}
+                        className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
+                      >
+                        <span>Neurolifting Powięziowy Twarzy</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">od 350 zł</span>
                       </button>
                     </li>
                     <li>
@@ -2282,14 +2371,23 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         <span className="text-[9px] font-mono text-luxury-gold font-bold">od 180 zł</span>
                       </button>
                     </li>
-                    <li className="text-[9px] uppercase tracking-wider font-mono text-luxury-gold/55 border-b border-luxury-sand/20 pb-0.5 mt-2">Światłoterapia i Lasery</li>
+                    <li className="text-[8.5px] uppercase tracking-wider font-mono text-luxury-gold/70 border-b border-luxury-sand/20 pb-0.5 mt-2">Światłoterapia, Lasery & Ciało (5)</li>
                     <li>
                       <button 
-                        onClick={() => handleLinkClick("/laser-lpl/")}
+                        onClick={() => handleLinkClick("/terapie-swiatlem-lpl/")}
                         className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
                       >
                         <span>Terapie Laserowe LPL</span>
-                        <span className="text-[9px] font-mono text-luxury-gold/40">od 150 zł</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">od 150 zł</span>
+                      </button>
+                    </li>
+                    <li>
+                      <button 
+                        onClick={() => handleLinkClick("/fotoepilacja-lpl/")}
+                        className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
+                      >
+                        <span>Fotoepilacja LPL (Ciało/Twarz)</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">od 100 zł</span>
                       </button>
                     </li>
                     <li>
@@ -2297,13 +2395,9 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         onClick={() => handleLinkClick("/laser-carbon/")}
                         className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
                       >
-                        <span>Peeling Laserowy Węglowy</span>
-                        <span className="text-[9px] font-mono text-luxury-gold/40">300 zł</span>
+                        <span>Peeling Laserowy Black Doll</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">300 zł</span>
                       </button>
-                    </li>
-                    <li className="text-[9px] uppercase tracking-wider font-mono text-luxury-gold/70 border-b border-luxury-sand/20 pb-0.5 mt-2 flex justify-between items-center">
-                      <span>Ciało, Plecy & Stawy</span>
-                      <span className="text-[7.5px] bg-luxury-gold/20 text-luxury-gold font-bold px-1 rounded-xs uppercase">Nowość</span>
                     </li>
                     <li>
                       <button 
@@ -2324,56 +2418,58 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       >
                         <span className="flex items-center gap-1.5">
                           <span className="w-1.5 h-1.5 rounded-full bg-luxury-sand"></span>
-                          <span>Terapia Sygnałem PST</span>
+                          <span>Terapia Sygnałem PST (Stawy)</span>
                         </span>
-                        <span className="text-[9px] font-mono text-luxury-gold/50">od 110 zł</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">od 110 zł</span>
                       </button>
                     </li>
                   </ul>
                 </div>
 
                 {/* Kolumna 3: Mezoterapia, Stymulatory & Oczyszczanie */}
-                <div className="col-span-3 space-y-4">
-                  <h4 className="font-mono text-[10px] tracking-widest text-luxury-gold uppercase font-semibold border-b border-luxury-sand pb-2 flex justify-between items-center">
-                    <span>Mezoterapia & Stymulatory</span>
-                    <span className="text-[8px] font-mono text-luxury-gold/50 font-normal">03</span>
-                  </h4>
-                  <ul className="space-y-2 text-xs">
-                    <li className="text-[9px] uppercase tracking-wider font-mono text-luxury-gold/55 border-b border-luxury-sand/20 pb-0.5 mt-1">Mezo & Stymulacje</li>
+                <div className="col-span-3 space-y-3">
+                  <div className="border-b border-luxury-sand pb-2 flex justify-between items-center">
+                    <h4 className="font-mono text-[10px] tracking-widest text-luxury-gold uppercase font-semibold">
+                      Mezoterapia & Oczyszczanie
+                    </h4>
+                    <span className="text-[8px] font-mono text-luxury-gold/70 bg-luxury-gold/10 px-1.5 py-0.5 rounded-2xs font-semibold">11 zabiegów</span>
+                  </div>
+                  <ul className="space-y-1.5 text-xs">
+                    <li className="text-[8.5px] uppercase tracking-wider font-mono text-luxury-gold/70 border-b border-luxury-sand/20 pb-0.5 mt-0.5">Mezoterapia & Biostymulacja (5)</li>
                     <li>
                       <button 
-                        onClick={() => handleLinkClick("/meso-needleless/")}
+                        onClick={() => handleLinkClick("/mezoterapia-beziglowa/")}
                         className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
                       >
                         <span>Mezoterapia Bezigłowa</span>
-                        <span className="text-[9px] font-mono text-luxury-gold/40">od 400 zł</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">od 400 zł</span>
                       </button>
                     </li>
                     <li>
                       <button 
-                        onClick={() => handleLinkClick("/meso-needle/")}
+                        onClick={() => handleLinkClick("/mezoterapia-mikroiglowa/")}
                         className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
                       >
-                        <span>Mezoterapia Igłowa</span>
-                        <span className="text-[9px] font-mono text-luxury-gold/40">od 500 zł</span>
+                        <span>Mezoterapia Mikroigłowa</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">od 500 zł</span>
                       </button>
                     </li>
                     <li>
                       <button 
-                        onClick={() => handleLinkClick("/meso-gold-needle/")}
+                        onClick={() => handleLinkClick("/mesoporacja-dwufazowa-mesoporo/")}
                         className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
                       >
-                        <span>Mezoterapia Złotą Głowicą</span>
-                        <span className="text-[9px] font-mono text-luxury-gold/40">od 500 zł</span>
+                        <span>Mesoporacja MESO PORO (ESM)</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">od 450 zł</span>
                       </button>
                     </li>
                     <li>
                       <button 
-                        onClick={() => handleLinkClick("/tissue-stimulators/")}
+                        onClick={() => handleLinkClick("/stymulatory-tkankowe/")}
                         className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
                       >
                         <span>Stymulatory Tkankowe</span>
-                        <span className="text-[9px] font-mono text-luxury-gold/70 font-semibold">od 800 zł</span>
+                        <span className="text-[9px] font-mono text-luxury-gold font-semibold">od 800 zł</span>
                       </button>
                     </li>
                     <li>
@@ -2388,14 +2484,32 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         <span className="text-[9px] font-mono text-luxury-gold font-bold">od 250 zł</span>
                       </button>
                     </li>
-                    <li className="text-[9px] uppercase tracking-wider font-mono text-luxury-gold/55 border-b border-luxury-sand/20 pb-0.5 mt-2">Oczyszczanie & Dotlenianie</li>
+                    <li className="text-[8.5px] uppercase tracking-wider font-mono text-luxury-gold/70 border-b border-luxury-sand/20 pb-0.5 mt-2">Oczyszczanie, Dotlenianie & Odnowa (6)</li>
+                    <li>
+                      <button 
+                        onClick={() => handleLinkClick("/oczyszczanie-wodorowe/")}
+                        className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
+                      >
+                        <span>Oczyszczanie Wodorowe</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">od 320 zł</span>
+                      </button>
+                    </li>
                     <li>
                       <button 
                         onClick={() => handleLinkClick("/hydrogen-purification/")}
                         className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
                       >
-                        <span>Oczyszczanie Wodorowe</span>
-                        <span className="text-[9px] font-mono text-luxury-gold/40">od 300 zł</span>
+                        <span>Hydro-Detox Aktywny Wodór</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">od 320 zł</span>
+                      </button>
+                    </li>
+                    <li>
+                      <button 
+                        onClick={() => handleLinkClick("/oksybrazja-infuzja-tlenowa/")}
+                        className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
+                      >
+                        <span>Oksybrazja z Infuzją Tlenową</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">od 350 zł</span>
                       </button>
                     </li>
                     <li>
@@ -2403,8 +2517,17 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         onClick={() => handleLinkClick("/oxybrasion/")}
                         className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
                       >
-                        <span>Oxybrazja Tlenowa</span>
-                        <span className="text-[9px] font-mono text-luxury-gold/40">250 zł</span>
+                        <span>Oxybrazja Mikrozłuszczanie</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">od 300 zł</span>
+                      </button>
+                    </li>
+                    <li>
+                      <button 
+                        onClick={() => handleLinkClick("/nanobrazja-nanopen/")}
+                        className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
+                      >
+                        <span>Nanobrazja NanoPen</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">od 350 zł</span>
                       </button>
                     </li>
                     <li>
@@ -2413,7 +2536,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
                       >
                         <span>Nanobrazja Biorewitalizacja</span>
-                        <span className="text-[9px] font-mono text-luxury-gold/40">300 zł</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">od 300 zł</span>
                       </button>
                     </li>
                   </ul>
@@ -3244,25 +3367,36 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     </button>
                     {isMobileZabiegiOpen && (
                       <div className="pl-4 py-3 mt-2 flex flex-col space-y-3 text-xs border-l border-luxury-sand/30">
-                        <button onClick={() => handleLinkClick("/zabiegi-na-twarz-jelcz-laskowice/")} className="text-left text-luxury-dark hover:text-luxury-gold font-mono text-[10px] uppercase tracking-wider font-semibold border-b border-luxury-sand/20 pb-1">Wszystkie Zabiegi Twarzy</button>
+                        <button onClick={() => handleLinkClick("/zabiegi-na-twarz-jelcz-laskowice/")} className="text-left text-luxury-dark hover:text-luxury-gold font-mono text-[10px] uppercase tracking-wider font-semibold border-b border-luxury-sand/20 pb-1">Wszystkie Zabiegi Twarzy (Katalog)</button>
                         
                         <div className="space-y-1">
-                          <p className="font-mono text-[9px] text-luxury-gold uppercase tracking-widest font-semibold">01 Terapie Slow Skin Concept</p>
+                          <p className="font-mono text-[9px] text-luxury-gold uppercase tracking-widest font-semibold">01 Terapie Twarzy & Rytuały (12)</p>
                           <button onClick={() => handleLinkClick("/skin-readiness/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Skin Readiness (Przygotowanie)</button>
+                          <button onClick={() => handleLinkClick("/videokonsultacja/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1 font-medium flex justify-between items-center">
+                            <span>Videokonsultacja Online 1:1</span>
+                            <span className="font-mono text-[9px] text-luxury-gold font-bold">250 zł</span>
+                          </button>
                           <button onClick={() => handleLinkClick("/rosacea-calm-therapy/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Rosacea Calm Therapy (Rumień)</button>
-                          <button onClick={() => handleLinkClick("/lift-firm-therapy/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Lift & Firm Therapy (Jędrność)</button>
-                          <button onClick={() => handleLinkClick("/healthy-glow-therapy/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Healthy Glow Therapy (Blask)</button>
-                          <button onClick={() => handleLinkClick("/acne-balance-therapy/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Acne Balance Therapy (Zapalenia)</button>
-                          <button onClick={() => handleLinkClick("/adult-acne-therapy/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Adult Acne Therapy (Trądzik dorosłych)</button>
                           <button onClick={() => handleLinkClick("/couperose-therapy/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Couperose Therapy (Naczynka)</button>
+                          <button onClick={() => handleLinkClick("/acne-balance-therapy/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Acne Balance Therapy (Zapalenia)</button>
+                          <button onClick={() => handleLinkClick("/adult-acne-therapy/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Adult Acne 25+ Therapy (Trądzik)</button>
                           <button onClick={() => handleLinkClick("/pigment-balance-therapy/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Pigment Balance Therapy (Przebarwienia)</button>
+                          <button onClick={() => handleLinkClick("/healthy-glow-therapy/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Healthy Glow Therapy (Blask)</button>
+                          <button onClick={() => handleLinkClick("/amber-regeneration/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Regeneracja Kwasem Bursztynowym</button>
+                          <button onClick={() => handleLinkClick("/autumn-reset/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Jesienny Reset Skóry</button>
+                          <button onClick={() => handleLinkClick("/bespoke-ceremony/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Spersonalizowana Pielęgnacja</button>
+                          <button onClick={() => handleLinkClick("/epigenetic-aging/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Slow Aging — Odnowa & Wygładzenie</button>
                         </div>
 
                         <div className="space-y-1 pt-1 border-t border-luxury-sand/10">
-                          <p className="font-mono text-[9px] text-luxury-gold uppercase tracking-widest font-semibold">02 Aparatura & Lifting</p>
+                          <p className="font-mono text-[9px] text-luxury-gold uppercase tracking-widest font-semibold">02 Aparatura, Lifting & Lasery (11)</p>
                           <button onClick={() => handleLinkClick("/hifu-lifting/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">HIFU — Lifting Bez Skalpela</button>
+                          <button onClick={() => handleLinkClick("/hifu-ultrasound/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">HIFU Ultrasound (Owal Twarzy)</button>
                           <button onClick={() => handleLinkClick("/rf-microneedling/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">RF Mikroigłowa (Termolifting)</button>
+                          <button onClick={() => handleLinkClick("/lift-firm-therapy/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Skin Remodeling (Lift & Firm)</button>
+                          <button onClick={() => handleLinkClick("/skin-remodeling-therapy/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Skin Remodeling Therapy</button>
                           <button onClick={() => handleLinkClick("/neurolifting-nogier/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Neurolifting — Fale Nogiera</button>
+                          <button onClick={() => handleLinkClick("/neurolifting-face/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Neurolifting Powięziowy Twarzy</button>
                           <button onClick={() => handleLinkClick("/sonaris-pro-therapy/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1 font-medium flex justify-between items-center">
                             <span className="flex items-center gap-1.5">
                               <span className="w-1.5 h-1.5 rounded-full bg-luxury-gold"></span>
@@ -3270,16 +3404,17 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             </span>
                             <span className="font-mono text-[9px] text-luxury-gold font-bold">od 180 zł</span>
                           </button>
-                          <button onClick={() => handleLinkClick("/laser-lpl/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Terapie Laserowe LPL</button>
-                          <button onClick={() => handleLinkClick("/laser-carbon/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Peeling Laserowy Węglowy</button>
+                          <button onClick={() => handleLinkClick("/terapie-swiatlem-lpl/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Terapie Laserowe LPL</button>
+                          <button onClick={() => handleLinkClick("/fotoepilacja-lpl/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Fotoepilacja LPL (Ciało/Twarz)</button>
+                          <button onClick={() => handleLinkClick("/laser-carbon/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Peeling Laserowy Black Doll</button>
                         </div>
 
                         <div className="space-y-1 pt-1 border-t border-luxury-sand/10">
-                          <p className="font-mono text-[9px] text-luxury-gold uppercase tracking-widest font-semibold">03 Mezoterapia & Oczyszczanie</p>
-                          <button onClick={() => handleLinkClick("/meso-needleless/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Mezoterapia Bezigłowa</button>
-                          <button onClick={() => handleLinkClick("/meso-needle/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Mezoterapia Igłowa</button>
-                          <button onClick={() => handleLinkClick("/meso-gold-needle/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Mezoterapia Złotą Głowicą</button>
-                          <button onClick={() => handleLinkClick("/tissue-stimulators/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Stymulatory Tkankowe</button>
+                          <p className="font-mono text-[9px] text-luxury-gold uppercase tracking-widest font-semibold">03 Mezoterapia & Oczyszczanie (11)</p>
+                          <button onClick={() => handleLinkClick("/mezoterapia-beziglowa/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Mezoterapia Bezigłowa</button>
+                          <button onClick={() => handleLinkClick("/mezoterapia-mikroiglowa/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Mezoterapia Mikroigłowa</button>
+                          <button onClick={() => handleLinkClick("/mesoporacja-dwufazowa-mesoporo/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Mesoporacja MESO PORO (ESM)</button>
+                          <button onClick={() => handleLinkClick("/stymulatory-tkankowe/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Stymulatory Tkankowe</button>
                           <button onClick={() => handleLinkClick("/carboksyterapia-carboregen/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1 font-medium flex justify-between items-center">
                             <span className="flex items-center gap-1.5">
                               <span className="w-1.5 h-1.5 rounded-full bg-luxury-gold"></span>
@@ -3287,14 +3422,17 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             </span>
                             <span className="font-mono text-[9px] text-luxury-gold font-bold">od 250 zł</span>
                           </button>
-                          <button onClick={() => handleLinkClick("/hydrogen-purification/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Oczyszczanie Wodorowe</button>
-                          <button onClick={() => handleLinkClick("/oxybrasion/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Oxybrazja Tlenowa</button>
+                          <button onClick={() => handleLinkClick("/oczyszczanie-wodorowe/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Oczyszczanie Wodorowe</button>
+                          <button onClick={() => handleLinkClick("/hydrogen-purification/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Hydro-Detox Aktywny Wodór</button>
+                          <button onClick={() => handleLinkClick("/oksybrazja-infuzja-tlenowa/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Oksybrazja z Infuzją Tlenową</button>
+                          <button onClick={() => handleLinkClick("/oxybrasion/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Oxybrazja Mikrozłuszczanie</button>
+                          <button onClick={() => handleLinkClick("/nanobrazja-nanopen/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Nanobrazja NanoPen</button>
                           <button onClick={() => handleLinkClick("/nanobrasion/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Nanobrazja Biorewitalizacja</button>
                         </div>
 
                         <div className="space-y-1 pt-1 border-t border-luxury-sand/10">
                           <div className="flex items-center justify-between">
-                            <p className="font-mono text-[9px] text-luxury-gold uppercase tracking-widest font-semibold">04 Ciało, Plecy & Stawy</p>
+                            <p className="font-mono text-[9px] text-luxury-gold uppercase tracking-widest font-semibold">04 Ciało, Plecy & Stawy (2)</p>
                             <span className="text-[7px] font-mono uppercase bg-luxury-gold text-white px-1.5 py-0.2 rounded-xs font-bold">Nowość</span>
                           </div>
                           <button onClick={() => handleLinkClick("/ceragem-thermal-massage/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1 font-medium flex justify-between items-center">
