@@ -368,51 +368,57 @@ const LANGUAGE_SANCTUARY_DATA = {
 
 const COMMON_PROBLEMS = [
   {
-    name: "Przygotowanie skóry do regeneracji",
+    name: "Suchość głęboka, odwodnienie i zaburzona bariera",
+    description: "Uporczywe ściągnięcie, szorstkość, pieczenie po myciu, deficyt NMF i wysoka ucieczka wody (TEWL).",
+    keywords: ["suchość", "suchości", "sucha", "suchej", "odwodnienie", "odwodniona", "przesuszenie", "ściągnięcie", "szorstkość", "łuszczenie", "bariera", "barierowa", "tewl", "pieczenie", "nawilżenie"],
+    treatmentId: "amber-regeneration"
+  },
+  {
+    name: "Przygotowanie skóry do regeneracji (Skin Readiness)",
     description: "Audyt barierowy, pomiar TEWL, odbudowa płaszcza lipidowego i przygotowanie do głębokich terapii.",
-    keywords: ["przygotowanie", "regeneracja", "readiness", "diagnoza", "pierwsza wizyta", "bariera", "suchość", "tewl"],
+    keywords: ["przygotowanie", "regeneracja", "readiness", "diagnoza", "pierwsza wizyta", "bariera", "suchość", "suchości", "tewl", "konsultacja"],
     treatmentId: "skin-readiness"
   },
   {
     name: "Zmiany zapalne, grudki, zaskórniki",
-    description: "Trądzik pospolity, nadprodukcja sebum, rozszerzone pory i zaskórniki.",
-    keywords: ["zapalne", "grudki", "zaskórniki", "trądzik", "sebum", "pory", "krostki", "łojotok", "acne"],
+    description: "Trądzik pospolity, nadprodukcja sebum, rozszerzone pory, wypryski i zaskórniki.",
+    keywords: ["zapalne", "grudki", "zaskórniki", "trądzik", "trądziku", "trądzikowa", "sebum", "pory", "krostki", "wypryski", "łojotok", "acne"],
     treatmentId: "acne-balance-therapy"
   },
   {
     name: "Trądzik dorosłych, skóra stresowa",
     description: "Trądzik późny w strefie U (żuchwa, broda), zmiany pod wpływem kortyzolu i brak snu.",
-    keywords: ["dorosłych", "stres", "stresowa", "kortyzol", "żuchwa", "tarda", "neuro", "hormonalny"],
+    keywords: ["dorosłych", "stres", "stresowa", "kortyzol", "żuchwa", "tarda", "neuro", "hormonalny", "trądzik", "trądziku"],
     treatmentId: "adult-acne-therapy"
   },
   {
     name: "Rumień, pieczenie, nadreaktywność",
     description: "Trądzik różowaty (Rosacea), pieczenie, nadwrażliwość na wodę i kosmetyki, uczucie palenia.",
-    keywords: ["rumień", "pieczenie", "nadreaktywność", "różowaty", "rosacea", "palenie", "kłucie", "wrażliwa", "reaktywna"],
+    keywords: ["rumień", "rumienia", "pieczenie", "nadreaktywność", "różowaty", "rosacea", "palenie", "kłucie", "wrażliwa", "reaktywna", "czerwona"],
     treatmentId: "rosacea-calm-therapy"
   },
   {
     name: "Naczynka, teleangiektazje",
     description: "Pęknięte naczynka, pajączki, kruchość naczyniowa i nawracająca gra naczyniowa.",
-    keywords: ["naczynka", "teleangiektazje", "pajączki", "kruchość", "gra naczyniowa", "naczyniowa", "czerwona"],
+    keywords: ["naczynka", "naczynek", "naczyniowa", "teleangiektazje", "pajączki", "kruchość", "gra naczyniowa", "czerwona", "rumień"],
     treatmentId: "couperose-therapy"
   },
   {
     name: "Przebarwienia, melasma, nierówny koloryt",
     description: "Plamy posłoneczne, melasma hormonalna, przebarwienia pozapalne (PIH), szary i niejednolity ton.",
-    keywords: ["przebarwienia", "melasma", "koloryt", "plamy", "posłoneczne", "pigmentacja", "pih", "ostuda"],
+    keywords: ["przebarwienia", "przebarwień", "melasma", "koloryt", "plamy", "posłoneczne", "pigmentacja", "pih", "ostuda", "rozjaśnienie"],
     treatmentId: "pigment-balance-therapy"
   },
   {
     name: "Utrata jędrności, owal, gęstość",
     description: "Grawitacyjne opadanie owalu twarzy (chomiki), utrata gęstości, wiotkość i zmarszczki strukturalne.",
-    keywords: ["jędrność", "owal", "gęstość", "wiotkość", "chomiki", "lifting", "zmarszczki", "smas", "kolagen"],
+    keywords: ["jędrność", "owal", "gęstość", "wiotkość", "wiotkości", "chomiki", "lifting", "zmarszczki", "zmarszczek", "smas", "kolagen"],
     treatmentId: "lift-firm-therapy"
   },
   {
     name: "Skóra zmęczona, szara, odwodniona",
     description: "Skóra miejska (Blue Light, smog), utrata witalności, brak blasku i głębokie odwodnienie naskórka.",
-    keywords: ["zmęczona", "szara", "odwodniona", "blask", "glow", "tlen", "bursztynowy", "miejska", "smog"],
+    keywords: ["zmęczona", "szara", "odwodniona", "odwodnienie", "blask", "glow", "tlen", "bursztynowy", "miejska", "smog", "suchość"],
     treatmentId: "healthy-glow-therapy"
   }
 ];
@@ -3490,24 +3496,116 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               {/* Global Glass Search Engine */}
               {(() => {
                 const query = globalSearchQuery.toLowerCase().trim();
-                const matchedTreatments = query ? TREATMENTS.filter((t) => {
-                  return t.title.toLowerCase().includes(query) ||
-                         t.subtitle.toLowerCase().includes(query) ||
-                         (t.description && t.description.toLowerCase().includes(query)) ||
-                         (t.focus && t.focus.toLowerCase().includes(query)) ||
-                         (t.indications && t.indications.some(ind => ind.toLowerCase().includes(query)));
-                }).slice(0, 4) : [];
+
+                // Polish stem & synonym expansion dictionary for skin concerns
+                const getQueryVariants = (rawQuery: string): string[] => {
+                  const q = rawQuery.toLowerCase().trim();
+                  if (!q) return [];
+                  const variants = new Set<string>([q]);
+
+                  if (q.includes("such") || q.includes("odwodn") || q.includes("bariera") || q.includes("tewl") || q.includes("ściągn") || q.includes("łuszcz")) {
+                    ["sucho", "sucha", "suchość", "suchości", "suche", "suchej", "odwodn", "odwodnienie", "odwodniona", "przesusz", "przesuszenie", "przesuszona", "ściągnięc", "szorstk", "łuszczen", "tewl", "bariera", "barierow", "płaszcz"].forEach(w => variants.add(w));
+                  }
+                  if (q.includes("zmarszcz") || q.includes("wiotk") || q.includes("owal") || q.includes("lifting") || q.includes("chomik") || q.includes("kolagen")) {
+                    ["zmarszcz", "zmarszczk", "wiotk", "wiotkości", "zwiotcz", "owal", "chomik", "jędrno", "gęsto", "lifting", "smas", "kolagen", "elastyn", "slow aging", "bruzdy"].forEach(w => variants.add(w));
+                  }
+                  if (q.includes("trądz") || q.includes("acne") || q.includes("zaskór") || q.includes("krost") || q.includes("wyprysk") || q.includes("sebum")) {
+                    ["trądz", "trądzik", "trądziku", "trądzikowa", "acne", "zaskór", "krost", "wyprysk", "sebum", "por", "łojotok", "zapalne", "grudk", "strefa u"].forEach(w => variants.add(w));
+                  }
+                  if (q.includes("naczyn") || q.includes("rumien") || q.includes("rumień") || q.includes("rosacea") || q.includes("różow") || q.includes("pającz") || q.includes("teleang")) {
+                    ["naczyn", "naczynek", "naczyniowa", "teleang", "pającz", "krucho", "rumień", "rumien", "rosacea", "różow", "czerwon", "zaczerwien", "gra naczyniow", "pieczen"].forEach(w => variants.add(w));
+                  }
+                  if (q.includes("przebarw") || q.includes("melasm") || q.includes("plam") || q.includes("pigment") || q.includes("koloryt")) {
+                    ["przebarw", "przebarwień", "melasm", "plam", "pigment", "pih", "koloryt", "posłonecz", "rozjaśn", "ostuda", "hiperpigmentacj"].forEach(w => variants.add(w));
+                  }
+                  if (q.includes("wiotk")) {
+                    ["wiotk", "wiotkości", "zwiotcz", "owal", "chomiki", "jędrność", "gęstość", "lifting", "smas"].forEach(w => variants.add(w));
+                  }
+
+                  // General Polish word trimming
+                  if (q.length >= 4) {
+                    variants.add(q.slice(0, -1));
+                    if (q.endsWith("ość")) variants.add(q.slice(0, -3));
+                  }
+
+                  return Array.from(variants);
+                };
+
+                const variants = query ? getQueryVariants(query) : [];
+
+                // Relevance scoring for rituals
+                const scoreTreatment = (t: typeof TREATMENTS[0]): number => {
+                  if (!query) return 0;
+                  let score = 0;
+                  const title = t.title.toLowerCase();
+                  const sub = t.subtitle.toLowerCase();
+                  const focus = (t.focus || "").toLowerCase();
+                  const ind = (t.indications || []).join(" ").toLowerCase();
+                  const desc = (t.description || "").toLowerCase();
+
+                  // Direct query match
+                  if (title.includes(query)) score += 60;
+                  if (sub.includes(query)) score += 40;
+                  if (focus.includes(query)) score += 30;
+                  if (ind.includes(query)) score += 25;
+                  if (desc.includes(query)) score += 10;
+
+                  // Concern-specific priority ranking
+                  if (query.includes("such") || query.includes("odwodn") || query.includes("bariera")) {
+                    if (t.id === "skin-readiness") score += 55;
+                    if (t.id === "amber-regeneration") score += 50;
+                    if (t.id === "healthy-glow-therapy") score += 45;
+                    if (t.id === "oksybrazja-infuzja-tlenowa" || t.id === "oxybrasion") score += 42;
+                    if (t.id === "epigenetic-aging") score += 40;
+                    if (t.id === "bespoke-ceremony") score += 38;
+                    if (t.id === "autumn-reset") score += 35;
+                  }
+
+                  for (const v of variants) {
+                    if (title.includes(v)) score += 20;
+                    if (sub.includes(v)) score += 14;
+                    if (focus.includes(v)) score += 10;
+                    if (ind.includes(v)) score += 8;
+                    if (desc.includes(v)) score += 3;
+                  }
+
+                  return score;
+                };
+
+                const matchedTreatments = query ? TREATMENTS
+                  .map(t => ({ treatment: t, score: scoreTreatment(t) }))
+                  .filter(item => item.score > 0)
+                  .sort((a, b) => b.score - a.score)
+                  .map(item => item.treatment)
+                  .slice(0, 8) : [];
 
                 const matchedProblems = query ? COMMON_PROBLEMS.filter((prob) => {
-                  return prob.name.toLowerCase().includes(query) ||
-                         prob.description.toLowerCase().includes(query) ||
-                         prob.keywords.some(keyword => query.includes(keyword) || keyword.includes(query));
+                  const text = (prob.name + " " + prob.description + " " + prob.keywords.join(" ")).toLowerCase();
+                  return variants.some(v => text.includes(v));
                 }).slice(0, 3) : [];
 
-                const matchedArticles = query ? ARTICLES.filter((art) => {
-                  return art.title.toLowerCase().includes(query) ||
-                         art.category.toLowerCase().includes(query);
-                }).slice(0, 3) : [];
+                // Smart article search matching + Guaranteed editorial richness (no empty spaces)
+                const matchedArticles = query ? (() => {
+                  const directMatches = ARTICLES.filter((art) => {
+                    const artText = (
+                      art.title + " " +
+                      art.category + " " +
+                      art.lead + " " +
+                      art.quote + " " +
+                      (art.content ? art.content.join(" ") : "") + " " +
+                      (art.sections ? art.sections.map(s => s.heading + " " + s.paragraphs.join(" ")).join(" ") : "")
+                    ).toLowerCase();
+
+                    return variants.some(v => artText.includes(v));
+                  });
+
+                  // If direct matches are fewer than 2, fill up with top recommended foundational articles
+                  if (directMatches.length < 2) {
+                    const fallbackArticles = ARTICLES.filter(a => !directMatches.some(m => m.id === a.id));
+                    return [...directMatches, ...fallbackArticles].slice(0, 3);
+                  }
+                  return directMatches.slice(0, 4);
+                })() : [];
 
                 return (
                   <motion.div 
@@ -3550,6 +3648,10 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         <button onClick={() => setGlobalSearchQuery("naczynka")} className="text-[#7A571E] hover:text-luxury-dark font-semibold underline underline-offset-2 transition-colors cursor-pointer">naczynka</button>
                         <span>&middot;</span>
                         <button onClick={() => setGlobalSearchQuery("wiotkość")} className="text-[#7A571E] hover:text-luxury-dark font-semibold underline underline-offset-2 transition-colors cursor-pointer">wiotkość</button>
+                        <span>&middot;</span>
+                        <button onClick={() => setGlobalSearchQuery("przebarwienia")} className="text-[#7A571E] hover:text-luxury-dark font-semibold underline underline-offset-2 transition-colors cursor-pointer">przebarwienia</button>
+                        <span>&middot;</span>
+                        <button onClick={() => setGlobalSearchQuery("rumień")} className="text-[#7A571E] hover:text-luxury-dark font-semibold underline underline-offset-2 transition-colors cursor-pointer">rumień</button>
                       </div>
                     </div>
 
@@ -3561,19 +3663,45 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: 10 }}
                           transition={{ duration: 0.2 }}
-                          className="absolute top-full left-0 w-full mt-2.5 bg-white/98 backdrop-blur-xl border border-luxury-sand shadow-2xl z-50 text-left overflow-hidden max-h-[480px] overflow-y-auto"
+                          className="absolute top-full left-0 w-full mt-2.5 bg-[#FAF9F5]/98 backdrop-blur-2xl border border-luxury-sand/90 shadow-[0_25px_60px_rgba(0,0,0,0.22)] z-50 text-left overflow-hidden max-h-[85vh] md:max-h-[640px] flex flex-col rounded-none"
                           id="hero-search-results"
                         >
-                          <div className="p-4 sm:p-5 md:p-6 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8">
+                          {/* Search Header Bar with summary & counter */}
+                          <div className="px-4 sm:px-6 py-3 border-b border-luxury-sand/60 bg-white/85 flex items-center justify-between text-xs font-mono uppercase tracking-wider shrink-0">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="text-luxury-dark/60">Dopasowanie dla:</span>
+                              <span className="font-bold text-luxury-dark font-serif italic text-sm normal-case tracking-normal">„{globalSearchQuery}”</span>
+                              <span className="hidden sm:inline text-luxury-sand">&bull;</span>
+                              <span className="text-[10px] bg-luxury-gold/15 text-luxury-gold px-2 py-0.5 font-bold">
+                                {matchedTreatments.length} {matchedTreatments.length === 1 ? "Rytuał" : matchedTreatments.length < 5 ? "Rytuały" : "Rytuałów"}
+                              </span>
+                              <span className="text-[10px] bg-luxury-dark/10 text-luxury-dark px-2 py-0.5">
+                                {matchedArticles.length} {matchedArticles.length === 1 ? "Publikacja" : matchedArticles.length < 5 ? "Publikacje" : "Publikacji"}
+                              </span>
+                            </div>
+                            <button
+                              onClick={() => setGlobalSearchQuery("")}
+                              className="text-luxury-dark/60 hover:text-luxury-gold flex items-center gap-1 cursor-pointer transition-colors text-[11px] font-semibold"
+                            >
+                              <X className="w-3.5 h-3.5" />
+                              <span>Zamknij</span>
+                            </button>
+                          </div>
+
+                          {/* 3 Columns Layout with high visibility & rich card presentation */}
+                          <div className="p-4 sm:p-5 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 overflow-y-auto flex-1 divide-y lg:divide-y-0 lg:divide-x divide-luxury-sand/40">
                             
-                            {/* Column 1: Predefined Skin Problems (Recognized issues) */}
-                            <div className="md:col-span-4 space-y-4">
-                              <div className="font-mono text-[10px] tracking-widest text-luxury-gold uppercase font-semibold border-b border-luxury-sand pb-1.5 flex items-center gap-1.5">
-                                <Activity className="w-3.5 h-3.5 text-luxury-gold" />
-                                <span>Rozpoznane Problemy</span>
+                            {/* Column 1: Recognized Clinical Skin Problems */}
+                            <div className="lg:col-span-3 order-2 lg:order-1 pr-0 lg:pr-2 space-y-3.5">
+                              <div className="font-mono text-[10px] tracking-widest text-luxury-gold uppercase font-bold border-b border-luxury-sand/80 pb-2 flex items-center justify-between">
+                                <div className="flex items-center gap-1.5">
+                                  <Activity className="w-3.5 h-3.5 text-luxury-gold" />
+                                  <span>Rozpoznane Problemy</span>
+                                </div>
+                                <span className="text-[9px] text-luxury-dark/60 font-sans normal-case">Diagnoza</span>
                               </div>
                               {matchedProblems.length > 0 ? (
-                                <div className="space-y-3">
+                                <div className="space-y-2.5">
                                   {matchedProblems.map((prob, idx) => (
                                     <div 
                                       key={idx}
@@ -3585,32 +3713,48 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                           setGlobalSearchQuery("");
                                         }
                                       }}
-                                      className="group cursor-pointer p-2.5 hover:bg-luxury-sand/20 transition-all duration-200 border border-transparent hover:border-luxury-gold/30 rounded-xs"
+                                      className="group cursor-pointer p-3 bg-white hover:bg-white/90 border border-luxury-sand/70 hover:border-luxury-gold transition-all duration-200 shadow-2xs hover:shadow-sm"
                                     >
-                                      <p className="text-xs font-serif font-semibold text-luxury-dark group-hover:text-luxury-gold transition-colors flex items-center justify-between">
+                                      <p className="text-xs font-serif font-bold text-luxury-dark group-hover:text-luxury-gold transition-colors flex items-center justify-between">
                                         <span>{prob.name}</span>
-                                        <ArrowRight className="w-3 h-3 text-luxury-gold opacity-0 group-hover:opacity-100 transition-opacity" />
+                                        <ArrowRight className="w-3.5 h-3.5 text-luxury-gold opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
                                       </p>
-                                      <p className="text-[10px] text-luxury-dark/70 mt-1 leading-normal font-sans">{prob.description}</p>
-                                      <div className="text-[9px] font-mono text-luxury-gold uppercase tracking-widest mt-1.5 font-medium">
-                                        Rekomendacja: Kliknij, aby zobaczyć rytuał
+                                      <p className="text-[10px] text-luxury-dark/75 mt-1.5 leading-relaxed font-sans">{prob.description}</p>
+                                      <div className="text-[9px] font-mono text-luxury-gold uppercase tracking-widest mt-2 font-bold flex items-center gap-1">
+                                        <span>Rekomendacja &rarr;</span>
                                       </div>
                                     </div>
                                   ))}
                                 </div>
                               ) : (
-                                <p className="text-xs italic text-luxury-dark/40 font-serif">Brak bezpośrednich dopasowań klinicznych.</p>
+                                <div className="p-4 bg-white/60 border border-luxury-sand/40 text-center">
+                                  <p className="text-xs italic text-luxury-dark/60 font-serif">Skorzystaj z pełnej analizy skóry.</p>
+                                  <button
+                                    onClick={() => {
+                                      setActiveTab("diagnose");
+                                      setDiagnosticStep(0);
+                                      setGlobalSearchQuery("");
+                                    }}
+                                    className="mt-2 text-[10px] font-mono uppercase tracking-wider text-luxury-gold font-bold hover:underline"
+                                  >
+                                    Rozpocznij test online &rarr;
+                                  </button>
+                                </div>
                               )}
                             </div>
 
-                            {/* Column 2: Treatments matching query */}
-                            <div className="md:col-span-5 space-y-4">
-                              <div className="font-mono text-[10px] tracking-widest text-luxury-gold uppercase font-semibold border-b border-luxury-sand pb-1.5 flex items-center gap-1.5">
-                                <Sparkles className="w-3.5 h-3.5 text-luxury-gold" />
-                                <span>Dopasowane Rytuały ({matchedTreatments.length})</span>
+                            {/* Column 2: MATCHED RITUALS (The Star Exposition - All Available Rituals) */}
+                            <div className="lg:col-span-5 order-1 lg:order-2 px-0 lg:px-4 space-y-3.5">
+                              <div className="font-mono text-[10px] tracking-widest text-luxury-gold uppercase font-bold border-b border-luxury-sand/80 pb-2 flex items-center justify-between">
+                                <div className="flex items-center gap-1.5">
+                                  <Sparkles className="w-3.5 h-3.5 text-luxury-gold" />
+                                  <span>Dopasowane Rytuały ({matchedTreatments.length})</span>
+                                </div>
+                                <span className="text-[9px] text-luxury-gold font-semibold uppercase tracking-wider">Pełna oferta</span>
                               </div>
+
                               {matchedTreatments.length > 0 ? (
-                                <div className="space-y-2.5">
+                                <div className="space-y-3 max-h-[440px] overflow-y-auto pr-1.5 scrollbar-thin scrollbar-thumb-luxury-gold/50 scrollbar-track-luxury-sand/20">
                                   {matchedTreatments.map((treatment) => (
                                     <div
                                       key={treatment.id}
@@ -3619,71 +3763,168 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                         setActiveTab("clinic");
                                         setGlobalSearchQuery("");
                                       }}
-                                      className="group cursor-pointer p-2.5 hover:bg-luxury-sand/20 transition-all duration-200 border border-transparent hover:border-luxury-gold/30 rounded-xs flex items-start gap-3"
+                                      className="group cursor-pointer p-3 bg-white hover:bg-[#FAF8F5] border border-luxury-sand/70 hover:border-luxury-gold transition-all duration-200 shadow-xs hover:shadow-md flex items-start gap-3.5"
                                     >
-                                      <div className="flex-1">
-                                        <p className="text-xs font-serif font-semibold text-luxury-dark group-hover:text-luxury-gold transition-colors">
-                                          {treatment.title}
-                                        </p>
-                                        <p className="text-[9px] text-luxury-gold uppercase font-mono tracking-widest mt-0.5">{treatment.subtitle}</p>
-                                        <p className="text-[10px] text-luxury-dark/70 line-clamp-1 mt-1 font-sans">{treatment.description}</p>
+                                      {/* Treatment Image Thumbnail */}
+                                      <div className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 bg-luxury-cream border border-luxury-sand/50 overflow-hidden relative">
+                                        <img 
+                                          src={treatment.image} 
+                                          alt={treatment.title} 
+                                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                                          onError={(e) => {
+                                            // Fallback to elegant placeholder if image fails
+                                            (e.target as HTMLElement).style.display = "none";
+                                          }}
+                                        />
                                       </div>
-                                      <ArrowRight className="w-3.5 h-3.5 text-luxury-gold self-center opacity-40 group-hover:opacity-100 transition-opacity" />
+
+                                      {/* Treatment Content Details */}
+                                      <div className="flex-1 min-w-0">
+                                        <div className="flex items-start justify-between gap-2">
+                                          <p className="text-xs sm:text-sm font-serif font-bold text-luxury-dark group-hover:text-luxury-gold transition-colors line-clamp-1">
+                                            {treatment.title}
+                                          </p>
+                                          <ArrowRight className="w-3.5 h-3.5 text-luxury-gold shrink-0 opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                                        </div>
+
+                                        <p className="text-[9px] sm:text-[10px] text-luxury-gold uppercase font-mono tracking-wider line-clamp-1 mt-0.5 font-medium">
+                                          {treatment.subtitle}
+                                        </p>
+
+                                        {/* Duration & Price pills */}
+                                        <div className="flex items-center gap-2 mt-1 flex-wrap">
+                                          <span className="text-[9px] font-mono bg-luxury-sand/25 px-1.5 py-0.5 text-luxury-dark/80">
+                                            {treatment.duration}
+                                          </span>
+                                          <span className="text-[9px] font-mono bg-luxury-gold/15 text-luxury-gold px-1.5 py-0.5 font-semibold">
+                                            {treatment.price}
+                                          </span>
+                                        </div>
+
+                                        <p className="text-[10px] text-luxury-dark/75 line-clamp-2 mt-1 leading-relaxed font-sans">
+                                          {treatment.description}
+                                        </p>
+
+                                        <div className="mt-2 text-[9px] font-mono text-luxury-gold uppercase tracking-wider font-bold group-hover:underline flex items-center gap-1">
+                                          <span>Zobacz rytuał & Umów wizytę</span>
+                                          <span>&rarr;</span>
+                                        </div>
+                                      </div>
                                     </div>
                                   ))}
                                 </div>
                               ) : (
-                                <p className="text-xs italic text-luxury-dark/40 font-serif">Brak pasujących zabiegów w ofercie.</p>
+                                <div className="p-6 bg-white/70 border border-luxury-sand/50 text-center space-y-2">
+                                  <p className="text-xs italic text-luxury-dark/60 font-serif">Brak bezpośrednich dopasowań rytuałów.</p>
+                                  <button
+                                    onClick={() => {
+                                      setActiveTab("clinic");
+                                      setGlobalSearchQuery("");
+                                    }}
+                                    className="px-3 py-1.5 bg-luxury-gold text-white text-[10px] font-mono uppercase tracking-widest font-bold"
+                                  >
+                                    Zobacz pełne menu rytuałów
+                                  </button>
+                                </div>
                               )}
                             </div>
 
-                            {/* Column 3: Magazine Articles matching query */}
-                            <div className="md:col-span-3 space-y-4">
-                              <div className="font-mono text-[10px] tracking-widest text-luxury-gold uppercase font-semibold border-b border-luxury-sand pb-1.5 flex items-center gap-1.5">
-                                <BookOpen className="w-3.5 h-3.5 text-luxury-gold" />
-                                <span>Wiedza & Magazyn</span>
+                            {/* Column 3: Knowledge & Magazine (Completely Populated - No Empty Spots) */}
+                            <div className="lg:col-span-4 order-3 pl-0 lg:pl-4 space-y-3.5">
+                              <div className="font-mono text-[10px] tracking-widest text-luxury-gold uppercase font-bold border-b border-luxury-sand/80 pb-2 flex items-center justify-between">
+                                <div className="flex items-center gap-1.5">
+                                  <BookOpen className="w-3.5 h-3.5 text-luxury-gold" />
+                                  <span>Wiedza & Magazyn ({matchedArticles.length})</span>
+                                </div>
+                                <span className="text-[9px] text-luxury-dark/60 font-sans normal-case">Publikacje</span>
                               </div>
+
                               {matchedArticles.length > 0 ? (
-                                <div className="space-y-2.5">
+                                <div className="space-y-3 max-h-[440px] overflow-y-auto pr-1.5 scrollbar-thin scrollbar-thumb-luxury-gold/50 scrollbar-track-luxury-sand/20">
                                   {matchedArticles.map((art) => (
                                     <div
                                       key={art.id}
                                       onClick={() => {
                                         setSelectedArticle(art);
+                                        setSelectedCategory("ALL");
                                         setActiveTab("journal");
                                         setGlobalSearchQuery("");
                                       }}
-                                      className="group cursor-pointer p-2.5 hover:bg-luxury-sand/20 transition-all duration-200 border border-transparent hover:border-luxury-gold/30 rounded-xs"
+                                      className="group cursor-pointer p-3 bg-white hover:bg-[#FAF8F5] border border-luxury-sand/70 hover:border-luxury-gold transition-all duration-200 shadow-xs hover:shadow-md flex items-start gap-3"
                                     >
-                                      <p className="text-xs font-serif italic text-luxury-dark group-hover:text-luxury-gold transition-colors line-clamp-2 leading-relaxed">
-                                        „{art.title}”
-                                      </p>
-                                      <span className="inline-block text-[9px] font-mono text-luxury-gold uppercase tracking-widest mt-1 font-medium">
-                                        Kategoria: {art.category}
-                                      </span>
+                                      {/* Article thumbnail if available */}
+                                      {art.image && (
+                                        <div className="w-14 h-14 shrink-0 bg-luxury-cream border border-luxury-sand/50 overflow-hidden relative">
+                                          <img 
+                                            src={art.image} 
+                                            alt={art.title} 
+                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                                          />
+                                        </div>
+                                      )}
+
+                                      <div className="flex-1 min-w-0">
+                                        <div className="flex items-center justify-between gap-1">
+                                          <span className="text-[9px] font-mono text-luxury-gold uppercase tracking-widest font-semibold">
+                                            {art.category}
+                                          </span>
+                                          <span className="text-[9px] font-mono text-luxury-dark/50">
+                                            {art.readingTime}
+                                          </span>
+                                        </div>
+
+                                        <p className="text-xs font-serif italic text-luxury-dark group-hover:text-luxury-gold transition-colors line-clamp-2 leading-relaxed mt-0.5 font-medium">
+                                          „{art.title}”
+                                        </p>
+
+                                        <p className="text-[10px] text-luxury-dark/70 line-clamp-2 mt-1 leading-relaxed font-sans">
+                                          {art.lead}
+                                        </p>
+
+                                        <div className="mt-1.5 text-[9px] font-mono text-luxury-gold uppercase tracking-wider font-bold flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                                          <span>Czytaj publikację</span>
+                                          <span>&rarr;</span>
+                                        </div>
+                                      </div>
                                     </div>
                                   ))}
                                 </div>
                               ) : (
-                                <p className="text-xs italic text-luxury-dark/40 font-serif">Brak pasujących publikacji w magazynie.</p>
+                                <div className="p-4 bg-white/70 border border-luxury-sand/50 text-center">
+                                  <p className="text-xs italic text-luxury-dark/60 font-serif">Odkryj wszystkie artykuły w Magazynie.</p>
+                                </div>
                               )}
                             </div>
 
                           </div>
 
                           {/* Footer of Search Result overlay */}
-                          <div className="bg-[#FAF8F5] border-t border-luxury-sand/60 px-4 sm:px-5 py-3 text-center flex justify-between items-center text-[9px] sm:text-[10px] font-mono uppercase tracking-widest text-luxury-dark/60">
-                            <span>Wpisz więcej, aby sprecyzować diagnozę</span>
-                            <button 
-                              onClick={() => {
-                                setActiveTab("diagnose");
-                                setDiagnosticStep(0);
-                                setGlobalSearchQuery("");
-                              }}
-                              className="text-luxury-gold hover:text-luxury-dark transition-colors cursor-pointer font-bold animate-pulse"
-                            >
-                              Uruchom Konsultację AI &rarr;
-                            </button>
+                          <div className="bg-[#FAF8F5] border-t border-luxury-sand/60 px-4 sm:px-6 py-3 text-center flex flex-col sm:flex-row justify-between items-center gap-2 text-[10px] font-mono uppercase tracking-wider text-luxury-dark/70 shrink-0">
+                            <span className="flex items-center gap-1.5">
+                              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                              Wszystkie procedury realizowane są w autorskim standardzie bionomicznym
+                            </span>
+                            <div className="flex items-center gap-3">
+                              <button
+                                onClick={() => {
+                                  setActiveTab("clinic");
+                                  setGlobalSearchQuery("");
+                                }}
+                                className="text-luxury-dark hover:text-luxury-gold underline underline-offset-2 transition-colors cursor-pointer font-semibold"
+                              >
+                                Pełne menu rytuałów &rarr;
+                              </button>
+                              <button 
+                                onClick={() => {
+                                  setActiveTab("diagnose");
+                                  setDiagnosticStep(0);
+                                  setGlobalSearchQuery("");
+                                }}
+                                className="px-3 py-1 bg-luxury-gold text-white hover:bg-luxury-dark transition-colors cursor-pointer font-bold tracking-widest shadow-xs"
+                              >
+                                Uruchom Konsultację AI &rarr;
+                              </button>
+                            </div>
                           </div>
                         </motion.div>
                       )}
@@ -6637,6 +6878,11 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                 <div className="flex flex-wrap justify-center items-center gap-2 md:gap-3 py-1 border-t border-luxury-sand/35">
                   {[
                     { key: "ALL", label: "Wszystkie artykuły" },
+                    { key: "SUCHOŚĆ & BARIERA", label: "Suchość & Bariera" },
+                    { key: "SLOW AGING", label: "Slow Aging" },
+                    { key: "TRĄDZIK & MIKROBIOM", label: "Trądzik" },
+                    { key: "NACZYNKA & RUMIEŃ", label: "Naczynka" },
+                    { key: "PRZEBARWIENIA", label: "Przebarwienia" },
                     { key: "FILOZOFIA", label: "Filozofia" },
                     { key: "NEUROBIOLOGIA", label: "Neurobiologia" },
                     { key: "FIZJOLOGIA", label: "Fizjologia" }
