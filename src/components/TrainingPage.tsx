@@ -34,7 +34,6 @@ interface TrainingPageProps {
 }
 
 export const TrainingPage: React.FC<TrainingPageProps> = ({ onLinkClick, onOpenBooking }) => {
-  const [selectedModuleTab, setSelectedModuleTab] = useState<"all" | "partner" | "neuromodeling" | "diagnostics">("all");
   const [isApplicationSuccess, setIsApplicationSuccess] = useState(false);
   const [applicationData, setApplicationData] = useState({
     ownerName: "",
@@ -72,54 +71,6 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({ onLinkClick, onOpenB
         "Kwartalny audyt merytoryczny i superwizja mgr Katarzyny Brzezińskiej"
       ],
       portalLink: "https://szkolenia.slowskinconcept.pl/partnerstwo-akredytacja/"
-    },
-    {
-      id: "neuromodeling-masterclass",
-      category: "neuromodeling",
-      badge: "Warsztat Praktyczny 1:1",
-      title: "Masterclass: Neuro-Modeling Twarzy, Fale Nogiera & Akupunktura",
-      subtitle: "Głęboka przebudowa mięśniowo-powięziowa i neurobiologiczny lifting manualny",
-      duration: "2 Dni (16 Godzin Praktyki Warsztatowej)",
-      mode: "Kameralna grupa (maksymalnie 4 osoby) lub szkolenie indywidualne 1:1",
-      targetAudience: "Kosmetolodzy, terapeuci twarzy, masażyści i fizjoterapeuci estetyczni",
-      lead: "Naucz się autorskiego masażu mioplastycznego połączonego z częstotliwościami rezonansowymi dr. Paula Nogiera i stymulacją biopunktów bez użycia inwazyjnych igieł.",
-      pillars: [
-        { title: "Biomechanika Twarzy i Powięzi", desc: "Uwalnianie napięć aparatu żwaczowego, dekompresja czepca ścięgnistego i szyi." },
-        { title: "Fale Nogiera w Praktyce", desc: "Zastosowanie częstotliwości komórkowych w wyciszaniu układu współczulnego i redukcji obrzęków." },
-        { title: "Akupunktura i Akupresura Kosmetyczna", desc: "Precyzyjna lokalizacja punktów bioaktywnych modelujących owal twarzy." },
-        { title: "Ergonomia Pracy Terapeuty", desc: "Techniki pracy własnym ciałem chroniące stawy dłoni i kręgosłup kosmetologa." }
-      ],
-      includes: [
-        "Praktyka na modelkach pod okiem głównego szkoleniowca",
-        "Skrypt metodyczny (120 stron, schematy anatomiczne i układy punktów)",
-        "Komplet materiałów wideo do powtórek w portalu e-learningowym",
-        "Imienny Certyfikat Terapeuty Neuro-Modelingu Slow Skin"
-      ],
-      portalLink: "https://szkolenia.slowskinconcept.pl/neuromodeling-masterclass/"
-    },
-    {
-      id: "diagnostics-bionomics",
-      category: "diagnostics",
-      badge: "Dermatokosmetologia",
-      title: "Warsztat: Zaawansowana Diagnostyka Nati V3 & Terapia Bariery",
-      subtitle: "Jak prowadzić trudne dermatozy i układać skuteczne Beauty Plany bionomiczne",
-      duration: "1 Dzień (8 Godzin Merytoryki & Praktyki)",
-      mode: "Stacjonarnie lub w formie Hybrydowej (Masterclass Live)",
-      targetAudience: "Kosmetolodzy chcący podnieść skuteczność pielęgnacji i prowadzenia skór problematycznych",
-      lead: "Odkryj tajemnice interpretacji skanów aparaturowych Nati V3 i układania protokołów przy trądziku dorosłych, trądziku różowatym, uszkodzeniach posteroidowych i inflammagingu.",
-      pillars: [
-        { title: "Wielopłaszczyznowa Analiza Nati V3", desc: "Odczyt głębokości naczyń, struktury złuszczania i poziomu sebum bez błędów interpretacyjnych." },
-        { title: "Biologia Kwasu Bursztynowego & Ektoiny", desc: "Dobór substancji wyciszających stany zapalne bez efektu jojo i podrażnień." },
-        { title: "Konstruowanie Długofalowych Beauty Planów", desc: "Jak budować skuteczną ścieżkę zabiegową z 90% retencją klientek." },
-        { title: "Psychokosmetologia i Komunikacja", desc: "Budowanie zaufania klienta w gabinecie Quiet Luxury bez nachalnej sprzedaży." }
-      ],
-      includes: [
-        "Gotowe szablony kart diagnostycznych i zaleceń pozabiegowych",
-        "Dostęp do zamkniętej grupy wymiany doświadczeń gabinetowych",
-        "Imienny certyfikat Eksperta Prowadzenia Skóry Slow Skin",
-        "Materiały do wdrożenia w gabinecie od pierwszego dnia"
-      ],
-      portalLink: "https://szkolenia.slowskinconcept.pl/diagnostyka-skory/"
     }
   ];
 
@@ -194,14 +145,14 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({ onLinkClick, onOpenB
       {/* Hero Header */}
       <div className="mt-8 mb-12 space-y-4 max-w-4xl">
         <span className="font-mono text-[11px] tracking-[0.25em] text-luxury-gold uppercase block font-semibold">
-          AKADEMIA DLA GABINETÓW Z CAŁEJ POLSKI • ROZWÓJ BIZNESOWY
+          AKADEMIA DLA GABINETÓW Z CAŁEJ POLSKI • PARTNERSTWO BIZNESOWE
         </span>
         <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-light tracking-tight text-luxury-dark leading-tight">
-          Szkolenia & Partnerstwo <span className="italic font-normal text-luxury-gold">Slow Skin Concept</span>
+          Akredytacja Gabinetu & Partnerstwo <span className="italic font-normal text-luxury-gold">Slow Skin Concept</span>
         </h1>
         <p className="text-sm sm:text-base text-luxury-dark/95 leading-relaxed font-light">
-          Wprowadź autorską metodologię biologicznej stymulacji skóry, neuro-modelingu i diagnostyki komórkowej do swojego gabinetu. 
-          Oferujemy certyfikowane szkolenia praktyczne, wyłączność terytorialną i stałe wsparcie merytoryczne dla profesjonalistów.
+          Wprowadź autorską metodologię biologicznej stymulacji skóry i terapii bionomicznej do swojego gabinetu. 
+          Oferujemy pełną akredytację gabinetu, wyłączność terytorialną, certyfikację personelu i stałe wsparcie merytoryczne dla profesjonalistów.
         </p>
       </div>
 
@@ -246,49 +197,12 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({ onLinkClick, onOpenB
         </div>
       </div>
 
-      {/* Program Filter Tabs */}
+      {/* Program Header */}
       <div className="flex flex-wrap items-center justify-between gap-4 mb-8 pb-4 border-b border-luxury-sand">
-        <div className="flex items-center gap-2 overflow-x-auto pb-1">
-          <button
-            onClick={() => setSelectedModuleTab("all")}
-            className={`px-4 py-2 text-xs font-mono tracking-wider uppercase transition-all whitespace-nowrap ${
-              selectedModuleTab === "all"
-                ? "bg-luxury-dark text-luxury-cream font-medium"
-                : "bg-white/80 border border-luxury-sand text-luxury-dark/95 hover:border-luxury-gold"
-            }`}
-          >
-            Wszystkie Programy ({trainingModules.length})
-          </button>
-          <button
-            onClick={() => setSelectedModuleTab("partner")}
-            className={`px-4 py-2 text-xs font-mono tracking-wider uppercase transition-all whitespace-nowrap ${
-              selectedModuleTab === "partner"
-                ? "bg-luxury-dark text-luxury-cream font-medium"
-                : "bg-white/80 border border-luxury-sand text-luxury-dark/95 hover:border-luxury-gold"
-            }`}
-          >
-            Akredytacja Gabinetu (Licencja)
-          </button>
-          <button
-            onClick={() => setSelectedModuleTab("neuromodeling")}
-            className={`px-4 py-2 text-xs font-mono tracking-wider uppercase transition-all whitespace-nowrap ${
-              selectedModuleTab === "neuromodeling"
-                ? "bg-luxury-dark text-luxury-cream font-medium"
-                : "bg-white/80 border border-luxury-sand text-luxury-dark/95 hover:border-luxury-gold"
-            }`}
-          >
-            Neuro-Modeling & Fale Nogiera
-          </button>
-          <button
-            onClick={() => setSelectedModuleTab("diagnostics")}
-            className={`px-4 py-2 text-xs font-mono tracking-wider uppercase transition-all whitespace-nowrap ${
-              selectedModuleTab === "diagnostics"
-                ? "bg-luxury-dark text-luxury-cream font-medium"
-                : "bg-white/80 border border-luxury-sand text-luxury-dark/95 hover:border-luxury-gold"
-            }`}
-          >
-            Diagnostyka & Terapia Bariery
-          </button>
+        <div className="flex items-center gap-2">
+          <span className="px-4 py-2 text-xs font-mono tracking-wider uppercase bg-luxury-dark text-luxury-cream font-medium">
+            Program Akredytacyjny (Licencja & Wyłączność)
+          </span>
         </div>
 
         <div className="text-[11px] font-mono text-luxury-dark/95 flex items-center gap-3">
@@ -298,88 +212,90 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({ onLinkClick, onOpenB
         </div>
       </div>
 
-      {/* Modules Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-        {filteredModules.map((item) => (
+      {/* Modules Grid - Single Focus on Akredytacja Gabinetu */}
+      <div className="max-w-4xl mx-auto mb-16">
+        {trainingModules.map((item) => (
           <div 
             key={item.id}
-            className="bg-white border border-luxury-sand/60 hover:border-luxury-gold/80 transition-all duration-300 flex flex-col justify-between shadow-sm hover:shadow-lg relative group"
+            className="bg-white border border-luxury-sand/80 hover:border-luxury-gold transition-all duration-300 flex flex-col justify-between shadow-md hover:shadow-xl relative group p-6 sm:p-10"
           >
             {/* Top Header */}
-            <div className="p-6 sm:p-8 space-y-6">
-              <div className="flex items-center justify-between">
-                <span className="bg-luxury-gold/15 text-luxury-gold border border-luxury-gold/40 text-[9px] font-mono tracking-widest uppercase px-2.5 py-1 font-semibold">
+            <div className="space-y-6">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <span className="bg-luxury-gold/15 text-luxury-gold border border-luxury-gold/40 text-[10px] font-mono tracking-widest uppercase px-3 py-1 font-semibold">
                   {item.badge}
                 </span>
-                <span className="text-[10px] font-mono text-luxury-dark/90 flex items-center gap-1">
-                  <Clock className="w-3 h-3 text-luxury-gold" /> {item.duration.split('(')[0]}
+                <span className="text-[11px] font-mono text-luxury-dark/90 flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 text-luxury-gold" /> {item.duration}
                 </span>
               </div>
 
               {/* Title & Subtitle */}
               <div className="space-y-2">
-                <h3 className="font-serif text-xl sm:text-2xl font-light text-luxury-dark group-hover:text-luxury-gold transition-colors leading-snug">
+                <h3 className="font-serif text-2xl sm:text-3xl font-light text-luxury-dark group-hover:text-luxury-gold transition-colors leading-snug">
                   {item.title}
                 </h3>
-                <p className="font-mono text-[10px] text-luxury-gold uppercase tracking-wider">
+                <p className="font-mono text-xs text-luxury-gold uppercase tracking-wider font-medium">
                   {item.subtitle}
                 </p>
-                <p className="text-xs text-luxury-dark/95 leading-relaxed font-light pt-1">
+                <p className="text-sm text-luxury-dark/95 leading-relaxed font-light pt-2">
                   {item.lead}
                 </p>
               </div>
 
               {/* Meta details */}
-              <div className="space-y-2 py-3 border-y border-luxury-sand/40 text-xs text-luxury-dark">
-                <div className="flex items-start gap-2">
-                  <Users className="w-3.5 h-3.5 text-luxury-gold shrink-0 mt-0.5" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 py-4 border-y border-luxury-sand/40 text-xs sm:text-sm text-luxury-dark">
+                <div className="flex items-start gap-2.5">
+                  <Users className="w-4 h-4 text-luxury-gold shrink-0 mt-0.5" />
                   <span><strong>Dla kogo:</strong> {item.targetAudience}</span>
                 </div>
-                <div className="flex items-start gap-2">
-                  <Compass className="w-3.5 h-3.5 text-luxury-gold shrink-0 mt-0.5" />
+                <div className="flex items-start gap-2.5">
+                  <Compass className="w-4 h-4 text-luxury-gold shrink-0 mt-0.5" />
                   <span><strong>Format:</strong> {item.mode}</span>
                 </div>
               </div>
 
               {/* Key Pillars */}
-              <div className="space-y-2">
-                <span className="font-mono text-[9px] tracking-widest uppercase text-luxury-gold font-semibold block">
-                  Filary Programowe:
+              <div className="space-y-3">
+                <span className="font-mono text-[10px] tracking-widest uppercase text-luxury-gold font-semibold block">
+                  Filary Programowe Akredytacji:
                 </span>
-                <ul className="space-y-2 text-xs text-luxury-dark font-light">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {item.pillars.map((pillar, pIdx) => (
-                    <li key={pIdx} className="bg-luxury-cream/40 p-2.5 border border-luxury-sand/30">
-                      <span className="font-medium text-luxury-dark block mb-0.5">{pillar.title}</span>
-                      <span className="text-[11px] text-luxury-dark/95">{pillar.desc}</span>
-                    </li>
+                    <div key={pIdx} className="bg-luxury-cream/40 p-3.5 border border-luxury-sand/30">
+                      <span className="font-medium text-luxury-dark block mb-1 text-xs">{pillar.title}</span>
+                      <span className="text-xs text-luxury-dark/95 font-light leading-relaxed">{pillar.desc}</span>
+                    </div>
                   ))}
-                </ul>
+                </div>
               </div>
 
               {/* Inclusions checklist */}
-              <div className="space-y-1.5 pt-2 border-t border-luxury-sand/30 text-[11px] text-luxury-dark/95">
-                <span className="font-mono text-[9px] tracking-widest uppercase text-luxury-dark/90 block mb-1">
-                  W pakiecie szkoleniowym:
+              <div className="space-y-2 pt-3 border-t border-luxury-sand/30 text-xs text-luxury-dark/95">
+                <span className="font-mono text-[10px] tracking-widest uppercase text-luxury-dark/90 block mb-2 font-semibold">
+                  Co wchodzi w skład Akredytacji Gabinetu:
                 </span>
-                {item.includes.map((inc, iIdx) => (
-                  <div key={iIdx} className="flex items-start gap-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-luxury-gold shrink-0 mt-0.5" />
-                    <span>{inc}</span>
-                  </div>
-                ))}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {item.includes.map((inc, iIdx) => (
+                    <div key={iIdx} className="flex items-start gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-luxury-gold shrink-0 mt-0.5" />
+                      <span>{inc}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 
             {/* Actions */}
-            <div className="p-6 sm:p-8 pt-0 space-y-2.5">
+            <div className="pt-8 mt-6 border-t border-luxury-sand/40 flex flex-col sm:flex-row gap-3">
               <a
                 href={item.portalLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full bg-luxury-dark hover:bg-luxury-gold hover:text-luxury-dark text-luxury-cream transition-all duration-300 py-3.5 text-center font-mono text-[10px] tracking-[0.15em] uppercase font-semibold flex items-center justify-center gap-2 shadow-sm"
+                className="flex-1 bg-luxury-dark hover:bg-luxury-gold hover:text-luxury-dark text-luxury-cream transition-all duration-300 py-3.5 text-center font-mono text-[11px] tracking-[0.15em] uppercase font-semibold flex items-center justify-center gap-2 shadow-sm"
               >
-                <span>Zobacz w Portalu Szkoleniowym</span>
-                <ExternalLink className="w-3.5 h-3.5" />
+                <span>Szczegóły w Portalu Szkoleniowym</span>
+                <ExternalLink className="w-4 h-4" />
               </a>
               <button
                 onClick={() => {
@@ -387,7 +303,7 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({ onLinkClick, onOpenB
                   const el = document.getElementById("training-application-form");
                   el?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="w-full bg-white border border-luxury-sand hover:border-luxury-gold text-luxury-dark text-[10px] font-mono tracking-[0.15em] uppercase py-2.5 transition-colors text-center"
+                className="flex-1 bg-white border border-luxury-sand hover:border-luxury-gold text-luxury-dark text-[11px] font-mono tracking-[0.15em] uppercase py-3.5 transition-colors text-center font-semibold"
               >
                 Zapytaj o Wolny Termin / Rejon
               </button>
@@ -599,9 +515,6 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({ onLinkClick, onOpenB
                     className="w-full bg-white border border-luxury-sand p-3 text-xs focus:outline-none focus:border-luxury-gold"
                   >
                     <option value="Akredytacja Gabinetu Partnerskiego Slow Skin Concept">Akredytacja Gabinetu Partnerskiego Slow Skin Concept (Licencja & Wyłączność)</option>
-                    <option value="Masterclass: Neuro-Modeling Twarzy, Fale Nogiera & Akupunktura">Masterclass: Neuro-Modeling Twarzy, Fale Nogiera & Akupunktura (2 dni)</option>
-                    <option value="Warsztat: Zaawansowana Diagnostyka Nati V3 & Terapia Bariery">Warsztat: Zaawansowana Diagnostyka Nati V3 & Terapia Bariery (1 dzień)</option>
-                    <option value="Dostęp do Portalu Szkoleniowego B2B (E-Learning)">Dostęp do Portalu Szkoleniowego B2B (E-Learning)</option>
                   </select>
                 </div>
                 <div className="space-y-1">

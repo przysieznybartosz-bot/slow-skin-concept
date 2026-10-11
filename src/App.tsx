@@ -2927,12 +2927,12 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                 {/* Column 1: Programy Edukacyjne */}
                 <div className="col-span-4 space-y-4">
                   <h4 className="font-mono text-[10px] tracking-widest text-luxury-gold uppercase font-semibold border-b border-luxury-sand pb-2 flex justify-between items-center">
-                    <span>Programy Edukacyjne & Licencje</span>
+                    <span>Program Akredytacyjny & Licencje</span>
                     <span className="text-[8px] font-mono text-luxury-gold/50 font-normal">01</span>
                   </h4>
                   <div className="space-y-3 pt-1">
                     <div 
-                      className="group cursor-pointer p-3 bg-white/70 hover:bg-white border border-luxury-sand/40 hover:border-luxury-gold transition-all"
+                      className="group cursor-pointer p-3.5 bg-white/70 hover:bg-white border border-luxury-sand/40 hover:border-luxury-gold transition-all"
                       onClick={() => {
                         setActiveTab("training");
                         setIsTrainingMenuOpen(false);
@@ -2940,42 +2940,10 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       }}
                     >
                       <p className="text-xs font-serif font-semibold text-luxury-dark group-hover:text-luxury-gold transition-colors">
-                        Akredytacja Gabinetu Partnerskiego
+                        Akredytacja Gabinetu Partnerskiego Slow Skin Concept
                       </p>
-                      <p className="text-[10px] text-luxury-dark/95 mt-0.5 font-mono leading-tight">
-                        Pełna licencja terytorialna, transfer know-how, procedury zabiegowe i opieka merytoryczna.
-                      </p>
-                    </div>
-
-                    <div 
-                      className="group cursor-pointer p-3 bg-white/70 hover:bg-white border border-luxury-sand/40 hover:border-luxury-gold transition-all"
-                      onClick={() => {
-                        setActiveTab("training");
-                        setIsTrainingMenuOpen(false);
-                        window.scrollTo({ top: 0, behavior: "smooth" });
-                      }}
-                    >
-                      <p className="text-xs font-serif font-semibold text-luxury-dark group-hover:text-luxury-gold transition-colors">
-                        Masterclass: Neuro-Modeling & Fale Nogiera
-                      </p>
-                      <p className="text-[10px] text-luxury-dark/95 mt-0.5 font-mono leading-tight">
-                        2-dniowe warsztaty praktyczne 1:1 z biologicznego liftingu manualnego i akupresury twarzy.
-                      </p>
-                    </div>
-
-                    <div 
-                      className="group cursor-pointer p-3 bg-white/70 hover:bg-white border border-luxury-sand/40 hover:border-luxury-gold transition-all"
-                      onClick={() => {
-                        setActiveTab("training");
-                        setIsTrainingMenuOpen(false);
-                        window.scrollTo({ top: 0, behavior: "smooth" });
-                      }}
-                    >
-                      <p className="text-xs font-serif font-semibold text-luxury-dark group-hover:text-luxury-gold transition-colors">
-                        Warsztat: Diagnostyka Nati V3 & Terapia Bariery
-                      </p>
-                      <p className="text-[10px] text-luxury-dark/95 mt-0.5 font-mono leading-tight">
-                        Prowadzenie trudnych dermatoz, trądziku różowatego i układanie Beauty Planów bionomicznych.
+                      <p className="text-[10px] text-luxury-dark/95 mt-1 font-mono leading-relaxed">
+                        Pełna licencja terytorialna (wyłączność w rejonie), transfer know-how, autorskie procedury bionomiczne i ciągła opieka merytoryczna.
                       </p>
                     </div>
                   </div>
@@ -3266,7 +3234,6 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     </button>
                     <div className="pl-4 py-2 mt-1 flex flex-col space-y-2 text-xs border-l border-luxury-sand/30">
                       <button onClick={() => { setActiveTab("training"); setIsMobileMenuOpen(false); }} className="text-left text-luxury-dark/95 hover:text-luxury-gold">Akredytacja Gabinetu (Licencja & Wyłączność)</button>
-                      <button onClick={() => { setActiveTab("training"); setIsMobileMenuOpen(false); }} className="text-left text-luxury-dark/95 hover:text-luxury-gold">Masterclass: Neuro-Modeling & Fale Nogiera</button>
                       <a href="https://szkolenia.slowskinconcept.pl" target="_blank" rel="noopener noreferrer" className="text-left text-luxury-gold font-mono text-[10px] uppercase font-semibold">Portal Szkoleniowy ↗</a>
                     </div>
                   </div>
