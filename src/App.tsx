@@ -80,6 +80,7 @@ import { ShopPage } from "./components/ShopPage";
 import { TrainingPage } from "./components/TrainingPage";
 import { NewsletterSection } from "./components/NewsletterSection";
 import { SkinSearchPopupModal } from "./components/SkinSearchPopupModal";
+import { AllArticlesModal } from "./components/AllArticlesModal";
 import { DiagnosticAnswers, DiagnosticReport, Treatment, MagazineArticle, Review } from "./types";
 import { safeStorage } from "./utils/storage";
 
@@ -589,6 +590,7 @@ export default function App() {
   const [treatmentSearchQuery, setTreatmentSearchQuery] = useState("");
   const [globalSearchQuery, setGlobalSearchQuery] = useState("");
   const [isSearchPopupOpen, setIsSearchPopupOpen] = useState(false);
+  const [isAllArticlesModalOpen, setIsAllArticlesModalOpen] = useState(false);
   const [userSelectedIndications, setUserSelectedIndications] = useState<Record<string, boolean>>({});
   const [userCheckedContraindications, setUserCheckedContraindications] = useState<Record<string, boolean>>({});
 
@@ -1592,7 +1594,29 @@ export default function App() {
       return;
     }
 
-    // Knowledge Articles Mappings
+    // General Knowledge Base & Articles Hub
+    if (
+      url === "/baza-wiedzy/" || 
+      url === "/magazyn/" || 
+      url === "/edukacja/" || 
+      url === "wszystkie-artykuly" || 
+      url === "magazyn"
+    ) {
+      setActiveTab("journal");
+      setSelectedArticle(null);
+      setSelectedCategory("ALL");
+      setJournalSearch("");
+      setSelectedTreatment(null);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
+    if (url === "wszystkie-artykuly-modal") {
+      setIsAllArticlesModalOpen(true);
+      return;
+    }
+
+    // Specific Legacy Article Mappings
     if (url === "/baza-wiedzy/jak-odbudowac-bariere-hydrolipidowa/") {
       setActiveTab("journal");
       const art = ARTICLES.find(item => item.id === "art-hydrolipid-barrier") || ARTICLES[2];
@@ -1622,6 +1646,21 @@ export default function App() {
       const t = TREATMENTS.find(item => item.id === "skin-readiness") || TREATMENTS[0];
       setSelectedTreatment(t);
       setSelectedArticle(null);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
+    // Dynamic Article URL Matcher (by id or slug)
+    const cleanArticleSlug = url.replace(/^\/+|\/+$/g, "").replace("baza-wiedzy/", "").replace("artykul/", "").replace("article:", "");
+    const foundArticle = ARTICLES.find(item => 
+      item.id === cleanArticleSlug || 
+      item.id.replace(/^art-/, "") === cleanArticleSlug.replace(/^art-/, "")
+    );
+    if (foundArticle) {
+      setActiveTab("journal");
+      setSelectedArticle(foundArticle);
+      setSelectedCategory("ALL");
+      setSelectedTreatment(null);
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
@@ -2381,60 +2420,111 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                 </div>
 
                 {/* Kolumna 4: Baza wiedzy & Diagnoza */}
-                <div className="col-span-3 space-y-4">
-                  <h4 className="font-mono text-[10px] tracking-widest text-luxury-gold uppercase font-semibold border-b border-luxury-sand pb-2 flex justify-between items-center">
-                    <span>Edukacja & Diagnoza</span>
-                    <span className="text-[8px] font-mono text-luxury-gold/50 font-normal">04</span>
-                  </h4>
-                  <ul className="space-y-2 text-xs">
-                    <li>
-                      <button 
-                        onClick={() => handleLinkClick("/baza-wiedzy/jak-odbudowac-bariere-hydrolipidowa/")}
-                        className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full font-serif italic text-xs leading-relaxed"
-                      >
-                        „Jak odbudować barierę hydrolipidową i chronić mikrobiom” →
-                      </button>
-                    </li>
-                    <li>
-                      <button 
-                        onClick={() => handleLinkClick("/baza-wiedzy/skora-wrazliwa-reaktywna/")}
-                        className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full font-serif italic text-xs leading-relaxed"
-                      >
-                        „Dlaczego skóra pragnie mądrej regeneracji bionomicznej” →
-                      </button>
-                    </li>
-                    <li>
-                      <button 
-                        onClick={() => handleLinkClick("/baza-wiedzy/neurolifting-dla-kogo/")}
-                        className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full font-serif italic text-xs leading-relaxed"
-                      >
-                        „Neurobiologia skóry: Jak stres i kortyzol niszczą kolagen” →
-                      </button>
-                    </li>
-                    <li>
-                      <button 
-                        onClick={() => handleLinkClick("/baza-wiedzy/jak-przygotowac-sie-do-wizyty/")}
-                        className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full font-serif italic text-xs leading-relaxed"
-                      >
-                        „Jak przygotować się do pierwszej wizyty konsultacyjnej” →
-                      </button>
-                    </li>
+                <div className="col-span-3 space-y-3.5">
+                  <div className="border-b border-luxury-sand pb-2 flex justify-between items-center">
+                    <h4 className="font-mono text-[10px] tracking-widest text-luxury-gold uppercase font-semibold flex items-center gap-1.5">
+                      <BookOpen className="w-3.5 h-3.5 text-luxury-gold" />
+                      <span>Edukacja & Diagnoza</span>
+                    </h4>
+                    <span className="text-[8px] font-mono text-luxury-gold/70 font-normal">04</span>
+                  </div>
 
-                    <li className="pt-2 border-t border-luxury-sand/30 space-y-2">
-                      <button 
-                        onClick={() => handleLinkClick("ai-analiza")}
-                        className="bg-luxury-dark text-luxury-cream hover:bg-luxury-gold hover:text-white transition-all text-[10px] tracking-[0.1em] font-mono uppercase px-4 py-2.5 w-full block text-center"
+                  {/* UNIFIED ACCESS HUB: Wszystkie artykuły z jednego miejsca */}
+                  <div className="p-3 bg-white/85 border border-luxury-gold/50 shadow-2xs space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-[8.5px] tracking-[0.18em] text-luxury-gold uppercase font-bold flex items-center gap-1">
+                        <Sparkles className="w-3 h-3 text-luxury-gold" /> Baza Wiedzy & Magazyn
+                      </span>
+                      <span className="font-mono text-[8px] bg-luxury-gold text-white px-1.5 py-0.5 font-bold uppercase tracking-wider rounded-2xs">
+                        {ARTICLES.length} Publikacji
+                      </span>
+                    </div>
+                    <p className="text-[11px] font-serif italic text-luxury-dark/95 leading-snug">
+                      Dostęp do wszystkich artykułów, analiz barierowych i badań z jednego miejsca.
+                    </p>
+                    <div className="grid grid-cols-2 gap-1.5 pt-0.5">
+                      <button
+                        onClick={() => {
+                          setIsMegaMenuOpen(false);
+                          setSelectedArticle(null);
+                          setSelectedCategory("ALL");
+                          setJournalSearch("");
+                          setActiveTab("journal");
+                          window.scrollTo({ top: 0, behavior: "smooth" });
+                        }}
+                        className="bg-luxury-dark text-white hover:bg-luxury-gold transition-colors text-[8.5px] font-mono uppercase tracking-wider py-1.5 px-2 text-center font-medium cursor-pointer"
+                        title="Otwórz pełny Magazyn Wiedzy"
                       >
-                        Skrajny Test Skóry AI
+                        Pełny Magazyn →
                       </button>
-                      <button 
-                        onClick={() => handleLinkClick("mapa-bariery")}
-                        className="bg-white border border-luxury-sand text-luxury-dark hover:bg-luxury-dark hover:text-white transition-all text-[10px] tracking-[0.1em] font-mono uppercase px-4 py-2.5 w-full block text-center font-medium"
+                      <button
+                        onClick={() => {
+                          setIsMegaMenuOpen(false);
+                          setIsAllArticlesModalOpen(true);
+                        }}
+                        className="bg-white border border-luxury-gold/60 text-luxury-dark hover:bg-luxury-gold hover:text-white transition-colors text-[8.5px] font-mono uppercase tracking-wider py-1.5 px-2 text-center font-medium cursor-pointer"
+                        title="Przeglądaj wszystkie artykuły w szybkim oknie dialogowym"
                       >
-                        Interaktywna Mapa Bariery
+                        Indeks A-Z 📑
                       </button>
-                    </li>
-                  </ul>
+                    </div>
+                  </div>
+
+                  {/* Lista wszystkich 8 publikacji klinicznych */}
+                  <div className="space-y-1.5">
+                    <div className="flex items-center justify-between text-[9px] font-mono text-luxury-gold/80 uppercase tracking-wider border-b border-luxury-sand/20 pb-0.5">
+                      <span>Wszystkie Artykuły (8)</span>
+                      <button
+                        onClick={() => {
+                          setIsMegaMenuOpen(false);
+                          setIsAllArticlesModalOpen(true);
+                        }}
+                        className="text-luxury-dark hover:text-luxury-gold transition-colors underline font-normal lowercase text-[8.5px]"
+                      >
+                        indeks popup ↗
+                      </button>
+                    </div>
+
+                    <div className="max-h-[175px] overflow-y-auto pr-1 space-y-1 scrollbar-thin">
+                      {ARTICLES.map((art) => (
+                        <button
+                          key={art.id}
+                          onClick={() => {
+                            setIsMegaMenuOpen(false);
+                            setSelectedArticle(art);
+                            setSelectedCategory("ALL");
+                            setActiveTab("journal");
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                          }}
+                          className="w-full text-left p-1.5 hover:bg-white/80 border border-transparent hover:border-luxury-sand/50 transition-all group block"
+                        >
+                          <div className="flex items-center justify-between text-[8px] font-mono text-luxury-gold tracking-wider">
+                            <span className="uppercase font-semibold truncate max-w-[150px]">{art.category}</span>
+                            <span className="text-luxury-dark/50 shrink-0">{art.readingTime.split(" ")[0]} min</span>
+                          </div>
+                          <p className="font-serif text-[11px] leading-snug text-luxury-dark group-hover:text-luxury-gold transition-colors line-clamp-1 mt-0.5">
+                            {art.title}
+                          </p>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Narzędzia Diagnostyczne */}
+                  <div className="pt-2 border-t border-luxury-sand/30 space-y-1.5">
+                    <button 
+                      onClick={() => handleLinkClick("ai-analiza")}
+                      className="bg-luxury-dark text-luxury-cream hover:bg-luxury-gold hover:text-white transition-all text-[9.5px] tracking-[0.1em] font-mono uppercase px-3 py-2 w-full block text-center"
+                    >
+                      Skrajny Test Skóry AI
+                    </button>
+                    <button 
+                      onClick={() => handleLinkClick("mapa-bariery")}
+                      className="bg-white border border-luxury-sand text-luxury-dark hover:bg-luxury-dark hover:text-white transition-all text-[9.5px] tracking-[0.1em] font-mono uppercase px-3 py-2 w-full block text-center font-medium"
+                    >
+                      Interaktywna Mapa Bariery
+                    </button>
+                  </div>
                 </div>
 
                 {/* Elegant Separator for row split */}
@@ -2526,6 +2616,22 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       <span className="text-[8px] font-mono text-luxury-gold/50 font-normal">06</span>
                     </h4>
                     <div className="space-y-1.5 text-xs">
+                      <button
+                        onClick={() => {
+                          setIsMegaMenuOpen(false);
+                          setSelectedArticle(null);
+                          setSelectedCategory("ALL");
+                          setJournalSearch("");
+                          setActiveTab("journal");
+                          window.scrollTo({ top: 0, behavior: "smooth" });
+                        }}
+                        className="flex items-center justify-between w-full p-2 border border-luxury-sand/20 bg-white/55 hover:border-luxury-gold/40 hover:text-luxury-gold hover:bg-white transition-all text-left shadow-sm"
+                      >
+                        <span className="flex items-center gap-2 font-medium text-[11px] font-mono uppercase tracking-wider">
+                          <BookOpen className="w-3.5 h-3.5 text-luxury-gold" /> Wszystkie Artykuły (8)
+                        </span>
+                        <span className="text-[8px] font-mono text-luxury-gold bg-luxury-sand/20 px-1 py-0.5">Magazyn 📖</span>
+                      </button>
                       <button
                         onClick={() => handleLinkClick("rezerwacja-online")}
                         className="flex items-center justify-between w-full p-2 border border-luxury-sand/20 bg-white/55 hover:border-luxury-gold/40 hover:text-luxury-gold hover:bg-white transition-all text-left shadow-sm"
@@ -3286,21 +3392,75 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     </div>
                   </div>
 
-                  {/* Menu "Wiedza" Accordion */}
+                  {/* Menu "Wiedza & Edukacja" Accordion */}
                   <div className="border-b border-luxury-sand/30 pb-2 pt-1">
                     <button 
                       onClick={() => setIsMobileWiedzaOpen(!isMobileWiedzaOpen)}
                       className="w-full text-left font-serif text-lg tracking-wider text-luxury-dark flex justify-between items-center"
                     >
-                      <span className={isMobileWiedzaOpen ? "text-luxury-gold font-medium" : ""}>Baza Wiedzy</span>
+                      <span className={isMobileWiedzaOpen ? "text-luxury-gold font-medium" : ""}>
+                        Edukacja & Baza Wiedzy ({ARTICLES.length})
+                      </span>
                       <ChevronRight className={`w-4 h-4 text-luxury-gold transition-transform duration-300 ${isMobileWiedzaOpen ? "rotate-90" : ""}`} />
                     </button>
                     {isMobileWiedzaOpen && (
-                      <div className="pl-4 py-2 mt-2 flex flex-col space-y-2.5 text-sm border-l border-luxury-sand/30">
-                        <button onClick={() => handleLinkClick("/baza-wiedzy/jak-odbudowac-bariere-hydrolipidowa/")} className="text-left text-luxury-dark/95 hover:text-luxury-gold">Jak odbudować barierę hydrolipidową</button>
-                        <button onClick={() => handleLinkClick("/baza-wiedzy/skora-wrazliwa-reaktywna/")} className="text-left text-luxury-dark/95 hover:text-luxury-gold">Skóra wrażliwa — od czego zacząć</button>
-                        <button onClick={() => handleLinkClick("/baza-wiedzy/neurolifting-dla-kogo/")} className="text-left text-luxury-dark/95 hover:text-luxury-gold">Neurolifting — dla kogo</button>
-                        <button onClick={() => handleLinkClick("/baza-wiedzy/jak-przygotowac-sie-do-wizyty/")} className="text-left text-luxury-dark/95 hover:text-luxury-gold">Jak przygotować się do pierwszej wizyty</button>
+                      <div className="pl-4 py-3 mt-2 flex flex-col space-y-3 text-xs border-l border-luxury-sand/30">
+                        {/* Unified Action Card */}
+                        <div className="p-2.5 bg-white border border-luxury-gold/40 space-y-1.5">
+                          <p className="text-[10px] font-mono text-luxury-gold font-semibold uppercase tracking-wider">
+                            Wszystkie publikacje z jednego miejsca
+                          </p>
+                          <div className="grid grid-cols-2 gap-1.5 pt-0.5">
+                            <button
+                              onClick={() => {
+                                setIsMobileMenuOpen(false);
+                                setSelectedArticle(null);
+                                setSelectedCategory("ALL");
+                                setJournalSearch("");
+                                setActiveTab("journal");
+                                window.scrollTo({ top: 0, behavior: "smooth" });
+                              }}
+                              className="bg-luxury-dark text-white hover:bg-luxury-gold transition-colors text-[9px] font-mono uppercase tracking-wider py-1.5 px-2 text-center font-medium"
+                            >
+                              Magazyn →
+                            </button>
+                            <button
+                              onClick={() => {
+                                setIsMobileMenuOpen(false);
+                                setIsAllArticlesModalOpen(true);
+                              }}
+                              className="bg-white border border-luxury-gold/50 text-luxury-dark hover:bg-luxury-gold hover:text-white transition-colors text-[9px] font-mono uppercase tracking-wider py-1.5 px-2 text-center font-medium"
+                            >
+                              Indeks 📑
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* List of all articles */}
+                        <div className="space-y-1">
+                          <p className="font-mono text-[9px] text-luxury-gold uppercase tracking-widest font-semibold">
+                            Artykuły Eksperckie (Katarzyna Brzezińska):
+                          </p>
+                          {ARTICLES.map((art) => (
+                            <button
+                              key={art.id}
+                              onClick={() => {
+                                setIsMobileMenuOpen(false);
+                                setSelectedArticle(art);
+                                setSelectedCategory("ALL");
+                                setActiveTab("journal");
+                                window.scrollTo({ top: 0, behavior: "smooth" });
+                              }}
+                              className="text-left text-luxury-dark hover:text-luxury-gold block w-full py-1 border-b border-luxury-sand/15 last:border-0"
+                            >
+                              <div className="flex items-center justify-between text-[8px] font-mono text-luxury-gold tracking-wider">
+                                <span className="uppercase font-semibold">{art.category}</span>
+                                <span className="text-luxury-dark/50">{art.readingTime}</span>
+                              </div>
+                              <span className="font-serif text-[11px] leading-tight block mt-0.5">{art.title}</span>
+                            </button>
+                          ))}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -14099,6 +14259,27 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
           setActiveTab("clinic");
           setSelectedTreatment(null);
           setIsSearchPopupOpen(false);
+        }}
+      />
+
+      {/* Centrum Publikacji & Wszystkie Artykuły z sekcji Edukacja i Diagnoza Modal */}
+      <AllArticlesModal
+        isOpen={isAllArticlesModalOpen}
+        onClose={() => setIsAllArticlesModalOpen(false)}
+        onSelectArticle={(article) => {
+          setSelectedArticle(article);
+          setSelectedCategory("ALL");
+          setActiveTab("journal");
+          setIsAllArticlesModalOpen(false);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+        onOpenFullJournal={(category) => {
+          setSelectedArticle(null);
+          setSelectedCategory(category || "ALL");
+          setJournalSearch("");
+          setActiveTab("journal");
+          setIsAllArticlesModalOpen(false);
+          window.scrollTo({ top: 0, behavior: "smooth" });
         }}
       />
 
