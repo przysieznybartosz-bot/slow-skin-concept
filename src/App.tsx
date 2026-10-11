@@ -79,6 +79,7 @@ import { BrandLogo } from "./components/BrandLogo";
 import { ShopPage } from "./components/ShopPage";
 import { TrainingPage } from "./components/TrainingPage";
 import { NewsletterSection } from "./components/NewsletterSection";
+import { SkinSearchPopupModal } from "./components/SkinSearchPopupModal";
 import { DiagnosticAnswers, DiagnosticReport, Treatment, MagazineArticle, Review } from "./types";
 import { safeStorage } from "./utils/storage";
 
@@ -587,6 +588,7 @@ export default function App() {
   const [selectedTreatmentCategory, setSelectedTreatmentCategory] = useState<"wszystkie" | "diagnostyka" | "lifting" | "regeneracja" | "oczyszczanie">("wszystkie");
   const [treatmentSearchQuery, setTreatmentSearchQuery] = useState("");
   const [globalSearchQuery, setGlobalSearchQuery] = useState("");
+  const [isSearchPopupOpen, setIsSearchPopupOpen] = useState(false);
   const [userSelectedIndications, setUserSelectedIndications] = useState<Record<string, boolean>>({});
   const [userCheckedContraindications, setUserCheckedContraindications] = useState<Record<string, boolean>>({});
 
@@ -3493,445 +3495,165 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                 Biologiczna terapia skóry, która zaczyna się od jej zrozumienia
               </motion.p>
 
-              {/* Global Glass Search Engine */}
-              {(() => {
-                const query = globalSearchQuery.toLowerCase().trim();
+              {/* Global Glass Search Engine on Hero */}
+              <motion.div 
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7, duration: 0.8 }}
+                className="w-full max-w-4xl relative mt-1 sm:mt-2 z-30"
+              >
+                <div className="relative rounded-none overflow-hidden backdrop-blur-md bg-white/95 hover:bg-white focus-within:bg-white border border-luxury-sand/80 focus-within:border-luxury-gold transition-all duration-300 shadow-[0_8px_30px_rgb(0,0,0,0.06)] p-3.5 sm:p-4 md:p-5">
+                  {/* Input row */}
+                  <div className="flex items-center gap-2.5 sm:gap-3.5">
+                    <Search 
+                      className="w-4 h-4 sm:w-5 sm:h-5 text-luxury-gold shrink-0 cursor-pointer" 
+                      strokeWidth={1.5} 
+                      onClick={() => { if (globalSearchQuery.trim()) setIsSearchPopupOpen(true); }}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Wyszukaj zabieg lub problem skóry (np. suchość, rumień, zmarszczki)..."
+                      value={globalSearchQuery}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setGlobalSearchQuery(val);
+                        if (val.trim()) {
+                          setIsSearchPopupOpen(true);
+                        }
+                      }}
+                      onFocus={() => {
+                        if (globalSearchQuery.trim()) {
+                          setIsSearchPopupOpen(true);
+                        }
+                      }}
+                      className="w-full bg-transparent border-none text-sm md:text-base text-luxury-dark placeholder:text-luxury-dark/70 font-serif focus:outline-none focus:ring-0 italic py-1 sm:py-1.5 font-normal"
+                    />
+                    {globalSearchQuery && (
+                      <button
+                        onClick={() => {
+                          setGlobalSearchQuery("");
+                          setIsSearchPopupOpen(false);
+                        }}
+                        className="text-luxury-dark/60 hover:text-luxury-gold transition-colors text-xs font-mono tracking-wider cursor-pointer focus:outline-none flex items-center gap-1 shrink-0 font-medium"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                        <span className="hidden sm:inline">Wyczyść</span>
+                      </button>
+                    )}
+                  </div>
 
-                // Polish stem & synonym expansion dictionary for skin concerns
-                const getQueryVariants = (rawQuery: string): string[] => {
-                  const q = rawQuery.toLowerCase().trim();
-                  if (!q) return [];
-                  const variants = new Set<string>([q]);
+                  {/* Szybki wybór tagów */}
+                  <div className="text-xs sm:text-[10px] text-luxury-dark font-mono tracking-normal sm:tracking-wider mt-2.5 uppercase select-none flex flex-wrap gap-2 items-center">
+                    <span className="text-luxury-dark font-bold">Szybki wybór:</span>
+                    <button 
+                      onClick={() => {
+                        setGlobalSearchQuery("suchość");
+                        setIsSearchPopupOpen(true);
+                      }} 
+                      className="text-[#7A571E] hover:text-luxury-dark font-semibold underline underline-offset-2 transition-colors cursor-pointer"
+                    >
+                      suchość
+                    </button>
+                    <span>&middot;</span>
+                    <button 
+                      onClick={() => {
+                        setGlobalSearchQuery("zmarszczki");
+                        setIsSearchPopupOpen(true);
+                      }} 
+                      className="text-[#7A571E] hover:text-luxury-dark font-semibold underline underline-offset-2 transition-colors cursor-pointer"
+                    >
+                      zmarszczki
+                    </button>
+                    <span>&middot;</span>
+                    <button 
+                      onClick={() => {
+                        setGlobalSearchQuery("trądzik");
+                        setIsSearchPopupOpen(true);
+                      }} 
+                      className="text-[#7A571E] hover:text-luxury-dark font-semibold underline underline-offset-2 transition-colors cursor-pointer"
+                    >
+                      trądzik
+                    </button>
+                    <span>&middot;</span>
+                    <button 
+                      onClick={() => {
+                        setGlobalSearchQuery("naczynka");
+                        setIsSearchPopupOpen(true);
+                      }} 
+                      className="text-[#7A571E] hover:text-luxury-dark font-semibold underline underline-offset-2 transition-colors cursor-pointer"
+                    >
+                      naczynka
+                    </button>
+                    <span>&middot;</span>
+                    <button 
+                      onClick={() => {
+                        setGlobalSearchQuery("wiotkość");
+                        setIsSearchPopupOpen(true);
+                      }} 
+                      className="text-[#7A571E] hover:text-luxury-dark font-semibold underline underline-offset-2 transition-colors cursor-pointer"
+                    >
+                      wiotkość
+                    </button>
+                    <span>&middot;</span>
+                    <button 
+                      onClick={() => {
+                        setGlobalSearchQuery("przebarwienia");
+                        setIsSearchPopupOpen(true);
+                      }} 
+                      className="text-[#7A571E] hover:text-luxury-dark font-semibold underline underline-offset-2 transition-colors cursor-pointer"
+                    >
+                      przebarwienia
+                    </button>
+                    <span>&middot;</span>
+                    <button 
+                      onClick={() => {
+                        setGlobalSearchQuery("rumień");
+                        setIsSearchPopupOpen(true);
+                      }} 
+                      className="text-[#7A571E] hover:text-luxury-dark font-semibold underline underline-offset-2 transition-colors cursor-pointer"
+                    >
+                      rumień
+                    </button>
+                  </div>
+                </div>
 
-                  if (q.includes("such") || q.includes("odwodn") || q.includes("bariera") || q.includes("tewl") || q.includes("ściągn") || q.includes("łuszcz")) {
-                    ["sucho", "sucha", "suchość", "suchości", "suche", "suchej", "odwodn", "odwodnienie", "odwodniona", "przesusz", "przesuszenie", "przesuszona", "ściągnięc", "szorstk", "łuszczen", "tewl", "bariera", "barierow", "płaszcz"].forEach(w => variants.add(w));
-                  }
-                  if (q.includes("zmarszcz") || q.includes("wiotk") || q.includes("owal") || q.includes("lifting") || q.includes("chomik") || q.includes("kolagen")) {
-                    ["zmarszcz", "zmarszczk", "wiotk", "wiotkości", "zwiotcz", "owal", "chomik", "jędrno", "gęsto", "lifting", "smas", "kolagen", "elastyn", "slow aging", "bruzdy"].forEach(w => variants.add(w));
-                  }
-                  if (q.includes("trądz") || q.includes("acne") || q.includes("zaskór") || q.includes("krost") || q.includes("wyprysk") || q.includes("sebum")) {
-                    ["trądz", "trądzik", "trądziku", "trądzikowa", "acne", "zaskór", "krost", "wyprysk", "sebum", "por", "łojotok", "zapalne", "grudk", "strefa u"].forEach(w => variants.add(w));
-                  }
-                  if (q.includes("naczyn") || q.includes("rumien") || q.includes("rumień") || q.includes("rosacea") || q.includes("różow") || q.includes("pającz") || q.includes("teleang")) {
-                    ["naczyn", "naczynek", "naczyniowa", "teleang", "pającz", "krucho", "rumień", "rumien", "rosacea", "różow", "czerwon", "zaczerwien", "gra naczyniow", "pieczen"].forEach(w => variants.add(w));
-                  }
-                  if (q.includes("przebarw") || q.includes("melasm") || q.includes("plam") || q.includes("pigment") || q.includes("koloryt")) {
-                    ["przebarw", "przebarwień", "melasm", "plam", "pigment", "pih", "koloryt", "posłonecz", "rozjaśn", "ostuda", "hiperpigmentacj"].forEach(w => variants.add(w));
-                  }
-                  if (q.includes("wiotk")) {
-                    ["wiotk", "wiotkości", "zwiotcz", "owal", "chomiki", "jędrność", "gęstość", "lifting", "smas"].forEach(w => variants.add(w));
-                  }
-
-                  // General Polish word trimming
-                  if (q.length >= 4) {
-                    variants.add(q.slice(0, -1));
-                    if (q.endsWith("ość")) variants.add(q.slice(0, -3));
-                  }
-
-                  return Array.from(variants);
-                };
-
-                const variants = query ? getQueryVariants(query) : [];
-
-                // Relevance scoring for rituals
-                const scoreTreatment = (t: typeof TREATMENTS[0]): number => {
-                  if (!query) return 0;
-                  let score = 0;
-                  const title = t.title.toLowerCase();
-                  const sub = t.subtitle.toLowerCase();
-                  const focus = (t.focus || "").toLowerCase();
-                  const ind = (t.indications || []).join(" ").toLowerCase();
-                  const desc = (t.description || "").toLowerCase();
-
-                  // Direct query match
-                  if (title.includes(query)) score += 60;
-                  if (sub.includes(query)) score += 40;
-                  if (focus.includes(query)) score += 30;
-                  if (ind.includes(query)) score += 25;
-                  if (desc.includes(query)) score += 10;
-
-                  // Concern-specific priority ranking
-                  if (query.includes("such") || query.includes("odwodn") || query.includes("bariera")) {
-                    if (t.id === "skin-readiness") score += 55;
-                    if (t.id === "amber-regeneration") score += 50;
-                    if (t.id === "healthy-glow-therapy") score += 45;
-                    if (t.id === "oksybrazja-infuzja-tlenowa" || t.id === "oxybrasion") score += 42;
-                    if (t.id === "epigenetic-aging") score += 40;
-                    if (t.id === "bespoke-ceremony") score += 38;
-                    if (t.id === "autumn-reset") score += 35;
-                  }
-
-                  for (const v of variants) {
-                    if (title.includes(v)) score += 20;
-                    if (sub.includes(v)) score += 14;
-                    if (focus.includes(v)) score += 10;
-                    if (ind.includes(v)) score += 8;
-                    if (desc.includes(v)) score += 3;
-                  }
-
-                  return score;
-                };
-
-                const matchedTreatments = query ? TREATMENTS
-                  .map(t => ({ treatment: t, score: scoreTreatment(t) }))
-                  .filter(item => item.score > 0)
-                  .sort((a, b) => b.score - a.score)
-                  .map(item => item.treatment)
-                  .slice(0, 8) : [];
-
-                const matchedProblems = query ? COMMON_PROBLEMS.filter((prob) => {
-                  const text = (prob.name + " " + prob.description + " " + prob.keywords.join(" ")).toLowerCase();
-                  return variants.some(v => text.includes(v));
-                }).slice(0, 3) : [];
-
-                // Smart article search matching + Guaranteed editorial richness (no empty spaces)
-                const matchedArticles = query ? (() => {
-                  const directMatches = ARTICLES.filter((art) => {
-                    const artText = (
-                      art.title + " " +
-                      art.category + " " +
-                      art.lead + " " +
-                      art.quote + " " +
-                      (art.content ? art.content.join(" ") : "") + " " +
-                      (art.sections ? art.sections.map(s => s.heading + " " + s.paragraphs.join(" ")).join(" ") : "")
-                    ).toLowerCase();
-
-                    return variants.some(v => artText.includes(v));
-                  });
-
-                  // If direct matches are fewer than 2, fill up with top recommended foundational articles
-                  if (directMatches.length < 2) {
-                    const fallbackArticles = ARTICLES.filter(a => !directMatches.some(m => m.id === a.id));
-                    return [...directMatches, ...fallbackArticles].slice(0, 3);
-                  }
-                  return directMatches.slice(0, 4);
-                })() : [];
-
-                return (
-                  <motion.div 
-                    initial={{ opacity: 0, y: 15 }}
+                {/* Minimized Dock Bar on Hero */}
+                {globalSearchQuery.trim() && !isSearchPopupOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.7, duration: 0.8 }}
-                    className="w-full max-w-4xl relative mt-1 sm:mt-2 z-30"
+                    className="mt-2.5 p-3 sm:p-3.5 bg-white/95 border border-luxury-sand text-luxury-dark shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 backdrop-blur-md"
                   >
-                    <div className="relative rounded-none overflow-hidden backdrop-blur-md bg-white/95 hover:bg-white focus-within:bg-white border border-luxury-sand/80 focus-within:border-luxury-gold transition-all duration-300 shadow-[0_8px_30px_rgb(0,0,0,0.06)] p-3.5 sm:p-4 md:p-5">
-                      {/* Input row */}
-                      <div className="flex items-center gap-2.5 sm:gap-3.5">
-                        <Search className="w-4 h-4 sm:w-5 sm:h-5 text-luxury-gold shrink-0" strokeWidth={1.5} />
-                        <input
-                          type="text"
-                          placeholder="Wyszukaj zabieg lub problem skóry (np. suchość, rumień, zmarszczki)..."
-                          value={globalSearchQuery}
-                          onChange={(e) => setGlobalSearchQuery(e.target.value)}
-                          className="w-full bg-transparent border-none text-sm md:text-base text-luxury-dark placeholder:text-luxury-dark/70 font-serif focus:outline-none focus:ring-0 italic py-1 sm:py-1.5 font-normal"
-                        />
-                        {globalSearchQuery && (
-                          <button
-                            onClick={() => setGlobalSearchQuery("")}
-                            className="text-luxury-dark/60 hover:text-luxury-gold transition-colors text-xs font-mono tracking-wider cursor-pointer focus:outline-none flex items-center gap-1 shrink-0 font-medium"
-                          >
-                            <X className="w-3.5 h-3.5" />
-                            <span className="hidden sm:inline">Wyczyść</span>
-                          </button>
-                        )}
-                      </div>
-
-                      {/* Small elegant description below input */}
-                      <div className="text-xs sm:text-[10px] text-luxury-dark font-mono tracking-normal sm:tracking-wider mt-2.5 uppercase select-none flex flex-wrap gap-2 items-center">
-                        <span className="text-luxury-dark font-bold">Szybki wybór:</span>
-                        <button onClick={() => setGlobalSearchQuery("suchość")} className="text-[#7A571E] hover:text-luxury-dark font-semibold underline underline-offset-2 transition-colors cursor-pointer">suchość</button>
-                        <span>&middot;</span>
-                        <button onClick={() => setGlobalSearchQuery("zmarszczki")} className="text-[#7A571E] hover:text-luxury-dark font-semibold underline underline-offset-2 transition-colors cursor-pointer">zmarszczki</button>
-                        <span>&middot;</span>
-                        <button onClick={() => setGlobalSearchQuery("trądzik")} className="text-[#7A571E] hover:text-luxury-dark font-semibold underline underline-offset-2 transition-colors cursor-pointer">trądzik</button>
-                        <span>&middot;</span>
-                        <button onClick={() => setGlobalSearchQuery("naczynka")} className="text-[#7A571E] hover:text-luxury-dark font-semibold underline underline-offset-2 transition-colors cursor-pointer">naczynka</button>
-                        <span>&middot;</span>
-                        <button onClick={() => setGlobalSearchQuery("wiotkość")} className="text-[#7A571E] hover:text-luxury-dark font-semibold underline underline-offset-2 transition-colors cursor-pointer">wiotkość</button>
-                        <span>&middot;</span>
-                        <button onClick={() => setGlobalSearchQuery("przebarwienia")} className="text-[#7A571E] hover:text-luxury-dark font-semibold underline underline-offset-2 transition-colors cursor-pointer">przebarwienia</button>
-                        <span>&middot;</span>
-                        <button onClick={() => setGlobalSearchQuery("rumień")} className="text-[#7A571E] hover:text-luxury-dark font-semibold underline underline-offset-2 transition-colors cursor-pointer">rumień</button>
-                      </div>
+                    <div className="flex items-center gap-2 flex-wrap text-xs font-mono uppercase tracking-wider">
+                      <span className="text-luxury-dark/60 font-sans normal-case italic text-xs">Wyniki dla:</span>
+                      <span className="font-serif italic font-bold text-luxury-dark text-sm normal-case tracking-normal">„{globalSearchQuery}”</span>
+                      <span className="text-luxury-sand">&bull;</span>
+                      <span className="text-[10px] bg-luxury-gold/15 text-luxury-gold px-2 py-0.5 font-bold">
+                        Aktywne rekomendacje
+                      </span>
                     </div>
-
-                    {/* Real-time floating search results overlay */}
-                    <AnimatePresence>
-                      {globalSearchQuery.trim() && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 10 }}
-                          transition={{ duration: 0.2 }}
-                          className="absolute top-full left-0 w-full mt-2.5 bg-[#FAF9F5]/98 backdrop-blur-2xl border border-luxury-sand/90 shadow-[0_25px_60px_rgba(0,0,0,0.22)] z-50 text-left overflow-hidden max-h-[85vh] md:max-h-[640px] flex flex-col rounded-none"
-                          id="hero-search-results"
-                        >
-                          {/* Search Header Bar with summary & counter */}
-                          <div className="px-4 sm:px-6 py-3 border-b border-luxury-sand/60 bg-white/85 flex items-center justify-between text-xs font-mono uppercase tracking-wider shrink-0">
-                            <div className="flex items-center gap-2 flex-wrap">
-                              <span className="text-luxury-dark/60">Dopasowanie dla:</span>
-                              <span className="font-bold text-luxury-dark font-serif italic text-sm normal-case tracking-normal">„{globalSearchQuery}”</span>
-                              <span className="hidden sm:inline text-luxury-sand">&bull;</span>
-                              <span className="text-[10px] bg-luxury-gold/15 text-luxury-gold px-2 py-0.5 font-bold">
-                                {matchedTreatments.length} {matchedTreatments.length === 1 ? "Rytuał" : matchedTreatments.length < 5 ? "Rytuały" : "Rytuałów"}
-                              </span>
-                              <span className="text-[10px] bg-luxury-dark/10 text-luxury-dark px-2 py-0.5">
-                                {matchedArticles.length} {matchedArticles.length === 1 ? "Publikacja" : matchedArticles.length < 5 ? "Publikacje" : "Publikacji"}
-                              </span>
-                            </div>
-                            <button
-                              onClick={() => setGlobalSearchQuery("")}
-                              className="text-luxury-dark/60 hover:text-luxury-gold flex items-center gap-1 cursor-pointer transition-colors text-[11px] font-semibold"
-                            >
-                              <X className="w-3.5 h-3.5" />
-                              <span>Zamknij</span>
-                            </button>
-                          </div>
-
-                          {/* 3 Columns Layout with high visibility & rich card presentation */}
-                          <div className="p-4 sm:p-5 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 overflow-y-auto flex-1 divide-y lg:divide-y-0 lg:divide-x divide-luxury-sand/40">
-                            
-                            {/* Column 1: Recognized Clinical Skin Problems */}
-                            <div className="lg:col-span-3 order-2 lg:order-1 pr-0 lg:pr-2 space-y-3.5">
-                              <div className="font-mono text-[10px] tracking-widest text-luxury-gold uppercase font-bold border-b border-luxury-sand/80 pb-2 flex items-center justify-between">
-                                <div className="flex items-center gap-1.5">
-                                  <Activity className="w-3.5 h-3.5 text-luxury-gold" />
-                                  <span>Rozpoznane Problemy</span>
-                                </div>
-                                <span className="text-[9px] text-luxury-dark/60 font-sans normal-case">Diagnoza</span>
-                              </div>
-                              {matchedProblems.length > 0 ? (
-                                <div className="space-y-2.5">
-                                  {matchedProblems.map((prob, idx) => (
-                                    <div 
-                                      key={idx}
-                                      onClick={() => {
-                                        const treatment = TREATMENTS.find(t => t.id === prob.treatmentId);
-                                        if (treatment) {
-                                          setSelectedTreatment(treatment);
-                                          setActiveTab("clinic");
-                                          setGlobalSearchQuery("");
-                                        }
-                                      }}
-                                      className="group cursor-pointer p-3 bg-white hover:bg-white/90 border border-luxury-sand/70 hover:border-luxury-gold transition-all duration-200 shadow-2xs hover:shadow-sm"
-                                    >
-                                      <p className="text-xs font-serif font-bold text-luxury-dark group-hover:text-luxury-gold transition-colors flex items-center justify-between">
-                                        <span>{prob.name}</span>
-                                        <ArrowRight className="w-3.5 h-3.5 text-luxury-gold opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
-                                      </p>
-                                      <p className="text-[10px] text-luxury-dark/75 mt-1.5 leading-relaxed font-sans">{prob.description}</p>
-                                      <div className="text-[9px] font-mono text-luxury-gold uppercase tracking-widest mt-2 font-bold flex items-center gap-1">
-                                        <span>Rekomendacja &rarr;</span>
-                                      </div>
-                                    </div>
-                                  ))}
-                                </div>
-                              ) : (
-                                <div className="p-4 bg-white/60 border border-luxury-sand/40 text-center">
-                                  <p className="text-xs italic text-luxury-dark/60 font-serif">Skorzystaj z pełnej analizy skóry.</p>
-                                  <button
-                                    onClick={() => {
-                                      setActiveTab("diagnose");
-                                      setDiagnosticStep(0);
-                                      setGlobalSearchQuery("");
-                                    }}
-                                    className="mt-2 text-[10px] font-mono uppercase tracking-wider text-luxury-gold font-bold hover:underline"
-                                  >
-                                    Rozpocznij test online &rarr;
-                                  </button>
-                                </div>
-                              )}
-                            </div>
-
-                            {/* Column 2: MATCHED RITUALS (The Star Exposition - All Available Rituals) */}
-                            <div className="lg:col-span-5 order-1 lg:order-2 px-0 lg:px-4 space-y-3.5">
-                              <div className="font-mono text-[10px] tracking-widest text-luxury-gold uppercase font-bold border-b border-luxury-sand/80 pb-2 flex items-center justify-between">
-                                <div className="flex items-center gap-1.5">
-                                  <Sparkles className="w-3.5 h-3.5 text-luxury-gold" />
-                                  <span>Dopasowane Rytuały ({matchedTreatments.length})</span>
-                                </div>
-                                <span className="text-[9px] text-luxury-gold font-semibold uppercase tracking-wider">Pełna oferta</span>
-                              </div>
-
-                              {matchedTreatments.length > 0 ? (
-                                <div className="space-y-3 max-h-[440px] overflow-y-auto pr-1.5 scrollbar-thin scrollbar-thumb-luxury-gold/50 scrollbar-track-luxury-sand/20">
-                                  {matchedTreatments.map((treatment) => (
-                                    <div
-                                      key={treatment.id}
-                                      onClick={() => {
-                                        setSelectedTreatment(treatment);
-                                        setActiveTab("clinic");
-                                        setGlobalSearchQuery("");
-                                      }}
-                                      className="group cursor-pointer p-3 bg-white hover:bg-[#FAF8F5] border border-luxury-sand/70 hover:border-luxury-gold transition-all duration-200 shadow-xs hover:shadow-md flex items-start gap-3.5"
-                                    >
-                                      {/* Treatment Image Thumbnail */}
-                                      <div className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 bg-luxury-cream border border-luxury-sand/50 overflow-hidden relative">
-                                        <img 
-                                          src={treatment.image} 
-                                          alt={treatment.title} 
-                                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-                                          onError={(e) => {
-                                            // Fallback to elegant placeholder if image fails
-                                            (e.target as HTMLElement).style.display = "none";
-                                          }}
-                                        />
-                                      </div>
-
-                                      {/* Treatment Content Details */}
-                                      <div className="flex-1 min-w-0">
-                                        <div className="flex items-start justify-between gap-2">
-                                          <p className="text-xs sm:text-sm font-serif font-bold text-luxury-dark group-hover:text-luxury-gold transition-colors line-clamp-1">
-                                            {treatment.title}
-                                          </p>
-                                          <ArrowRight className="w-3.5 h-3.5 text-luxury-gold shrink-0 opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                                        </div>
-
-                                        <p className="text-[9px] sm:text-[10px] text-luxury-gold uppercase font-mono tracking-wider line-clamp-1 mt-0.5 font-medium">
-                                          {treatment.subtitle}
-                                        </p>
-
-                                        {/* Duration & Price pills */}
-                                        <div className="flex items-center gap-2 mt-1 flex-wrap">
-                                          <span className="text-[9px] font-mono bg-luxury-sand/25 px-1.5 py-0.5 text-luxury-dark/80">
-                                            {treatment.duration}
-                                          </span>
-                                          <span className="text-[9px] font-mono bg-luxury-gold/15 text-luxury-gold px-1.5 py-0.5 font-semibold">
-                                            {treatment.price}
-                                          </span>
-                                        </div>
-
-                                        <p className="text-[10px] text-luxury-dark/75 line-clamp-2 mt-1 leading-relaxed font-sans">
-                                          {treatment.description}
-                                        </p>
-
-                                        <div className="mt-2 text-[9px] font-mono text-luxury-gold uppercase tracking-wider font-bold group-hover:underline flex items-center gap-1">
-                                          <span>Zobacz rytuał & Umów wizytę</span>
-                                          <span>&rarr;</span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  ))}
-                                </div>
-                              ) : (
-                                <div className="p-6 bg-white/70 border border-luxury-sand/50 text-center space-y-2">
-                                  <p className="text-xs italic text-luxury-dark/60 font-serif">Brak bezpośrednich dopasowań rytuałów.</p>
-                                  <button
-                                    onClick={() => {
-                                      setActiveTab("clinic");
-                                      setGlobalSearchQuery("");
-                                    }}
-                                    className="px-3 py-1.5 bg-luxury-gold text-white text-[10px] font-mono uppercase tracking-widest font-bold"
-                                  >
-                                    Zobacz pełne menu rytuałów
-                                  </button>
-                                </div>
-                              )}
-                            </div>
-
-                            {/* Column 3: Knowledge & Magazine (Completely Populated - No Empty Spots) */}
-                            <div className="lg:col-span-4 order-3 pl-0 lg:pl-4 space-y-3.5">
-                              <div className="font-mono text-[10px] tracking-widest text-luxury-gold uppercase font-bold border-b border-luxury-sand/80 pb-2 flex items-center justify-between">
-                                <div className="flex items-center gap-1.5">
-                                  <BookOpen className="w-3.5 h-3.5 text-luxury-gold" />
-                                  <span>Wiedza & Magazyn ({matchedArticles.length})</span>
-                                </div>
-                                <span className="text-[9px] text-luxury-dark/60 font-sans normal-case">Publikacje</span>
-                              </div>
-
-                              {matchedArticles.length > 0 ? (
-                                <div className="space-y-3 max-h-[440px] overflow-y-auto pr-1.5 scrollbar-thin scrollbar-thumb-luxury-gold/50 scrollbar-track-luxury-sand/20">
-                                  {matchedArticles.map((art) => (
-                                    <div
-                                      key={art.id}
-                                      onClick={() => {
-                                        setSelectedArticle(art);
-                                        setSelectedCategory("ALL");
-                                        setActiveTab("journal");
-                                        setGlobalSearchQuery("");
-                                      }}
-                                      className="group cursor-pointer p-3 bg-white hover:bg-[#FAF8F5] border border-luxury-sand/70 hover:border-luxury-gold transition-all duration-200 shadow-xs hover:shadow-md flex items-start gap-3"
-                                    >
-                                      {/* Article thumbnail if available */}
-                                      {art.image && (
-                                        <div className="w-14 h-14 shrink-0 bg-luxury-cream border border-luxury-sand/50 overflow-hidden relative">
-                                          <img 
-                                            src={art.image} 
-                                            alt={art.title} 
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-                                          />
-                                        </div>
-                                      )}
-
-                                      <div className="flex-1 min-w-0">
-                                        <div className="flex items-center justify-between gap-1">
-                                          <span className="text-[9px] font-mono text-luxury-gold uppercase tracking-widest font-semibold">
-                                            {art.category}
-                                          </span>
-                                          <span className="text-[9px] font-mono text-luxury-dark/50">
-                                            {art.readingTime}
-                                          </span>
-                                        </div>
-
-                                        <p className="text-xs font-serif italic text-luxury-dark group-hover:text-luxury-gold transition-colors line-clamp-2 leading-relaxed mt-0.5 font-medium">
-                                          „{art.title}”
-                                        </p>
-
-                                        <p className="text-[10px] text-luxury-dark/70 line-clamp-2 mt-1 leading-relaxed font-sans">
-                                          {art.lead}
-                                        </p>
-
-                                        <div className="mt-1.5 text-[9px] font-mono text-luxury-gold uppercase tracking-wider font-bold flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-                                          <span>Czytaj publikację</span>
-                                          <span>&rarr;</span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  ))}
-                                </div>
-                              ) : (
-                                <div className="p-4 bg-white/70 border border-luxury-sand/50 text-center">
-                                  <p className="text-xs italic text-luxury-dark/60 font-serif">Odkryj wszystkie artykuły w Magazynie.</p>
-                                </div>
-                              )}
-                            </div>
-
-                          </div>
-
-                          {/* Footer of Search Result overlay */}
-                          <div className="bg-[#FAF8F5] border-t border-luxury-sand/60 px-4 sm:px-6 py-3 text-center flex flex-col sm:flex-row justify-between items-center gap-2 text-[10px] font-mono uppercase tracking-wider text-luxury-dark/70 shrink-0">
-                            <span className="flex items-center gap-1.5">
-                              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                              Wszystkie procedury realizowane są w autorskim standardzie bionomicznym
-                            </span>
-                            <div className="flex items-center gap-3">
-                              <button
-                                onClick={() => {
-                                  setActiveTab("clinic");
-                                  setGlobalSearchQuery("");
-                                }}
-                                className="text-luxury-dark hover:text-luxury-gold underline underline-offset-2 transition-colors cursor-pointer font-semibold"
-                              >
-                                Pełne menu rytuałów &rarr;
-                              </button>
-                              <button 
-                                onClick={() => {
-                                  setActiveTab("diagnose");
-                                  setDiagnosticStep(0);
-                                  setGlobalSearchQuery("");
-                                }}
-                                className="px-3 py-1 bg-luxury-gold text-white hover:bg-luxury-dark transition-colors cursor-pointer font-bold tracking-widest shadow-xs"
-                              >
-                                Uruchom Konsultację AI &rarr;
-                              </button>
-                            </div>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                    <div className="flex items-center gap-2 shrink-0 w-full sm:w-auto justify-end">
+                      <button
+                        onClick={() => setIsSearchPopupOpen(true)}
+                        className="px-3.5 py-1.5 bg-luxury-gold hover:bg-luxury-dark text-white text-[10px] font-mono uppercase tracking-wider font-bold transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer"
+                      >
+                        <Maximize2 className="w-3.5 h-3.5" />
+                        <span>Rozwiń pełny panel (Popup)</span>
+                      </button>
+                      <button
+                        onClick={() => {
+                          setGlobalSearchQuery("");
+                          setIsSearchPopupOpen(false);
+                        }}
+                        className="text-luxury-dark/60 hover:text-luxury-gold p-1 cursor-pointer transition-colors"
+                        title="Wyczyść zapytanie"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
                   </motion.div>
-                );
-              })()}
+                )}
+              </motion.div>
 
               {/* Action Triggers */}
               <motion.div 
@@ -14340,6 +14062,43 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
         onClose={() => setIsCookiesPolicyOpen(false)} 
         onOpenSettings={() => {
           window.dispatchEvent(new CustomEvent("openCookieSettings"));
+        }}
+      />
+
+      {/* Global Skin Recommendation & Diagnostic Search Popup Modal */}
+      <SkinSearchPopupModal
+        isOpen={isSearchPopupOpen && !!globalSearchQuery.trim()}
+        onClose={() => {
+          setIsSearchPopupOpen(false);
+          setGlobalSearchQuery("");
+        }}
+        onMinimize={() => {
+          setIsSearchPopupOpen(false);
+        }}
+        searchQuery={globalSearchQuery}
+        onSearchQueryChange={(q) => {
+          setGlobalSearchQuery(q);
+        }}
+        onSelectTreatment={(treatment) => {
+          setSelectedTreatment(treatment);
+          setActiveTab("clinic");
+          setIsSearchPopupOpen(false);
+        }}
+        onSelectArticle={(article) => {
+          setSelectedArticle(article);
+          setSelectedCategory("ALL");
+          setActiveTab("journal");
+          setIsSearchPopupOpen(false);
+        }}
+        onStartDiagnostics={() => {
+          setActiveTab("diagnose");
+          setDiagnosticStep(0);
+          setIsSearchPopupOpen(false);
+        }}
+        onViewAllTreatments={() => {
+          setActiveTab("clinic");
+          setSelectedTreatment(null);
+          setIsSearchPopupOpen(false);
         }}
       />
 
