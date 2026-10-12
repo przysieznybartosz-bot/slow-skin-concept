@@ -8,7 +8,7 @@ import { TREATMENTS, ARTICLES } from "../data";
 import { Treatment, MagazineArticle } from "../types";
 
 export interface RouteState {
-  tab: "cover" | "journal" | "method" | "clinic" | "diagnose" | "account" | "shop" | "training";
+  tab: "cover" | "journal" | "method" | "clinic" | "diagnose" | "account" | "shop" | "training" | "admin";
   treatmentSlug?: string | null;
   articleSlug?: string | null;
   diagnoseSubTab?: "analyzer" | "barrierMap" | "plan";
@@ -27,6 +27,19 @@ export function parseCurrentRoute(): RouteState {
   const path = window.location.pathname.toLowerCase().replace(/\/+$/, "") || "/";
   const searchParams = new URLSearchParams(window.location.search);
   const bookingParam = searchParams.get("rezerwacja") || searchParams.get("booking");
+
+  // 0. Dedicated Isolated Administrator / Staff Panel (Hidden from public navigation)
+  if (
+    path === "/admin" ||
+    path === "/panel-administratora" ||
+    path === "/panel-gabinetu" ||
+    path === "/gabinet-admin" ||
+    searchParams.get("admin") === "true" ||
+    searchParams.get("panel") === "gabinet" ||
+    (typeof window !== "undefined" && (window.location.hash.toLowerCase() === "#admin" || window.location.hash.toLowerCase() === "#panel-gabinetu"))
+  ) {
+    return { tab: "admin" };
+  }
 
   // 1. Root / Cover
   if (path === "/" || path === "/okladka" || path === "/home") {
@@ -257,6 +270,9 @@ export function getPathForRoute(state: RouteState): string {
   if (state.tab === "account") {
     return "/konto";
   }
+  if (state.tab === "admin") {
+    return "/admin";
+  }
   return "/";
 }
 
@@ -304,6 +320,15 @@ export function updateSeoTags(
   let ogImage = "https://slow-skin-concept.pl/hero-main.png";
   const canonicalUrl = `https://slow-skin-concept.pl${getPathForRoute(state)}`;
 
+  // Set robots meta tag - ensure admin is NEVER indexed
+  let robotsMeta = document.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
+  if (!robotsMeta) {
+    robotsMeta = document.createElement("meta");
+    robotsMeta.name = "robots";
+    document.head.appendChild(robotsMeta);
+  }
+  robotsMeta.content = state.tab === "admin" ? "noindex, nofollow, noarchive" : "index, follow, max-image-preview:large";
+
   // Find details if treatment or article
   if (state.treatmentSlug) {
     const t = TREATMENTS.find((item) => item.id === state.treatmentSlug);
@@ -325,6 +350,10 @@ export function updateSeoTags(
     }
   } else {
     switch (state.tab) {
+      case "admin":
+        pageTitle = "Panel Administracyjny Gabinetu | Slow Skin Concept";
+        pageDesc = "System zarządzania kartoteką gabinetową Slow Skin Concept.";
+        break;
       case "clinic":
         pageTitle = "Katalog Zabiegów i Terapii Bionomicznych | Slow Skin Concept Jelcz-Laskowice";
         pageDesc = "Kompleksowe menu zabiegowe: Acne Balance, Meso Remodeling, Terapia PST, Ceragem, Neurolifting, Sonaris Pro, Karboksyterapia i Peelingi Węglowe.";
