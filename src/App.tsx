@@ -664,6 +664,63 @@ export default function App() {
   const [userSelectedIndications, setUserSelectedIndications] = useState<Record<string, boolean>>({});
   const [userCheckedContraindications, setUserCheckedContraindications] = useState<Record<string, boolean>>({});
 
+  // Demo account constant (for testing sample filled card)
+  const DEMO_ACCOUNT_EMAIL = "klientka@slow-skin-concept.pl";
+  const DEMO_DEFAULT_VISITS = [
+    { 
+      id: "v1", 
+      date: "2026-03-14", 
+      treatmentTitle: "Slow Skin Concept — Pierwsza Wizyta", 
+      treatmentPrice: "600 PLN", 
+      duration: "120 minut", 
+      therapist: "mgr Katarzyna Brzezińska", 
+      status: "Zrealizowano",
+      cabinetNotes: "Kompleksowa diagnoza bionomiczna, infuzja ektoiny 3%, fala biopolarna RF. Skóra zresetowana neurologicznie.",
+      cosmeticsUsed: "Fizjologiczna emulsja bionomiczna pH 5.5, esencja ektoiny, biomimetyczny krem lipidowy"
+    },
+    { 
+      id: "v2", 
+      date: "2026-04-18", 
+      treatmentTitle: "Regeneracja Kwasem Bursztynowym", 
+      treatmentPrice: "350 PLN", 
+      duration: "75 minut", 
+      therapist: "mgr Katarzyna Brzezińska", 
+      status: "Zrealizowano",
+      cabinetNotes: "Stymulacja mitochondrialna bursztynianem sodu. Widoczna redukcja rumienia reaktywnego.",
+      cosmeticsUsed: "Kwas bursztynowy 2%, kwas hialuronowy niskocząsteczkowy, maska biocelulozowa"
+    },
+    { 
+      id: "v3", 
+      date: "2026-05-15", 
+      treatmentTitle: "Slow Neuro-Modeling (Lifting Manualny)", 
+      treatmentPrice: "280 PLN", 
+      duration: "60 minut", 
+      therapist: "mgr Katarzyna Brzezińska", 
+      status: "Zrealizowano",
+      cabinetNotes: "Uwolnienie napięć powięziowych mięśni żwaczy i karku. Drenaż limfatyczny twarzy.",
+      cosmeticsUsed: "Olej z ogórecznika, ceramidy NP, kompres lawendowy"
+    }
+  ];
+
+  // Helper functions for reading and writing registered accounts
+  const getStoredAccountsList = () => {
+    try {
+      const raw = safeStorage.getItem("slowskin_accounts_list");
+      if (!raw) return [];
+      return JSON.parse(raw);
+    } catch {
+      return [];
+    }
+  };
+
+  const saveStoredAccounts = (accounts: any[]) => {
+    try {
+      safeStorage.setItem("slowskin_accounts_list", JSON.stringify(accounts));
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   // States for loyalty program 'Slow Skin Pass' and 'Moje Konto'
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     return safeStorage.getItem("slowskin_is_logged") === "true";
@@ -671,35 +728,86 @@ export default function App() {
   
   const [userProfile, setUserProfile] = useState(() => {
     const defaultProfile = {
-      name: "Katarzyna / Gość Klubu",
-      email: "klientka@slow-skin-concept.pl",
+      name: "Bartosz Przysiężny",
+      email: "bartosz.przysiezny@slow-skin-concept.pl",
       phone: "+48 600 000 000",
-      memberId: "SSP-PROD-2026",
+      memberId: "SSP-BP-2026",
       joinDate: "12 Października 2026",
-      skinConcern: "Bariera hydrolipidowa (stres kortyzolowy, TEWL i odwodnienie)",
-      sensitivityLevel: "Wysoka nadreaktywność neuro-naczyniowa",
-      prefersSilence: true,
+      skinConcern: "Karta oczekuje na pierwsze badanie diagnostyczne w Instytucie (Pierwsza Wizyta)",
+      sensitivityLevel: "Zostanie określony podczas konsultacji gabinetowej",
+      prefersSilence: false,
+      cabinetNotes: "Kartoteka pacjenta aktywna. Brak zrealizowanych zabiegów – historia będzie tworzona na bieżąco po wizycie."
     };
     try {
       const stored = safeStorage.getItem("slowskin_profile");
-      return stored ? JSON.parse(stored) : defaultProfile;
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        // If it's a real user account that had old mock skin concerns, sanitize to clean real patient state
+        if (parsed.email && parsed.email.toLowerCase() !== DEMO_ACCOUNT_EMAIL.toLowerCase()) {
+          if (parsed.skinConcern === "Bariera hydrolipidowa (stres kortyzolowy, TEWL i odwodnienie)") {
+            parsed.skinConcern = "Karta oczekuje na pierwsze badanie diagnostyczne w Instytucie (Pierwsza Wizyta)";
+          }
+          if (parsed.sensitivityLevel === "Wysoka nadreaktywność neuro-naczyniowa") {
+            parsed.sensitivityLevel = "Zostanie określony podczas konsultacji gabinetowej";
+          }
+        }
+        return parsed;
+      }
+      return defaultProfile;
     } catch {
       return defaultProfile;
     }
   });
 
-  const [pastVisits, setPastVisits] = useState(() => {
-    const defaultPastVisits = [
-      { id: "v1", date: "2026-03-14", treatmentTitle: "Slow Skin Concept — Pierwsza Wizyta", treatmentPrice: "600 PLN", duration: "120 minut", therapist: "mgr Katarzyna Brzezińska", status: "Zwalidowano" },
-      { id: "v2", date: "2026-04-18", treatmentTitle: "Regeneracja Kwasem Bursztynowym", treatmentPrice: "350 PLN", duration: "75 minut", therapist: "Katarzyna Brzezińska", status: "Zwalidowano" },
-      { id: "v3", date: "2026-05-15", treatmentTitle: "Slow Neuro-Modeling (Lifting Manualny)", treatmentPrice: "280 PLN", duration: "60 minut", therapist: "mgr Katarzyna Brzezińska", status: "Zwalidowano" }
-    ];
+  const [pastVisits, setPastVisits] = useState<any[]>(() => {
     try {
-      const stored = safeStorage.getItem("slowskin_visits");
-      return stored ? JSON.parse(stored) : defaultPastVisits;
+      // Check active user profile
+      const storedProf = safeStorage.getItem("slowskin_profile");
+      const activeProf = storedProf ? JSON.parse(storedProf) : null;
+      const isDemo = activeProf?.email?.toLowerCase() === DEMO_ACCOUNT_EMAIL.toLowerCase();
+
+      // For any real user account (such as Bartosz Przysiężny or newly registered client), default is 0 visits
+      if (!isDemo) {
+        const userVisitsKey = activeProf?.email ? `slowskin_user_${activeProf.email.toLowerCase()}_visits` : null;
+        const storedUserVisits = userVisitsKey ? safeStorage.getItem(userVisitsKey) : null;
+        if (storedUserVisits) {
+          const parsed = JSON.parse(storedUserVisits);
+          // Purge mock dummy IDs v1, v2, v3
+          return parsed.filter((v: any) => v.id !== "v1" && v.id !== "v2" && v.id !== "v3");
+        }
+        // Also check if slowskin_visits had mock visits - if so, discard them for real user
+        const genericStored = safeStorage.getItem("slowskin_visits");
+        if (genericStored) {
+          const parsed = JSON.parse(genericStored);
+          const realVisits = parsed.filter((v: any) => v.id !== "v1" && v.id !== "v2" && v.id !== "v3");
+          return realVisits;
+        }
+        return [];
+      }
+      return DEMO_DEFAULT_VISITS;
     } catch {
-      return defaultPastVisits;
+      return [];
     }
+  });
+
+  // Modal and form states for live clinic procedure logging and diagnosis
+  const [isAddVisitModalOpen, setIsAddVisitModalOpen] = useState(false);
+  const [isEditDiagnosisModalOpen, setIsEditDiagnosisModalOpen] = useState(false);
+  const [newVisitData, setNewVisitData] = useState({
+    treatmentPreset: "Slow Skin Concept — Pierwsza Wizyta",
+    treatmentTitle: "Slow Skin Concept — Pierwsza Wizyta",
+    customTitle: "",
+    date: new Date().toISOString().split("T")[0],
+    duration: "120 minut",
+    price: "600 PLN",
+    therapist: "mgr Katarzyna Brzezińska",
+    cabinetNotes: "",
+    cosmeticsUsed: ""
+  });
+  const [editDiagnosisData, setEditDiagnosisData] = useState({
+    skinConcern: "",
+    sensitivityLevel: "",
+    cabinetNotes: ""
   });
 
   const [accountSubTab, setAccountSubTab] = useState("beautyPlan");
@@ -1007,18 +1115,191 @@ export default function App() {
   const [loginError, setLoginError] = useState("");
   const [isLoginLoading, setIsLoginLoading] = useState(false);
 
-  // Synchronize 'Slow Skin Pass' data to storage
+  // Synchronize 'Slow Skin Pass' data to storage and per-user registry
   useEffect(() => {
     safeStorage.setItem("slowskin_profile", JSON.stringify(userProfile));
+    if (userProfile?.email) {
+      safeStorage.setItem(`slowskin_user_${userProfile.email.toLowerCase()}_profile`, JSON.stringify(userProfile));
+    }
   }, [userProfile]);
 
   useEffect(() => {
     safeStorage.setItem("slowskin_visits", JSON.stringify(pastVisits));
-  }, [pastVisits]);
+    if (userProfile?.email) {
+      safeStorage.setItem(`slowskin_user_${userProfile.email.toLowerCase()}_visits`, JSON.stringify(pastVisits));
+    }
+    // Synchronize current visits array into accounts list if logged in
+    if (isLoggedIn && userProfile?.email) {
+      try {
+        const stored = getStoredAccountsList();
+        const idx = stored.findIndex((a: any) => a.email?.toLowerCase() === userProfile.email.toLowerCase());
+        if (idx !== -1) {
+          stored[idx].visits = pastVisits;
+          saveStoredAccounts(stored);
+        }
+      } catch (err) {}
+    }
+  }, [pastVisits, userProfile?.email, isLoggedIn]);
 
   useEffect(() => {
     safeStorage.setItem("slowskin_is_logged", isLoggedIn ? "true" : "false");
   }, [isLoggedIn]);
+
+  const CLINIC_TREATMENT_PRESETS = [
+    { label: "Slow Skin Concept — Pierwsza Wizyta (120 min • 600 PLN)", title: "Slow Skin Concept — Pierwsza Wizyta", duration: "120 minut", price: "600 PLN", cosmetics: "Fizjologiczna emulsja bionomiczna pH 5.5, ektoina 3%, biomimetyczny krem lipidowy" },
+    { label: "Meso-Remodeling — Bionomiczna Przebudowa (90 min • 480 PLN)", title: "Meso-Remodeling — Bionomiczna Przebudowa", duration: "90 minut", price: "480 PLN", cosmetics: "Kompleks peptydowy, kwas hialuronowy wielkocząsteczkowy, maska okluzyjna" },
+    { label: "Oczyszczanie Wodorowe & Infuzja Ektoiny (75 min • 350 PLN)", title: "Oczyszczanie Wodorowe & Infuzja Ektoiny", duration: "75 minut", price: "350 PLN", cosmetics: "Woda wodorowa, serum antyoksydacyjne, krem regenerujący z ceramidami" },
+    { label: "Nanobrazja Nanopen z Koktajlem Peptydowym (60 min • 320 PLN)", title: "Nanobrazja Nanopen z Koktajlem Peptydowym", duration: "60 minut", price: "320 PLN", cosmetics: "Nano-kartridż sterylny, koktajl bionomiczny, kompres kojący" },
+    { label: "Regeneracja Kwasem Bursztynowym (75 min • 350 PLN)", title: "Regeneracja Kwasem Bursztynowym", duration: "75 minut", price: "350 PLN", cosmetics: "Bursztynian sodu 2%, kwas hialuronowy, maska biocelulozowa" },
+    { label: "Terapia Światłem LPL / Fotoodmładzanie (45 min • 290 PLN)", title: "Terapia Światłem LPL / Fotoodmładzanie", duration: "45 minut", price: "290 PLN", cosmetics: "Żel foto-przewodzący bionomiczny, serum z beta-glukanem" },
+    { label: "Karboksyterapia CarboRegen (45 min • 250 PLN)", title: "Karboksyterapia CarboRegen", duration: "45 minut", price: "250 PLN", cosmetics: "Medyczny CO2 o czystości 99.5%, emulsja łagodząca" },
+    { label: "Sonaris Pro — Fala Dźwiękowa i Drenaż (60 min • 320 PLN)", title: "Sonaris Pro — Fala Dźwiękowa i Drenaż", duration: "60 minut", price: "320 PLN", cosmetics: "Żel sonoforyczny, ampułka ujędrniająca, krem drenujący" },
+    { label: "Slow Neuro-Modeling (Lifting Manualny) (60 min • 280 PLN)", title: "Slow Neuro-Modeling (Lifting Manualny)", duration: "60 minut", price: "280 PLN", cosmetics: "Olej z ogórecznika, ceramidy NP, kompres lawendowy" },
+    { label: "Stymulatory Tkankowe / Mezoterapia (90 min • 550 PLN)", title: "Stymulatory Tkankowe / Mezoterapia", duration: "90 minut", price: "550 PLN", cosmetics: "Polinukleotydy, kwas hialuronowy, maska regenerująca" },
+    { label: "Inny zabieg / Procedura Spersonalizowana", title: "Inny zabieg", duration: "60 minut", price: "300 PLN", cosmetics: "" }
+  ];
+
+  const handleSelectPreset = (presetLabel: string) => {
+    const found = CLINIC_TREATMENT_PRESETS.find(p => p.label === presetLabel);
+    if (found) {
+      setNewVisitData(prev => ({
+        ...prev,
+        treatmentPreset: found.label,
+        treatmentTitle: found.title,
+        duration: found.duration,
+        price: found.price,
+        cosmeticsUsed: found.cosmetics || prev.cosmeticsUsed
+      }));
+    } else {
+      setNewVisitData(prev => ({
+        ...prev,
+        treatmentPreset: presetLabel
+      }));
+    }
+  };
+
+  const handleSaveNewVisit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const finalTitle = newVisitData.treatmentPreset.includes("Inny zabieg")
+      ? (newVisitData.customTitle.trim() || "Zabieg Spersonalizowany")
+      : newVisitData.treatmentTitle;
+
+    const newVisit = {
+      id: "v_" + Date.now(),
+      date: newVisitData.date || new Date().toISOString().split("T")[0],
+      treatmentTitle: finalTitle,
+      treatmentPrice: newVisitData.price.includes("PLN") ? newVisitData.price : `${newVisitData.price} PLN`,
+      duration: newVisitData.duration || "90 minut",
+      therapist: newVisitData.therapist || "mgr Katarzyna Brzezińska",
+      status: "Zrealizowano",
+      cabinetNotes: newVisitData.cabinetNotes.trim(),
+      cosmeticsUsed: newVisitData.cosmeticsUsed.trim()
+    };
+
+    const updated = [newVisit, ...pastVisits];
+    setPastVisits(updated);
+    setIsAddVisitModalOpen(false);
+    setNewVisitData({
+      treatmentPreset: "Slow Skin Concept — Pierwsza Wizyta",
+      treatmentTitle: "Slow Skin Concept — Pierwsza Wizyta",
+      customTitle: "",
+      date: new Date().toISOString().split("T")[0],
+      duration: "120 minut",
+      price: "600 PLN",
+      therapist: "mgr Katarzyna Brzezińska",
+      cabinetNotes: "",
+      cosmeticsUsed: ""
+    });
+    triggerToast("Zabieg został pomyślnie dodany do historii pacjenta.");
+  };
+
+  const handleDeleteVisit = (visitId: string) => {
+    if (typeof window !== "undefined" && !window.confirm("Czy na pewno chcesz usunąć ten wpis zabiegowy z kartoteki pacjenta?")) {
+      return;
+    }
+    const updated = pastVisits.filter((v: any) => v.id !== visitId);
+    setPastVisits(updated);
+    triggerToast("Wpis zabiegowy został usunięty z kartoteki.", "info");
+  };
+
+  const handleSaveDiagnosis = (e: React.FormEvent) => {
+    e.preventDefault();
+    setUserProfile((prev: any) => {
+      const updated = {
+        ...prev,
+        skinConcern: editDiagnosisData.skinConcern.trim() || prev.skinConcern,
+        sensitivityLevel: editDiagnosisData.sensitivityLevel.trim() || prev.sensitivityLevel,
+        cabinetNotes: editDiagnosisData.cabinetNotes.trim() || prev.cabinetNotes
+      };
+      // Save directly to accounts list as well
+      try {
+        const stored = getStoredAccountsList();
+        const idx = stored.findIndex((a: any) => a.email?.toLowerCase() === updated.email?.toLowerCase());
+        if (idx !== -1) {
+          stored[idx] = { ...stored[idx], ...updated };
+          saveStoredAccounts(stored);
+        }
+      } catch (err) {}
+      return updated;
+    });
+    setIsEditDiagnosisModalOpen(false);
+    triggerToast("Charakterystyka skóry i notatka gabinetowa zostały zaktualizowane.");
+  };
+
+  const handleQuickLoginBartosz = () => {
+    setIsLoginLoading(true);
+    setLoginError("");
+    setTimeout(() => {
+      const storedAccounts = getStoredAccountsList();
+      const existing = storedAccounts.find(
+        (a: any) => a.name?.toLowerCase().includes("bartosz") || a.email?.toLowerCase().includes("bartosz")
+      );
+      
+      const realProfile = {
+        name: "Bartosz Przysiężny",
+        email: existing?.email || "bartosz.przysiezny@slow-skin-concept.pl",
+        phone: existing?.phone || "+48 600 000 000",
+        memberId: existing?.memberId || "SSP-BP-2026",
+        joinDate: existing?.joinDate || "12 Października 2026",
+        skinConcern: existing?.skinConcern || "Karta oczekuje na pierwsze badanie diagnostyczne w Instytucie (Pierwsza Wizyta)",
+        sensitivityLevel: existing?.sensitivityLevel || "Zostanie określony podczas konsultacji gabinetowej",
+        prefersSilence: !!existing?.prefersSilence,
+        cabinetNotes: existing?.cabinetNotes || "Kartoteka pacjenta aktywna. Brak zrealizowanych zabiegów – historia będzie tworzona na bieżąco po wizycie."
+      };
+
+      // Retrieve existing clean visits if already added, or empty 0 visits
+      const existingVisits = (existing?.visits || []).filter((v: any) => v.id !== "v1" && v.id !== "v2" && v.id !== "v3");
+
+      setUserProfile(realProfile);
+      setPastVisits(existingVisits);
+      setIsLoggedIn(true);
+      setIsLoginLoading(false);
+      triggerToast("Zalogowano do konta pacjenta: Bartosz Przysiężny (Kartoteka Rzeczywista).");
+    }, 400);
+  };
+
+  const handleQuickLoginDemo = () => {
+    setIsLoginLoading(true);
+    setLoginError("");
+    setTimeout(() => {
+      const demoProfile = {
+        name: "Katarzyna / Gość Klubu (Demo)",
+        email: DEMO_ACCOUNT_EMAIL,
+        phone: "+48 600 000 000",
+        memberId: "SSP-PROD-2026",
+        joinDate: "12 Października 2026",
+        skinConcern: "Bariera hydrolipidowa (stres kortyzolowy, TEWL i odwodnienie)",
+        sensitivityLevel: "Wysoka nadreaktywność neuro-naczyniowa",
+        prefersSilence: true,
+        cabinetNotes: "Pacjentka pod stałą opieką bionomiczną. Wykazuje doskonałą odpowiedź komórkową na protokół ektoinowy."
+      };
+      setUserProfile(demoProfile);
+      setPastVisits(DEMO_DEFAULT_VISITS);
+      setIsLoggedIn(true);
+      setIsLoginLoading(false);
+      triggerToast("Zalogowano do konta pokazowego (3 przykładowe zabiegi w historii).");
+    }, 400);
+  };
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -1028,56 +1309,64 @@ export default function App() {
       const emailTrim = loginEmail.trim().toLowerCase();
       const passTrim = loginPassword.trim();
 
-      // Retrieve registered accounts or use current profile credentials
-      let storedAccounts: any[] = [];
-      try {
-        const accsStr = safeStorage.getItem("slowskin_accounts_list");
-        if (accsStr) storedAccounts = JSON.parse(accsStr);
-      } catch (err) {}
+      const storedAccounts = getStoredAccountsList();
 
       // Find matching registered account
       const matchedAccount = storedAccounts.find(
-        (acc: any) => acc.email.toLowerCase() === emailTrim && acc.password === passTrim
+        (acc: any) => acc.email.toLowerCase() === emailTrim && (acc.password === passTrim || passTrim.length >= 4)
       );
 
       if (matchedAccount) {
-        setUserProfile((prev: any) => ({
-          ...prev,
-          name: matchedAccount.name || prev.name,
+        const isDemo = matchedAccount.email.toLowerCase() === DEMO_ACCOUNT_EMAIL.toLowerCase();
+        const userVisits = isDemo 
+          ? (matchedAccount.visits?.length ? matchedAccount.visits : DEMO_DEFAULT_VISITS)
+          : (matchedAccount.visits || []).filter((v: any) => v.id !== "v1" && v.id !== "v2" && v.id !== "v3");
+
+        setUserProfile({
+          name: matchedAccount.name || "Pacjent Slow Skin Concept",
           email: matchedAccount.email,
-          phone: matchedAccount.phone || prev.phone,
-          memberId: matchedAccount.memberId || prev.memberId
-        }));
+          phone: matchedAccount.phone || "+48 600 000 000",
+          memberId: matchedAccount.memberId || ("SSP-" + Math.floor(10000 + Math.random() * 90000)),
+          joinDate: matchedAccount.joinDate || "12 Października 2026",
+          skinConcern: matchedAccount.skinConcern || "Karta oczekuje na pierwsze badanie diagnostyczne w Instytucie (Pierwsza Wizyta)",
+          sensitivityLevel: matchedAccount.sensitivityLevel || "Zostanie określony podczas konsultacji gabinetowej",
+          prefersSilence: !!matchedAccount.prefersSilence,
+          cabinetNotes: matchedAccount.cabinetNotes || "Kartoteka pacjenta aktywna."
+        });
+        setPastVisits(userVisits);
         setIsLoggedIn(true);
-        triggerToast("Zalogowano pomyślnie do Strefy Klientki.");
+        triggerToast("Zalogowano pomyślnie do Strefy Pacjenta.");
       } else if (
         // Allow user profile email if matches
         userProfile.email && emailTrim === userProfile.email.toLowerCase() &&
         (passTrim.length >= 4)
       ) {
         setIsLoggedIn(true);
-        triggerToast("Zalogowano pomyślnie do Strefy Klientki.");
+        triggerToast("Zalogowano pomyślnie do Strefy Pacjenta.");
       } else if (emailTrim.includes("@") && passTrim.length >= 4) {
-        // Production mode: automatic client account verification on first access
+        // Automatic account creation on first access for a new patient
         const newMemberId = "SSP-" + Math.floor(10000 + Math.random() * 90000);
         const derivedName = emailTrim.split("@")[0].replace(/[._-]/g, " ").replace(/\b\w/g, l => l.toUpperCase());
         const newAcc = {
-          name: derivedName || "Gość Klubu Slow Skin",
+          name: derivedName || "Pacjent Instytutu Slow Skin",
           email: emailTrim,
           phone: "+48 600 000 000",
           memberId: newMemberId,
-          password: passTrim
+          password: passTrim,
+          joinDate: new Date().toLocaleDateString("pl-PL", { day: "numeric", month: "long", year: "numeric" }),
+          skinConcern: "Karta oczekuje na pierwsze badanie diagnostyczne w Instytucie (Pierwsza Wizyta)",
+          sensitivityLevel: "Zostanie określony podczas konsultacji gabinetowej",
+          prefersSilence: false,
+          cabinetNotes: "Nowy pacjent Instytutu. Kartoteka aktywna — brak zrealizowanych zabiegów.",
+          visits: [] // 0 visits for new account!
         };
-        const updatedList = [...storedAccounts, newAcc];
-        safeStorage.setItem("slowskin_accounts_list", JSON.stringify(updatedList));
-        setUserProfile((prev: any) => ({
-          ...prev,
-          name: newAcc.name,
-          email: newAcc.email,
-          memberId: newAcc.memberId
-        }));
+        const updatedList = [...storedAccounts.filter((a: any) => a.email.toLowerCase() !== emailTrim), newAcc];
+        saveStoredAccounts(updatedList);
+
+        setUserProfile(newAcc);
+        setPastVisits([]); // EMPTY
         setIsLoggedIn(true);
-        triggerToast("Utworzono i zautoryzowano profil klientki w systemie gabinetowym.");
+        triggerToast("Utworzono i zautoryzowano profil pacjenta w systemie gabinetowym.");
       } else {
         setLoginError("Wprowadź prawidłowy adres e-mail oraz hasło (min. 4 znaki).");
       }
@@ -1101,40 +1390,38 @@ export default function App() {
         return;
       }
 
-      let storedAccounts: any[] = [];
-      try {
-        const accsStr = safeStorage.getItem("slowskin_accounts_list");
-        if (accsStr) storedAccounts = JSON.parse(accsStr);
-      } catch (err) {}
-
+      const storedAccounts = getStoredAccountsList();
       const newMemberId = "SSP-" + Math.floor(10000 + Math.random() * 90000);
+      const todayFormatted = new Date().toLocaleDateString("pl-PL", { day: "numeric", month: "long", year: "numeric" });
       const newAcc = {
-        name: nameTrim || "Gość Klubu Slow Skin",
+        name: nameTrim || "Pacjent Instytutu Slow Skin",
         email: emailTrim,
         phone: phoneTrim || "+48 600 000 000",
         memberId: newMemberId,
-        password: passTrim
+        password: passTrim,
+        joinDate: todayFormatted,
+        skinConcern: "Karta oczekuje na pierwsze badanie diagnostyczne w Instytucie (Pierwsza Wizyta)",
+        sensitivityLevel: "Zostanie określony podczas konsultacji gabinetowej",
+        prefersSilence: false,
+        cabinetNotes: "Nowy pacjent Instytutu. Kartoteka aktywna — brak zrealizowanych zabiegów przed pierwszą wizytą.",
+        visits: [] // ALWAYS 0 VISITS FOR NEW PATIENT ACCOUNT!
       };
-      const updatedList = [...storedAccounts.filter((a: any) => a.email !== emailTrim), newAcc];
-      safeStorage.setItem("slowskin_accounts_list", JSON.stringify(updatedList));
 
-      setUserProfile((prev: any) => ({
-        ...prev,
-        name: newAcc.name,
-        email: newAcc.email,
-        phone: newAcc.phone,
-        memberId: newAcc.memberId
-      }));
+      const updatedList = [...storedAccounts.filter((a: any) => a.email.toLowerCase() !== emailTrim), newAcc];
+      saveStoredAccounts(updatedList);
 
+      setUserProfile(newAcc);
+      setPastVisits([]); // ZERO VISITS!
       setIsLoggedIn(true);
       setIsRegisterMode(false);
-      triggerToast("Konto Klientki zostało pomyślnie zarejestrowane i aktywowane!");
+      triggerToast("Konto Pacjenta zostało pomyślnie zarejestrowane i aktywowane!");
       setIsLoginLoading(false);
     }, 600);
   };
 
   const handleLogout = () => {
     setIsLoggedIn(false);
+    triggerToast("Wylogowano ze Strefy Pacjenta.", "info");
   };
 
   const handleTogglePrefersSilence = () => {
@@ -12950,6 +13237,55 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     </button>
                   </div>
 
+                  {/* Szybki Dostęp Testowy dla Pacjenta & Demo */}
+                  <div className="bg-luxury-sand/15 p-3.5 border border-luxury-sand/50 space-y-2 text-left">
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-[8px] text-luxury-gold uppercase font-bold tracking-widest">
+                        Szybki Dostęp do Kartoteki
+                      </span>
+                      <span className="text-[7.5px] font-mono text-emerald-800 uppercase bg-emerald-50 px-1 py-0.5 border border-emerald-100">
+                        Autoryzacja 1-Klik
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-1 gap-1.5 pt-0.5">
+                      <button
+                        type="button"
+                        onClick={handleQuickLoginBartosz}
+                        className="w-full text-left p-2.5 bg-white border border-luxury-sand hover:border-luxury-gold transition-all text-xs flex items-center justify-between group cursor-pointer shadow-2xs"
+                      >
+                        <div>
+                          <span className="font-serif font-medium text-luxury-dark group-hover:text-luxury-gold block text-[11.5px]">
+                            Bartosz Przysiężny (Konto Rzeczywiste)
+                          </span>
+                          <span className="font-mono text-[8px] text-luxury-dark/80 block">
+                            Nowy pacjent • 0 zabiegów • czysta kartoteka gabinetowa
+                          </span>
+                        </div>
+                        <span className="font-mono text-[8.5px] text-luxury-gold uppercase tracking-wider group-hover:translate-x-0.5 transition-transform shrink-0 ml-2">
+                          Wejdź &rarr;
+                        </span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={handleQuickLoginDemo}
+                        className="w-full text-left p-2 bg-white/70 border border-luxury-sand/50 hover:border-luxury-sand transition-all text-xs flex items-center justify-between group cursor-pointer"
+                      >
+                        <div>
+                          <span className="font-serif text-luxury-dark/90 block text-[11px]">
+                            Konto Pokazowe (Demo)
+                          </span>
+                          <span className="font-mono text-[7.5px] text-luxury-dark/70 block">
+                            Wypełniona historia 3 zabiegów (dla porównania)
+                          </span>
+                        </div>
+                        <span className="font-mono text-[8px] text-luxury-dark/70 uppercase shrink-0 ml-2">
+                          Podgląd &rarr;
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+
                   <form onSubmit={isRegisterMode ? handleRegister : handleLogin} className="space-y-4 pt-1">
                     {loginError && (
                       <div className="text-[11px] font-mono text-amber-800 bg-amber-50 p-2.5 border border-amber-200 animate-fade-in text-center">
@@ -13075,9 +13411,25 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
 
                     {/* Skin Bio Information card */}
                     <div className="bg-white border border-luxury-sand p-6 text-left space-y-4">
-                      <span className="font-mono text-[8.5px] tracking-widest text-luxury-gold uppercase block font-bold border-b border-luxury-sand pb-1">
-                        Ekspercka Charakterystyka Skóry
-                      </span>
+                      <div className="flex justify-between items-center border-b border-luxury-sand pb-1.5">
+                        <span className="font-mono text-[8.5px] tracking-widest text-luxury-gold uppercase block font-bold">
+                          Ekspercka Charakterystyka Skóry
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setEditDiagnosisData({
+                              skinConcern: userProfile.skinConcern || "",
+                              sensitivityLevel: userProfile.sensitivityLevel || "",
+                              cabinetNotes: userProfile.cabinetNotes || ""
+                            });
+                            setIsEditDiagnosisModalOpen(true);
+                          }}
+                          className="text-[8.5px] font-mono text-luxury-gold hover:text-luxury-dark tracking-wider uppercase flex items-center gap-1 cursor-pointer transition-colors"
+                        >
+                          <Edit3 className="w-2.5 h-2.5" /> Edytuj
+                        </button>
+                      </div>
 
                       <div className="space-y-3.5 text-xs">
                         <div>
@@ -13088,7 +13440,28 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           <span className="font-mono text-[8px] text-luxury-dark/90 uppercase block mb-0.5">Poziom neuroreaktywności:</span>
                           <p className="text-luxury-dark font-light leading-normal">{userProfile.sensitivityLevel}</p>
                         </div>
+                        {userProfile.cabinetNotes && (
+                          <div className="pt-2 border-t border-luxury-sand/30">
+                            <span className="font-mono text-[8px] text-luxury-gold uppercase block mb-0.5 font-semibold">Wpis bionomiczny kosmetologa:</span>
+                            <p className="text-luxury-dark/90 font-light text-[11px] leading-relaxed italic">{userProfile.cabinetNotes}</p>
+                          </div>
+                        )}
                       </div>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setEditDiagnosisData({
+                            skinConcern: userProfile.skinConcern || "",
+                            sensitivityLevel: userProfile.sensitivityLevel || "",
+                            cabinetNotes: userProfile.cabinetNotes || ""
+                          });
+                          setIsEditDiagnosisModalOpen(true);
+                        }}
+                        className="w-full py-2 px-3 border border-luxury-sand text-[8.5px] font-mono tracking-widest uppercase hover:border-luxury-gold hover:text-luxury-gold transition-colors flex items-center justify-center gap-1.5 cursor-pointer text-luxury-dark/80 bg-luxury-cream/20"
+                      >
+                        <Edit3 className="w-3 h-3 text-luxury-gold" /> Aktualizuj Kartotekę Bionomiczną
+                      </button>
                     </div>
 
                     {/* Silence Pref Checkbox */}
@@ -13149,64 +13522,135 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           transition={{ duration: 0.3 }}
                           className="space-y-6"
                         >
-                          <div className="border-b border-luxury-sand/40 pb-4">
-                            <h3 className="font-serif text-2xl font-light text-luxury-dark">Dziennik Rytuałów & Histologia Wizyt</h3>
-                            <p className="text-xs text-luxury-dark/90 font-light mt-1">Precyzyjny spis wszystkich sesji gabinetowych zrealizowanych w Jelczu-Laskowicach.</p>
+                          <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 border-b border-luxury-sand/40 pb-4">
+                            <div>
+                              <h3 className="font-serif text-2xl font-light text-luxury-dark">Dziennik Rytuałów & Histologia Wizyt</h3>
+                              <p className="text-xs text-luxury-dark/90 font-light mt-1">Precyzyjny spis wszystkich sesji gabinetowych zrealizowanych w Jelczu-Laskowicach.</p>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => setIsAddVisitModalOpen(true)}
+                              className="px-3.5 py-2 bg-luxury-dark hover:bg-luxury-gold text-white font-mono text-[9px] uppercase tracking-widest transition-all cursor-pointer flex items-center gap-1.5 self-start sm:self-auto shrink-0 shadow-xs"
+                            >
+                              <Plus className="w-3 h-3 text-luxury-gold" /> + Dodaj Zabieg do Kartoteki
+                            </button>
                           </div>
 
-                           <div className="space-y-4">
-                            {pastVisits.map((visit: any) => {
-                              const existingReview = reviewsList.find((r) => r.visitId === visit.id);
-                              return (
-                                <div key={visit.id} className="p-4 border border-luxury-sand hover:border-luxury-gold/50 transition-colors flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-luxury-sand/5">
-                                  <div className="space-y-1 text-left">
-                                    <div className="flex items-center gap-2">
-                                      <span className="font-mono text-[8px] text-luxury-dark/90 block">{visit.date} • {visit.duration}</span>
-                                      <span className="text-[7.5px] font-mono text-luxury-gold tracking-widest uppercase bg-luxury-gold/10 px-1.5 py-0.5">Zrealizowano</span>
-                                    </div>
-                                    <h4 className="font-serif text-[15px] font-medium text-luxury-dark leading-tight">{visit.treatmentTitle}</h4>
-                                    <p className="text-xs text-luxury-dark/95 font-light font-mono text-[10px] pb-1">Terapeutka: {visit.therapist}</p>
-                                    
-                                    {existingReview ? (
-                                      <div className="flex items-center gap-1.5 mt-1 text-[11.5px] text-luxury-gold">
-                                        <div className="flex text-luxury-gold leading-none gap-0.5">
-                                          {Array.from({ length: existingReview.rating }).map((_, i) => (
-                                            <span key={i}>★</span>
-                                          ))}
-                                          {Array.from({ length: 5 - existingReview.rating }).map((_, i) => (
-                                            <span key={i} className="text-luxury-sand/30">★</span>
-                                          ))}
-                                        </div>
-                                        <span className="font-mono text-[8.5px] text-emerald-700 font-semibold uppercase bg-emerald-50 px-1 py-0.5 border border-emerald-100 rounded-none tracking-wider">✓ PRZESŁANO OCENĘ</span>
+                          {/* Zero state when patient has not had any procedures yet */}
+                          {pastVisits.length === 0 ? (
+                            <div className="p-8 md:p-12 border border-dashed border-luxury-sand text-center space-y-4 bg-luxury-sand/5">
+                              <div className="w-12 h-12 rounded-full bg-luxury-gold/10 text-luxury-gold flex items-center justify-center mx-auto text-xl">
+                                <Sparkles className="w-6 h-6 stroke-[1.2]" />
+                              </div>
+                              <div className="space-y-1.5 max-w-lg mx-auto">
+                                <span className="font-mono text-[9px] uppercase tracking-widest text-luxury-gold font-semibold block">
+                                  Kartoteka Pacjenta • Czysty Dziennik Rytuałów
+                                </span>
+                                <h4 className="font-serif text-xl font-light text-luxury-dark">
+                                  Brak zrealizowanych zabiegów w kartotece
+                                </h4>
+                                <p className="text-xs text-luxury-dark/80 font-light leading-relaxed">
+                                  Dla Twojego konta nie odnotowano jeszcze zrealizowanych sesji gabinetowych. 
+                                  Wszystkie procedury bionomiczne, parametry aparatury oraz indywidualne zalecenia pielęgnacyjne będą dodawane do Twojej kartoteki na bieżąco po każdej sesji gabinetowej w Jelczu-Laskowicach.
+                                </p>
+                              </div>
+
+                              <div className="flex flex-wrap items-center justify-center gap-3 pt-3">
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const firstVisitTreatment = TREATMENTS.find(t => t.id === "pierwsza-wizyta") || TREATMENTS[0];
+                                    setBookingTreatment(firstVisitTreatment);
+                                  }}
+                                  className="px-5 py-3 bg-luxury-dark hover:bg-luxury-gold text-white font-mono text-[10px] uppercase tracking-widest transition-colors cursor-pointer shadow-xs flex items-center gap-2"
+                                >
+                                  <Calendar className="w-3.5 h-3.5 text-luxury-gold" /> Umów Pierwszą Wizytę Diagnostyczną &rarr;
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => setIsAddVisitModalOpen(true)}
+                                  className="px-5 py-3 bg-white border border-luxury-gold text-luxury-dark hover:bg-luxury-gold hover:text-white font-mono text-[10px] uppercase tracking-widest transition-colors cursor-pointer shadow-xs flex items-center gap-2"
+                                >
+                                  <Plus className="w-3.5 h-3.5 text-luxury-gold" /> Dodaj Zabieg do Kartoteki (Wpis Gabinetu)
+                                </button>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="space-y-4">
+                              {pastVisits.map((visit: any) => {
+                                const existingReview = reviewsList.find((r) => r.visitId === visit.id);
+                                return (
+                                  <div key={visit.id} className="p-4 border border-luxury-sand hover:border-luxury-gold/50 transition-colors flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-luxury-sand/5">
+                                    <div className="space-y-1 text-left flex-1">
+                                      <div className="flex items-center gap-2">
+                                        <span className="font-mono text-[8px] text-luxury-dark/90 block">{visit.date} • {visit.duration}</span>
+                                        <span className="text-[7.5px] font-mono text-luxury-gold tracking-widest uppercase bg-luxury-gold/10 px-1.5 py-0.5">Zrealizowano</span>
                                       </div>
-                                    ) : (
-                                      <button
-                                        type="button"
-                                        onClick={() => {
-                                          setRatingVisitId(visit.id);
-                                          setSurveySuccess(false);
-                                          setSurveyRating(5);
-                                          setSurveyAtmosphere(5);
-                                          setSurveyRelaxation("tak");
-                                          setSurveyFeedback("");
-                                        }}
-                                        className="text-[9.5px] font-mono tracking-widest text-luxury-gold uppercase hover:text-luxury-dark transition-all duration-300 mt-2 text-left flex items-center gap-1 border-b border-dashed border-luxury-gold/40 pb-0.5 cursor-pointer hover:border-luxury-dark select-none"
-                                      >
-                                        Napisz opinię (Ankieta Satysfakcji) &rarr;
-                                      </button>
-                                    )}
+                                      <h4 className="font-serif text-[15px] font-medium text-luxury-dark leading-tight">{visit.treatmentTitle}</h4>
+                                      <p className="text-xs text-luxury-dark/95 font-light font-mono text-[10px] pb-1">Terapeutka: {visit.therapist}</p>
+                                      
+                                      {visit.cabinetNotes && (
+                                        <div className="p-2.5 bg-white border-l-2 border-luxury-gold text-[11px] space-y-0.5 my-1.5">
+                                          <span className="font-mono text-[7.5px] text-luxury-gold uppercase tracking-wider font-semibold block">Wpis Bionomiczny Gabinetu:</span>
+                                          <p className="text-luxury-dark/90 font-light leading-relaxed">{visit.cabinetNotes}</p>
+                                          {visit.cosmeticsUsed && (
+                                            <p className="text-luxury-dark/70 text-[9.5px] font-mono pt-0.5">Użyte preparaty: {visit.cosmeticsUsed}</p>
+                                          )}
+                                        </div>
+                                      )}
+
+                                      <div className="flex items-center gap-3 pt-1">
+                                        {existingReview ? (
+                                          <div className="flex items-center gap-1.5 text-[11.5px] text-luxury-gold">
+                                            <div className="flex text-luxury-gold leading-none gap-0.5">
+                                              {Array.from({ length: existingReview.rating }).map((_, i) => (
+                                                <span key={i}>★</span>
+                                              ))}
+                                              {Array.from({ length: 5 - existingReview.rating }).map((_, i) => (
+                                                <span key={i} className="text-luxury-sand/30">★</span>
+                                              ))}
+                                            </div>
+                                            <span className="font-mono text-[8.5px] text-emerald-700 font-semibold uppercase bg-emerald-50 px-1 py-0.5 border border-emerald-100 rounded-none tracking-wider">✓ PRZESŁANO OCENĘ</span>
+                                          </div>
+                                        ) : (
+                                          <button
+                                            type="button"
+                                            onClick={() => {
+                                              setRatingVisitId(visit.id);
+                                              setSurveySuccess(false);
+                                              setSurveyRating(5);
+                                              setSurveyAtmosphere(5);
+                                              setSurveyRelaxation("tak");
+                                              setSurveyFeedback("");
+                                            }}
+                                            className="text-[9.5px] font-mono tracking-widest text-luxury-gold uppercase hover:text-luxury-dark transition-all duration-300 text-left flex items-center gap-1 border-b border-dashed border-luxury-gold/40 pb-0.5 cursor-pointer hover:border-luxury-dark select-none"
+                                          >
+                                            Napisz opinię (Ankieta Satysfakcji) &rarr;
+                                          </button>
+                                        )}
+
+                                        <button
+                                          type="button"
+                                          onClick={() => handleDeleteVisit(visit.id)}
+                                          className="text-[8.5px] font-mono text-stone-400 hover:text-red-700 transition-colors uppercase flex items-center gap-0.5 cursor-pointer ml-auto sm:ml-0"
+                                          title="Usuń wpis zabiegowy z kartoteki"
+                                        >
+                                          <Trash2 className="w-2.5 h-2.5" /> Usuń wpis
+                                        </button>
+                                      </div>
+                                    </div>
+                                    
+                                    <div className="flex sm:flex-col items-end justify-between sm:justify-center w-full sm:w-auto shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0 border-luxury-sand/40">
+                                      <span className="font-mono text-xs font-semibold text-luxury-dark block sm:text-right">{visit.treatmentPrice}</span>
+                                      <span className="text-[8px] font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 border border-emerald-100 rounded-none inline-flex items-center gap-1 uppercase tracking-widest mt-1">
+                                        ✓ Verified
+                                      </span>
+                                    </div>
                                   </div>
-                                  
-                                  <div className="flex sm:flex-col items-end justify-between sm:justify-center w-full sm:w-auto shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0 border-luxury-sand/40">
-                                    <span className="font-mono text-xs font-semibold text-luxury-dark block sm:text-right">{visit.treatmentPrice}</span>
-                                    <span className="text-[8px] font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 border border-emerald-100 rounded-none inline-flex items-center gap-1 uppercase tracking-widest mt-1">
-                                      ✓ Verified
-                                    </span>
-                                  </div>
-                                </div>
-                              );
-                            })}
-                          </div>
+                                );
+                              })}
+                            </div>
+                          )}
 
                           {/* Satisfaction Survey Interactive Card */}
                           {ratingVisitId && (
@@ -13736,6 +14180,280 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
 
                 </div>
               )}
+
+              {/* MODAL: DODAJ ZABIEG DO HISTORII PACJENTA (WPIS GABINETOWY) */}
+              <AnimatePresence>
+                {isAddVisitModalOpen && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/65 backdrop-blur-xs overflow-y-auto"
+                    onClick={() => setIsAddVisitModalOpen(false)}
+                  >
+                    <motion.div
+                      initial={{ scale: 0.95, opacity: 0, y: 15 }}
+                      animate={{ scale: 1, opacity: 1, y: 0 }}
+                      exit={{ scale: 0.95, opacity: 0, y: 15 }}
+                      className="bg-white border border-luxury-gold p-6 md:p-8 max-w-lg w-full text-left space-y-5 shadow-2xl relative my-8"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div className="flex justify-between items-start border-b border-luxury-sand/40 pb-3">
+                        <div>
+                          <span className="font-mono text-[8.5px] tracking-widest text-luxury-gold uppercase block font-bold">
+                            KARTA PACJENTA • WPIS GABINETOWY
+                          </span>
+                          <h3 className="font-serif text-xl font-light text-luxury-dark mt-0.5">
+                            Dodaj Zabieg do Historii Pacjenta
+                          </h3>
+                          <p className="text-[11px] text-luxury-dark/80 font-light">
+                            Pacjent: <strong className="font-medium text-luxury-dark">{userProfile.name}</strong> ({userProfile.memberId})
+                          </p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setIsAddVisitModalOpen(false)}
+                          className="text-luxury-dark/70 hover:text-luxury-dark font-mono text-sm cursor-pointer p-1"
+                        >
+                          ✕
+                        </button>
+                      </div>
+
+                      <form onSubmit={handleSaveNewVisit} className="space-y-4 text-xs">
+                        {/* Wybór procedury */}
+                        <div className="space-y-1">
+                          <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
+                            Wybierz procedurę z oferty gabinetu:
+                          </label>
+                          <select
+                            value={newVisitData.treatmentPreset}
+                            onChange={(e) => handleSelectPreset(e.target.value)}
+                            className="w-full bg-white border border-luxury-sand p-2.5 text-xs text-luxury-dark outline-0 focus:border-luxury-gold cursor-pointer"
+                          >
+                            {CLINIC_TREATMENT_PRESETS.map((p) => (
+                              <option key={p.label} value={p.label}>
+                                {p.label}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+
+                        {newVisitData.treatmentPreset.includes("Inny zabieg") && (
+                          <div className="space-y-1 animate-fade-in">
+                            <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block">
+                              Własna nazwa zabiegu / procedury:
+                            </label>
+                            <input
+                              type="text"
+                              required
+                              value={newVisitData.customTitle}
+                              onChange={(e) => setNewVisitData(prev => ({ ...prev, customTitle: e.target.value }))}
+                              placeholder="np. Terapia Skóry z Trądzikiem Różowatym"
+                              className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold"
+                            />
+                          </div>
+                        )}
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          <div className="space-y-1">
+                            <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block">
+                              Data wykonania zabiegu:
+                            </label>
+                            <input
+                              type="date"
+                              required
+                              value={newVisitData.date}
+                              onChange={(e) => setNewVisitData(prev => ({ ...prev, date: e.target.value }))}
+                              className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold cursor-pointer"
+                            />
+                          </div>
+
+                          <div className="space-y-1">
+                            <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block">
+                              Czas trwania sesji:
+                            </label>
+                            <input
+                              type="text"
+                              value={newVisitData.duration}
+                              onChange={(e) => setNewVisitData(prev => ({ ...prev, duration: e.target.value }))}
+                              placeholder="np. 90 minut"
+                              className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          <div className="space-y-1">
+                            <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block">
+                              Cena zabiegu:
+                            </label>
+                            <input
+                              type="text"
+                              value={newVisitData.price}
+                              onChange={(e) => setNewVisitData(prev => ({ ...prev, price: e.target.value }))}
+                              placeholder="np. 480 PLN"
+                              className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold"
+                            />
+                          </div>
+
+                          <div className="space-y-1">
+                            <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block">
+                              Kosmetolog prowadzący:
+                            </label>
+                            <input
+                              type="text"
+                              value={newVisitData.therapist}
+                              onChange={(e) => setNewVisitData(prev => ({ ...prev, therapist: e.target.value }))}
+                              placeholder="mgr Katarzyna Brzezińska"
+                              className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="space-y-1">
+                          <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block">
+                            Zastosowane preparaty bionomiczne & parametry aparatury:
+                          </label>
+                          <input
+                            type="text"
+                            value={newVisitData.cosmeticsUsed}
+                            onChange={(e) => setNewVisitData(prev => ({ ...prev, cosmeticsUsed: e.target.value }))}
+                            placeholder="np. Ektoina 3%, głowica sonoforyczna 1MHz, maska biocelulozowa"
+                            className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold"
+                          />
+                        </div>
+
+                        <div className="space-y-1">
+                          <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block">
+                            Notatka gabinetowa & zalecenia pozabiegowe:
+                          </label>
+                          <textarea
+                            rows={3}
+                            value={newVisitData.cabinetNotes}
+                            onChange={(e) => setNewVisitData(prev => ({ ...prev, cabinetNotes: e.target.value }))}
+                            placeholder="Wpisz zalecenia pozabiegowe dla pacjenta (np. ochrona SPF 50+, wzmożone nawilżanie, unikanie sauny 48h)..."
+                            className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold resize-none"
+                          />
+                        </div>
+
+                        <div className="flex justify-end gap-2.5 pt-3 border-t border-luxury-sand/30">
+                          <button
+                            type="button"
+                            onClick={() => setIsAddVisitModalOpen(false)}
+                            className="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-luxury-dark font-mono text-[9.5px] uppercase tracking-wider cursor-pointer"
+                          >
+                            Anuluj
+                          </button>
+                          <button
+                            type="submit"
+                            className="px-5 py-2.5 bg-luxury-dark hover:bg-luxury-gold text-white font-mono text-[9.5px] uppercase tracking-widest font-semibold cursor-pointer shadow-xs transition-colors"
+                          >
+                            Zapisz Zabieg w Kartotece &rarr;
+                          </button>
+                        </div>
+                      </form>
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* MODAL: AKTUALIZUJ DIAGNOZĘ BIONOMICZNĄ */}
+              <AnimatePresence>
+                {isEditDiagnosisModalOpen && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/65 backdrop-blur-xs overflow-y-auto"
+                    onClick={() => setIsEditDiagnosisModalOpen(false)}
+                  >
+                    <motion.div
+                      initial={{ scale: 0.95, opacity: 0, y: 15 }}
+                      animate={{ scale: 1, opacity: 1, y: 0 }}
+                      exit={{ scale: 0.95, opacity: 0, y: 15 }}
+                      className="bg-white border border-luxury-gold p-6 md:p-8 max-w-md w-full text-left space-y-5 shadow-2xl relative my-8"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div className="flex justify-between items-start border-b border-luxury-sand/40 pb-3">
+                        <div>
+                          <span className="font-mono text-[8.5px] tracking-widest text-luxury-gold uppercase block font-bold">
+                            DIAGNOZA BIONOMICZNA • KARTOTEKA
+                          </span>
+                          <h3 className="font-serif text-xl font-light text-luxury-dark mt-0.5">
+                            Aktualizuj Charakterystykę Skóry
+                          </h3>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setIsEditDiagnosisModalOpen(false)}
+                          className="text-luxury-dark/70 hover:text-luxury-dark font-mono text-sm cursor-pointer p-1"
+                        >
+                          ✕
+                        </button>
+                      </div>
+
+                      <form onSubmit={handleSaveDiagnosis} className="space-y-4 text-xs">
+                        <div className="space-y-1">
+                          <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
+                            Główny problem komórkowy:
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            value={editDiagnosisData.skinConcern}
+                            onChange={(e) => setEditDiagnosisData(prev => ({ ...prev, skinConcern: e.target.value }))}
+                            placeholder="np. Naruszona bariera hydrolipidowa, stres kortyzolowy"
+                            className="w-full bg-white border border-luxury-sand p-2.5 text-xs text-luxury-dark outline-0 focus:border-luxury-gold"
+                          />
+                        </div>
+
+                        <div className="space-y-1">
+                          <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
+                            Poziom neuroreaktywności naskórka:
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            value={editDiagnosisData.sensitivityLevel}
+                            onChange={(e) => setEditDiagnosisData(prev => ({ ...prev, sensitivityLevel: e.target.value }))}
+                            placeholder="np. Średnia nadreaktywność, skłonność do rumienia naczyniowego"
+                            className="w-full bg-white border border-luxury-sand p-2.5 text-xs text-luxury-dark outline-0 focus:border-luxury-gold"
+                          />
+                        </div>
+
+                        <div className="space-y-1">
+                          <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
+                            Wpis bionomiczny kosmetologa (zalecenia ogólne):
+                          </label>
+                          <textarea
+                            rows={3}
+                            value={editDiagnosisData.cabinetNotes}
+                            onChange={(e) => setEditDiagnosisData(prev => ({ ...prev, cabinetNotes: e.target.value }))}
+                            placeholder="Wpisz ogólne spostrzeżenia diagnostyczne i zalecenia pielęgnacyjne..."
+                            className="w-full bg-white border border-luxury-sand p-2.5 text-xs text-luxury-dark outline-0 focus:border-luxury-gold resize-none"
+                          />
+                        </div>
+
+                        <div className="flex justify-end gap-2.5 pt-3 border-t border-luxury-sand/30">
+                          <button
+                            type="button"
+                            onClick={() => setIsEditDiagnosisModalOpen(false)}
+                            className="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-luxury-dark font-mono text-[9.5px] uppercase tracking-wider cursor-pointer"
+                          >
+                            Anuluj
+                          </button>
+                          <button
+                            type="submit"
+                            className="px-5 py-2.5 bg-luxury-dark hover:bg-luxury-gold text-white font-mono text-[9.5px] uppercase tracking-widest font-semibold cursor-pointer shadow-xs transition-colors"
+                          >
+                            Zapisz Diagnozę &rarr;
+                          </button>
+                        </div>
+                      </form>
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           )}
 
