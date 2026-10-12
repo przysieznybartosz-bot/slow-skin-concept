@@ -1,0 +1,41 @@
+[
+  {
+    "id": "seed-1",
+    "treatmentName": "Skin Readiness\u2122 \u2014 Diagnoza Komputerowa",
+    "durationMinutes": 90,
+    "price": "400 PLN",
+    "clientName": "Joanna M.",
+    "clientPhone": "+48 600 *** ***",
+    "clientEmail": "j.m@example.com",
+    "dateStr": "2026-10-03",
+    "timeStr": "11:00",
+    "notes": "Sta\u0142a klientka",
+    "createdAt": "2026-10-02T13:18:22.328Z"
+  },
+  {
+    "id": "seed-2",
+    "treatmentName": "Neurolifting \u2014 Fale Nogiera",
+    "durationMinutes": 90,
+    "price": "500 PLN",
+    "clientName": "Ewa K.",
+    "clientPhone": "+48 501 *** ***",
+    "clientEmail": "e.k@example.com",
+    "dateStr": "2026-10-03",
+    "timeStr": "15:00",
+    "notes": "Wizyta cykliczna",
+    "createdAt": "2026-10-02T13:18:22.328Z"
+  },
+  {
+    "id": "seed-3",
+    "treatmentName": "Lift & Firm Therapy\u2122",
+    "durationMinutes": 75,
+    "price": "500 PLN",
+    "clientName": "Magdalena W.",
+    "clientPhone": "+48 692 *** ***",
+    "clientEmail": "m.w@example.com",
+    "dateStr": "2026-10-04",
+    "timeStr": "10:30",
+    "notes": "Konsultacja barierowa",
+    "createdAt": "2026-10-02T13:18:22.328Z"
+  }
+]
