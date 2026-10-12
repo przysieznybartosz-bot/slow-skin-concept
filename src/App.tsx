@@ -56,7 +56,8 @@ import {
   Droplets,
   Layers,
   ExternalLink,
-  Camera
+  Camera,
+  Settings
 } from "lucide-react";
 import { TREATMENTS, ARTICLES, REVIEWS } from "./data";
 import { VideoPlayerSection } from "./components/VideoPlayerSection";
@@ -68,7 +69,8 @@ import WcagWidget from "./components/WcagWidget";
 import CookieBot from "./components/CookieBot";
 import { OriginalImageManagerModal } from "./components/OriginalImageManagerModal";
 import { EditableImage } from "./components/EditableImage";
-import { isEditorMode } from "./utils/editorMode";
+import { isEditorMode, toggleEditorMode, setEditorMode } from "./utils/editorMode";
+import { optimizeImageForStorage, saveTreatmentCustomImage } from "./utils/imageOptimizer";
 import CookiesPolicyModal from "./components/CookiesPolicyModal";
 import { BeforeAfterSlider } from "./components/BeforeAfterSlider";
 import { DiscreetSection, DiscreetDiv, DiscreetCard } from "./components/DiscreetSection";
@@ -528,6 +530,7 @@ export default function App() {
   };
 
   const [isImageManagerOpen, setIsImageManagerOpen] = useState(false);
+  const [editorActive, setEditorActive] = useState(() => isEditorMode());
   const [customTreatmentImages, setCustomTreatmentImages] = useState<Record<string, string>>(() => {
     const map: Record<string, string> = {};
     if (typeof window !== "undefined") {
@@ -583,6 +586,27 @@ export default function App() {
     }
     return customTreatmentImages[treatment.id] || treatment.image;
   }, [customTreatmentImages]);
+
+  // Synchronize editor mode and image updates in real-time across tabs/events
+  useEffect(() => {
+    const handleModeChange = (e: any) => {
+      setEditorActive(e.detail?.active ?? isEditorMode());
+    };
+    const handleCustomImage = (e: any) => {
+      if (e.detail?.slotKey && e.detail?.url) {
+        setCustomTreatmentImages(prev => ({ ...prev, [e.detail.slotKey]: e.detail.url }));
+        if (e.detail.slotKey === "hero") {
+          setHeroCustomUrl(e.detail.url);
+        }
+      }
+    };
+    window.addEventListener("slowskin_editor_mode_change", handleModeChange);
+    window.addEventListener("slowskin_custom_image_updated", handleCustomImage);
+    return () => {
+      window.removeEventListener("slowskin_editor_mode_change", handleModeChange);
+      window.removeEventListener("slowskin_custom_image_updated", handleCustomImage);
+    };
+  }, []);
   const [selectedArticle, setSelectedArticle] = useState<MagazineArticle | null>(null);
   const [selectedTreatment, setSelectedTreatment] = useState<Treatment | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -7570,16 +7594,44 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             {PST_IMAGES[selectedPstImageIndex].tag}
                           </span>
                         )}
-                        {/* Quick Original Photo Uploader Button - visible ONLY in AI Studio / dev mode */}
-                        {isEditorMode() && (
-                          <button
-                            onClick={() => setIsImageManagerOpen(true)}
-                            className="absolute top-2 right-2 bg-white/90 hover:bg-white text-luxury-dark hover:text-luxury-gold px-2 py-1 text-[8px] font-mono uppercase tracking-wider rounded-2xs border border-luxury-sand/80 shadow-xs flex items-center gap-1 opacity-90 hover:opacity-100 transition-opacity cursor-pointer"
-                            title="Wstaw własne oryginalne zdjęcie dla tego zabiegu"
-                          >
-                            <Camera className="w-3 h-3 text-luxury-gold" />
-                            <span>Zmień zdjęcie</span>
-                          </button>
+                        {/* Quick Original Photo Uploader Button - active in dev & on live when enabled */}
+                        {editorActive && (
+                          <div className="absolute top-2 right-2 flex items-center gap-1.5 z-20">
+                            <label
+                              className="bg-white/95 hover:bg-white text-luxury-dark hover:text-luxury-gold px-2.5 py-1 text-[8.5px] font-mono uppercase tracking-wider rounded-2xs border border-luxury-gold/70 shadow-sm flex items-center gap-1.5 transition-all cursor-pointer font-bold"
+                              title="Wgraj nowe zdjęcie bezpośrednio z dysku dla tego zabiegu"
+                            >
+                              <input
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={async (e) => {
+                                  if (e.target.files && e.target.files[0]) {
+                                    const file = e.target.files[0];
+                                    try {
+                                      triggerToast("Optymalizowanie i zapisywanie zdjęcia...", "info");
+                                      const optimized = await optimizeImageForStorage(file);
+                                      await saveTreatmentCustomImage(selectedTreatment.id, optimized);
+                                      setCustomTreatmentImages(prev => ({ ...prev, [selectedTreatment.id]: optimized }));
+                                      triggerToast("Zdjęcie zabiegu zostało pomyślnie zaktualizowane!", "success");
+                                    } catch (err: any) {
+                                      triggerToast("Błąd zapisu: " + (err?.message || "Błąd"), "error");
+                                    }
+                                  }
+                                }}
+                              />
+                              <Camera className="w-3.5 h-3.5 text-luxury-gold" />
+                              <span>Zmień zdjęcie</span>
+                            </label>
+
+                            <button
+                              onClick={() => setIsImageManagerOpen(true)}
+                              className="bg-white/95 hover:bg-white text-luxury-dark hover:text-luxury-gold p-1.5 rounded-2xs border border-luxury-sand/80 shadow-sm transition-all cursor-pointer"
+                              title="Otwórz pełny panel zarządzania wszystkimi zdjęciami"
+                            >
+                              <Settings className="w-3.5 h-3.5 text-luxury-gold" />
+                            </button>
+                          </div>
                         )}
                       </div>
                       {selectedTreatment.id === "pst-signal-therapy" && (
@@ -13599,6 +13651,25 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               >
                 Regulamin i Bezpieczeństwo
               </button>
+              <span className="text-luxury-sand/60 select-none">•</span>
+              <button 
+                onClick={() => {
+                  const next = toggleEditorMode();
+                  setEditorActive(next);
+                  triggerToast(next ? "Włączono Tryb Wymiany Zdjęć na stronie." : "Wyłączono Tryb Wymiany Zdjęć.", "info");
+                  if (next) {
+                    setIsImageManagerOpen(true);
+                  }
+                }} 
+                className={`transition-colors hover:underline cursor-pointer flex items-center gap-1 font-semibold ${
+                  editorActive ? "text-luxury-gold" : "text-luxury-dark/75 hover:text-luxury-gold"
+                }`}
+                id="footer-toggle-editor-mode-btn"
+                title="Włącz lub otwórz panel ręcznej zmiany zdjęć na domenie"
+              >
+                <Camera className="w-3 h-3 text-luxury-gold" />
+                <span>Panel Wymiany Zdjęć {editorActive ? "(Aktywny)" : ""}</span>
+              </button>
             </div>
           </div>
 
@@ -14328,17 +14399,28 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
         </svg>
       </a>
 
-      {/* Floating Manager & Universal Active Photo Mode - visible ONLY in AI Studio / dev mode */}
-      {isEditorMode() && (
+      {/* Floating Manager & Universal Active Photo Mode - visible in dev or when toggled by owner on live */}
+      {editorActive && (
         <div className="fixed bottom-6 left-6 z-40 flex items-center gap-2">
           <button
             onClick={() => setIsImageManagerOpen(true)}
             className="bg-luxury-dark hover:bg-black text-luxury-gold border border-luxury-gold/80 px-4 py-2.5 rounded-full shadow-2xl text-[10px] font-mono uppercase tracking-wider flex items-center gap-2.5 transition-all hover:scale-105 cursor-pointer backdrop-blur-xs group"
-            title="Tryb Wymiany Zdjęć jest aktywny na każdym zdjęciu na stronie. Kliknij, aby otworzyć panel zbiorczy."
+            title="Tryb Wymiany Zdjęć jest aktywny. Kliknij, aby otworzyć panel zbiorczy."
           >
             <Camera className="w-4 h-4 text-luxury-gold group-hover:rotate-12 transition-transform" />
-            <span className="font-semibold text-white">Tryb Wymiany Zdjęć: <span className="text-luxury-gold font-bold">AKTYWNY</span></span>
+            <span className="font-semibold text-white">Wymiana Zdjęć: <span className="text-luxury-gold font-bold">AKTYWNA</span></span>
             <span className="bg-luxury-gold text-luxury-dark text-[8px] font-bold px-1.5 py-0.5 rounded-full">ON</span>
+          </button>
+          <button
+            onClick={() => {
+              setEditorMode(false);
+              setEditorActive(false);
+              triggerToast("Ukryto panel wymiany zdjęć. Możesz go włączyć w stopce strony.", "info");
+            }}
+            className="bg-luxury-dark/90 hover:bg-black text-luxury-sand hover:text-white p-2 rounded-full border border-luxury-sand/50 shadow-md transition-colors cursor-pointer"
+            title="Ukryj przycisk (możesz włączyć ponownie w stopce strony)"
+          >
+            <X className="w-3.5 h-3.5" />
           </button>
         </div>
       )}

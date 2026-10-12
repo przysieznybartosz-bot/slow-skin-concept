@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
-import { X, Upload, Check, Camera, Image as ImageIcon, Search, Filter, ShieldCheck, Sparkles, AlertCircle } from "lucide-react";
+import { X, Upload, Check, Camera, Image as ImageIcon, Search, Filter, ShieldCheck, Sparkles, AlertCircle, Download, FileUp, RotateCcw } from "lucide-react";
 import { TREATMENTS } from "../data";
+import { optimizeImageForStorage, saveTreatmentCustomImage, exportAllCustomImages, importCustomImages } from "../utils/imageOptimizer";
 
 export interface OriginalImageSlot {
   key: string;
@@ -208,57 +209,72 @@ export const OriginalImageManagerModal: React.FC<OriginalImageManagerModalProps>
 
     try {
       setUploadingKey(slotKey);
-      const reader = new FileReader();
-      reader.onload = async () => {
-        const base64 = reader.result as string;
-        try {
-          const resp = await fetch("/api/upload-treatment-image", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              dataUrl: base64,
-              treatmentKey: slotKey
-            })
-          });
-          const data = await resp.json();
-          const targetUrl = data.success && data.url ? data.url : base64;
-          
-          try {
-            localStorage.setItem(`custom_img_${slotKey}`, targetUrl);
-            if (slotKey === "hero") {
-              localStorage.setItem("custom_hero_image", targetUrl);
-            }
-          } catch {}
+      // Automatically optimize image client-side to ~120-200KB for instant storage & fast loading
+      const optimizedDataUrl = await optimizeImageForStorage(file);
+      const result = await saveTreatmentCustomImage(slotKey, optimizedDataUrl);
+      const targetUrl = result.url;
 
-          setImagesCache((prev) => ({ ...prev, [slotKey]: targetUrl }));
-          setSuccessKeys((prev) => ({ ...prev, [slotKey]: true }));
-          if (onImageUpdated) {
-            onImageUpdated(slotKey, targetUrl);
-          }
+      setImagesCache((prev) => ({ ...prev, [slotKey]: targetUrl }));
+      setSuccessKeys((prev) => ({ ...prev, [slotKey]: true }));
+      if (onImageUpdated) {
+        onImageUpdated(slotKey, targetUrl);
+      }
 
-          setTimeout(() => {
-            setSuccessKeys((prev) => ({ ...prev, [slotKey]: false }));
-          }, 3500);
-        } catch (err) {
-          console.error(err);
-          try {
-            localStorage.setItem(`custom_img_${slotKey}`, base64);
-            if (slotKey === "hero") {
-              localStorage.setItem("custom_hero_image", base64);
-            }
-          } catch {}
-          setImagesCache((prev) => ({ ...prev, [slotKey]: base64 }));
-          if (onImageUpdated) {
-            onImageUpdated(slotKey, base64);
-          }
-        } finally {
-          setUploadingKey(null);
-        }
-      };
-      reader.readAsDataURL(file);
-    } catch (err) {
+      setTimeout(() => {
+        setSuccessKeys((prev) => ({ ...prev, [slotKey]: false }));
+      }, 3500);
+    } catch (err: any) {
       console.error(err);
+      alert("Nie udało się przetworzyć zdjęcia: " + (err?.message || "Nieznany błąd"));
+    } finally {
       setUploadingKey(null);
+    }
+  };
+
+  const handleExportBackup = () => {
+    const json = exportAllCustomImages();
+    const blob = new Blob([json], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `slow-skin-zdjecia-kopia-${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleImportBackup = (file: File) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const content = e.target?.result as string;
+      if (content) {
+        const count = importCustomImages(content);
+        if (count > 0) {
+          alert(`Pomyślnie przywrócono ${count} zdjęć! Strona odświeży widok.`);
+          window.location.reload();
+        } else {
+          alert("Plik nie zawiera poprawnych danych zdjęć.");
+        }
+      }
+    };
+    reader.readAsText(file);
+  };
+
+  const handleResetAllToDefaults = () => {
+    if (confirm("Czy na pewno chcesz przywrócić wszystkie zdjęcia na stronie do fabrycznych zdjęć referencyjnych?")) {
+      try {
+        const keysToRemove: string[] = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const k = localStorage.key(i);
+          if (k && (k.startsWith("custom_img_") || k === "custom_hero_image")) {
+            keysToRemove.push(k);
+          }
+        }
+        keysToRemove.forEach((k) => localStorage.removeItem(k));
+        alert("Przywrócono domyślne zdjęcia. Nastąpi odświeżenie strony.");
+        window.location.reload();
+      } catch {}
     }
   };
 
@@ -473,18 +489,54 @@ export const OriginalImageManagerModal: React.FC<OriginalImageManagerModalProps>
         </div>
 
         {/* Footer */}
-        <div className="bg-white border-t border-luxury-sand/50 p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-          <div className="flex items-center gap-2 text-luxury-dark/80 font-mono text-[10px]">
+        <div className="bg-white border-t border-luxury-sand/50 p-4 sm:p-5 flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
+          <div className="flex flex-wrap items-center gap-2 text-luxury-dark/80 font-mono text-[10px]">
             <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-            <span>Pełna rozdzielczość 1:1 • Zapis bezpośredni w <code>public/</code> • Bez kompresji i filtrów</span>
+            <span>Optymalizacja HD • Bezpieczny zapis w przeglądarce i serwerze • Działa na domenie LIVE</span>
           </div>
 
-          <div className="flex items-center gap-2 w-full sm:w-auto">
+          <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
+            <button
+              onClick={handleExportBackup}
+              title="Pobierz plik kopii zapasowej wszystkich wgranych zdjęć"
+              className="px-3 py-2 bg-luxury-sand/20 hover:bg-luxury-gold hover:text-white text-luxury-dark font-mono text-[9px] uppercase tracking-wider rounded-xs flex items-center gap-1.5 transition-colors cursor-pointer border border-luxury-sand/60"
+            >
+              <Download className="w-3 h-3" />
+              <span>Zapisz kopię (JSON)</span>
+            </button>
+
+            <label
+              title="Przywróć zdjęcia z wcześniej pobranego pliku kopii zapasowej JSON"
+              className="px-3 py-2 bg-luxury-sand/20 hover:bg-luxury-gold hover:text-white text-luxury-dark font-mono text-[9px] uppercase tracking-wider rounded-xs flex items-center gap-1.5 transition-colors cursor-pointer border border-luxury-sand/60"
+            >
+              <input
+                type="file"
+                accept=".json"
+                className="hidden"
+                onChange={(e) => {
+                  if (e.target.files && e.target.files[0]) {
+                    handleImportBackup(e.target.files[0]);
+                  }
+                }}
+              />
+              <FileUp className="w-3 h-3" />
+              <span>Wczytaj kopię</span>
+            </label>
+
+            <button
+              onClick={handleResetAllToDefaults}
+              title="Przywraca fabryczne zdjęcia referencyjne dla wszystkich zabiegów"
+              className="px-3 py-2 bg-red-50 hover:bg-red-600 hover:text-white text-red-700 font-mono text-[9px] uppercase tracking-wider rounded-xs flex items-center gap-1.5 transition-colors cursor-pointer border border-red-200"
+            >
+              <RotateCcw className="w-3 h-3" />
+              <span>Reset</span>
+            </button>
+
             <button
               onClick={onClose}
-              className="w-full sm:w-auto px-6 py-2.5 bg-luxury-dark text-white hover:bg-luxury-gold font-mono text-xs uppercase tracking-widest font-bold transition-colors cursor-pointer text-center rounded-xs"
+              className="px-6 py-2 bg-luxury-dark text-white hover:bg-luxury-gold font-mono text-xs uppercase tracking-widest font-bold transition-colors cursor-pointer text-center rounded-xs"
             >
-              Gotowe — Zamknij panel
+              Zamknij
             </button>
           </div>
         </div>
