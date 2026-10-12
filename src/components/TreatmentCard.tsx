@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, MouseEvent } from "react";
 import { Clock, Camera } from "lucide-react";
 import { motion } from "motion/react";
 import { Treatment } from "../types";
+import { isGoogleAIStudio } from "../utils/editorMode";
 
 interface TreatmentCardProps {
   treatment: Treatment;
@@ -139,8 +140,8 @@ const TreatmentCard = React.memo(function TreatmentCard({
           <div className="w-full h-full bg-luxury-sand/30" />
         )}
 
-        {/* Direct Action Button to Change Treatment Photo Directly on Card */}
-        {onEditImage && (
+        {/* Direct Action Button to Change Treatment Photo Directly on Card - visible ONLY in Google AI Studio */}
+        {isGoogleAIStudio() && onEditImage && (
           <button
             type="button"
             onClick={(e) => {

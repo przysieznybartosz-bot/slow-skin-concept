@@ -1,39 +1,39 @@
 /**
- * Helper to determine whether photo editing mode should be active.
- * - Always active in Google AI Studio / dev environments.
- * - On LIVE / production domains (slow-skin-concept.pl, vercel.app), it can be enabled
- *   via query param (?editor=true or ?admin=true), or toggled via the footer owner control,
- *   and persists in localStorage so the owner can manage and replace photos directly on LIVE.
- */
-/**
  * Helper to determine whether the app is running in Google AI Studio / development environment.
  * In production (e.g. Vercel, live domain), this returns false.
  */
 export const isGoogleAIStudio = (): boolean => {
+  // If compiled in production mode (e.g. Vercel deployment), NEVER show AI Studio editor buttons!
+  if (import.meta.env.PROD) {
+    return false;
+  }
+
   if (typeof window === "undefined") return false;
   const hostname = window.location.hostname.toLowerCase();
+
+  // Explicitly deny live production domains
+  if (
+    hostname.includes("slow-skin-concept.pl") ||
+    hostname.includes("slowskinconcept.pl") ||
+    hostname.includes("vercel.app")
+  ) {
+    return false;
+  }
+
   return (
     hostname.includes("run.app") || 
     hostname.includes("localhost") || 
     hostname.includes("127.0.0.1") ||
     hostname.includes("webcontainer") ||
-    hostname.includes("csb.app")
+    hostname.includes("csb.app") ||
+    hostname.includes("googleusercontent.com")
   );
 };
 
 export const isEditorMode = (): boolean => {
   if (typeof window === "undefined") return false;
-
-  // By default, only active in Google AI Studio cloud environments and localhost
-  if (isGoogleAIStudio()) return true;
-
-  // Activation via explicit query param on live domain if needed
-  const search = window.location.search.toLowerCase();
-  if (search.includes("editor=true") || search.includes("google_ai=true")) {
-    return true;
-  }
-
-  return false;
+  // Strictly available only in Google AI Studio / development preview
+  return isGoogleAIStudio();
 };
 
 export const setEditorMode = (active: boolean): void => {
@@ -50,3 +50,4 @@ export const toggleEditorMode = (): boolean => {
   setEditorMode(next);
   return next;
 };
+

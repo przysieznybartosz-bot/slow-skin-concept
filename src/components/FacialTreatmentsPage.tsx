@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { Treatment } from "../types";
 import TreatmentCard from "./TreatmentCard";
+import { isGoogleAIStudio } from "../utils/editorMode";
 
 interface FacialTreatmentsPageProps {
   treatments: Treatment[];
@@ -1032,8 +1033,8 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
           </div>
         </div>
 
-        {/* Pasek Narzędzia Wymiany Zdjęć Kart Zabiegowych */}
-        {Boolean(onEditImage) && (
+        {/* Pasek Narzędzia Wymiany Zdjęć Kart Zabiegowych - widoczny TYLKO w Google AI Studio */}
+        {Boolean(isGoogleAIStudio() && onEditImage) && (
         <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-2.5 bg-luxury-sand/20 border border-luxury-sand/60 text-left">
           <div className="flex items-center gap-2">
             <span className="p-1.5 bg-luxury-gold/20 text-luxury-gold shrink-0">

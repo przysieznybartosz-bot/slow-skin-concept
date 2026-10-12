@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Camera, Upload, Check, RefreshCw } from "lucide-react";
-import { isEditorMode } from "../utils/editorMode";
+import { isGoogleAIStudio } from "../utils/editorMode";
 
 export interface EditableImageProps {
   id: string;
@@ -118,7 +118,7 @@ export const EditableImage: React.FC<EditableImageProps> = ({
     }
   };
 
-  const canEdit = isEditorMode();
+  const canEdit = isGoogleAIStudio();
 
   return (
     <div

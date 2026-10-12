@@ -15268,25 +15268,29 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               >
                 Regulamin i Bezpieczeństwo
               </button>
-              <span className="text-luxury-sand/60 select-none">•</span>
-              <button 
-                onClick={() => {
-                  const next = toggleEditorMode();
-                  setEditorActive(next);
-                  triggerToast(next ? "Włączono Tryb Wymiany Zdjęć na stronie." : "Wyłączono Tryb Wymiany Zdjęć.", "info");
-                  if (next) {
-                    setIsImageManagerOpen(true);
-                  }
-                }} 
-                className={`transition-colors hover:underline cursor-pointer flex items-center gap-1 font-semibold ${
-                  editorActive ? "text-luxury-gold" : "text-luxury-dark/75 hover:text-luxury-gold"
-                }`}
-                id="footer-toggle-editor-mode-btn"
-                title="Włącz lub otwórz panel ręcznej zmiany zdjęć na domenie"
-              >
-                <Camera className="w-3 h-3 text-luxury-gold" />
-                <span>Panel Wymiany Zdjęć {editorActive ? "(Aktywny)" : ""}</span>
-              </button>
+              {isGoogleAIStudio() && (
+                <>
+                  <span className="text-luxury-sand/60 select-none">•</span>
+                  <button 
+                    onClick={() => {
+                      const next = toggleEditorMode();
+                      setEditorActive(next);
+                      triggerToast(next ? "Włączono Tryb Wymiany Zdjęć na stronie." : "Wyłączono Tryb Wymiany Zdjęć.", "info");
+                      if (next) {
+                        setIsImageManagerOpen(true);
+                      }
+                    }} 
+                    className={`transition-colors hover:underline cursor-pointer flex items-center gap-1 font-semibold ${
+                      editorActive ? "text-luxury-gold" : "text-luxury-dark/75 hover:text-luxury-gold"
+                    }`}
+                    id="footer-toggle-editor-mode-btn"
+                    title="Włącz lub otwórz panel ręcznej zmiany zdjęć na domenie"
+                  >
+                    <Camera className="w-3 h-3 text-luxury-gold" />
+                    <span>Panel Wymiany Zdjęć {editorActive ? "(Aktywny)" : ""}</span>
+                  </button>
+                </>
+              )}
             </div>
           </div>
 
@@ -16016,8 +16020,8 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
         </svg>
       </a>
 
-      {/* Floating Manager & Universal Active Photo Mode - visible in dev or when toggled by owner on live */}
-      {editorActive && (
+      {/* Floating Manager & Universal Active Photo Mode - visible ONLY in Google AI Studio dev mode */}
+      {isGoogleAIStudio() && editorActive && (
         <div className="fixed bottom-6 left-6 z-40 flex items-center gap-2">
           <button
             onClick={() => setIsImageManagerOpen(true)}

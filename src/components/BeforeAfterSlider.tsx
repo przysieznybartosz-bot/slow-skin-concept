@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import { MoveHorizontal, Camera, Upload, Check, RefreshCw } from "lucide-react";
-import { isEditorMode } from "../utils/editorMode";
+import { isGoogleAIStudio } from "../utils/editorMode";
 
 interface BeforeAfterSliderProps {
   idBefore?: string;
@@ -179,7 +179,7 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
     setIsDragging(false);
   };
 
-  const canEdit = isEditorMode();
+  const canEdit = isGoogleAIStudio();
 
   return (
     <div className={`flex flex-col space-y-3 ${className}`}>

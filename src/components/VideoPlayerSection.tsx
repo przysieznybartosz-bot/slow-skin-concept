@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Play, Pause, Volume2, VolumeX, Maximize2, Sparkles, Compass, ShieldCheck, Quote, Upload, Video, Camera, Check, RefreshCw } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import { isEditorMode } from "../utils/editorMode";
+import { isGoogleAIStudio } from "../utils/editorMode";
 
 export const VideoPlayerSection: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -178,7 +178,7 @@ export const VideoPlayerSection: React.FC = () => {
     }
   };
 
-  const canEdit = isEditorMode();
+  const canEdit = isGoogleAIStudio();
 
   return (
     <div className="space-y-6 pt-10 pb-6 border-t border-luxury-sand/30" id="metamorphosis-video-section">
