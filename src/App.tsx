@@ -3975,7 +3975,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                 transition={{ delay: 0.7, duration: 0.8 }}
                 className="w-full max-w-4xl relative mt-1 sm:mt-2 z-30"
               >
-                <div className="relative rounded-none overflow-hidden backdrop-blur-md bg-white/95 hover:bg-white focus-within:bg-white border border-luxury-sand/80 focus-within:border-luxury-gold transition-all duration-300 shadow-[0_8px_30px_rgb(0,0,0,0.06)] p-3.5 sm:p-4 md:p-5">
+                <div className="relative rounded-none overflow-hidden backdrop-blur-xl bg-white/35 hover:bg-white/45 focus-within:bg-white/55 border border-white/70 hover:border-white/90 focus-within:border-luxury-gold transition-all duration-300 shadow-[0_8px_32px_0_rgba(4,37,31,0.08),inset_0_1px_1px_0_rgba(255,255,255,0.85)] p-3.5 sm:p-4 md:p-5">
                   {/* Input row */}
                   <div className="flex items-center gap-2.5 sm:gap-3.5">
                     <Search 
@@ -4095,7 +4095,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   <motion.div
                     initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="mt-2.5 p-3 sm:p-3.5 bg-white/95 border border-luxury-sand text-luxury-dark shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 backdrop-blur-md"
+                    className="mt-2.5 p-3 sm:p-3.5 bg-white/35 hover:bg-white/45 border border-white/70 text-luxury-dark shadow-[0_8px_32px_0_rgba(4,37,31,0.08),inset_0_1px_1px_0_rgba(255,255,255,0.85)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 backdrop-blur-xl"
                   >
                     <div className="flex items-center gap-2 flex-wrap text-xs font-mono uppercase tracking-wider">
                       <span className="text-luxury-dark/60 font-sans normal-case italic text-xs">Wyniki dla:</span>
