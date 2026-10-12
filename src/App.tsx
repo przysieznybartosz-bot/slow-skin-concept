@@ -11973,6 +11973,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   onOpenBooking={handleOpenBooking}
                   onLinkClick={handleLinkClick}
                   getTreatmentCategory={getTreatmentCategory}
+                  getEffectiveTreatmentImage={getEffectiveTreatmentImage}
                 />
               )}
               </motion.div>

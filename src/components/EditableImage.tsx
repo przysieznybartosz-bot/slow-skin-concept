@@ -45,7 +45,7 @@ export const EditableImage: React.FC<EditableImageProps> = ({
   useEffect(() => {
     if (typeof window !== "undefined") {
       const stored = localStorage.getItem(`custom_img_${id}`);
-      if (src && (src.includes("?v=") || src.startsWith("data:") || src !== fallbackSrc)) {
+      if (src && (src.includes("?v=") || src.startsWith("data:") || (Boolean(fallbackSrc) && src !== fallbackSrc))) {
         setCurrentSrc(src);
       } else if (stored) {
         setCurrentSrc(stored);

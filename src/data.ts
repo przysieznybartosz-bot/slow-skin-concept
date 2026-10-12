@@ -1678,7 +1678,7 @@ export const TREATMENTS: Treatment[] = [
     price: "350 PLN",
     description: "Zabieg łączący działanie specjalistycznej emulsji węglowej z krótkimi impulsami lasera Q-Switch Nd:YAG. Emulsja pokrywa powierzchnię skóry i osadza się w ujściach mieszków włosowych. Węgiel pełni funkcję chromoforu — pochłania energię światła laserowego, a następnie ulega rozdrobnieniu i usunięciu wraz z nadmiarem sebum, powierzchniowymi zanieczyszczeniami i komórkami warstwy rogowej. Pomaga dokładnie oczyścić i odświeżyć skórę, wygładzić jej strukturę, ograniczyć nadmierne przetłuszczanie oraz zmniejszyć widoczność rozszerzonych porów.",
     focus: "Fotoakustyczne oczyszczenie porów, regulacja wydzielania sebum, wygładzenie struktury naskórka, odświeżenie kolorytu",
-    image: "/src/assets/images/black_doll_laser.webp",
+    image: "/laser-carbon.png",
     indications: [
       "Nadmierne wydzielanie sebum (łojotok)",
       "Rozszerzone i widoczne ujścia mieszków włosowych",

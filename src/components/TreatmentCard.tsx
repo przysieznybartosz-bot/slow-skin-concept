@@ -6,6 +6,7 @@ import { Treatment } from "../types";
 interface TreatmentCardProps {
   treatment: Treatment;
   index?: number;
+  customImage?: string;
   onSelectTreatment: (treatment: Treatment | null) => void;
   onOpenBooking: (treatment: Treatment) => void;
 }
@@ -13,6 +14,7 @@ interface TreatmentCardProps {
 const TreatmentCard = React.memo(function TreatmentCard({ 
   treatment, 
   index = 0,
+  customImage,
   onSelectTreatment, 
   onOpenBooking 
 }: TreatmentCardProps) {
@@ -49,6 +51,7 @@ const TreatmentCard = React.memo(function TreatmentCard({
 
   // Dynamic image resolution linked with homepage and editor changes
   const cardImage = (() => {
+    if (customImage) return customImage;
     if (typeof window !== "undefined") {
       const keyMap: Record<string, string[]> = {
         "skin-readiness": ["how_help_first_visit", "skin-readiness"],
@@ -100,6 +103,11 @@ const TreatmentCard = React.memo(function TreatmentCard({
         <img 
           src={cardImage} 
           alt={treatment.title} 
+          onError={(e) => {
+            if (e.currentTarget.src !== treatment.image && !e.currentTarget.src.endsWith(treatment.image)) {
+              e.currentTarget.src = treatment.image;
+            }
+          }}
           style={{
             transform: isHovered 
               ? `scale(1.08) translate(${shiftX}px, ${shiftY}px)`

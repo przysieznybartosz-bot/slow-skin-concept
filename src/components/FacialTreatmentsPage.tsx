@@ -37,6 +37,7 @@ interface FacialTreatmentsPageProps {
   onOpenBooking: (treatment: Treatment) => void;
   onLinkClick: (url: string) => void;
   getTreatmentCategory: (id: string) => string;
+  getEffectiveTreatmentImage?: (treatment: Treatment) => string;
 }
 
 export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
@@ -48,7 +49,8 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
   onSelectTreatment,
   onOpenBooking,
   onLinkClick,
-  getTreatmentCategory
+  getTreatmentCategory,
+  getEffectiveTreatmentImage
 }) => {
   // 7 Terapii skóry według potrzeb
   const problemTherapies = [
@@ -616,7 +618,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
                   <EditableImage
                     id={therapy.id}
                     slotName={therapy.title}
-                    src={therapy.image}
+                    src={getEffectiveTreatmentImage ? getEffectiveTreatmentImage({ id: therapy.id, image: therapy.image } as any) : therapy.image}
                     alt={therapy.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     aspectRatioClass="h-full w-full"
@@ -1034,6 +1036,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
               key={treatment.id}
               index={idx}
               treatment={treatment}
+              customImage={getEffectiveTreatmentImage ? getEffectiveTreatmentImage(treatment) : undefined}
               onSelectTreatment={onSelectTreatment}
               onOpenBooking={onOpenBooking}
             />
