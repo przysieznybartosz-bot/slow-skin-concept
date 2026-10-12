@@ -151,17 +151,26 @@ export const EditableImage: React.FC<EditableImageProps> = ({
       )}
 
       {/* Main Image */}
-      <img
-        src={currentSrc}
-        alt={alt}
-        className={className}
-        onError={(e) => {
-          if (fallbackSrc && e.currentTarget.src !== fallbackSrc) {
-            e.currentTarget.src = fallbackSrc;
-          }
-        }}
-        referrerPolicy="no-referrer"
-      />
+      {currentSrc ? (
+        <img
+          src={currentSrc}
+          alt={alt}
+          className={className}
+          onError={(e) => {
+            if (fallbackSrc && e.currentTarget.src !== fallbackSrc) {
+              e.currentTarget.src = fallbackSrc;
+            }
+          }}
+          referrerPolicy="no-referrer"
+        />
+      ) : fallbackSrc ? (
+        <img
+          src={fallbackSrc}
+          alt={alt}
+          className={className}
+          referrerPolicy="no-referrer"
+        />
+      ) : null}
 
       {/* Drag & drop overlay - only when editing */}
       {canEdit && isDragOver && (

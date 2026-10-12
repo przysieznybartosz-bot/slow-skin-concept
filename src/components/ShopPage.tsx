@@ -332,12 +332,16 @@ export const ShopPage: React.FC<ShopPageProps> = ({ onLinkClick, onOpenBooking }
 
               {/* Product Visual Container with Real Packshot */}
               <div className="h-64 bg-[#FAF8F5] border border-luxury-sand/40 flex flex-col items-center justify-center p-3 text-center relative overflow-hidden group-hover:bg-white transition-colors">
-                <img 
-                  src={product.image}
-                  alt={product.title}
-                  className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-500"
-                  referrerPolicy="no-referrer"
-                />
+                {product.image ? (
+                  <img 
+                    src={product.image}
+                    alt={product.title}
+                    className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-500"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-luxury-sand/20" />
+                )}
                 <span className="absolute bottom-2 left-2 bg-luxury-dark/90 text-luxury-gold font-mono text-[8.5px] px-2 py-0.5 uppercase tracking-wider font-semibold border border-luxury-gold/30">
                   {product.step}
                 </span>

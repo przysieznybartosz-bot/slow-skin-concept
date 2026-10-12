@@ -76,7 +76,7 @@ import { OriginalImageManagerModal } from "./components/OriginalImageManagerModa
 import { TreatmentCardImageModal } from "./components/TreatmentCardImageModal";
 import { parseCurrentRoute, syncRoute } from "./utils/router";
 import { EditableImage } from "./components/EditableImage";
-import { isEditorMode, toggleEditorMode, setEditorMode } from "./utils/editorMode";
+import { isEditorMode, toggleEditorMode, setEditorMode, isGoogleAIStudio } from "./utils/editorMode";
 import { optimizeImageForStorage, saveTreatmentCustomImage } from "./utils/imageOptimizer";
 import CookiesPolicyModal from "./components/CookiesPolicyModal";
 import { BeforeAfterSlider } from "./components/BeforeAfterSlider";
@@ -3331,17 +3331,21 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           className="w-full h-24 bg-luxury-cream overflow-hidden relative flex-shrink-0 cursor-pointer group/img focus:outline-none focus-visible:ring-1 focus-visible:ring-luxury-gold rounded-2xs"
                           title={`Zobacz opis zabiegu: ${item.title}`}
                         >
-                          <img 
-                            src={getEffectiveTreatmentImage(item)} 
-                            onError={(e) => {
-                              if (e.currentTarget.src !== item.image) {
-                                e.currentTarget.src = item.image;
-                              }
-                            }}
-                            alt={item.title} 
-                            className="w-full h-full object-cover grayscale group-hover/img:grayscale-0 opacity-90 transition-transform duration-550 hover:scale-105" 
-                            referrerPolicy="no-referrer" 
-                          />
+                          {getEffectiveTreatmentImage(item) ? (
+                            <img 
+                              src={getEffectiveTreatmentImage(item)} 
+                              onError={(e) => {
+                                if (item.image && e.currentTarget.src !== item.image) {
+                                  e.currentTarget.src = item.image;
+                                }
+                              }}
+                              alt={item.title} 
+                              className="w-full h-full object-cover grayscale group-hover/img:grayscale-0 opacity-90 transition-transform duration-550 hover:scale-105" 
+                              referrerPolicy="no-referrer" 
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-luxury-sand/30" />
+                          )}
                           {item.id === "sonaris-pro-therapy" && (
                             <span className="absolute top-0 left-0 bg-luxury-gold text-white text-[7px] px-1 py-0.5 font-mono tracking-widest uppercase font-semibold">SONARIS PRO</span>
                           )}
@@ -4363,25 +4367,27 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   }}
                 />
               )}
-              <img 
-                src={heroCustomUrl}
-                onError={() => {
-                  if (heroCustomUrl !== "/src/assets/images/hero_skin_examination_lamp_1791109949357.jpg") {
-                    setHeroCustomUrl("/src/assets/images/hero_skin_examination_lamp_1791109949357.jpg");
-                  }
-                }}
-                alt="Profesjonalna ocena skóry pod lupą — Slow Skin Concept"
-                loading="eager"
-                onLoad={() => setIsHeroLoaded(true)}
-                className="w-full h-full object-cover object-right md:object-center transition-all duration-[1500ms] ease-out hover:scale-[1.01]"
-                style={{
-                  filter: isHeroLoaded ? "blur(0px)" : "blur(16px)",
-                  opacity: isHeroLoaded ? 0.94 : 0.1,
-                  transform: isHeroLoaded ? "scale(1)" : "scale(1.02)",
-                }}
-                referrerPolicy="no-referrer"
-                id="hero-img-element"
-              />
+              {heroCustomUrl ? (
+                <img 
+                  src={heroCustomUrl}
+                  onError={() => {
+                    if (heroCustomUrl !== "/src/assets/images/hero_skin_examination_lamp_1791109949357.jpg") {
+                      setHeroCustomUrl("/src/assets/images/hero_skin_examination_lamp_1791109949357.jpg");
+                    }
+                  }}
+                  alt="Profesjonalna ocena skóry pod lupą — Slow Skin Concept"
+                  loading="eager"
+                  onLoad={() => setIsHeroLoaded(true)}
+                  className="w-full h-full object-cover object-right md:object-center transition-all duration-[1500ms] ease-out hover:scale-[1.01]"
+                  style={{
+                    filter: isHeroLoaded ? "blur(0px)" : "blur(16px)",
+                    opacity: isHeroLoaded ? 0.94 : 0.1,
+                    transform: isHeroLoaded ? "scale(1)" : "scale(1.02)",
+                  }}
+                  referrerPolicy="no-referrer"
+                  id="hero-img-element"
+                />
+              ) : null}
               {/* Subtle directional gradients ensuring pristine contrast and high image clarity */}
               <div className="absolute inset-0 bg-gradient-to-r from-[#FAF8F5]/95 sm:from-[#FAF8F5]/90 via-[#FAF8F5]/70 sm:via-[#FAF8F5]/55 via-60% sm:via-45% to-transparent pointer-events-none" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#FAF8F5] via-[#FAF8F5]/40 via-35% to-transparent pointer-events-none" />
@@ -8210,39 +8216,51 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     {/* Gorgeous Editorial Treatment Photo on the details page */}
                     <div className="lg:col-span-4 self-start border border-luxury-sand p-2 bg-white rounded-none shadow-xs">
                       <div className="w-full overflow-hidden bg-luxury-sand relative group aspect-[4/3]">
-                        <img 
-                          src={selectedTreatment.id === "pst-signal-therapy" ? PST_IMAGES[selectedPstImageIndex].url : getEffectiveTreatmentImage(selectedTreatment)} 
-                          onError={(e) => {
-                            if (selectedTreatment.id === "pst-signal-therapy") {
-                              e.currentTarget.src = PST_IMAGES[selectedPstImageIndex].fallback;
-                            } else if (e.currentTarget.src !== selectedTreatment.image) {
-                              e.currentTarget.src = selectedTreatment.image;
-                            }
-                          }}
-                          alt={selectedTreatment.id === "pst-signal-therapy" ? PST_IMAGES[selectedPstImageIndex].title : selectedTreatment.title}
-                          className="w-full h-full object-cover transition-transform duration-500 hover:scale-102"
-                          referrerPolicy="no-referrer"
-                        />
+                        {(() => {
+                          const detailImg = selectedTreatment.id === "pst-signal-therapy" 
+                            ? PST_IMAGES[selectedPstImageIndex]?.url 
+                            : getEffectiveTreatmentImage(selectedTreatment);
+                          if (!detailImg) {
+                            return <div className="w-full h-full bg-luxury-sand/40" />;
+                          }
+                          return (
+                            <img 
+                              src={detailImg} 
+                              onError={(e) => {
+                                if (selectedTreatment.id === "pst-signal-therapy") {
+                                  e.currentTarget.src = PST_IMAGES[selectedPstImageIndex]?.fallback || "";
+                                } else if (selectedTreatment.image && e.currentTarget.src !== selectedTreatment.image) {
+                                  e.currentTarget.src = selectedTreatment.image;
+                                }
+                              }}
+                              alt={selectedTreatment.id === "pst-signal-therapy" ? PST_IMAGES[selectedPstImageIndex]?.title : selectedTreatment.title}
+                              className="w-full h-full object-cover transition-transform duration-500 hover:scale-102"
+                              referrerPolicy="no-referrer"
+                            />
+                          );
+                        })()}
                         {selectedTreatment.id === "pst-signal-therapy" && (
                           <span className="absolute bottom-2 left-2 bg-luxury-dark/90 text-luxury-gold text-[8.5px] font-mono px-2 py-0.5 uppercase tracking-wider backdrop-blur-xs border border-luxury-gold/40">
                             {PST_IMAGES[selectedPstImageIndex].tag}
                           </span>
                         )}
-                        {/* Quick Original Photo Uploader Button directly for this treatment */}
-                        <div className="absolute top-2 right-2 flex items-center gap-1.5 z-20">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setTreatmentCardModalTarget(selectedTreatment);
-                              setIsTreatmentCardModalOpen(true);
-                            }}
-                            className="bg-black/75 hover:bg-luxury-gold text-white backdrop-blur-md px-2.5 py-1.5 text-[9px] font-mono uppercase tracking-wider border border-white/20 hover:border-luxury-gold shadow-md flex items-center gap-1.5 transition-all cursor-pointer font-medium"
-                            title="Wymień zdjęcie dla tego zabiegu"
-                          >
-                            <Camera className="w-3.5 h-3.5 text-luxury-gold" />
-                            <span>Zmień zdjęcie zabiegu</span>
-                          </button>
-                        </div>
+                        {/* Quick Original Photo Uploader Button directly for this treatment - visible only in Google AI Studio */}
+                        {isGoogleAIStudio() && (
+                          <div className="absolute top-2 right-2 flex items-center gap-1.5 z-20">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setTreatmentCardModalTarget(selectedTreatment);
+                                setIsTreatmentCardModalOpen(true);
+                              }}
+                              className="bg-black/75 hover:bg-luxury-gold text-white backdrop-blur-md px-2.5 py-1.5 text-[9px] font-mono uppercase tracking-wider border border-white/20 hover:border-luxury-gold shadow-md flex items-center gap-1.5 transition-all cursor-pointer font-medium"
+                              title="Wymień zdjęcie dla tego zabiegu"
+                            >
+                              <Camera className="w-3.5 h-3.5 text-luxury-gold" />
+                              <span>Zmień zdjęcie zabiegu</span>
+                            </button>
+                          </div>
+                        )}
                       </div>
                       {selectedTreatment.id === "pst-signal-therapy" && (
                         <div className="grid grid-cols-2 gap-2 pt-2">
@@ -12636,10 +12654,10 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   onLinkClick={handleLinkClick}
                   getTreatmentCategory={getTreatmentCategory}
                   getEffectiveTreatmentImage={getEffectiveTreatmentImage}
-                  onEditImage={(treatment) => {
+                  onEditImage={isGoogleAIStudio() ? ((treatment) => {
                     setTreatmentCardModalTarget(treatment);
                     setIsTreatmentCardModalOpen(true);
-                  }}
+                  }) : undefined}
                 />
               )}
               </motion.div>

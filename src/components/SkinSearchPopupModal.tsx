@@ -571,14 +571,18 @@ export const SkinSearchPopupModal: React.FC<SkinSearchPopupModalProps> = ({
                     >
                       {/* Image Thumbnail */}
                       <div className="w-full sm:w-24 h-28 sm:h-24 shrink-0 bg-luxury-cream border border-luxury-sand/50 overflow-hidden relative">
-                        <img 
-                          src={treatment.image} 
-                          alt={treatment.title} 
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-                          onError={(e) => {
-                            (e.target as HTMLElement).style.display = "none";
-                          }}
-                        />
+                        {treatment.image ? (
+                          <img 
+                            src={treatment.image} 
+                            alt={treatment.title} 
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                            onError={(e) => {
+                              (e.target as HTMLElement).style.display = "none";
+                            }}
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-luxury-sand/20" />
+                        )}
                       </div>
 
                       {/* Content details */}

@@ -303,11 +303,15 @@ export const TreatmentCardImageModal: React.FC<TreatmentCardImageModalProps> = (
 
               {/* Photo Box with 16:10 aspect ratio */}
               <div className="aspect-[16/10] bg-luxury-sand/30 border border-luxury-sand overflow-hidden relative group">
-                <img
-                  src={previewUrl || currentImageSrc}
-                  alt={treatment.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
+                {(previewUrl || currentImageSrc) ? (
+                  <img
+                    src={previewUrl || currentImageSrc}
+                    alt={treatment.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-luxury-sand/30" />
+                )}
                 
                 {previewUrl && (
                   <div className="absolute top-2 left-2 bg-luxury-gold text-white font-mono text-[9px] px-2 py-1 uppercase tracking-wider font-bold shadow-md">

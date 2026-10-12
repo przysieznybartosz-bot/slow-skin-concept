@@ -115,25 +115,29 @@ const TreatmentCard = React.memo(function TreatmentCard({
     >
       {/* Elite Editorial Photo as Header of each treatment card with smooth parallax tracking */}
       <div className="aspect-[16/10] overflow-hidden bg-luxury-sand relative">
-        <img 
-          src={cardImage} 
-          alt={treatment.title} 
-          onError={(e) => {
-            if (e.currentTarget.src !== treatment.image && !e.currentTarget.src.endsWith(treatment.image)) {
-              e.currentTarget.src = treatment.image;
-            }
-          }}
-          style={{
-            transform: isHovered 
-              ? `scale(1.08) translate(${shiftX}px, ${shiftY}px)`
-              : `scale(1) translate(0px, 0px)`,
-            transition: isHovered
-              ? "transform 0.15s cubic-bezier(0.25, 0.8, 0.25, 1)" // smooth damping tracking
-              : "transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)" // ultra smooth slow reset
-          }}
-          className="w-full h-full object-cover origin-center"
-          referrerPolicy="no-referrer"
-        />
+        {cardImage ? (
+          <img 
+            src={cardImage} 
+            alt={treatment.title} 
+            onError={(e) => {
+              if (treatment.image && e.currentTarget.src !== treatment.image && !e.currentTarget.src.endsWith(treatment.image)) {
+                e.currentTarget.src = treatment.image;
+              }
+            }}
+            style={{
+              transform: isHovered 
+                ? `scale(1.08) translate(${shiftX}px, ${shiftY}px)`
+                : `scale(1) translate(0px, 0px)`,
+              transition: isHovered
+                ? "transform 0.15s cubic-bezier(0.25, 0.8, 0.25, 1)" // smooth damping tracking
+                : "transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)" // ultra smooth slow reset
+            }}
+            className="w-full h-full object-cover origin-center"
+            referrerPolicy="no-referrer"
+          />
+        ) : (
+          <div className="w-full h-full bg-luxury-sand/30" />
+        )}
 
         {/* Direct Action Button to Change Treatment Photo Directly on Card */}
         {onEditImage && (

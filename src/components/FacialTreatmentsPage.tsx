@@ -1033,6 +1033,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
         </div>
 
         {/* Pasek Narzędzia Wymiany Zdjęć Kart Zabiegowych */}
+        {Boolean(onEditImage) && (
         <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-2.5 bg-luxury-sand/20 border border-luxury-sand/60 text-left">
           <div className="flex items-center gap-2">
             <span className="p-1.5 bg-luxury-gold/20 text-luxury-gold shrink-0">
@@ -1053,6 +1054,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
             </button>
           )}
         </div>
+        )}
 
         {/* Siatka Kart Monografii */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">

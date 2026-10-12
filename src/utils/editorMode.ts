@@ -5,33 +5,31 @@
  *   via query param (?editor=true or ?admin=true), or toggled via the footer owner control,
  *   and persists in localStorage so the owner can manage and replace photos directly on LIVE.
  */
-export const isEditorMode = (): boolean => {
+/**
+ * Helper to determine whether the app is running in Google AI Studio / development environment.
+ * In production (e.g. Vercel, live domain), this returns false.
+ */
+export const isGoogleAIStudio = (): boolean => {
   if (typeof window === "undefined") return false;
-
-  try {
-    const saved = localStorage.getItem("slowskin_editor_active");
-    if (saved === "true") return true;
-    if (saved === "false") return false;
-  } catch {}
-
   const hostname = window.location.hostname.toLowerCase();
-  
-  // Active by default in Google AI Studio cloud environments and localhost
-  const isDevOrStudio = 
+  return (
     hostname.includes("run.app") || 
     hostname.includes("localhost") || 
     hostname.includes("127.0.0.1") ||
     hostname.includes("webcontainer") ||
-    hostname.includes("csb.app");
+    hostname.includes("csb.app")
+  );
+};
 
-  if (isDevOrStudio) return true;
+export const isEditorMode = (): boolean => {
+  if (typeof window === "undefined") return false;
 
-  // Activation via query param on live domain (e.g. slow-skin-concept.pl/?admin=true)
+  // By default, only active in Google AI Studio cloud environments and localhost
+  if (isGoogleAIStudio()) return true;
+
+  // Activation via explicit query param on live domain if needed
   const search = window.location.search.toLowerCase();
-  if (search.includes("editor=true") || search.includes("admin=true")) {
-    try {
-      localStorage.setItem("slowskin_editor_active", "true");
-    } catch {}
+  if (search.includes("editor=true") || search.includes("google_ai=true")) {
     return true;
   }
 

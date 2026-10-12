@@ -262,12 +262,14 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
           BASE LAYER (Bottom - BEFORE / PRZED TERAPIĄ - Problem skóry):
           Covers 100% of container frame.
         */}
-        <img
-          src={currentBefore}
-          alt={altBefore}
-          className="absolute inset-0 w-full h-full object-cover object-center z-0"
-          referrerPolicy="no-referrer"
-        />
+        {currentBefore ? (
+          <img
+            src={currentBefore}
+            alt={altBefore}
+            className="absolute inset-0 w-full h-full object-cover object-center z-0"
+            referrerPolicy="no-referrer"
+          />
+        ) : null}
         <span className="absolute bottom-4 left-4 z-10 text-[10px] font-mono tracking-widest text-white/90 bg-black/60 px-2.5 py-1 border border-white/20 uppercase pointer-events-none backdrop-blur-xs">
           PRZED
         </span>
@@ -276,15 +278,17 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
           TOP LAYER (Top - AFTER / PO TERAPII - Zregenerowana skóra):
           Clipped from the right side according to slider position so sliding right reveals cleared skin!
         */}
-        <img
-          src={currentAfter}
-          alt={altAfter}
-          className="absolute inset-0 w-full h-full object-cover object-center z-10"
-          style={{
-            clipPath: `inset(0 ${100 - sliderPosition}% 0 0)`,
-          }}
-          referrerPolicy="no-referrer"
-        />
+        {currentAfter ? (
+          <img
+            src={currentAfter}
+            alt={altAfter}
+            className="absolute inset-0 w-full h-full object-cover object-center z-10"
+            style={{
+              clipPath: `inset(0 ${100 - sliderPosition}% 0 0)`,
+            }}
+            referrerPolicy="no-referrer"
+          />
+        ) : null}
         <span
           className="absolute bottom-4 right-4 z-10 text-[10px] font-mono tracking-widest text-white/90 bg-black/60 px-2.5 py-1 border border-white/20 uppercase pointer-events-none backdrop-blur-xs transition-opacity duration-200"
           style={{ opacity: sliderPosition > 10 ? 1 : 0 }}
