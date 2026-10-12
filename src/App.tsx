@@ -1508,16 +1508,8 @@ export default function App() {
       setStaffPinInput("");
       triggerToast("Autoryzacja personelu pomyślna. Odblokowano Kartotekę Gabinetu.");
     } else {
-      setStaffPinError("Nieprawidłowy kod PIN gabinetu. Domyślny PIN personelu: 2026");
+      setStaffPinError("Nieprawidłowy kod autoryzacji personelu gabinetu.");
     }
-  };
-
-  const handleQuickUnlockStaff = () => {
-    setIsStaffPinUnlocked(true);
-    safeStorage.setItem("slowskin_staff_unlocked", "true");
-    setStaffPinError("");
-    setStaffPinInput("");
-    triggerToast("Zalogowano jako Kosmetolog Prowadzący (PIN: 2026).");
   };
 
   const handleLockStaffMode = () => {
@@ -13429,73 +13421,14 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           : "text-luxury-dark/65 hover:text-luxury-gold"
                       }`}
                     >
-                      <ShieldCheck className="w-3.5 h-3.5 text-luxury-gold" />
-                      Personel (Gabinet)
+                      <Lock className="w-3.5 h-3.5 text-luxury-gold" />
+                      Personel Gabinetu
                     </button>
                   </div>
 
                   {/* TAB 1 & 2: CLIENT LOGIN & REGISTRATION */}
                   {authMode !== "staff" && (
                     <>
-                      {/* Szybki Dostęp Testowy dla Pacjenta & Demo */}
-                      <div className="bg-luxury-sand/15 p-3.5 border border-luxury-sand/50 space-y-2 text-left">
-                        <div className="flex items-center justify-between">
-                          <span className="font-mono text-[8px] text-luxury-gold uppercase font-bold tracking-widest">
-                            Szybki Dostęp do Kartoteki
-                          </span>
-                          <span className="text-[7.5px] font-mono text-emerald-800 uppercase bg-emerald-50 px-1 py-0.5 border border-emerald-100">
-                            Autoryzacja 1-Klik
-                          </span>
-                        </div>
-                        <div className="grid grid-cols-1 gap-1.5 pt-0.5">
-                          <button
-                            type="button"
-                            onClick={handleQuickLoginBartosz}
-                            className="w-full text-left p-2.5 bg-white border border-luxury-sand hover:border-luxury-gold transition-all text-xs flex items-center justify-between group cursor-pointer shadow-2xs"
-                          >
-                            <div>
-                              <span className="font-serif font-medium text-luxury-dark group-hover:text-luxury-gold block text-[11.5px]">
-                                Bartosz Przysiężny (Konto Rzeczywiste)
-                              </span>
-                              <span className="font-mono text-[8px] text-luxury-dark/80 block">
-                                Nowy pacjent • 0 zabiegów • czysta kartoteka gabinetowa
-                              </span>
-                            </div>
-                            <span className="font-mono text-[8.5px] text-luxury-gold uppercase tracking-wider group-hover:translate-x-0.5 transition-transform shrink-0 ml-2">
-                              Wejdź &rarr;
-                            </span>
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={handleQuickLoginDemo}
-                            className="w-full text-left p-2 bg-white/70 border border-luxury-sand/50 hover:border-luxury-sand transition-all text-xs flex items-center justify-between group cursor-pointer"
-                          >
-                            <div>
-                              <span className="font-serif text-luxury-dark/90 block text-[11px]">
-                                Konto Pokazowe (Demo)
-                              </span>
-                              <span className="font-mono text-[7.5px] text-luxury-dark/70 block">
-                                Wypełniona historia 3 zabiegów (dla porównania)
-                              </span>
-                            </div>
-                            <span className="font-mono text-[8px] text-luxury-dark/70 uppercase shrink-0 ml-2">
-                              Podgląd &rarr;
-                            </span>
-                          </button>
-                        </div>
-
-                        {/* Hint for clinic staff */}
-                        <button
-                          type="button"
-                          onClick={() => { setAuthMode("staff"); setLoginError(""); }}
-                          className="w-full text-center py-2 px-3 bg-luxury-sand/25 hover:bg-luxury-gold hover:text-white border border-luxury-sand/60 text-luxury-dark text-[9.5px] font-mono uppercase tracking-wider flex items-center justify-center gap-1.5 transition-colors cursor-pointer mt-1"
-                        >
-                          <ShieldCheck className="w-3.5 h-3.5 text-luxury-gold shrink-0" />
-                          <span>Wgląd we wszystkie konta klientów: <strong>Personel (PIN: 2026)</strong> &rarr;</span>
-                        </button>
-                      </div>
-
                       <form onSubmit={isRegisterMode ? handleRegister : handleLogin} className="space-y-4 pt-1">
                         {loginError && (
                           <div className="text-[11px] font-mono text-amber-800 bg-amber-50 p-2.5 border border-amber-200 animate-fade-in text-center">
@@ -13603,68 +13536,34 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             </p>
                           </div>
 
-                          {/* Prominent PIN explanation card */}
-                          <div className="bg-amber-50/80 border border-amber-200/80 p-3.5 text-center space-y-1.5 max-w-sm mx-auto">
-                            <span className="font-mono text-[9px] uppercase tracking-widest text-amber-900 font-bold block">
-                              🔑 TWÓJ KOD PIN PERSONELU TO: <span className="bg-amber-200/80 px-2 py-0.5 text-amber-950 font-mono text-xs font-bold rounded">2026</span>
-                            </span>
-                            <p className="text-[11px] text-amber-900/90 font-light leading-relaxed">
-                              Dla Twojej wygody nie musisz go zapamiętywać — możesz kliknąć poniższy przycisk szybkiego logowania 1-klik.
-                            </p>
-                          </div>
-
-                          <form onSubmit={handleUnlockStaffMode} className="space-y-4 max-w-xs mx-auto pt-1">
+                          <form onSubmit={handleUnlockStaffMode} className="space-y-4 max-w-xs mx-auto pt-3">
                             {staffPinError && (
                               <div className="text-[11px] font-mono text-amber-800 bg-amber-50 p-2.5 border border-amber-200 text-center animate-fade-in">
                                 ✕ {staffPinError}
                               </div>
                             )}
 
-                            {/* 1-Click Primary Staff Login Button */}
-                            <button
-                              type="button"
-                              onClick={handleQuickUnlockStaff}
-                              className="w-full py-3.5 bg-luxury-gold hover:bg-luxury-dark text-luxury-dark hover:text-white text-xs font-mono tracking-widest uppercase transition-all duration-300 font-bold cursor-pointer shadow-sm flex items-center justify-center gap-2"
-                            >
-                              <span>⚡ Zaloguj jako Kosmetolog (PIN: 2026)</span>
-                            </button>
-
-                            <div className="relative flex py-1 items-center">
-                              <div className="flex-grow border-t border-luxury-sand/60"></div>
-                              <span className="flex-shrink mx-3 text-luxury-dark/50 text-[9px] font-mono uppercase">lub wpisz kod ręcznie</span>
-                              <div className="flex-grow border-t border-luxury-sand/60"></div>
-                            </div>
-
-                            <div className="space-y-1">
+                            <div className="space-y-1.5">
                               <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block text-center font-semibold">
-                                Kod PIN Personelu:
+                                Poufny Kod PIN Gabinetu:
                               </label>
-                              <div className="relative">
-                                <input
-                                  type="text"
-                                  autoFocus
-                                  value={staffPinInput}
-                                  onChange={(e) => setStaffPinInput(e.target.value)}
-                                  placeholder="Wpisz: 2026"
-                                  className="w-full bg-white border border-luxury-sand p-3 text-sm outline-0 text-luxury-dark focus:border-luxury-gold text-center tracking-[0.25em] font-mono"
-                                />
-                                {staffPinInput !== "2026" && (
-                                  <button
-                                    type="button"
-                                    onClick={() => setStaffPinInput("2026")}
-                                    className="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] font-mono bg-luxury-sand/30 hover:bg-luxury-sand/60 px-2 py-1 text-luxury-dark cursor-pointer"
-                                  >
-                                    Wpisz 2026
-                                  </button>
-                                )}
-                              </div>
+                              <input
+                                type="password"
+                                autoFocus
+                                required
+                                value={staffPinInput}
+                                onChange={(e) => setStaffPinInput(e.target.value)}
+                                placeholder="••••"
+                                maxLength={12}
+                                className="w-full bg-white border border-luxury-sand p-3.5 text-base outline-0 text-luxury-dark focus:border-luxury-gold text-center tracking-[0.35em] font-mono shadow-2xs"
+                              />
                             </div>
 
                             <button
                               type="submit"
-                              className="w-full py-2.5 bg-luxury-dark hover:bg-luxury-gold text-white text-xs font-mono tracking-widest uppercase transition-colors font-semibold cursor-pointer shadow-xs"
+                              className="w-full py-3.5 bg-luxury-dark hover:bg-luxury-gold text-white text-xs font-mono tracking-widest uppercase transition-colors font-semibold cursor-pointer shadow-xs"
                             >
-                              Zatwierdź PIN &rarr;
+                              Autoryzuj i Odblokuj &rarr;
                             </button>
                           </form>
                         </div>
