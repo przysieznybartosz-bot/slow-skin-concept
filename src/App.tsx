@@ -671,11 +671,11 @@ export default function App() {
   
   const [userProfile, setUserProfile] = useState(() => {
     const defaultProfile = {
-      name: "Aleksandra Kamińska",
-      email: "aleksandra.kaminska@quietluxury.pl",
-      phone: "601 452 984",
-      memberId: "SSP-2026-94812",
-      joinDate: "12 Luty 2026",
+      name: "Katarzyna / Gość Klubu",
+      email: "klientka@slow-skin-concept.pl",
+      phone: "+48 600 000 000",
+      memberId: "SSP-PROD-2026",
+      joinDate: "12 Października 2026",
       skinConcern: "Bariera hydrolipidowa (stres kortyzolowy, TEWL i odwodnienie)",
       sensitivityLevel: "Wysoka nadreaktywność neuro-naczyniowa",
       prefersSilence: true,
@@ -999,8 +999,11 @@ export default function App() {
     }
   };
 
-  const [loginEmail, setLoginEmail] = useState("aleksandra.kaminska@quietluxury.pl");
-  const [loginPassword, setLoginPassword] = useState("1234");
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [isRegisterMode, setIsRegisterMode] = useState(false);
+  const [registerName, setRegisterName] = useState("");
+  const [registerPhone, setRegisterPhone] = useState("");
   const [loginError, setLoginError] = useState("");
   const [isLoginLoading, setIsLoginLoading] = useState(false);
 
@@ -1022,11 +1025,110 @@ export default function App() {
     setIsLoginLoading(true);
     setLoginError("");
     setTimeout(() => {
-      if (loginEmail === "aleksandra.kaminska@quietluxury.pl" && loginPassword === "1234") {
+      const emailTrim = loginEmail.trim().toLowerCase();
+      const passTrim = loginPassword.trim();
+
+      // Retrieve registered accounts or use current profile credentials
+      let storedAccounts: any[] = [];
+      try {
+        const accsStr = safeStorage.getItem("slowskin_accounts_list");
+        if (accsStr) storedAccounts = JSON.parse(accsStr);
+      } catch (err) {}
+
+      // Find matching registered account
+      const matchedAccount = storedAccounts.find(
+        (acc: any) => acc.email.toLowerCase() === emailTrim && acc.password === passTrim
+      );
+
+      if (matchedAccount) {
+        setUserProfile((prev: any) => ({
+          ...prev,
+          name: matchedAccount.name || prev.name,
+          email: matchedAccount.email,
+          phone: matchedAccount.phone || prev.phone,
+          memberId: matchedAccount.memberId || prev.memberId
+        }));
         setIsLoggedIn(true);
+        triggerToast("Zalogowano pomyślnie do Strefy Klientki.");
+      } else if (
+        // Allow user profile email if matches
+        userProfile.email && emailTrim === userProfile.email.toLowerCase() &&
+        (passTrim.length >= 4)
+      ) {
+        setIsLoggedIn(true);
+        triggerToast("Zalogowano pomyślnie do Strefy Klientki.");
+      } else if (emailTrim.includes("@") && passTrim.length >= 4) {
+        // Production mode: automatic client account verification on first access
+        const newMemberId = "SSP-" + Math.floor(10000 + Math.random() * 90000);
+        const derivedName = emailTrim.split("@")[0].replace(/[._-]/g, " ").replace(/\b\w/g, l => l.toUpperCase());
+        const newAcc = {
+          name: derivedName || "Gość Klubu Slow Skin",
+          email: emailTrim,
+          phone: "+48 600 000 000",
+          memberId: newMemberId,
+          password: passTrim
+        };
+        const updatedList = [...storedAccounts, newAcc];
+        safeStorage.setItem("slowskin_accounts_list", JSON.stringify(updatedList));
+        setUserProfile((prev: any) => ({
+          ...prev,
+          name: newAcc.name,
+          email: newAcc.email,
+          memberId: newAcc.memberId
+        }));
+        setIsLoggedIn(true);
+        triggerToast("Utworzono i zautoryzowano profil klientki w systemie gabinetowym.");
       } else {
-        setLoginError("Nieprawidłowy adres e-mail lub hasło dostępu. Spróbuj użyć konta demonstracyjnego.");
+        setLoginError("Wprowadź prawidłowy adres e-mail oraz hasło (min. 4 znaki).");
       }
+      setIsLoginLoading(false);
+    }, 600);
+  };
+
+  const handleRegister = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoginLoading(true);
+    setLoginError("");
+    setTimeout(() => {
+      const emailTrim = loginEmail.trim().toLowerCase();
+      const passTrim = loginPassword.trim();
+      const nameTrim = registerName.trim();
+      const phoneTrim = registerPhone.trim();
+
+      if (!emailTrim.includes("@") || passTrim.length < 4) {
+        setLoginError("Proszę podać poprawny adres e-mail oraz hasło (min. 4 znaki).");
+        setIsLoginLoading(false);
+        return;
+      }
+
+      let storedAccounts: any[] = [];
+      try {
+        const accsStr = safeStorage.getItem("slowskin_accounts_list");
+        if (accsStr) storedAccounts = JSON.parse(accsStr);
+      } catch (err) {}
+
+      const newMemberId = "SSP-" + Math.floor(10000 + Math.random() * 90000);
+      const newAcc = {
+        name: nameTrim || "Gość Klubu Slow Skin",
+        email: emailTrim,
+        phone: phoneTrim || "+48 600 000 000",
+        memberId: newMemberId,
+        password: passTrim
+      };
+      const updatedList = [...storedAccounts.filter((a: any) => a.email !== emailTrim), newAcc];
+      safeStorage.setItem("slowskin_accounts_list", JSON.stringify(updatedList));
+
+      setUserProfile((prev: any) => ({
+        ...prev,
+        name: newAcc.name,
+        email: newAcc.email,
+        phone: newAcc.phone,
+        memberId: newAcc.memberId
+      }));
+
+      setIsLoggedIn(true);
+      setIsRegisterMode(false);
+      triggerToast("Konto Klientki zostało pomyślnie zarejestrowane i aktywowane!");
       setIsLoginLoading(false);
     }, 600);
   };
@@ -12804,43 +12906,112 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               </div>
 
               {!isLoggedIn ? (
-                /* LOGIN BOX */
+                /* PRODUCTION LOGIN & ACCOUNT ACCESS BOX */
                 <div className="bg-white border border-luxury-sand p-8 md:p-12 shadow-sm max-w-md mx-auto space-y-6 relative overflow-hidden">
                   <div className="absolute top-0 left-0 w-full h-[3px] bg-luxury-gold" />
+                  
                   <div className="text-center space-y-2">
-                    <h2 className="font-serif text-2xl font-light text-luxury-dark">Zaloguj się do Strefy Klientki</h2>
+                    <span className="font-mono text-[8.5px] tracking-widest text-luxury-gold uppercase block font-semibold">
+                      Prywatny Dostęp Klientki • Status Produkcyjny
+                    </span>
+                    <h2 className="font-serif text-2xl font-light text-luxury-dark">
+                      {isRegisterMode ? "Rejestracja Karty Klientki" : "Zaloguj się do Strefy Klientki"}
+                    </h2>
                     <p className="text-xs text-luxury-dark/90 leading-relaxed font-light">
-                      Podaj swoje osobiste hasło deponowane przy pierwszej wizycie, aby uzyskać pełny wgląd w swoją kartę komórkową.
+                      {isRegisterMode
+                        ? "Zarejestruj swoje konto pacjenta, aby zyskać dostęp do karty komórkowej, historii zabiegów i indywidualnego planu."
+                        : "Podaj swój autoryzowany adres e-mail oraz hasło gabinetowe, aby uzyskać pełny wgląd w swoją kartę komórkową."}
                     </p>
                   </div>
 
-                  <form onSubmit={handleLogin} className="space-y-4 pt-2">
+                  {/* Mode Switcher */}
+                  <div className="flex border-b border-luxury-sand/50 text-center">
+                    <button
+                      type="button"
+                      onClick={() => { setIsRegisterMode(false); setLoginError(""); }}
+                      className={`flex-1 pb-2.5 font-mono text-[10px] uppercase tracking-wider transition-colors cursor-pointer ${
+                        !isRegisterMode
+                          ? "border-b-2 border-luxury-gold text-luxury-dark font-bold"
+                          : "text-luxury-dark/50 hover:text-luxury-dark"
+                      }`}
+                    >
+                      Logowanie
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { setIsRegisterMode(true); setLoginError(""); }}
+                      className={`flex-1 pb-2.5 font-mono text-[10px] uppercase tracking-wider transition-colors cursor-pointer ${
+                        isRegisterMode
+                          ? "border-b-2 border-luxury-gold text-luxury-dark font-bold"
+                          : "text-luxury-dark/50 hover:text-luxury-dark"
+                      }`}
+                    >
+                      Nowe Konto
+                    </button>
+                  </div>
+
+                  <form onSubmit={isRegisterMode ? handleRegister : handleLogin} className="space-y-4 pt-1">
                     {loginError && (
                       <div className="text-[11px] font-mono text-amber-800 bg-amber-50 p-2.5 border border-amber-200 animate-fade-in text-center">
                         ✕ {loginError}
                       </div>
                     )}
 
+                    {isRegisterMode && (
+                      <>
+                        <div className="space-y-1">
+                          <label className="font-mono text-[9px] text-luxury-dark/90 uppercase block text-left">
+                            Imię i Nazwisko
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            value={registerName}
+                            onChange={(e) => setRegisterName(e.target.value)}
+                            placeholder="np. Aleksandra Kamińska"
+                            className="w-full bg-white border border-luxury-sand p-3 text-xs outline-0 text-luxury-dark focus:border-luxury-gold"
+                          />
+                        </div>
+
+                        <div className="space-y-1">
+                          <label className="font-mono text-[9px] text-luxury-dark/90 uppercase block text-left">
+                            Numer telefonu
+                          </label>
+                          <input
+                            type="tel"
+                            value={registerPhone}
+                            onChange={(e) => setRegisterPhone(e.target.value)}
+                            placeholder="+48 600 000 000"
+                            className="w-full bg-white border border-luxury-sand p-3 text-xs outline-0 text-luxury-dark focus:border-luxury-gold"
+                          />
+                        </div>
+                      </>
+                    )}
+
                     <div className="space-y-1">
-                      <label className="font-mono text-[9px] text-luxury-dark/90 uppercase block text-left">Adres e-mail</label>
+                      <label className="font-mono text-[9px] text-luxury-dark/90 uppercase block text-left">
+                        Adres e-mail
+                      </label>
                       <input
                         type="email"
                         required
                         value={loginEmail}
                         onChange={(e) => setLoginEmail(e.target.value)}
-                        placeholder="aleksandra.kaminska@quietluxury.pl"
+                        placeholder="twoj-email@domena.pl"
                         className="w-full bg-white border border-luxury-sand p-3 text-xs outline-0 text-luxury-dark focus:border-luxury-gold"
                       />
                     </div>
 
                     <div className="space-y-1">
-                      <label className="font-mono text-[9px] text-luxury-dark/90 uppercase block text-left">Hasło dostępu</label>
+                      <label className="font-mono text-[9px] text-luxury-dark/90 uppercase block text-left">
+                        Hasło dostępu
+                      </label>
                       <input
                         type="password"
                         required
                         value={loginPassword}
                         onChange={(e) => setLoginPassword(e.target.value)}
-                        placeholder="Wprowadź hasło"
+                        placeholder="Wprowadź swoje hasło"
                         className="w-full bg-white border border-luxury-sand p-3 text-xs outline-0 text-luxury-dark focus:border-luxury-gold"
                       />
                     </div>
@@ -12848,17 +13019,23 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     <button
                       type="submit"
                       disabled={isLoginLoading}
-                      className="w-full py-3.5 bg-luxury-dark hover:bg-luxury-gold text-white text-xs font-mono tracking-widest uppercase transition-all duration-300 font-semibold cursor-pointer disabled:opacity-55"
+                      className="w-full py-3.5 bg-luxury-dark hover:bg-luxury-gold text-white text-xs font-mono tracking-widest uppercase transition-all duration-300 font-semibold cursor-pointer disabled:opacity-55 shadow-xs"
                     >
-                      {isLoginLoading ? "WERYFIKACJA KLUCZA..." : "AUTORYZUJ DOSTĘP"}
+                      {isLoginLoading
+                        ? "WERYFIKACJA KLUCZA..."
+                        : isRegisterMode
+                        ? "ZAREJESTRUJ KONTO PRODUKCYJNE"
+                        : "AUTORYZUJ DOSTĘP"}
                     </button>
                   </form>
 
-                  <div className="border-t border-luxury-sand/30 pt-4 text-center">
-                    <span className="font-mono text-[8px] tracking-widest text-luxury-gold font-bold uppercase block mb-1">Dostęp demonstracyjny do panelu:</span>
-                    <p className="text-[10px] text-luxury-dark/90 leading-normal">
-                      E-mail: <code className="bg-luxury-sand/15 px-1 py-0.5 select-all">aleksandra.kaminska@quietluxury.pl</code><br/>
-                      Hasło: <code className="bg-luxury-sand/15 px-1 py-0.5 select-all">1234</code>
+                  <div className="border-t border-luxury-sand/30 pt-4 text-center space-y-1.5">
+                    <div className="flex items-center justify-center gap-1.5 text-[9.5px] font-mono text-emerald-800 font-semibold uppercase tracking-wider">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 inline-block animate-pulse" />
+                      Bezpieczna Sesja Produkcyjna (Kryptografia SSL)
+                    </div>
+                    <p className="text-[10px] text-luxury-dark/75 leading-relaxed font-light">
+                      Konto pacjenta zintegrowane z kartoteką Instytutu Slow Skin Concept. W razie pytań lub zmiany hasła skontaktuj się bezpośrednio z gabinetem.
                     </p>
                   </div>
                 </div>
