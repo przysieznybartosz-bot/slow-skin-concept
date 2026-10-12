@@ -68,6 +68,8 @@ import SkincareAssistant from "./components/SkincareAssistant";
 import WcagWidget from "./components/WcagWidget";
 import CookieBot from "./components/CookieBot";
 import { OriginalImageManagerModal } from "./components/OriginalImageManagerModal";
+import { TreatmentCardImageModal } from "./components/TreatmentCardImageModal";
+import { parseCurrentRoute, syncRoute } from "./utils/router";
 import { EditableImage } from "./components/EditableImage";
 import { isEditorMode, toggleEditorMode, setEditorMode } from "./utils/editorMode";
 import { optimizeImageForStorage, saveTreatmentCustomImage } from "./utils/imageOptimizer";
@@ -428,7 +430,8 @@ const COMMON_PROBLEMS = [
 ];
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<"cover" | "journal" | "method" | "clinic" | "diagnose" | "account" | "shop" | "training">("cover");
+  const initialRoute = useRef(parseCurrentRoute()).current;
+  const [activeTab, setActiveTab] = useState<"cover" | "journal" | "method" | "clinic" | "diagnose" | "account" | "shop" | "training">(initialRoute.tab);
   
   // Helper to set google translate cookie with proper secure iframe support (SameSite=None; Secure) and subdomains
   const setGoogleTranslateCookie = (lang: "PL" | "EN" | "DE" | "UA" | "IT") => {
@@ -607,8 +610,51 @@ export default function App() {
       window.removeEventListener("slowskin_custom_image_updated", handleCustomImage);
     };
   }, []);
-  const [selectedArticle, setSelectedArticle] = useState<MagazineArticle | null>(null);
-  const [selectedTreatment, setSelectedTreatment] = useState<Treatment | null>(null);
+  const [selectedArticle, setSelectedArticle] = useState<MagazineArticle | null>(() => {
+    if (initialRoute.articleSlug) {
+      return (ARTICLES.find((a) => a.id === initialRoute.articleSlug) as MagazineArticle) || null;
+    }
+    return null;
+  });
+  const [selectedTreatment, setSelectedTreatment] = useState<Treatment | null>(() => {
+    if (initialRoute.treatmentSlug) {
+      return (TREATMENTS.find((t) => t.id === initialRoute.treatmentSlug) as Treatment) || null;
+    }
+    return null;
+  });
+  const [treatmentCardModalTarget, setTreatmentCardModalTarget] = useState<Treatment | null>(null);
+  const [isTreatmentCardModalOpen, setIsTreatmentCardModalOpen] = useState(false);
+
+  // Synchronize browser history and parse on popstate (Back / Forward browser buttons)
+  useEffect(() => {
+    const handlePopState = () => {
+      const route = parseCurrentRoute();
+      setActiveTab(route.tab);
+      if (route.treatmentSlug) {
+        const found = TREATMENTS.find((t) => t.id === route.treatmentSlug) || null;
+        setSelectedTreatment(found);
+      } else {
+        setSelectedTreatment(null);
+      }
+      if (route.articleSlug) {
+        const found = (ARTICLES.find((a) => a.id === route.articleSlug) as MagazineArticle) || null;
+        setSelectedArticle(found);
+      } else {
+        setSelectedArticle(null);
+      }
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  // Synchronize browser URL bar and SEO meta tags when navigation state changes
+  useEffect(() => {
+    syncRoute({
+      tab: activeTab,
+      treatmentSlug: selectedTreatment?.id,
+      articleSlug: selectedArticle?.id
+    });
+  }, [activeTab, selectedTreatment, selectedArticle]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedTreatmentCategory, setSelectedTreatmentCategory] = useState<"wszystkie" | "diagnostyka" | "lifting" | "regeneracja" | "oczyszczanie">("wszystkie");
   const [treatmentSearchQuery, setTreatmentSearchQuery] = useState("");
@@ -2030,13 +2076,15 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
         <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 md:px-8 xl:px-12 h-16 sm:h-18 lg:h-20 flex items-center justify-between gap-3 md:gap-6">
           
           {/* Brand Logo in Quiet Luxury Aesthetics */}
-          <div 
-            onClick={() => { setActiveTab("cover"); setSelectedArticle(null); setSelectedTreatment(null); setIsMobileMenuOpen(false); }}
+          <a 
+            href="/"
+            onClick={(e) => { e.preventDefault(); setActiveTab("cover"); setSelectedArticle(null); setSelectedTreatment(null); setIsMobileMenuOpen(false); }}
             className="cursor-pointer group flex items-center shrink-0"
             id="brand-logo"
+            aria-label="Slow Skin Concept — Strona Główna"
           >
             <BrandLogo className="h-7 sm:h-8 md:h-8.5 lg:h-8.5 xl:h-9 max-w-[190px] sm:max-w-[220px] md:max-w-[250px] lg:max-w-[260px] xl:max-w-[310px] w-auto group-hover:opacity-90" variant="header" />
-          </div>
+          </a>
 
           {/* Minimalist Editorial Navigation with Mega Menu Hover Triggers - Perfectly Centered & Spaced */}
           <nav className="hidden lg:flex items-center justify-center gap-6 xl:gap-9 2xl:gap-11 h-full mx-auto px-2">
@@ -2069,12 +2117,13 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
             </div>
 
             {/* 3. Metoda Autorska */}
-            <button 
-              onClick={() => { setActiveTab("method"); setSelectedArticle(null); setSelectedTreatment(null); setIsMegaMenuOpen(false); setIsProblemsMenuOpen(false); setIsShopMenuOpen(false); setIsTrainingMenuOpen(false); }}
+            <a 
+              href="/metodologia"
+              onClick={(e) => { e.preventDefault(); setActiveTab("method"); setSelectedArticle(null); setSelectedTreatment(null); setIsMegaMenuOpen(false); setIsProblemsMenuOpen(false); setIsShopMenuOpen(false); setIsTrainingMenuOpen(false); }}
               className={`text-[10.5px] xl:text-[11.5px] tracking-[0.12em] xl:tracking-[0.18em] uppercase font-mono transition-all py-2 border-b-2 leading-none whitespace-nowrap ${activeTab === "method" && !isMegaMenuOpen && !isProblemsMenuOpen && !isShopMenuOpen && !isTrainingMenuOpen ? "border-luxury-gold text-luxury-gold font-medium" : "border-transparent text-luxury-dark/95 hover:text-luxury-dark"}`}
             >
               <span className="whitespace-nowrap">Metoda Autorska</span>
-            </button>
+            </a>
 
             {/* 4. Sklep (Nowe Formulacje & Butik) */}
             <div 
@@ -7594,45 +7643,21 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             {PST_IMAGES[selectedPstImageIndex].tag}
                           </span>
                         )}
-                        {/* Quick Original Photo Uploader Button - active in dev & on live when enabled */}
-                        {editorActive && (
-                          <div className="absolute top-2 right-2 flex items-center gap-1.5 z-20">
-                            <label
-                              className="bg-white/95 hover:bg-white text-luxury-dark hover:text-luxury-gold px-2.5 py-1 text-[8.5px] font-mono uppercase tracking-wider rounded-2xs border border-luxury-gold/70 shadow-sm flex items-center gap-1.5 transition-all cursor-pointer font-bold"
-                              title="Wgraj nowe zdjęcie bezpośrednio z dysku dla tego zabiegu"
-                            >
-                              <input
-                                type="file"
-                                accept="image/*"
-                                className="hidden"
-                                onChange={async (e) => {
-                                  if (e.target.files && e.target.files[0]) {
-                                    const file = e.target.files[0];
-                                    try {
-                                      triggerToast("Optymalizowanie i zapisywanie zdjęcia...", "info");
-                                      const optimized = await optimizeImageForStorage(file);
-                                      await saveTreatmentCustomImage(selectedTreatment.id, optimized);
-                                      setCustomTreatmentImages(prev => ({ ...prev, [selectedTreatment.id]: optimized }));
-                                      triggerToast("Zdjęcie zabiegu zostało pomyślnie zaktualizowane!", "success");
-                                    } catch (err: any) {
-                                      triggerToast("Błąd zapisu: " + (err?.message || "Błąd"), "error");
-                                    }
-                                  }
-                                }}
-                              />
-                              <Camera className="w-3.5 h-3.5 text-luxury-gold" />
-                              <span>Zmień zdjęcie</span>
-                            </label>
-
-                            <button
-                              onClick={() => setIsImageManagerOpen(true)}
-                              className="bg-white/95 hover:bg-white text-luxury-dark hover:text-luxury-gold p-1.5 rounded-2xs border border-luxury-sand/80 shadow-sm transition-all cursor-pointer"
-                              title="Otwórz pełny panel zarządzania wszystkimi zdjęciami"
-                            >
-                              <Settings className="w-3.5 h-3.5 text-luxury-gold" />
-                            </button>
-                          </div>
-                        )}
+                        {/* Quick Original Photo Uploader Button directly for this treatment */}
+                        <div className="absolute top-2 right-2 flex items-center gap-1.5 z-20">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setTreatmentCardModalTarget(selectedTreatment);
+                              setIsTreatmentCardModalOpen(true);
+                            }}
+                            className="bg-black/75 hover:bg-luxury-gold text-white backdrop-blur-md px-2.5 py-1.5 text-[9px] font-mono uppercase tracking-wider border border-white/20 hover:border-luxury-gold shadow-md flex items-center gap-1.5 transition-all cursor-pointer font-medium"
+                            title="Wymień zdjęcie dla tego zabiegu"
+                          >
+                            <Camera className="w-3.5 h-3.5 text-luxury-gold" />
+                            <span>Zmień zdjęcie zabiegu</span>
+                          </button>
+                        </div>
                       </div>
                       {selectedTreatment.id === "pst-signal-therapy" && (
                         <div className="grid grid-cols-2 gap-2 pt-2">
@@ -12026,6 +12051,10 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   onLinkClick={handleLinkClick}
                   getTreatmentCategory={getTreatmentCategory}
                   getEffectiveTreatmentImage={getEffectiveTreatmentImage}
+                  onEditImage={(treatment) => {
+                    setTreatmentCardModalTarget(treatment);
+                    setIsTreatmentCardModalOpen(true);
+                  }}
                 />
               )}
               </motion.div>
@@ -14433,6 +14462,18 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
           if (key === "hero") {
             setHeroCustomUrl(url);
           }
+        }}
+      />
+
+      <TreatmentCardImageModal
+        isOpen={isTreatmentCardModalOpen}
+        treatment={treatmentCardModalTarget}
+        onClose={() => setIsTreatmentCardModalOpen(false)}
+        onImageSaved={(treatmentId, newUrl) => {
+          setCustomTreatmentImages(prev => ({ ...prev, [treatmentId]: newUrl }));
+        }}
+        onSelectAnotherTreatment={(t) => {
+          setTreatmentCardModalTarget(t);
         }}
       />
 

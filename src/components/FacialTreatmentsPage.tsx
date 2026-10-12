@@ -22,7 +22,8 @@ import {
   FileText,
   HelpCircle,
   Stethoscope,
-  HeartHandshake
+  HeartHandshake,
+  Camera
 } from "lucide-react";
 import { Treatment } from "../types";
 import TreatmentCard from "./TreatmentCard";
@@ -38,6 +39,7 @@ interface FacialTreatmentsPageProps {
   onLinkClick: (url: string) => void;
   getTreatmentCategory: (id: string) => string;
   getEffectiveTreatmentImage?: (treatment: Treatment) => string;
+  onEditImage?: (treatment: Treatment) => void;
 }
 
 export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
@@ -50,7 +52,8 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
   onOpenBooking,
   onLinkClick,
   getTreatmentCategory,
-  getEffectiveTreatmentImage
+  getEffectiveTreatmentImage,
+  onEditImage
 }) => {
   // 7 Terapii skóry według potrzeb
   const problemTherapies = [
@@ -1029,6 +1032,28 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
           </div>
         </div>
 
+        {/* Pasek Narzędzia Wymiany Zdjęć Kart Zabiegowych */}
+        <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-2.5 bg-luxury-sand/20 border border-luxury-sand/60 text-left">
+          <div className="flex items-center gap-2">
+            <span className="p-1.5 bg-luxury-gold/20 text-luxury-gold shrink-0">
+              <Camera className="w-3.5 h-3.5" />
+            </span>
+            <p className="text-[11px] font-mono text-luxury-dark/90 leading-tight">
+              <strong>Narzędzie Wymiany Zdjęć Kart:</strong> Na każdej karcie poniżej znajduje się przycisk <span className="text-luxury-gold font-bold">„Zmień zdjęcie”</span>, pozwalający wgrać własne zdjęcie z dysku, zoptymalizować je i pobrać plik.
+            </p>
+          </div>
+          {onEditImage && filteredTreatments.length > 0 && (
+            <button
+              type="button"
+              onClick={() => onEditImage(filteredTreatments[0])}
+              className="px-3 py-1.5 bg-luxury-dark hover:bg-luxury-gold text-white font-mono text-[9.5px] uppercase tracking-wider transition-colors flex items-center gap-1.5 cursor-pointer ml-auto shrink-0 shadow-xs"
+            >
+              <Camera className="w-3 h-3 text-luxury-gold" />
+              Zmień Zdjęcie Karty
+            </button>
+          )}
+        </div>
+
         {/* Siatka Kart Monografii */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
           {filteredTreatments.map((treatment, idx) => (
@@ -1039,6 +1064,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
               customImage={getEffectiveTreatmentImage ? getEffectiveTreatmentImage(treatment) : undefined}
               onSelectTreatment={onSelectTreatment}
               onOpenBooking={onOpenBooking}
+              onEditImage={onEditImage}
             />
           ))}
           {filteredTreatments.length === 0 && (

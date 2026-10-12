@@ -1,5 +1,5 @@
-import React, { useState, useRef, MouseEvent } from "react";
-import { Clock } from "lucide-react";
+import React, { useState, useRef, useEffect, MouseEvent } from "react";
+import { Clock, Camera } from "lucide-react";
 import { motion } from "motion/react";
 import { Treatment } from "../types";
 
@@ -9,6 +9,7 @@ interface TreatmentCardProps {
   customImage?: string;
   onSelectTreatment: (treatment: Treatment | null) => void;
   onOpenBooking: (treatment: Treatment) => void;
+  onEditImage?: (treatment: Treatment) => void;
 }
 
 const TreatmentCard = React.memo(function TreatmentCard({ 
@@ -16,11 +17,24 @@ const TreatmentCard = React.memo(function TreatmentCard({
   index = 0,
   customImage,
   onSelectTreatment, 
-  onOpenBooking 
+  onOpenBooking,
+  onEditImage
 }: TreatmentCardProps) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
+  const [dynamicImageVersion, setDynamicImageVersion] = useState<string | null>(null);
   const cardRef = useRef<HTMLDivElement>(null);
+
+  // Listen to global live image updates
+  useEffect(() => {
+    const handleUpdate = (e: any) => {
+      if (e.detail?.slotKey === treatment.id) {
+        setDynamicImageVersion(e.detail.url);
+      }
+    };
+    window.addEventListener("slowskin_custom_image_updated", handleUpdate);
+    return () => window.removeEventListener("slowskin_custom_image_updated", handleUpdate);
+  }, [treatment.id]);
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
@@ -51,6 +65,7 @@ const TreatmentCard = React.memo(function TreatmentCard({
 
   // Dynamic image resolution linked with homepage and editor changes
   const cardImage = (() => {
+    if (dynamicImageVersion) return dynamicImageVersion;
     if (customImage) return customImage;
     if (typeof window !== "undefined") {
       const keyMap: Record<string, string[]> = {
@@ -119,6 +134,23 @@ const TreatmentCard = React.memo(function TreatmentCard({
           className="w-full h-full object-cover origin-center"
           referrerPolicy="no-referrer"
         />
+
+        {/* Direct Action Button to Change Treatment Photo Directly on Card */}
+        {onEditImage && (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              onEditImage(treatment);
+            }}
+            className="absolute top-3 left-3 z-30 bg-black/75 hover:bg-luxury-gold text-white backdrop-blur-md px-2.5 py-1.5 border border-white/20 hover:border-luxury-gold text-[9px] font-mono tracking-wider uppercase transition-all duration-300 flex items-center gap-1.5 shadow-md cursor-pointer group/cam opacity-80 hover:opacity-100"
+            title="Kliknij, aby zmienić zdjęcie tej karty zabiegowej"
+          >
+            <Camera className="w-3.5 h-3.5 text-luxury-gold group-hover/cam:text-white transition-colors" />
+            <span className="font-medium tracking-widest">Zmień zdjęcie</span>
+          </button>
+        )}
         
         {/* Beautiful overlay tag for premium experience */}
         <div className="absolute bottom-4 left-4 z-20 bg-white/90 backdrop-blur-xs px-3 py-1 text-[8px] font-mono tracking-[0.2em] text-luxury-dark uppercase">
@@ -151,7 +183,17 @@ const TreatmentCard = React.memo(function TreatmentCard({
             </span>
           </div>
           
-          <h2 className="font-serif text-2xl font-light text-luxury-dark tracking-tight">{treatment.title}</h2>
+          <a
+            href={`/zabiegi/${treatment.id}`}
+            onClick={(e) => {
+              e.preventDefault();
+              onSelectTreatment(treatment);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="group/title block text-left"
+          >
+            <h2 className="font-serif text-2xl font-light text-luxury-dark tracking-tight group-hover/title:text-luxury-gold transition-colors">{treatment.title}</h2>
+          </a>
           <p className="text-xs font-mono text-luxury-gold tracking-wide -mt-2">{treatment.subtitle}</p>
           
           <p className="text-xs text-luxury-dark/95 font-light leading-relaxed line-clamp-3">
@@ -171,8 +213,10 @@ const TreatmentCard = React.memo(function TreatmentCard({
           <span className="text-[9px] font-mono text-luxury-dark/90 uppercase tracking-widest select-none">Fokus: {treatment.focus}</span>
           
           <div className="flex items-center gap-4">
-            <button 
-              onClick={() => {
+            <a 
+              href={`/zabiegi/${treatment.id}`}
+              onClick={(e) => {
+                e.preventDefault();
                 onSelectTreatment(treatment);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
@@ -180,7 +224,7 @@ const TreatmentCard = React.memo(function TreatmentCard({
               id={`detail-btn-${treatment.id}`}
             >
               Monografia Expert
-            </button>
+            </a>
             <button 
               onClick={() => onOpenBooking(treatment)}
               className={`text-xs font-mono tracking-widest px-4 py-2 transition-all duration-300 uppercase cursor-pointer ${

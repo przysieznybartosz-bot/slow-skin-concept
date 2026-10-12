@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
-import { X, Upload, Check, Camera, Image as ImageIcon, Search, Filter, ShieldCheck, Sparkles, AlertCircle, Download, FileUp, RotateCcw } from "lucide-react";
+import { X, Upload, Check, Camera, Image as ImageIcon, Search, Filter, ShieldCheck, Sparkles, AlertCircle, Download, FileUp, RotateCcw, FileArchive } from "lucide-react";
+import JSZip from "jszip";
 import { TREATMENTS } from "../data";
 import { optimizeImageForStorage, saveTreatmentCustomImage, exportAllCustomImages, importCustomImages } from "../utils/imageOptimizer";
 
@@ -242,6 +243,38 @@ export const OriginalImageManagerModal: React.FC<OriginalImageManagerModalProps>
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+  };
+
+  const handleDownloadZipArchive = async () => {
+    try {
+      const zip = new JSZip();
+      const folder = zip.folder("slow_skin_zdjecia");
+      let count = 0;
+      for (const slot of allSlots) {
+        const custom = localStorage.getItem(`custom_img_${slot.key}`);
+        const effectiveSrc = custom || slot.currentUrl;
+        try {
+          const resp = await fetch(effectiveSrc);
+          if (resp.ok) {
+            const blob = await resp.blob();
+            folder?.file(slot.suggestedFilename || `${slot.key}.png`, blob);
+            count++;
+          }
+        } catch {}
+      }
+      const zipBlob = await zip.generateAsync({ type: "blob" });
+      const url = URL.createObjectURL(zipBlob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `slow-skin-zdjecia-calosc-${new Date().toISOString().slice(0, 10)}.zip`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      alert(`Pobrano paczkę ZIP ze zdjęciami (${count} plików)!`);
+    } catch (e: any) {
+      alert("Błąd ZIP: " + e.message);
+    }
   };
 
   const handleImportBackup = (file: File) => {
@@ -496,6 +529,15 @@ export const OriginalImageManagerModal: React.FC<OriginalImageManagerModalProps>
           </div>
 
           <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
+            <button
+              onClick={handleDownloadZipArchive}
+              title="Pobierz archiwum ZIP ze wszystkimi zdjęciami witryny"
+              className="px-3 py-2 bg-luxury-gold/20 hover:bg-luxury-gold hover:text-white text-luxury-dark font-mono text-[9px] uppercase tracking-wider rounded-xs flex items-center gap-1.5 transition-colors cursor-pointer border border-luxury-gold/50 font-bold"
+            >
+              <FileArchive className="w-3 h-3 text-luxury-gold hover:text-white" />
+              <span>Pobierz ZIP ze zdjęciami</span>
+            </button>
+
             <button
               onClick={handleExportBackup}
               title="Pobierz plik kopii zapasowej wszystkich wgranych zdjęć"
