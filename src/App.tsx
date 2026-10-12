@@ -56,7 +56,8 @@ import {
   Droplets,
   Layers,
   ExternalLink,
-  Camera
+  Camera,
+  Settings
 } from "lucide-react";
 import { TREATMENTS, ARTICLES, REVIEWS } from "./data";
 import { VideoPlayerSection } from "./components/VideoPlayerSection";
@@ -67,8 +68,11 @@ import SkincareAssistant from "./components/SkincareAssistant";
 import WcagWidget from "./components/WcagWidget";
 import CookieBot from "./components/CookieBot";
 import { OriginalImageManagerModal } from "./components/OriginalImageManagerModal";
+import { TreatmentCardImageModal } from "./components/TreatmentCardImageModal";
+import { parseCurrentRoute, syncRoute } from "./utils/router";
 import { EditableImage } from "./components/EditableImage";
-import { isEditorMode } from "./utils/editorMode";
+import { isEditorMode, toggleEditorMode, setEditorMode } from "./utils/editorMode";
+import { optimizeImageForStorage, saveTreatmentCustomImage } from "./utils/imageOptimizer";
 import CookiesPolicyModal from "./components/CookiesPolicyModal";
 import { BeforeAfterSlider } from "./components/BeforeAfterSlider";
 import { DiscreetSection, DiscreetDiv, DiscreetCard } from "./components/DiscreetSection";
@@ -426,7 +430,8 @@ const COMMON_PROBLEMS = [
 ];
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<"cover" | "journal" | "method" | "clinic" | "diagnose" | "account" | "shop" | "training">("cover");
+  const initialRoute = useRef(parseCurrentRoute()).current;
+  const [activeTab, setActiveTab] = useState<"cover" | "journal" | "method" | "clinic" | "diagnose" | "account" | "shop" | "training">(initialRoute.tab);
   
   // Helper to set google translate cookie with proper secure iframe support (SameSite=None; Secure) and subdomains
   const setGoogleTranslateCookie = (lang: "PL" | "EN" | "DE" | "UA" | "IT") => {
@@ -528,6 +533,7 @@ export default function App() {
   };
 
   const [isImageManagerOpen, setIsImageManagerOpen] = useState(false);
+  const [editorActive, setEditorActive] = useState(() => isEditorMode());
   const [customTreatmentImages, setCustomTreatmentImages] = useState<Record<string, string>>(() => {
     const map: Record<string, string> = {};
     if (typeof window !== "undefined") {
@@ -564,16 +570,16 @@ export default function App() {
     }
     // Automatyczna synchronizacja ze zdjęciami z sekcji "Jak możemy Ci pomóc":
     if (treatment.id === "skin-readiness") {
-      return customTreatmentImages["how_help_first_visit"] || "/how_help_first_visit.png" || treatment.image;
+      return customTreatmentImages["how_help_first_visit"] || "/skin-readiness.png" || treatment.image;
     }
     if (treatment.id === "videokonsultacja") {
-      return customTreatmentImages["videokonsultacja"] || treatment.image;
+      return customTreatmentImages["videokonsultacja"] || "/videokonsultacja.png" || treatment.image;
     }
     if (treatment.id === "rosacea-calm-therapy") {
       return customTreatmentImages["how_help_sensitive_skin"] || "/how_help_sensitive_skin.png" || treatment.image;
     }
     if (treatment.id === "couperose-therapy") {
-      return customTreatmentImages["couperose-therapy"] || treatment.image;
+      return customTreatmentImages["couperose-therapy"] || "/couperose-therapy.png" || treatment.image;
     }
     if (treatment.id === "neurolifting-nogier" || treatment.id === "neurolifting-face") {
       return customTreatmentImages["how_help_neurolifting"] || "/how_help_neurolifting.png" || treatment.image;
@@ -583,8 +589,72 @@ export default function App() {
     }
     return customTreatmentImages[treatment.id] || treatment.image;
   }, [customTreatmentImages]);
-  const [selectedArticle, setSelectedArticle] = useState<MagazineArticle | null>(null);
-  const [selectedTreatment, setSelectedTreatment] = useState<Treatment | null>(null);
+
+  // Synchronize editor mode and image updates in real-time across tabs/events
+  useEffect(() => {
+    const handleModeChange = (e: any) => {
+      setEditorActive(e.detail?.active ?? isEditorMode());
+    };
+    const handleCustomImage = (e: any) => {
+      if (e.detail?.slotKey && e.detail?.url) {
+        setCustomTreatmentImages(prev => ({ ...prev, [e.detail.slotKey]: e.detail.url }));
+        if (e.detail.slotKey === "hero") {
+          setHeroCustomUrl(e.detail.url);
+        }
+      }
+    };
+    window.addEventListener("slowskin_editor_mode_change", handleModeChange);
+    window.addEventListener("slowskin_custom_image_updated", handleCustomImage);
+    return () => {
+      window.removeEventListener("slowskin_editor_mode_change", handleModeChange);
+      window.removeEventListener("slowskin_custom_image_updated", handleCustomImage);
+    };
+  }, []);
+  const [selectedArticle, setSelectedArticle] = useState<MagazineArticle | null>(() => {
+    if (initialRoute.articleSlug) {
+      return (ARTICLES.find((a) => a.id === initialRoute.articleSlug) as MagazineArticle) || null;
+    }
+    return null;
+  });
+  const [selectedTreatment, setSelectedTreatment] = useState<Treatment | null>(() => {
+    if (initialRoute.treatmentSlug) {
+      return (TREATMENTS.find((t) => t.id === initialRoute.treatmentSlug) as Treatment) || null;
+    }
+    return null;
+  });
+  const [treatmentCardModalTarget, setTreatmentCardModalTarget] = useState<Treatment | null>(null);
+  const [isTreatmentCardModalOpen, setIsTreatmentCardModalOpen] = useState(false);
+
+  // Synchronize browser history and parse on popstate (Back / Forward browser buttons)
+  useEffect(() => {
+    const handlePopState = () => {
+      const route = parseCurrentRoute();
+      setActiveTab(route.tab);
+      if (route.treatmentSlug) {
+        const found = TREATMENTS.find((t) => t.id === route.treatmentSlug) || null;
+        setSelectedTreatment(found);
+      } else {
+        setSelectedTreatment(null);
+      }
+      if (route.articleSlug) {
+        const found = (ARTICLES.find((a) => a.id === route.articleSlug) as MagazineArticle) || null;
+        setSelectedArticle(found);
+      } else {
+        setSelectedArticle(null);
+      }
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  // Synchronize browser URL bar and SEO meta tags when navigation state changes
+  useEffect(() => {
+    syncRoute({
+      tab: activeTab,
+      treatmentSlug: selectedTreatment?.id,
+      articleSlug: selectedArticle?.id
+    });
+  }, [activeTab, selectedTreatment, selectedArticle]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedTreatmentCategory, setSelectedTreatmentCategory] = useState<"wszystkie" | "diagnostyka" | "lifting" | "regeneracja" | "oczyszczanie">("wszystkie");
   const [treatmentSearchQuery, setTreatmentSearchQuery] = useState("");
@@ -2006,13 +2076,15 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
         <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 md:px-8 xl:px-12 h-16 sm:h-18 lg:h-20 flex items-center justify-between gap-3 md:gap-6">
           
           {/* Brand Logo in Quiet Luxury Aesthetics */}
-          <div 
-            onClick={() => { setActiveTab("cover"); setSelectedArticle(null); setSelectedTreatment(null); setIsMobileMenuOpen(false); }}
+          <a 
+            href="/"
+            onClick={(e) => { e.preventDefault(); setActiveTab("cover"); setSelectedArticle(null); setSelectedTreatment(null); setIsMobileMenuOpen(false); }}
             className="cursor-pointer group flex items-center shrink-0"
             id="brand-logo"
+            aria-label="Slow Skin Concept — Strona Główna"
           >
             <BrandLogo className="h-7 sm:h-8 md:h-8.5 lg:h-8.5 xl:h-9 max-w-[190px] sm:max-w-[220px] md:max-w-[250px] lg:max-w-[260px] xl:max-w-[310px] w-auto group-hover:opacity-90" variant="header" />
-          </div>
+          </a>
 
           {/* Minimalist Editorial Navigation with Mega Menu Hover Triggers - Perfectly Centered & Spaced */}
           <nav className="hidden lg:flex items-center justify-center gap-6 xl:gap-9 2xl:gap-11 h-full mx-auto px-2">
@@ -2045,12 +2117,13 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
             </div>
 
             {/* 3. Metoda Autorska */}
-            <button 
-              onClick={() => { setActiveTab("method"); setSelectedArticle(null); setSelectedTreatment(null); setIsMegaMenuOpen(false); setIsProblemsMenuOpen(false); setIsShopMenuOpen(false); setIsTrainingMenuOpen(false); }}
+            <a 
+              href="/metodologia"
+              onClick={(e) => { e.preventDefault(); setActiveTab("method"); setSelectedArticle(null); setSelectedTreatment(null); setIsMegaMenuOpen(false); setIsProblemsMenuOpen(false); setIsShopMenuOpen(false); setIsTrainingMenuOpen(false); }}
               className={`text-[10.5px] xl:text-[11.5px] tracking-[0.12em] xl:tracking-[0.18em] uppercase font-mono transition-all py-2 border-b-2 leading-none whitespace-nowrap ${activeTab === "method" && !isMegaMenuOpen && !isProblemsMenuOpen && !isShopMenuOpen && !isTrainingMenuOpen ? "border-luxury-gold text-luxury-gold font-medium" : "border-transparent text-luxury-dark/95 hover:text-luxury-dark"}`}
             >
               <span className="whitespace-nowrap">Metoda Autorska</span>
-            </button>
+            </a>
 
             {/* 4. Sklep (Nowe Formulacje & Butik) */}
             <div 
@@ -3085,7 +3158,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="text-luxury-gold font-mono font-bold">✓</span>
-                      <span><strong>Próżniowe Opakowania Airless:</strong> Zero kontaktu z powietrzem, maksymalna czystość mikrobiologiczna.</span>
+                      <span><strong>Opakowania Produktów:</strong> Elegancki słoiczek na krem oraz pianotwórcze opakowanie na piankę.</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="text-luxury-gold font-mono font-bold">✓</span>
@@ -7570,17 +7643,21 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             {PST_IMAGES[selectedPstImageIndex].tag}
                           </span>
                         )}
-                        {/* Quick Original Photo Uploader Button - visible ONLY in AI Studio / dev mode */}
-                        {isEditorMode() && (
+                        {/* Quick Original Photo Uploader Button directly for this treatment */}
+                        <div className="absolute top-2 right-2 flex items-center gap-1.5 z-20">
                           <button
-                            onClick={() => setIsImageManagerOpen(true)}
-                            className="absolute top-2 right-2 bg-white/90 hover:bg-white text-luxury-dark hover:text-luxury-gold px-2 py-1 text-[8px] font-mono uppercase tracking-wider rounded-2xs border border-luxury-sand/80 shadow-xs flex items-center gap-1 opacity-90 hover:opacity-100 transition-opacity cursor-pointer"
-                            title="Wstaw własne oryginalne zdjęcie dla tego zabiegu"
+                            type="button"
+                            onClick={() => {
+                              setTreatmentCardModalTarget(selectedTreatment);
+                              setIsTreatmentCardModalOpen(true);
+                            }}
+                            className="bg-black/75 hover:bg-luxury-gold text-white backdrop-blur-md px-2.5 py-1.5 text-[9px] font-mono uppercase tracking-wider border border-white/20 hover:border-luxury-gold shadow-md flex items-center gap-1.5 transition-all cursor-pointer font-medium"
+                            title="Wymień zdjęcie dla tego zabiegu"
                           >
-                            <Camera className="w-3 h-3 text-luxury-gold" />
-                            <span>Zmień zdjęcie</span>
+                            <Camera className="w-3.5 h-3.5 text-luxury-gold" />
+                            <span>Zmień zdjęcie zabiegu</span>
                           </button>
-                        )}
+                        </div>
                       </div>
                       {selectedTreatment.id === "pst-signal-therapy" && (
                         <div className="grid grid-cols-2 gap-2 pt-2">
@@ -11495,7 +11572,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         <div className="bg-luxury-gold/10 border border-luxury-gold/40 p-6 md:p-8 rounded-sm max-w-4xl mx-auto text-left shadow-xs space-y-6">
                           <div className="w-full h-64 sm:h-80 md:h-96 rounded-xs overflow-hidden border border-luxury-gold/30 shadow-md relative">
                             <img
-                              src="/src/assets/images/ceragem_thermal_bed_therapy_1791108980537.jpg"
+                              src={customTreatmentImages["ceragem"] || "/ceragem_bed.png"}
                               alt="Terapia masażu termicznego na łóżku Ceragem VE z projekcją ciepła jadeitowego"
                               className="w-full h-full object-cover"
                               referrerPolicy="no-referrer"
@@ -11719,7 +11796,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                               <div className="space-y-3">
                                 <div className="aspect-[16/10] overflow-hidden bg-luxury-sand border border-luxury-sand/50 relative rounded-xs group">
                                   <img 
-                                    src="/src/assets/images/pst_couch_bed_therapy_1791109628792.jpg"
+                                    src={customTreatmentImages["pst-couch"] || "/pst_couch.png"}
                                     alt="Aparat PST H-300 — leżanka zabiegowa do regeneracji kręgosłupa i stawów biodrowych"
                                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-102"
                                     referrerPolicy="no-referrer"
@@ -11746,7 +11823,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                               <div className="space-y-3">
                                 <div className="aspect-[16/10] overflow-hidden bg-luxury-sand border border-luxury-sand/50 relative rounded-xs group">
                                   <img 
-                                    src="/src/assets/images/pst_chair_therapy_1791109644424.jpg"
+                                    src={customTreatmentImages["pst-chair"] || "/pst_chair.png"}
                                     alt="Aparat PST H-200 — sesja w fotelu na stawy obwodowe (kolana, stopy, dłonie, łokcie)"
                                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-102"
                                     referrerPolicy="no-referrer"
@@ -11973,6 +12050,11 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   onOpenBooking={handleOpenBooking}
                   onLinkClick={handleLinkClick}
                   getTreatmentCategory={getTreatmentCategory}
+                  getEffectiveTreatmentImage={getEffectiveTreatmentImage}
+                  onEditImage={(treatment) => {
+                    setTreatmentCardModalTarget(treatment);
+                    setIsTreatmentCardModalOpen(true);
+                  }}
                 />
               )}
               </motion.div>
@@ -13598,6 +13680,25 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               >
                 Regulamin i Bezpieczeństwo
               </button>
+              <span className="text-luxury-sand/60 select-none">•</span>
+              <button 
+                onClick={() => {
+                  const next = toggleEditorMode();
+                  setEditorActive(next);
+                  triggerToast(next ? "Włączono Tryb Wymiany Zdjęć na stronie." : "Wyłączono Tryb Wymiany Zdjęć.", "info");
+                  if (next) {
+                    setIsImageManagerOpen(true);
+                  }
+                }} 
+                className={`transition-colors hover:underline cursor-pointer flex items-center gap-1 font-semibold ${
+                  editorActive ? "text-luxury-gold" : "text-luxury-dark/75 hover:text-luxury-gold"
+                }`}
+                id="footer-toggle-editor-mode-btn"
+                title="Włącz lub otwórz panel ręcznej zmiany zdjęć na domenie"
+              >
+                <Camera className="w-3 h-3 text-luxury-gold" />
+                <span>Panel Wymiany Zdjęć {editorActive ? "(Aktywny)" : ""}</span>
+              </button>
             </div>
           </div>
 
@@ -14327,17 +14428,28 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
         </svg>
       </a>
 
-      {/* Floating Manager & Universal Active Photo Mode - visible ONLY in AI Studio / dev mode */}
-      {isEditorMode() && (
+      {/* Floating Manager & Universal Active Photo Mode - visible in dev or when toggled by owner on live */}
+      {editorActive && (
         <div className="fixed bottom-6 left-6 z-40 flex items-center gap-2">
           <button
             onClick={() => setIsImageManagerOpen(true)}
             className="bg-luxury-dark hover:bg-black text-luxury-gold border border-luxury-gold/80 px-4 py-2.5 rounded-full shadow-2xl text-[10px] font-mono uppercase tracking-wider flex items-center gap-2.5 transition-all hover:scale-105 cursor-pointer backdrop-blur-xs group"
-            title="Tryb Wymiany Zdjęć jest aktywny na każdym zdjęciu na stronie. Kliknij, aby otworzyć panel zbiorczy."
+            title="Tryb Wymiany Zdjęć jest aktywny. Kliknij, aby otworzyć panel zbiorczy."
           >
             <Camera className="w-4 h-4 text-luxury-gold group-hover:rotate-12 transition-transform" />
-            <span className="font-semibold text-white">Tryb Wymiany Zdjęć: <span className="text-luxury-gold font-bold">AKTYWNY</span></span>
+            <span className="font-semibold text-white">Wymiana Zdjęć: <span className="text-luxury-gold font-bold">AKTYWNA</span></span>
             <span className="bg-luxury-gold text-luxury-dark text-[8px] font-bold px-1.5 py-0.5 rounded-full">ON</span>
+          </button>
+          <button
+            onClick={() => {
+              setEditorMode(false);
+              setEditorActive(false);
+              triggerToast("Ukryto panel wymiany zdjęć. Możesz go włączyć w stopce strony.", "info");
+            }}
+            className="bg-luxury-dark/90 hover:bg-black text-luxury-sand hover:text-white p-2 rounded-full border border-luxury-sand/50 shadow-md transition-colors cursor-pointer"
+            title="Ukryj przycisk (możesz włączyć ponownie w stopce strony)"
+          >
+            <X className="w-3.5 h-3.5" />
           </button>
         </div>
       )}
@@ -14350,6 +14462,18 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
           if (key === "hero") {
             setHeroCustomUrl(url);
           }
+        }}
+      />
+
+      <TreatmentCardImageModal
+        isOpen={isTreatmentCardModalOpen}
+        treatment={treatmentCardModalTarget}
+        onClose={() => setIsTreatmentCardModalOpen(false)}
+        onImageSaved={(treatmentId, newUrl) => {
+          setCustomTreatmentImages(prev => ({ ...prev, [treatmentId]: newUrl }));
+        }}
+        onSelectAnotherTreatment={(t) => {
+          setTreatmentCardModalTarget(t);
         }}
       />
 

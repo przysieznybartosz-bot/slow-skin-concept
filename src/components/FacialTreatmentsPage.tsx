@@ -22,7 +22,8 @@ import {
   FileText,
   HelpCircle,
   Stethoscope,
-  HeartHandshake
+  HeartHandshake,
+  Camera
 } from "lucide-react";
 import { Treatment } from "../types";
 import TreatmentCard from "./TreatmentCard";
@@ -37,6 +38,8 @@ interface FacialTreatmentsPageProps {
   onOpenBooking: (treatment: Treatment) => void;
   onLinkClick: (url: string) => void;
   getTreatmentCategory: (id: string) => string;
+  getEffectiveTreatmentImage?: (treatment: Treatment) => string;
+  onEditImage?: (treatment: Treatment) => void;
 }
 
 export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
@@ -48,7 +51,9 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
   onSelectTreatment,
   onOpenBooking,
   onLinkClick,
-  getTreatmentCategory
+  getTreatmentCategory,
+  getEffectiveTreatmentImage,
+  onEditImage
 }) => {
   // 7 Terapii skóry według potrzeb
   const problemTherapies = [
@@ -61,7 +66,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       time: "75–90 minut",
       price: "380–480 zł",
       desc: "Indywidualnie komponowany zabieg dla skóry skłonnej do zaczerwienienia, pieczenia i uczucia gorąca. Poprawia komfort, zwiększa nawodnienie i wspiera architekturę lipidową.",
-      image: "/src/assets/images/rosacea_calm_1790249310213.jpg"
+      image: "/how_help_sensitive_skin.png"
     },
     {
       id: "skin-remodeling-therapy",
@@ -73,7 +78,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       time: "około 90 minut",
       price: "500–750 zł",
       desc: "Wielopoziomowa przebudowa dla skóry tracącej jędrność i wyraźny kontur. Dobór metod oddziałujących na różne poziomy tkanek ze stałą kontrolą regeneracji.",
-      image: "/src/assets/images/remodeling_therapy_1790249327484.jpg"
+      image: "/lift-firm-therapy.png"
     },
     {
       id: "healthy-glow-therapy",
@@ -95,7 +100,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       time: "75–90 minut",
       price: "350–450 zł",
       desc: "Fizjologiczna regulacja pracy gruczołów łojowych i wsparcie mikrobiomu bez przesuszania naskórka i bez niszczenia spoiwa ceramidowego.",
-      image: "/src/assets/images/acne_balance_1790249354155.jpg"
+      image: "/acne-balance-therapy.png"
     },
     {
       id: "adult-acne-therapy",
@@ -106,7 +111,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       time: "80–90 minut",
       price: "380–480 zł",
       desc: "Dedykowana skórze dorosłej (strefa U, żuchwa), w której niedoskonałości współistnieją z odwodnieniem, reaktywnością, plamami pozapalnymi i pierwszymi oznakami starzenia.",
-      image: "/src/assets/images/acne_balance_1790249354155.jpg"
+      image: "/adult-acne-therapy.png"
     },
     {
       id: "couperose-therapy",
@@ -128,7 +133,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       time: "80–90 minut",
       price: "400–550 zł",
       desc: "Terapia plam posłonecznych, melasmy i przebarwień pozapalnych PIH. Działa enzymatycznie i antyoksydacyjnie, wyciszając stan zapalny będący motorem melanogenezy.",
-      image: "/src/assets/images/pigment_balance_1790249364420.jpg"
+      image: "/pigment-balance-therapy.png"
     },
     {
       id: "neurolifting-nogier",
@@ -139,7 +144,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       time: "40–75 minut",
       price: "250–350 zł",
       desc: "Nieinwazyjna stymulacja częstotliwościami Nogiera i technikami manualnymi uwalniająca spiętą powięź, wspomagająca drenaż chłonki i przynosząca głęboki relaks.",
-      image: "/src/assets/images/neurolifting_face_1790248736062.jpg"
+      image: "/how_help_neurolifting.png"
     }
   ];
 
@@ -403,7 +408,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <div className="lg:col-span-5 relative group overflow-hidden rounded-none border border-luxury-sand shadow-sm self-start">
             <img 
-              src="/src/assets/images/skin_readiness_diag_1790249295522.jpg" 
+              src="/skin-readiness.png" 
               alt="Diagnoza biologiczna i konsultacja Skin Readiness"
               className="w-full h-auto max-h-[380px] object-cover object-center group-hover:scale-102 transition-transform duration-700"
             />
@@ -616,7 +621,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
                   <EditableImage
                     id={therapy.id}
                     slotName={therapy.title}
-                    src={therapy.image}
+                    src={getEffectiveTreatmentImage ? getEffectiveTreatmentImage({ id: therapy.id, image: therapy.image } as any) : therapy.image}
                     alt={therapy.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     aspectRatioClass="h-full w-full"
@@ -844,7 +849,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
             <div className="lg:col-span-4 flex flex-col gap-3">
               <div className="w-full h-36 rounded-xs overflow-hidden border border-luxury-gold/40 shadow-xs relative">
                 <img
-                  src="/src/assets/images/ceragem_thermal_bed_therapy_1791108980537.jpg"
+                  src="/ceragem_bed.png"
                   alt="Łóżko do masażu termicznego Ceragem VE"
                   className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"
@@ -909,7 +914,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
                   className="p-2 bg-white/95 border border-luxury-sand/70 rounded-xs flex items-center gap-2.5 cursor-pointer hover:border-luxury-gold transition-colors group"
                 >
                   <img 
-                    src="/src/assets/images/pst_couch_bed_therapy_1791109628792.jpg" 
+                    src="/pst_couch.png" 
                     alt="PST H-300 w gabinecie — leżanka zabiegowa do kręgosłupa i bioder" 
                     className="w-12 h-10 object-cover rounded-xs shrink-0" 
                     referrerPolicy="no-referrer"
@@ -925,7 +930,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
                   className="p-2 bg-white/95 border border-luxury-sand/70 rounded-xs flex items-center gap-2.5 cursor-pointer hover:border-luxury-gold transition-colors group"
                 >
                   <img 
-                    src="/src/assets/images/pst_chair_therapy_1791109644424.jpg" 
+                    src="/pst_chair.png" 
                     alt="PST H-200 w gabinecie — fotel zabiegowy do stawów i kolan" 
                     className="w-12 h-10 object-cover rounded-xs shrink-0" 
                     referrerPolicy="no-referrer"
@@ -1027,6 +1032,28 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
           </div>
         </div>
 
+        {/* Pasek Narzędzia Wymiany Zdjęć Kart Zabiegowych */}
+        <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-2.5 bg-luxury-sand/20 border border-luxury-sand/60 text-left">
+          <div className="flex items-center gap-2">
+            <span className="p-1.5 bg-luxury-gold/20 text-luxury-gold shrink-0">
+              <Camera className="w-3.5 h-3.5" />
+            </span>
+            <p className="text-[11px] font-mono text-luxury-dark/90 leading-tight">
+              <strong>Narzędzie Wymiany Zdjęć Kart:</strong> Na każdej karcie poniżej znajduje się przycisk <span className="text-luxury-gold font-bold">„Zmień zdjęcie”</span>, pozwalający wgrać własne zdjęcie z dysku, zoptymalizować je i pobrać plik.
+            </p>
+          </div>
+          {onEditImage && filteredTreatments.length > 0 && (
+            <button
+              type="button"
+              onClick={() => onEditImage(filteredTreatments[0])}
+              className="px-3 py-1.5 bg-luxury-dark hover:bg-luxury-gold text-white font-mono text-[9.5px] uppercase tracking-wider transition-colors flex items-center gap-1.5 cursor-pointer ml-auto shrink-0 shadow-xs"
+            >
+              <Camera className="w-3 h-3 text-luxury-gold" />
+              Zmień Zdjęcie Karty
+            </button>
+          )}
+        </div>
+
         {/* Siatka Kart Monografii */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
           {filteredTreatments.map((treatment, idx) => (
@@ -1034,8 +1061,10 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
               key={treatment.id}
               index={idx}
               treatment={treatment}
+              customImage={getEffectiveTreatmentImage ? getEffectiveTreatmentImage(treatment) : undefined}
               onSelectTreatment={onSelectTreatment}
               onOpenBooking={onOpenBooking}
+              onEditImage={onEditImage}
             />
           ))}
           {filteredTreatments.length === 0 && (

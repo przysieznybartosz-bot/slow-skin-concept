@@ -1,15 +1,22 @@
 /**
  * Helper to determine whether photo editing mode should be active.
- * Active ONLY in Google AI Studio and local development environments.
- * Strictly disabled on production domains (e.g. slow-skin-concept.pl) so that
- * visitors and clients never see edit buttons, camera overlays, or manager pills.
+ * - Always active in Google AI Studio / dev environments.
+ * - On LIVE / production domains (slow-skin-concept.pl, vercel.app), it can be enabled
+ *   via query param (?editor=true or ?admin=true), or toggled via the footer owner control,
+ *   and persists in localStorage so the owner can manage and replace photos directly on LIVE.
  */
 export const isEditorMode = (): boolean => {
   if (typeof window === "undefined") return false;
-  
+
+  try {
+    const saved = localStorage.getItem("slowskin_editor_active");
+    if (saved === "true") return true;
+    if (saved === "false") return false;
+  } catch {}
+
   const hostname = window.location.hostname.toLowerCase();
   
-  // Active only in Google AI Studio cloud environments and localhost
+  // Active by default in Google AI Studio cloud environments and localhost
   const isDevOrStudio = 
     hostname.includes("run.app") || 
     hostname.includes("localhost") || 
@@ -17,10 +24,31 @@ export const isEditorMode = (): boolean => {
     hostname.includes("webcontainer") ||
     hostname.includes("csb.app");
 
-  // Optional hidden admin query param if the owner ever needs to test on production
-  const hasOverride = 
-    window.location.search.includes("editor=true") || 
-    window.location.search.includes("admin=true");
+  if (isDevOrStudio) return true;
 
-  return isDevOrStudio || hasOverride;
+  // Activation via query param on live domain (e.g. slow-skin-concept.pl/?admin=true)
+  const search = window.location.search.toLowerCase();
+  if (search.includes("editor=true") || search.includes("admin=true")) {
+    try {
+      localStorage.setItem("slowskin_editor_active", "true");
+    } catch {}
+    return true;
+  }
+
+  return false;
+};
+
+export const setEditorMode = (active: boolean): void => {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem("slowskin_editor_active", active ? "true" : "false");
+    window.dispatchEvent(new CustomEvent("slowskin_editor_mode_change", { detail: { active } }));
+  } catch {}
+};
+
+export const toggleEditorMode = (): boolean => {
+  const current = isEditorMode();
+  const next = !current;
+  setEditorMode(next);
+  return next;
 };

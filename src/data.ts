@@ -68,7 +68,7 @@ export const TREATMENTS: Treatment[] = [
     price: "400 PLN — 600 PLN",
     description: "Pierwsza wizyta zaczyna się od poznania Twojej skóry. Rozmawiamy o jej potrzebach, codziennej pielęgnacji i wcześniejszych zabiegach. Oceniam jej aktualną kondycję, nawilżenie, reaktywność oraz stan bariery naskórkowej.\n\nNa tej podstawie dobieram odpowiednie postępowanie gabinetowe. Jeśli kondycja skóry na to pozwala, wizyta obejmuje również delikatny zabieg oczyszczający i przygotowujący do dalszej pracy.\n\nOtrzymujesz indywidualne zalecenia pielęgnacyjne i plan kolejnych kroków, dopasowany do potrzeb oraz tolerancji Twojej skóry.",
     focus: "Diagnoza biologiczna, fizjologiczne oczyszczenie, regeneracja bariery naskórkowej, określenie biologicznego punktu wyjścia",
-    image: "/how_help_first_visit.png",
+    image: "/skin-readiness.png",
     indications: [
       "Rozpoczynanie terapii w Slow Skin Concept",
       "Brak pewności, jakiego zabiegu aktualnie potrzebuje skóra",
@@ -125,7 +125,7 @@ export const TREATMENTS: Treatment[] = [
     price: "350 PLN — 450 PLN, zależnie od zakresu zabiegu",
     description: "Acne Balance Therapy to indywidualnie komponowany zabieg dla skóry skłonnej do zaskórników, grudek, krostek, nadmiernego wydzielania sebum i nawracających niedoskonałości. Terapia nie opiera się na intensywnym przesuszaniu ani jednym protokole oczyszczającym. Jej przebieg wynika z diagnozy biologicznej obejmującej stan bariery, sposób rogowacenia, charakter zmian, poziom reaktywności oraz tolerancję dotychczasowej pielęgnacji. Celem zabiegu jest łagodne oczyszczenie, wsparcie prawidłowego procesu rogowacenia, pielęgnacja skóry łojotokowej oraz stworzenie warunków sprzyjających równowadze bariery i mikrobiomu. W przypadku zdiagnozowanego trądziku zabieg może stanowić element wspierającej pielęgnacji kosmetologicznej, prowadzonej z uwzględnieniem zaleceń dermatologa.",
     focus: "Kierunek działania: OCZYSZCZENIE • SEBUM • ROGOWACENIE • MIKROBIOM • Poszanowanie bariery ochronnej",
-    image: "/src/assets/images/acne_balance_1790249354155.jpg",
+    image: "/acne-balance-therapy.png",
     indications: [
       "Tendencja do zaskórników otwartych i zamkniętych",
       "Nadmierne przetłuszczanie się skóry (łojotok)",
@@ -179,7 +179,7 @@ export const TREATMENTS: Treatment[] = [
     price: "380 PLN — 480 PLN, zależnie od zakresu zabiegu",
     description: "Acne Balance 25+ Therapy została stworzona dla skóry dorosłej, w której zaskórniki, grudki, krostki i nadmierne wydzielanie sebum mogą współistnieć z odwodnieniem, reaktywnością, przebarwieniami oraz pierwszymi oznakami starzenia. Skóra po 25. roku życia wymaga innego podejścia niż skóra nastoletnia — intensywne przesuszanie osłabia barierę oraz zmniejsza tolerancję pielęgnacji. Dlatego terapia łączy działania ukierunkowane na niedoskonałości z jednoczesnym wsparciem nawodnienia, bariery i procesów regeneracyjnych. Przebieg zabiegu wynika z diagnozy biologicznej i uwzględnia stres, zmiany hormonalne, styl życia i dotychczasową pielęgnację.",
     focus: "Kierunek działania: NIEDOSKONAŁOŚCI • BARIERA • SEBUM • PRZEBARWIENIA • Terapia skóry dorosłej 25+",
-    image: "/src/assets/images/acne_balance_1790249354155.jpg",
+    image: "/adult-acne-therapy.png",
     indications: [
       "Niedoskonałości pojawiające się lub utrzymujące po 25. roku życia",
       "Grudki, krostki i zaskórniki, szczególnie w dolnej części twarzy (strefa żuchwy i brody)",
@@ -341,7 +341,7 @@ export const TREATMENTS: Treatment[] = [
     price: "400 PLN — 550 PLN, zależnie od zakresu zabiegu",
     description: "Pigment Balance Therapy to indywidualnie projektowana terapia dla skóry z przebarwieniami posłonecznymi, pozapalnymi, melasmą oraz nierównomiernym kolorytem. Przebarwienie nie jest wyłącznie zmianą widoczną na powierzchni — na jego powstawanie i utrwalanie wpływają promieniowanie UV, stan zapalny, reaktywność skóry, hormony, temperatura, urazy oraz niewłaściwie dobrana pielęgnacja.\n\nDlatego terapia rozpoczyna się od rozpoznania rodzaju przebarwienia, kondycji bariery i czynników mogących podtrzymywać problem. Dopiero na tej podstawie dobierane są substancje biologicznie aktywne, technologia, intensywność i kolejność działań.\n\nCelem jest bezpieczne rozjaśnienie zmian barwnikowych, wyrównanie kolorytu i przywrócenie skórze świeżości bez wywoływania stanu zapalnego.",
     focus: "Kierunek działania: PRZEBARWIENIA • KOLORYT • ODNOWA • OCHRONA • Bezpieczna terapia bez stanu zapalnego",
-    image: "/src/assets/images/pigment_balance_1790249364420.jpg",
+    image: "/pigment-balance-therapy.png",
     indications: [
       "Przebarwienia posłoneczne",
       "Przebarwienia pozapalne po niedoskonałościach (PIH)",
@@ -452,7 +452,7 @@ export const TREATMENTS: Treatment[] = [
     price: "500 PLN — 750 PLN, zależnie od dobranej metody i zakresu zabiegu",
     description: "Skin Remodeling Therapy to wielopoziomowa terapia dla skóry, która traci jędrność, elastyczność i wyraźny kontur. Nie opiera się na jednej technologii ani gotowym protokole. Jej przebieg projektowany jest na podstawie diagnozy biologicznej, aktualnej kondycji tkanek oraz gotowości skóry do określonego rodzaju stymulacji. Znaczenie ma nie liczba zastosowanych metod, lecz ich właściwa kolejność, intensywność i czas potrzebny skórze na regenerację.",
     focus: "Kierunek działania: JĘDRNOŚĆ • GĘSTOŚĆ • OWAL • REGENERACJA • Przebudowa tkanek na odpowiednim poziomie biologicznym",
-    image: "/src/assets/images/remodeling_therapy_1790249327484.jpg",
+    image: "/lift-firm-therapy.png",
     indications: [
       "Utrata jędrności, elastyczności i gęstości skóry",
       "Zmiana owalu twarzy i opadanie tkanek",
@@ -642,7 +642,7 @@ export const TREATMENTS: Treatment[] = [
     price: "600 PLN — 800 PLN",
     description: "Nowoczesna, bezinwazyjna metoda poprawy jędrności skóry. Technologia HIFU skupia fale ultradźwiękowe w głębszych warstwach skóry, stymulując naturalną produkcję kolagenu. Pomaga unieść kontury twarzy, poprawić elastyczność cery i wygładzić wiotką skórę na linii żuchwy i szyi.",
     focus: "Wsparcie jędrności, poprawa owalu twarzy i elastyczności skóry",
-    image: "/src/assets/images/mesoremodeling.jpg",
+    image: "/hifu-lifting.png",
     indications: [
       "Utrata wyrazistości owalu twarzy i spadek elastyczności skóry",
       "Wiotkość skóry szyi i dekoltu",
@@ -1115,7 +1115,7 @@ export const TREATMENTS: Treatment[] = [
     price: "350 PLN — 450 PLN (Pakiety 3 zabiegów od 945 PLN)",
     description: "Łagodny, nowoczesny zabieg łączący kontrolowane mikrozłuszczanie warstwy rogowej naskórka za pomocą sterylnego nanodysku, kojący masaż wibracyjny oraz precyzyjne stemplowanie wprowadzające preparaty aktywne. W odróżnieniu od klasycznej mezoterapii mikroigłowej, nanodyski nie nakłuwają żywych warstw skóry właściwej i nie powodują krwawienia ani konieczności rekonwalescencji. Procedura usuwa zrogowaciałe komórki, wygładza naskórek i tworzy optymalne warunki do biodostępności dobranych substancji odżywczych.",
     focus: "Jednorazowy kartridż z nanodyskiem, mikrozłuszczanie frakcyjne, stemplowanie, brak nakłuwania, zero rekonwalescencji",
-    image: "/src/assets/images/nanobrazja_nanopen.webp",
+    image: "/nanobrazja-nanopen.png",
     indications: [
       "Skóra szorstka, nierówna w strukturze lub nadmiernie zrogowaciała",
       "Cera sucha, odwodniona, pozbawiona komfortu i elastyczności",
@@ -1192,7 +1192,7 @@ export const TREATMENTS: Treatment[] = [
     price: "400 PLN — 500 PLN (Pakiety 3 zabiegów od 1080 PLN)",
     description: "Nieinwazyjna metoda wspomagająca przenikanie odpowiednio dobranych substancji aktywnych bez naruszania ciągłości naskórka. Wykorzystuje kontrolowane impulsy elektryczne (elektroporację), które czasowo zwiększają przepuszczalność powierzchownych struktur skóry i ułatwiają transport składników. Podczas wizyty dobierana jest unikalna baza oraz koncentraty aktywne dermaviduals® tworzone bezpośrednio przy klientce po rzetelnej analizie bariery, nawodnienia i reaktywności.",
     focus: "Elektroporacja bezigłowa, koncentraty dermaviduals®, brak nakłuwania, zero rekonwalescencji, odbudowa bariery",
-    image: "/src/assets/images/mezoterapia_beziglowa.webp",
+    image: "/mezoterapia-beziglowa.png",
     indications: [
       "Odwodnienie i uczucie ściągnięcia, szorstkości lub dyskomfortu naskórka",
       "Utrata świeżości, szary koloryt i brak naturalnego blasku",
@@ -1272,7 +1272,7 @@ export const TREATMENTS: Treatment[] = [
     price: "500 PLN — 700 PLN (Pakiety 3 zabiegów od 1350 PLN)",
     description: "Precyzyjny zabieg kontrolowanego mikronakłuwania sterylnym kartridżem, który uruchamia naturalne procesy naprawcze, kaskadę gojenia i biologiczną przebudowę macierzy zewnątrzkomórkowej. Wspiera syntezę kolagenu i elastyny, poprawia gęstość i jędrność oraz zmniejsza widoczność rozszerzonych porów, drobnych zmarszczek i blizn potrądzikowych. Głębokość wkłuć i skład jałowego preparatu są dobierane indywidualnie po uprzedniej ocenie gotowości biologicznej skóry.",
     focus: "Fizjologiczna indukcja kolagenu, sterylny kartridż jednorazowy, spersonalizowany preparat, przebudowa strukturalna",
-    image: "/src/assets/images/mezoterapia_mikroiglowa.webp",
+    image: "/mezoterapia-mikroiglowa.png",
     indications: [
       "Utrata jędrności, gęstości, elastyczności i napięcia skóry",
       "Drobne zmarszczki mimiczne i utrwalone linie",
@@ -1428,7 +1428,7 @@ export const TREATMENTS: Treatment[] = [
     price: "600 PLN — 800 PLN",
     description: "HIFU wykorzystuje skoncentrowane fale ultradźwiękowe, które dostarczają energię na określoną głębokość tkanek bez naruszania powierzchni skóry. Kontrolowane punkty termiczne uruchamiają procesy przebudowy, których rezultaty rozwijają się stopniowo w kolejnych tygodniach. Zabieg poprzedza kwalifikacja obejmująca ocenę kondycji skóry, grubości tkanki, anatomii obszaru oraz przeciwwskazań. Parametry i głębokość działania dobierane są indywidualnie — HIFU nie wykonuje się według jednego schematu u każdej osoby.",
     focus: "Skoncentrowana fala ultradźwiękowa, punkty koagulacji termicznej, lifting i poprawa konturu żuchwy bez naruszania naskórka",
-    image: "/src/assets/images/hifu_ultrasound.webp",
+    image: "/hifu-ultrasound.png",
     indications: [
       "Utrata napięcia skóry twarzy i szyi",
       "Mniej wyraźny owal twarzy i opadanie tkanek w okolicy policzków",
@@ -1492,7 +1492,7 @@ export const TREATMENTS: Treatment[] = [
     price: "500 PLN — 700 PLN",
     description: "Zaawansowana technologia łącząca kontrolowane mikronakłuwanie z działaniem energii fali radiowej. Sterylne mikroigły docierają na indywidualnie dobraną głębokość, a następnie przekazują energię RF bezpośrednio do wybranej warstwy tkanki. Mikronakłucia inicjują naturalną odpowiedź naprawczą, natomiast energia radiowa powoduje kontrolowane ogrzanie tkanki. Połączenie tych dwóch bodźców wspiera procesy związane z produkcją kolagenu i elastyny oraz stopniową przebudowę skóry.",
     focus: "Frakcyjna stymulacja kolagenu, termolifting falami RF, redukcja rozszerzonych porów, spłycenie drobnych zmarszczek i blizn",
-    image: "/src/assets/images/rf_microneedle.webp",
+    image: "/rf-microneedling.png",
     indications: [
       "Utrata jędrności, gęstości i napięcia skóry twarzy, szyi lub dekoltu",
       "Drobne zmarszczki i utrata elastyczności",
@@ -1678,7 +1678,7 @@ export const TREATMENTS: Treatment[] = [
     price: "350 PLN",
     description: "Zabieg łączący działanie specjalistycznej emulsji węglowej z krótkimi impulsami lasera Q-Switch Nd:YAG. Emulsja pokrywa powierzchnię skóry i osadza się w ujściach mieszków włosowych. Węgiel pełni funkcję chromoforu — pochłania energię światła laserowego, a następnie ulega rozdrobnieniu i usunięciu wraz z nadmiarem sebum, powierzchniowymi zanieczyszczeniami i komórkami warstwy rogowej. Pomaga dokładnie oczyścić i odświeżyć skórę, wygładzić jej strukturę, ograniczyć nadmierne przetłuszczanie oraz zmniejszyć widoczność rozszerzonych porów.",
     focus: "Fotoakustyczne oczyszczenie porów, regulacja wydzielania sebum, wygładzenie struktury naskórka, odświeżenie kolorytu",
-    image: "/src/assets/images/black_doll_laser.webp",
+    image: "/laser-carbon.png",
     indications: [
       "Nadmierne wydzielanie sebum (łojotok)",
       "Rozszerzone i widoczne ujścia mieszków włosowych",
@@ -1748,7 +1748,7 @@ export const TREATMENTS: Treatment[] = [
     price: "od 150 PLN (Cała twarz: 400 PLN | Pakiety 3 zabiegów od 1080 PLN)",
     description: "Terapie LPL wykorzystują intensywne impulsy szerokopasmowego światła, których parametry dobierane są ściśle do problemu, fototypu oraz aktualnej kondycji skóry. Zależnie od wybranego programu światło oddziałuje na melaninę w przebarwieniach, hemoglobinę w naczynkach krwionośnych albo wspiera wyciszanie zmian trądzikowych i regulację sebum. Zabieg obejmuje pełną procedurę przygotowania, doboru parametrów oraz wyciszenia barierowego.",
     focus: "Selektywna fototermoliza, fotoodmładzanie, redukcja rumienia i naczynek, rozjaśnianie przebarwień słonecznych, wsparcie skóry trądzikowej",
-    image: "/src/assets/images/lpl_skin_therapy.webp",
+    image: "/terapie-swiatlem-lpl.png",
     indications: [
       "Oznaki fotostarzenia, utrata świeżości, drobne linie i szary koloryt",
       "Nierównomierny koloryt cery i powierzchowne przebarwienia posłoneczne / plamy soczewicowate",
@@ -1966,7 +1966,7 @@ export const TREATMENTS: Treatment[] = [
     price: "350 PLN — 450 PLN",
     description: "Zaawansowana technologia mikrozłuszczania frakcyjnego przy pomocy sterylnych nanodysków krzemowych. Otwiera tysiące mikrokanalików w warstwie rogowej naskórka, zwiększając wchłanianie substancji biomimetycznych o kilkaset procent bez krwawienia i bez naruszenia skóry właściwej.",
     focus: "Frakcyjne mikrozłuszczanie, transport substancji aktywnych, wygładzenie porów",
-    image: "/src/assets/images/biological_skin_stimulation_1786128275438.jpg",
+    image: "/nanobrasion.png",
     indications: [
       "Nierówna tekstura skóry, drobne zmarszczki, rozszerzone pory",
       "Przebarwienia naskórkowe i brak blasku",
