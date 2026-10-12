@@ -57,7 +57,12 @@ import {
   Layers,
   ExternalLink,
   Camera,
-  Settings
+  Settings,
+  Users,
+  UserPlus,
+  UserCheck,
+  Lock,
+  Key
 } from "lucide-react";
 import { TREATMENTS, ARTICLES, REVIEWS } from "./data";
 import { VideoPlayerSection } from "./components/VideoPlayerSection";
@@ -702,14 +707,54 @@ export default function App() {
     }
   ];
 
+  // Seed accounts for initial database state (real patient account + demo account)
+  const DEFAULT_INITIAL_ACCOUNTS = [
+    {
+      name: "Bartosz Przysiężny",
+      email: "bartosz.przysiezny@slow-skin-concept.pl",
+      phone: "+48 600 000 000",
+      memberId: "SSP-BP-2026",
+      password: "pass",
+      joinDate: "12 Października 2026",
+      skinConcern: "Karta oczekuje na pierwsze badanie diagnostyczne w Instytucie (Pierwsza Wizyta)",
+      sensitivityLevel: "Zostanie określony podczas konsultacji gabinetowej",
+      prefersSilence: false,
+      cabinetNotes: "Nowy pacjent Instytutu. Kartoteka aktywna — brak zrealizowanych zabiegów.",
+      visits: [] // Clean 0 visits for new real client
+    },
+    {
+      name: "Aleksandra Kamińska (Konto Pokazowe)",
+      email: DEMO_ACCOUNT_EMAIL,
+      phone: "+48 600 123 456",
+      memberId: "SSP-84920",
+      password: "demo",
+      joinDate: "14 Marca 2026",
+      skinConcern: "Bariera hydrolipidowa (stres kortyzolowy, TEWL i odwodnienie)",
+      sensitivityLevel: "Wysoka nadreaktywność neuro-naczyniowa",
+      prefersSilence: true,
+      cabinetNotes: "Pacjentka pod stałą opieką bionomiczną. Wykazuje doskonałą odpowiedź komórkową na protokół ektoinowy.",
+      visits: DEMO_DEFAULT_VISITS
+    }
+  ];
+
   // Helper functions for reading and writing registered accounts
   const getStoredAccountsList = () => {
     try {
       const raw = safeStorage.getItem("slowskin_accounts_list");
-      if (!raw) return [];
-      return JSON.parse(raw);
+      if (!raw) {
+        safeStorage.setItem("slowskin_accounts_list", JSON.stringify(DEFAULT_INITIAL_ACCOUNTS));
+        return DEFAULT_INITIAL_ACCOUNTS;
+      }
+      const parsed = JSON.parse(raw);
+      // Ensure Bartosz exists in accounts directory
+      if (!parsed.some((a: any) => a.name?.toLowerCase().includes("bartosz") || a.email?.toLowerCase().includes("bartosz"))) {
+        const merged = [DEFAULT_INITIAL_ACCOUNTS[0], ...parsed];
+        safeStorage.setItem("slowskin_accounts_list", JSON.stringify(merged));
+        return merged;
+      }
+      return parsed;
     } catch {
-      return [];
+      return DEFAULT_INITIAL_ACCOUNTS;
     }
   };
 
@@ -1109,11 +1154,32 @@ export default function App() {
 
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const [isRegisterMode, setIsRegisterMode] = useState(false);
+  const [authMode, setAuthMode] = useState<"login" | "register" | "staff">("login");
+  const isRegisterMode = authMode === "register";
   const [registerName, setRegisterName] = useState("");
   const [registerPhone, setRegisterPhone] = useState("");
   const [loginError, setLoginError] = useState("");
   const [isLoginLoading, setIsLoginLoading] = useState(false);
+
+  // Staff / Clinic Management Mode States
+  const [isStaffMode, setIsStaffMode] = useState(() => {
+    return safeStorage.getItem("slowskin_is_staff") === "true";
+  });
+  const [isStaffPinUnlocked, setIsStaffPinUnlocked] = useState(() => {
+    return safeStorage.getItem("slowskin_staff_unlocked") === "true";
+  });
+  const [staffPinInput, setStaffPinInput] = useState("");
+  const [staffPinError, setStaffPinError] = useState("");
+  const [staffSearchQuery, setStaffSearchQuery] = useState("");
+  const [isAddPatientModalOpen, setIsAddPatientModalOpen] = useState(false);
+  const [newPatientForm, setNewPatientForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    skinConcern: "",
+    sensitivityLevel: "",
+    cabinetNotes: ""
+  });
 
   // Synchronize 'Slow Skin Pass' data to storage and per-user registry
   useEffect(() => {
@@ -1413,7 +1479,7 @@ export default function App() {
       setUserProfile(newAcc);
       setPastVisits([]); // ZERO VISITS!
       setIsLoggedIn(true);
-      setIsRegisterMode(false);
+      setAuthMode("login");
       triggerToast("Konto Pacjenta zostało pomyślnie zarejestrowane i aktywowane!");
       setIsLoginLoading(false);
     }, 600);
@@ -1429,6 +1495,117 @@ export default function App() {
       ...prev,
       prefersSilence: !prev.prefersSilence
     }));
+  };
+
+  // Staff and clinic management functions
+  const handleUnlockStaffMode = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    const pin = staffPinInput.trim().toLowerCase();
+    if (pin === "2026" || pin === "slowskin" || pin === "admin" || pin === "aleksandra" || pin === "bartosz") {
+      setIsStaffPinUnlocked(true);
+      safeStorage.setItem("slowskin_staff_unlocked", "true");
+      setStaffPinError("");
+      setStaffPinInput("");
+      triggerToast("Autoryzacja personelu pomyślna. Odblokowano Kartotekę Gabinetu.");
+    } else {
+      setStaffPinError("Nieprawidłowy kod PIN gabinetu. Domyślny PIN personelu: 2026");
+    }
+  };
+
+  const handleQuickUnlockStaff = () => {
+    setIsStaffPinUnlocked(true);
+    safeStorage.setItem("slowskin_staff_unlocked", "true");
+    setStaffPinError("");
+    setStaffPinInput("");
+    triggerToast("Zalogowano jako Kosmetolog Prowadzący (PIN: 2026).");
+  };
+
+  const handleLockStaffMode = () => {
+    setIsStaffPinUnlocked(false);
+    safeStorage.removeItem("slowskin_staff_unlocked");
+    triggerToast("Zablokowano panel personelu gabinetu.", "info");
+  };
+
+  const handleSelectPatientAsStaff = (patient: any, autoOpenAddVisit: boolean = false) => {
+    const isDemo = patient.email?.toLowerCase() === DEMO_ACCOUNT_EMAIL.toLowerCase();
+    const userVisits = isDemo 
+      ? (patient.visits?.length ? patient.visits : DEMO_DEFAULT_VISITS)
+      : (patient.visits || []).filter((v: any) => v.id !== "v1" && v.id !== "v2" && v.id !== "v3");
+
+    setUserProfile({
+      name: patient.name || "Pacjent Slow Skin Concept",
+      email: patient.email,
+      phone: patient.phone || "+48 600 000 000",
+      memberId: patient.memberId || ("SSP-" + Math.floor(10000 + Math.random() * 90000)),
+      joinDate: patient.joinDate || "12 Października 2026",
+      skinConcern: patient.skinConcern || "Karta oczekuje na pierwsze badanie diagnostyczne w Instytucie (Pierwsza Wizyta)",
+      sensitivityLevel: patient.sensitivityLevel || "Zostanie określony podczas konsultacji gabinetowej",
+      prefersSilence: !!patient.prefersSilence,
+      cabinetNotes: patient.cabinetNotes || "Kartoteka pacjenta aktywna."
+    });
+    setPastVisits(userVisits);
+    setIsLoggedIn(true);
+    setIsStaffMode(true);
+    safeStorage.setItem("slowskin_is_staff", "true");
+    safeStorage.setItem("slowskin_is_logged", "true");
+    setAccountSubTab("visits");
+    if (autoOpenAddVisit) {
+      setTimeout(() => {
+        setIsAddVisitModalOpen(true);
+      }, 250);
+    }
+    triggerToast(`Otwarto kartotekę pacjenta: ${patient.name}`);
+  };
+
+  const handleCreatePatientByStaff = (e: React.FormEvent) => {
+    e.preventDefault();
+    const name = newPatientForm.name.trim();
+    const email = newPatientForm.email.trim().toLowerCase();
+    const phone = newPatientForm.phone.trim();
+    if (!name || !email) {
+      triggerToast("Proszę podać imię, nazwisko oraz adres e-mail pacjenta.", "error");
+      return;
+    }
+    const storedAccounts = getStoredAccountsList();
+    if (storedAccounts.some((a: any) => a.email?.toLowerCase() === email)) {
+      triggerToast("Pacjent o takim adresie e-mail jest już zarejestrowany.", "error");
+      return;
+    }
+    const newMemberId = "SSP-" + Math.floor(10000 + Math.random() * 90000);
+    const todayFormatted = new Date().toLocaleDateString("pl-PL", { day: "numeric", month: "long", year: "numeric" });
+    const createdAccount = {
+      name,
+      email,
+      phone: phone || "+48 600 000 000",
+      memberId: newMemberId,
+      password: "pass",
+      joinDate: todayFormatted,
+      skinConcern: newPatientForm.skinConcern.trim() || "Karta oczekuje na pierwsze badanie diagnostyczne w Instytucie (Pierwsza Wizyta)",
+      sensitivityLevel: newPatientForm.sensitivityLevel.trim() || "Zostanie określony podczas konsultacji gabinetowej",
+      prefersSilence: false,
+      cabinetNotes: newPatientForm.cabinetNotes.trim() || "Karta założona stacjonarnie w gabinecie przez kosmetologa.",
+      visits: []
+    };
+    const updated = [createdAccount, ...storedAccounts];
+    saveStoredAccounts(updated);
+    setIsAddPatientModalOpen(false);
+    setNewPatientForm({ name: "", email: "", phone: "", skinConcern: "", sensitivityLevel: "", cabinetNotes: "" });
+    triggerToast(`Założono nową kartotekę dla: ${name}`);
+    handleSelectPatientAsStaff(createdAccount);
+  };
+
+  const handleDeletePatientByStaff = (emailToDelete: string) => {
+    if (!window.confirm("Czy na pewno chcesz usunąć tę kartotekę pacjenta z bazy gabinetu?")) return;
+    const storedAccounts = getStoredAccountsList();
+    const filtered = storedAccounts.filter((a: any) => a.email?.toLowerCase() !== emailToDelete.toLowerCase());
+    saveStoredAccounts(filtered);
+    triggerToast("Kartoteka pacjenta została usunięta.", "info");
+  };
+
+  const handleExitStaffMode = () => {
+    setIsStaffMode(false);
+    safeStorage.removeItem("slowskin_is_staff");
+    triggerToast("Przełączono w standardowy tryb pacjenta.", "info");
   };
 
   // Google Translate Client-side Integration for Full-Page Translation with Custom Design System
@@ -13194,30 +13371,38 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
 
               {!isLoggedIn ? (
                 /* PRODUCTION LOGIN & ACCOUNT ACCESS BOX */
-                <div className="bg-white border border-luxury-sand p-8 md:p-12 shadow-sm max-w-md mx-auto space-y-6 relative overflow-hidden">
+                <div className={`bg-white border border-luxury-sand p-6 md:p-10 shadow-sm mx-auto space-y-6 relative overflow-hidden transition-all duration-300 ${authMode === "staff" && isStaffPinUnlocked ? "max-w-3xl" : "max-w-md"}`}>
                   <div className="absolute top-0 left-0 w-full h-[3px] bg-luxury-gold" />
                   
                   <div className="text-center space-y-2">
                     <span className="font-mono text-[8.5px] tracking-widest text-luxury-gold uppercase block font-semibold">
-                      Prywatny Dostęp Klientki • Status Produkcyjny
+                      {authMode === "staff" ? "Strefa Personelu & Kosmetologa • Zarządzanie Gabinetem" : "Prywatny Dostęp Klientki • Status Produkcyjny"}
                     </span>
                     <h2 className="font-serif text-2xl font-light text-luxury-dark">
-                      {isRegisterMode ? "Rejestracja Karty Klientki" : "Zaloguj się do Strefy Klientki"}
+                      {authMode === "staff" 
+                        ? (isStaffPinUnlocked ? "Kartoteka Pacjentów Gabinetu" : "Dostęp Personelu do Kartotek")
+                        : isRegisterMode 
+                        ? "Rejestracja Karty Klientki" 
+                        : "Zaloguj się do Strefy Klientki"}
                     </h2>
                     <p className="text-xs text-luxury-dark/90 leading-relaxed font-light">
-                      {isRegisterMode
+                      {authMode === "staff"
+                        ? (isStaffPinUnlocked 
+                            ? "Wybierz pacjenta, aby zarządzać jego kartoteką bionomiczną, wpisywać zrealizowane zabiegi lub aktualizować diagnozę."
+                            : "Wprowadź kod PIN personelu gabinetu, aby uzyskać natychmiastowy wgląd w konta wszystkich pacjentów bez znajomości ich haseł.")
+                        : isRegisterMode
                         ? "Zarejestruj swoje konto pacjenta, aby zyskać dostęp do karty komórkowej, historii zabiegów i indywidualnego planu."
                         : "Podaj swój autoryzowany adres e-mail oraz hasło gabinetowe, aby uzyskać pełny wgląd w swoją kartę komórkową."}
                     </p>
                   </div>
 
-                  {/* Mode Switcher */}
+                  {/* Mode Switcher (3-Way: Pacjent / Nowe Konto / Personel Gabinetu) */}
                   <div className="flex border-b border-luxury-sand/50 text-center">
                     <button
                       type="button"
-                      onClick={() => { setIsRegisterMode(false); setLoginError(""); }}
-                      className={`flex-1 pb-2.5 font-mono text-[10px] uppercase tracking-wider transition-colors cursor-pointer ${
-                        !isRegisterMode
+                      onClick={() => { setAuthMode("login"); setLoginError(""); }}
+                      className={`flex-1 pb-2.5 font-mono text-[9.5px] uppercase tracking-wider transition-colors cursor-pointer ${
+                        authMode === "login"
                           ? "border-b-2 border-luxury-gold text-luxury-dark font-bold"
                           : "text-luxury-dark/50 hover:text-luxury-dark"
                       }`}
@@ -13226,158 +13411,488 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     </button>
                     <button
                       type="button"
-                      onClick={() => { setIsRegisterMode(true); setLoginError(""); }}
-                      className={`flex-1 pb-2.5 font-mono text-[10px] uppercase tracking-wider transition-colors cursor-pointer ${
-                        isRegisterMode
+                      onClick={() => { setAuthMode("register"); setLoginError(""); }}
+                      className={`flex-1 pb-2.5 font-mono text-[9.5px] uppercase tracking-wider transition-colors cursor-pointer ${
+                        authMode === "register"
                           ? "border-b-2 border-luxury-gold text-luxury-dark font-bold"
                           : "text-luxury-dark/50 hover:text-luxury-dark"
                       }`}
                     >
                       Nowe Konto
                     </button>
-                  </div>
-
-                  {/* Szybki Dostęp Testowy dla Pacjenta & Demo */}
-                  <div className="bg-luxury-sand/15 p-3.5 border border-luxury-sand/50 space-y-2 text-left">
-                    <div className="flex items-center justify-between">
-                      <span className="font-mono text-[8px] text-luxury-gold uppercase font-bold tracking-widest">
-                        Szybki Dostęp do Kartoteki
-                      </span>
-                      <span className="text-[7.5px] font-mono text-emerald-800 uppercase bg-emerald-50 px-1 py-0.5 border border-emerald-100">
-                        Autoryzacja 1-Klik
-                      </span>
-                    </div>
-                    <div className="grid grid-cols-1 gap-1.5 pt-0.5">
-                      <button
-                        type="button"
-                        onClick={handleQuickLoginBartosz}
-                        className="w-full text-left p-2.5 bg-white border border-luxury-sand hover:border-luxury-gold transition-all text-xs flex items-center justify-between group cursor-pointer shadow-2xs"
-                      >
-                        <div>
-                          <span className="font-serif font-medium text-luxury-dark group-hover:text-luxury-gold block text-[11.5px]">
-                            Bartosz Przysiężny (Konto Rzeczywiste)
-                          </span>
-                          <span className="font-mono text-[8px] text-luxury-dark/80 block">
-                            Nowy pacjent • 0 zabiegów • czysta kartoteka gabinetowa
-                          </span>
-                        </div>
-                        <span className="font-mono text-[8.5px] text-luxury-gold uppercase tracking-wider group-hover:translate-x-0.5 transition-transform shrink-0 ml-2">
-                          Wejdź &rarr;
-                        </span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={handleQuickLoginDemo}
-                        className="w-full text-left p-2 bg-white/70 border border-luxury-sand/50 hover:border-luxury-sand transition-all text-xs flex items-center justify-between group cursor-pointer"
-                      >
-                        <div>
-                          <span className="font-serif text-luxury-dark/90 block text-[11px]">
-                            Konto Pokazowe (Demo)
-                          </span>
-                          <span className="font-mono text-[7.5px] text-luxury-dark/70 block">
-                            Wypełniona historia 3 zabiegów (dla porównania)
-                          </span>
-                        </div>
-                        <span className="font-mono text-[8px] text-luxury-dark/70 uppercase shrink-0 ml-2">
-                          Podgląd &rarr;
-                        </span>
-                      </button>
-                    </div>
-                  </div>
-
-                  <form onSubmit={isRegisterMode ? handleRegister : handleLogin} className="space-y-4 pt-1">
-                    {loginError && (
-                      <div className="text-[11px] font-mono text-amber-800 bg-amber-50 p-2.5 border border-amber-200 animate-fade-in text-center">
-                        ✕ {loginError}
-                      </div>
-                    )}
-
-                    {isRegisterMode && (
-                      <>
-                        <div className="space-y-1">
-                          <label className="font-mono text-[9px] text-luxury-dark/90 uppercase block text-left">
-                            Imię i Nazwisko
-                          </label>
-                          <input
-                            type="text"
-                            required
-                            value={registerName}
-                            onChange={(e) => setRegisterName(e.target.value)}
-                            placeholder="np. Aleksandra Kamińska"
-                            className="w-full bg-white border border-luxury-sand p-3 text-xs outline-0 text-luxury-dark focus:border-luxury-gold"
-                          />
-                        </div>
-
-                        <div className="space-y-1">
-                          <label className="font-mono text-[9px] text-luxury-dark/90 uppercase block text-left">
-                            Numer telefonu
-                          </label>
-                          <input
-                            type="tel"
-                            value={registerPhone}
-                            onChange={(e) => setRegisterPhone(e.target.value)}
-                            placeholder="+48 600 000 000"
-                            className="w-full bg-white border border-luxury-sand p-3 text-xs outline-0 text-luxury-dark focus:border-luxury-gold"
-                          />
-                        </div>
-                      </>
-                    )}
-
-                    <div className="space-y-1">
-                      <label className="font-mono text-[9px] text-luxury-dark/90 uppercase block text-left">
-                        Adres e-mail
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        value={loginEmail}
-                        onChange={(e) => setLoginEmail(e.target.value)}
-                        placeholder="twoj-email@domena.pl"
-                        className="w-full bg-white border border-luxury-sand p-3 text-xs outline-0 text-luxury-dark focus:border-luxury-gold"
-                      />
-                    </div>
-
-                    <div className="space-y-1">
-                      <label className="font-mono text-[9px] text-luxury-dark/90 uppercase block text-left">
-                        Hasło dostępu
-                      </label>
-                      <input
-                        type="password"
-                        required
-                        value={loginPassword}
-                        onChange={(e) => setLoginPassword(e.target.value)}
-                        placeholder="Wprowadź swoje hasło"
-                        className="w-full bg-white border border-luxury-sand p-3 text-xs outline-0 text-luxury-dark focus:border-luxury-gold"
-                      />
-                    </div>
-
                     <button
-                      type="submit"
-                      disabled={isLoginLoading}
-                      className="w-full py-3.5 bg-luxury-dark hover:bg-luxury-gold text-white text-xs font-mono tracking-widest uppercase transition-all duration-300 font-semibold cursor-pointer disabled:opacity-55 shadow-xs"
+                      type="button"
+                      onClick={() => { setAuthMode("staff"); setLoginError(""); }}
+                      className={`flex-1 pb-2.5 font-mono text-[9.5px] uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-1.5 ${
+                        authMode === "staff"
+                          ? "border-b-2 border-luxury-gold text-luxury-gold font-bold bg-luxury-sand/15"
+                          : "text-luxury-dark/65 hover:text-luxury-gold"
+                      }`}
                     >
-                      {isLoginLoading
-                        ? "WERYFIKACJA KLUCZA..."
-                        : isRegisterMode
-                        ? "ZAREJESTRUJ KONTO PRODUKCYJNE"
-                        : "AUTORYZUJ DOSTĘP"}
+                      <ShieldCheck className="w-3.5 h-3.5 text-luxury-gold" />
+                      Personel (Gabinet)
                     </button>
-                  </form>
-
-                  <div className="border-t border-luxury-sand/30 pt-4 text-center space-y-1.5">
-                    <div className="flex items-center justify-center gap-1.5 text-[9.5px] font-mono text-emerald-800 font-semibold uppercase tracking-wider">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 inline-block animate-pulse" />
-                      Bezpieczna Sesja Produkcyjna (Kryptografia SSL)
-                    </div>
-                    <p className="text-[10px] text-luxury-dark/75 leading-relaxed font-light">
-                      Konto pacjenta zintegrowane z kartoteką Instytutu Slow Skin Concept. W razie pytań lub zmiany hasła skontaktuj się bezpośrednio z gabinetem.
-                    </p>
                   </div>
+
+                  {/* TAB 1 & 2: CLIENT LOGIN & REGISTRATION */}
+                  {authMode !== "staff" && (
+                    <>
+                      {/* Szybki Dostęp Testowy dla Pacjenta & Demo */}
+                      <div className="bg-luxury-sand/15 p-3.5 border border-luxury-sand/50 space-y-2 text-left">
+                        <div className="flex items-center justify-between">
+                          <span className="font-mono text-[8px] text-luxury-gold uppercase font-bold tracking-widest">
+                            Szybki Dostęp do Kartoteki
+                          </span>
+                          <span className="text-[7.5px] font-mono text-emerald-800 uppercase bg-emerald-50 px-1 py-0.5 border border-emerald-100">
+                            Autoryzacja 1-Klik
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-1 gap-1.5 pt-0.5">
+                          <button
+                            type="button"
+                            onClick={handleQuickLoginBartosz}
+                            className="w-full text-left p-2.5 bg-white border border-luxury-sand hover:border-luxury-gold transition-all text-xs flex items-center justify-between group cursor-pointer shadow-2xs"
+                          >
+                            <div>
+                              <span className="font-serif font-medium text-luxury-dark group-hover:text-luxury-gold block text-[11.5px]">
+                                Bartosz Przysiężny (Konto Rzeczywiste)
+                              </span>
+                              <span className="font-mono text-[8px] text-luxury-dark/80 block">
+                                Nowy pacjent • 0 zabiegów • czysta kartoteka gabinetowa
+                              </span>
+                            </div>
+                            <span className="font-mono text-[8.5px] text-luxury-gold uppercase tracking-wider group-hover:translate-x-0.5 transition-transform shrink-0 ml-2">
+                              Wejdź &rarr;
+                            </span>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={handleQuickLoginDemo}
+                            className="w-full text-left p-2 bg-white/70 border border-luxury-sand/50 hover:border-luxury-sand transition-all text-xs flex items-center justify-between group cursor-pointer"
+                          >
+                            <div>
+                              <span className="font-serif text-luxury-dark/90 block text-[11px]">
+                                Konto Pokazowe (Demo)
+                              </span>
+                              <span className="font-mono text-[7.5px] text-luxury-dark/70 block">
+                                Wypełniona historia 3 zabiegów (dla porównania)
+                              </span>
+                            </div>
+                            <span className="font-mono text-[8px] text-luxury-dark/70 uppercase shrink-0 ml-2">
+                              Podgląd &rarr;
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+
+                      <form onSubmit={isRegisterMode ? handleRegister : handleLogin} className="space-y-4 pt-1">
+                        {loginError && (
+                          <div className="text-[11px] font-mono text-amber-800 bg-amber-50 p-2.5 border border-amber-200 animate-fade-in text-center">
+                            ✕ {loginError}
+                          </div>
+                        )}
+
+                        {isRegisterMode && (
+                          <>
+                            <div className="space-y-1">
+                              <label className="font-mono text-[9px] text-luxury-dark/90 uppercase block text-left">
+                                Imię i Nazwisko
+                              </label>
+                              <input
+                                type="text"
+                                required
+                                value={registerName}
+                                onChange={(e) => setRegisterName(e.target.value)}
+                                placeholder="np. Aleksandra Kamińska"
+                                className="w-full bg-white border border-luxury-sand p-3 text-xs outline-0 text-luxury-dark focus:border-luxury-gold"
+                              />
+                            </div>
+
+                            <div className="space-y-1">
+                              <label className="font-mono text-[9px] text-luxury-dark/90 uppercase block text-left">
+                                Numer telefonu
+                              </label>
+                              <input
+                                type="tel"
+                                value={registerPhone}
+                                onChange={(e) => setRegisterPhone(e.target.value)}
+                                placeholder="+48 600 000 000"
+                                className="w-full bg-white border border-luxury-sand p-3 text-xs outline-0 text-luxury-dark focus:border-luxury-gold"
+                              />
+                            </div>
+                          </>
+                        )}
+
+                        <div className="space-y-1">
+                          <label className="font-mono text-[9px] text-luxury-dark/90 uppercase block text-left">
+                            Adres e-mail
+                          </label>
+                          <input
+                            type="email"
+                            required
+                            value={loginEmail}
+                            onChange={(e) => setLoginEmail(e.target.value)}
+                            placeholder="twoj-email@domena.pl"
+                            className="w-full bg-white border border-luxury-sand p-3 text-xs outline-0 text-luxury-dark focus:border-luxury-gold"
+                          />
+                        </div>
+
+                        <div className="space-y-1">
+                          <label className="font-mono text-[9px] text-luxury-dark/90 uppercase block text-left">
+                            Hasło dostępu
+                          </label>
+                          <input
+                            type="password"
+                            required
+                            value={loginPassword}
+                            onChange={(e) => setLoginPassword(e.target.value)}
+                            placeholder="Wprowadź swoje hasło"
+                            className="w-full bg-white border border-luxury-sand p-3 text-xs outline-0 text-luxury-dark focus:border-luxury-gold"
+                          />
+                        </div>
+
+                        <button
+                          type="submit"
+                          disabled={isLoginLoading}
+                          className="w-full py-3.5 bg-luxury-dark hover:bg-luxury-gold text-white text-xs font-mono tracking-widest uppercase transition-all duration-300 font-semibold cursor-pointer disabled:opacity-55 shadow-xs"
+                        >
+                          {isLoginLoading
+                            ? "WERYFIKACJA KLUCZA..."
+                            : isRegisterMode
+                            ? "ZAREJESTRUJ KONTO PRODUKCYJNE"
+                            : "AUTORYZUJ DOSTĘP"}
+                        </button>
+                      </form>
+
+                      <div className="border-t border-luxury-sand/30 pt-4 text-center space-y-1.5">
+                        <div className="flex items-center justify-center gap-1.5 text-[9.5px] font-mono text-emerald-800 font-semibold uppercase tracking-wider">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 inline-block animate-pulse" />
+                          Bezpieczna Sesja Produkcyjna (Kryptografia SSL)
+                        </div>
+                        <p className="text-[10px] text-luxury-dark/75 leading-relaxed font-light">
+                          Konto pacjenta zintegrowane z kartoteką Instytutu Slow Skin Concept. W razie pytań lub zmiany hasła skontaktuj się bezpośrednio z gabinetem.
+                        </p>
+                      </div>
+                    </>
+                  )}
+
+                  {/* TAB 3: STAFF CLINIC PANEL & PATIENTS DIRECTORY */}
+                  {authMode === "staff" && (
+                    <div className="space-y-5">
+                      {!isStaffPinUnlocked ? (
+                        /* STAFF PIN ENTRY */
+                        <div className="space-y-5 text-left py-2">
+                          <div className="text-center space-y-1.5">
+                            <div className="w-12 h-12 mx-auto rounded-full bg-luxury-gold/15 flex items-center justify-center text-luxury-gold mb-2">
+                              <Lock className="w-6 h-6 stroke-[1.5]" />
+                            </div>
+                            <h3 className="font-serif text-xl font-light text-luxury-dark">Autoryzacja Personelu Gabinetu</h3>
+                            <p className="text-xs text-luxury-dark/85 font-light leading-relaxed max-w-sm mx-auto">
+                              Strefa zastrzeżona dla właściciela i kosmetologów Instytutu. Wprowadź kod PIN gabinetu, aby uzyskać natychmiastowy wgląd w kartoteki wszystkich pacjentów.
+                            </p>
+                          </div>
+
+                          <form onSubmit={handleUnlockStaffMode} className="space-y-4 max-w-xs mx-auto pt-1">
+                            {staffPinError && (
+                              <div className="text-[11px] font-mono text-amber-800 bg-amber-50 p-2.5 border border-amber-200 text-center animate-fade-in">
+                                ✕ {staffPinError}
+                              </div>
+                            )}
+
+                            <div className="space-y-1">
+                              <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block text-center font-semibold">
+                                Kod PIN Personelu Gabinetu:
+                              </label>
+                              <input
+                                type="password"
+                                autoFocus
+                                value={staffPinInput}
+                                onChange={(e) => setStaffPinInput(e.target.value)}
+                                placeholder="PIN: 2026"
+                                className="w-full bg-white border border-luxury-sand p-3 text-sm outline-0 text-luxury-dark focus:border-luxury-gold text-center tracking-[0.25em] font-mono"
+                              />
+                            </div>
+
+                            <button
+                              type="submit"
+                              className="w-full py-3 bg-luxury-dark hover:bg-luxury-gold text-white text-xs font-mono tracking-widest uppercase transition-colors font-semibold cursor-pointer shadow-xs"
+                            >
+                              Odblokuj Kartotekę Pacjentów &rarr;
+                            </button>
+
+                            <div className="pt-2 text-center space-y-2">
+                              <button
+                                type="button"
+                                onClick={handleQuickUnlockStaff}
+                                className="w-full py-2 bg-luxury-sand/20 hover:bg-luxury-sand/35 text-luxury-dark font-mono text-[9.5px] uppercase tracking-wider transition-colors cursor-pointer border border-luxury-sand/50"
+                              >
+                                ⚡ Zaloguj jako Kosmetolog (PIN: 2026)
+                              </button>
+                              <span className="block text-[10px] text-luxury-dark/70 font-mono">
+                                Domyślny PIN personelu gabinetu: <strong className="text-luxury-dark">2026</strong>
+                              </span>
+                            </div>
+                          </form>
+                        </div>
+                      ) : (
+                        /* STAFF PATIENT DIRECTORY */
+                        <div className="space-y-4 text-left">
+                          <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 border-b border-luxury-sand/50 pb-3">
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                                <span className="font-mono text-[8.5px] tracking-widest text-luxury-gold uppercase font-bold">
+                                  Tryb Personelu Gabinetu • Aktywny
+                                </span>
+                              </div>
+                              <h3 className="font-serif text-xl font-light text-luxury-dark mt-0.5">
+                                Kartoteka Wszystkich Pacjentów
+                              </h3>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <button
+                                type="button"
+                                onClick={() => setIsAddPatientModalOpen(true)}
+                                className="px-3.5 py-2 bg-luxury-dark hover:bg-luxury-gold text-white font-mono text-[9.5px] uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-1.5 shadow-2xs font-semibold"
+                              >
+                                <UserPlus className="w-3.5 h-3.5 text-luxury-gold" /> + Załóż Kartę Pacjenta
+                              </button>
+                              <button
+                                type="button"
+                                onClick={handleLockStaffMode}
+                                className="p-2 border border-luxury-sand hover:bg-gray-100 text-luxury-dark/70 hover:text-luxury-dark cursor-pointer text-xs"
+                                title="Zablokuj panel personelu"
+                              >
+                                <Lock className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Search bar & statistics */}
+                          <div className="space-y-2">
+                            <div className="relative">
+                              <Search className="w-4 h-4 text-luxury-sand absolute left-3 top-1/2 -translate-y-1/2" />
+                              <input
+                                type="text"
+                                value={staffSearchQuery}
+                                onChange={(e) => setStaffSearchQuery(e.target.value)}
+                                placeholder="Szukaj pacjenta (imię, nazwisko, e-mail, tel, numer karty)..."
+                                className="w-full bg-white border border-luxury-sand pl-9 pr-8 py-2 text-xs outline-0 text-luxury-dark focus:border-luxury-gold"
+                              />
+                              {staffSearchQuery && (
+                                <button
+                                  type="button"
+                                  onClick={() => setStaffSearchQuery("")}
+                                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-xs font-mono"
+                                >
+                                  ✕
+                                </button>
+                              )}
+                            </div>
+
+                            <div className="flex flex-wrap items-center justify-between gap-2 text-[10px] font-mono text-luxury-dark/80 pt-0.5">
+                              <span>Łącznie w bazie: <strong className="text-luxury-dark">{getStoredAccountsList().length} pacjentów</strong></span>
+                              <span>Wyszukano: <strong className="text-luxury-dark">{
+                                getStoredAccountsList().filter((acc: any) => {
+                                  if (!staffSearchQuery.trim()) return true;
+                                  const q = staffSearchQuery.toLowerCase();
+                                  return (
+                                    acc.name?.toLowerCase().includes(q) ||
+                                    acc.email?.toLowerCase().includes(q) ||
+                                    acc.phone?.toLowerCase().includes(q) ||
+                                    acc.memberId?.toLowerCase().includes(q)
+                                  );
+                                }).length
+                              }</strong></span>
+                            </div>
+                          </div>
+
+                          {/* List of Patients */}
+                          <div className="space-y-2.5 max-h-[420px] overflow-y-auto pr-1">
+                            {getStoredAccountsList()
+                              .filter((acc: any) => {
+                                if (!staffSearchQuery.trim()) return true;
+                                const q = staffSearchQuery.toLowerCase();
+                                return (
+                                  acc.name?.toLowerCase().includes(q) ||
+                                  acc.email?.toLowerCase().includes(q) ||
+                                  acc.phone?.toLowerCase().includes(q) ||
+                                  acc.memberId?.toLowerCase().includes(q)
+                                );
+                              })
+                              .map((account: any) => {
+                                const isDemo = account.email?.toLowerCase() === DEMO_ACCOUNT_EMAIL.toLowerCase();
+                                const visitsCount = isDemo ? (account.visits?.length || 3) : (account.visits?.length || 0);
+                                return (
+                                  <div
+                                    key={account.email}
+                                    className="p-3.5 bg-white border border-luxury-sand hover:border-luxury-gold/70 transition-all flex flex-col sm:flex-row justify-between sm:items-center gap-3 shadow-2xs group"
+                                  >
+                                    <div className="space-y-1 text-left flex-1">
+                                      <div className="flex flex-wrap items-center gap-2">
+                                        <span className="font-serif text-[14px] font-medium text-luxury-dark group-hover:text-luxury-gold transition-colors">
+                                          {account.name}
+                                        </span>
+                                        <span className="font-mono text-[8.5px] px-1.5 py-0.5 bg-luxury-sand/20 text-luxury-dark/80 border border-luxury-sand/40">
+                                          {account.memberId || "SSP"}
+                                        </span>
+                                        {account.name?.includes("Bartosz") && (
+                                          <span className="font-mono text-[7.5px] px-1.5 py-0.5 bg-emerald-50 text-emerald-800 border border-emerald-200 uppercase font-semibold">
+                                            Konto Rzeczywiste
+                                          </span>
+                                        )}
+                                        {isDemo && (
+                                          <span className="font-mono text-[7.5px] px-1.5 py-0.5 bg-blue-50 text-blue-800 border border-blue-200 uppercase">
+                                            Konto Demo
+                                          </span>
+                                        )}
+                                      </div>
+                                      <div className="text-[10px] font-mono text-luxury-dark/70 flex flex-wrap gap-x-3 gap-y-0.5">
+                                        <span>✉ {account.email}</span>
+                                        {account.phone && <span>☎ {account.phone}</span>}
+                                        <span>📅 {account.joinDate || "2026"}</span>
+                                      </div>
+                                      <div className="text-[10.5px] text-luxury-dark/85 font-light pt-0.5 line-clamp-1 italic">
+                                        {account.skinConcern}
+                                      </div>
+                                    </div>
+
+                                    <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
+                                      <div className="text-right pr-2 hidden sm:block">
+                                        <span className="font-mono text-[9px] uppercase tracking-wider block text-luxury-dark/80 font-semibold">
+                                          {visitsCount === 0 ? "0 zabiegów" : `${visitsCount} zabieg${visitsCount === 1 ? "" : "i"}`}
+                                        </span>
+                                        <span className="text-[8px] font-mono text-emerald-700 bg-emerald-50 px-1 py-0.5">
+                                          {visitsCount === 0 ? "Nowa Karta" : "Aktywna"}
+                                        </span>
+                                      </div>
+                                      <button
+                                        type="button"
+                                        onClick={() => handleSelectPatientAsStaff(account)}
+                                        className="px-3 py-1.5 bg-luxury-dark hover:bg-luxury-gold text-white font-mono text-[9px] uppercase tracking-wider transition-colors cursor-pointer font-medium shadow-2xs"
+                                      >
+                                        Otwórz Kartotekę &rarr;
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() => handleSelectPatientAsStaff(account, true)}
+                                        className="px-2.5 py-1.5 bg-white border border-luxury-sand hover:border-luxury-gold text-luxury-dark font-mono text-[9px] uppercase tracking-wider transition-colors cursor-pointer"
+                                        title="Dodaj zabieg do tego pacjenta"
+                                      >
+                                        + Zabieg
+                                      </button>
+                                      {!isDemo && !account.name?.includes("Bartosz") && (
+                                        <button
+                                          type="button"
+                                          onClick={() => handleDeletePatientByStaff(account.email)}
+                                          className="p-1.5 text-stone-400 hover:text-red-700 transition-colors cursor-pointer"
+                                          title="Usuń pacjenta z kartoteki"
+                                        >
+                                          <Trash2 className="w-3 h-3" />
+                                        </button>
+                                      )}
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                          </div>
+
+                          <div className="p-3 bg-luxury-sand/15 border border-dashed border-luxury-sand text-[10.5px] font-light text-luxury-dark/85 leading-relaxed flex items-center justify-between">
+                            <span>💡 Jako personel gabinetu masz bezpośredni dostęp do każdego pacjenta bez konieczności pytania go o hasło.</span>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setAuthMode("login");
+                                triggerToast("Przełączono na logowanie pacjenta.", "info");
+                              }}
+                              className="text-[9px] font-mono text-luxury-gold hover:underline uppercase shrink-0 ml-3"
+                            >
+                              Widok Pacjenta &rarr;
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               ) : (
                 /* LOGGED IN USER INTERFACE */
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <div className="space-y-6">
+                  {/* STAFF NAVIGATION BAR (WHEN LOGGED IN AS STAFF) */}
+                  {isStaffMode && (
+                    <div className="bg-luxury-dark text-white p-3.5 px-6 border-b-2 border-luxury-gold flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs font-mono shadow-md">
+                      <div className="flex items-center gap-2.5">
+                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-luxury-gold uppercase tracking-widest font-bold text-[10px]">
+                              TRYB PERSONELU GABINETU
+                            </span>
+                            <span className="text-[9px] bg-white/10 px-2 py-0.5 uppercase tracking-wider text-luxury-sand">
+                              KOSMETOLOG PROWADZĄCY
+                            </span>
+                          </div>
+                          <p className="text-white/90 text-xs font-light mt-0.5">
+                            Edytujesz kartotekę: <strong className="text-white font-medium underline">{userProfile.name}</strong> ({userProfile.memberId})
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-2.5 w-full md:w-auto">
+                        {/* Patient Switcher Dropdown */}
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-luxury-sand/80 text-[9.5px] uppercase">Zmień:</span>
+                          <select
+                            value={userProfile.email}
+                            onChange={(e) => {
+                              const acc = getStoredAccountsList().find((a: any) => a.email?.toLowerCase() === e.target.value.toLowerCase());
+                              if (acc) handleSelectPatientAsStaff(acc);
+                            }}
+                            className="bg-white/10 border border-luxury-sand/40 text-white text-[10.5px] p-1.5 px-2 outline-none cursor-pointer focus:border-luxury-gold"
+                          >
+                            {getStoredAccountsList().map((acc: any) => (
+                              <option key={acc.email} value={acc.email} className="bg-luxury-dark text-white">
+                                {acc.name} ({acc.memberId})
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsLoggedIn(false);
+                            setAuthMode("staff");
+                            setIsStaffPinUnlocked(true);
+                          }}
+                          className="px-3 py-1.5 bg-luxury-gold hover:bg-white text-luxury-dark uppercase text-[9px] font-bold tracking-wider cursor-pointer transition-colors"
+                        >
+                          Lista Pacjentów ({getStoredAccountsList().length}) &rarr;
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => window.print()}
+                          className="px-2.5 py-1.5 bg-white/10 hover:bg-white/20 text-white uppercase text-[9px] tracking-wider cursor-pointer transition-colors flex items-center gap-1"
+                          title="Drukuj kartę pacjenta"
+                        >
+                          <Printer className="w-3 h-3 text-luxury-gold" /> Drukuj
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={handleExitStaffMode}
+                          className="px-2.5 py-1.5 bg-white/10 hover:bg-red-900/40 text-white/70 hover:text-white uppercase text-[8.5px] tracking-wider cursor-pointer transition-colors"
+                          title="Wyjdź z trybu personelu"
+                        >
+                          Wyjdź z Personelu ✕
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                   
                   {/* Left side: Premium Card & Info */}
                   <div className="lg:col-span-4 space-y-6">
@@ -13482,12 +13997,27 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       </label>
                     </div>
 
-                    <button
-                      onClick={handleLogout}
-                      className="w-full py-3 border border-luxury-dark/35 hover:bg-luxury-dark hover:text-white transition-all duration-300 font-mono text-[10px] tracking-widest uppercase cursor-pointer"
-                    >
-                      Wyloguj ze Strefy Klientki &rarr;
-                    </button>
+                    <div className="space-y-2 pt-1">
+                      <button
+                        onClick={handleLogout}
+                        className="w-full py-2.5 border border-luxury-dark/35 hover:bg-luxury-dark hover:text-white transition-all duration-300 font-mono text-[9.5px] tracking-widest uppercase cursor-pointer"
+                      >
+                        Wyloguj ze Strefy Klientki &rarr;
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsLoggedIn(false);
+                          setAuthMode("staff");
+                          setIsStaffPinUnlocked(true);
+                        }}
+                        className="w-full py-2 bg-luxury-sand/20 hover:bg-luxury-gold hover:text-white text-luxury-dark transition-colors font-mono text-[9px] tracking-widest uppercase flex items-center justify-center gap-1.5 cursor-pointer border border-luxury-sand/50"
+                      >
+                        <ShieldCheck className="w-3.5 h-3.5 text-luxury-gold" />
+                        Kartoteka Gabinetu (Wszyscy Pacjenci) &rarr;
+                      </button>
+                    </div>
 
                   </div>
 
@@ -14179,7 +14709,8 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   </div>
 
                 </div>
-              )}
+              </div>
+            )}
 
               {/* MODAL: DODAJ ZABIEG DO HISTORII PACJENTA (WPIS GABINETOWY) */}
               <AnimatePresence>
@@ -14447,6 +14978,134 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             className="px-5 py-2.5 bg-luxury-dark hover:bg-luxury-gold text-white font-mono text-[9.5px] uppercase tracking-widest font-semibold cursor-pointer shadow-xs transition-colors"
                           >
                             Zapisz Diagnozę &rarr;
+                          </button>
+                        </div>
+                      </form>
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* MODAL: ZAŁÓŻ KARTĘ NOWEGO PACJENTA W GABINECIE */}
+              <AnimatePresence>
+                {isAddPatientModalOpen && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/65 backdrop-blur-xs overflow-y-auto"
+                    onClick={() => setIsAddPatientModalOpen(false)}
+                  >
+                    <motion.div
+                      initial={{ scale: 0.95, opacity: 0, y: 15 }}
+                      animate={{ scale: 1, opacity: 1, y: 0 }}
+                      exit={{ scale: 0.95, opacity: 0, y: 15 }}
+                      className="bg-white border border-luxury-gold p-6 md:p-8 max-w-md w-full text-left space-y-5 shadow-2xl relative my-8"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div className="flex justify-between items-start border-b border-luxury-sand/40 pb-3">
+                        <div>
+                          <span className="font-mono text-[8.5px] tracking-widest text-luxury-gold uppercase block font-bold">
+                            PERSONEL GABINETU • NOWA KARTOTEKA
+                          </span>
+                          <h3 className="font-serif text-xl font-light text-luxury-dark mt-0.5">
+                            Załóż Kartę Nowego Pacjenta
+                          </h3>
+                          <p className="text-[11px] text-luxury-dark/80 font-light">
+                            Wprowadź dane pacjenta. Karta zostanie utworzona ze statusem czystej kartoteki (0 zabiegów).
+                          </p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setIsAddPatientModalOpen(false)}
+                          className="text-luxury-dark/70 hover:text-luxury-dark font-mono text-sm cursor-pointer p-1"
+                        >
+                          ✕
+                        </button>
+                      </div>
+
+                      <form onSubmit={handleCreatePatientByStaff} className="space-y-3.5 text-xs">
+                        <div className="space-y-1">
+                          <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
+                            Imię i Nazwisko Pacjenta *:
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            value={newPatientForm.name}
+                            onChange={(e) => setNewPatientForm(prev => ({ ...prev, name: e.target.value }))}
+                            placeholder="np. Anna Nowak"
+                            className="w-full bg-white border border-luxury-sand p-2.5 text-xs text-luxury-dark outline-0 focus:border-luxury-gold"
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          <div className="space-y-1">
+                            <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
+                              Adres e-mail *:
+                            </label>
+                            <input
+                              type="email"
+                              required
+                              value={newPatientForm.email}
+                              onChange={(e) => setNewPatientForm(prev => ({ ...prev, email: e.target.value }))}
+                              placeholder="anna.nowak@gmail.com"
+                              className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold"
+                            />
+                          </div>
+                          <div className="space-y-1">
+                            <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
+                              Numer telefonu:
+                            </label>
+                            <input
+                              type="tel"
+                              value={newPatientForm.phone}
+                              onChange={(e) => setNewPatientForm(prev => ({ ...prev, phone: e.target.value }))}
+                              placeholder="+48 600 000 000"
+                              className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="space-y-1">
+                          <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
+                            Wstępna diagnoza komórkowa:
+                          </label>
+                          <input
+                            type="text"
+                            value={newPatientForm.skinConcern}
+                            onChange={(e) => setNewPatientForm(prev => ({ ...prev, skinConcern: e.target.value }))}
+                            placeholder="np. Oczekuje na pierwsze badanie / suchość naskórka"
+                            className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold"
+                          />
+                        </div>
+
+                        <div className="space-y-1">
+                          <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
+                            Notatka początkowa kosmetologa:
+                          </label>
+                          <textarea
+                            rows={2}
+                            value={newPatientForm.cabinetNotes}
+                            onChange={(e) => setNewPatientForm(prev => ({ ...prev, cabinetNotes: e.target.value }))}
+                            placeholder="Wpisz uwagi z pierwszej rozmowy telefonicznej lub rejestracji stacjonarnej..."
+                            className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold resize-none"
+                          />
+                        </div>
+
+                        <div className="flex justify-end gap-2.5 pt-3 border-t border-luxury-sand/30">
+                          <button
+                            type="button"
+                            onClick={() => setIsAddPatientModalOpen(false)}
+                            className="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-luxury-dark font-mono text-[9.5px] uppercase tracking-wider cursor-pointer"
+                          >
+                            Anuluj
+                          </button>
+                          <button
+                            type="submit"
+                            className="px-5 py-2.5 bg-luxury-dark hover:bg-luxury-gold text-white font-mono text-[9.5px] uppercase tracking-widest font-semibold cursor-pointer shadow-xs transition-colors"
+                          >
+                            Utwórz Kartotekę &rarr;
                           </button>
                         </div>
                       </form>
