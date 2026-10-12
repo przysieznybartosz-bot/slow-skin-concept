@@ -23,6 +23,7 @@ export function parseCurrentRoute(): RouteState {
     return { tab: "cover" };
   }
 
+  // Normalize path: lowercase and remove trailing slash
   const path = window.location.pathname.toLowerCase().replace(/\/+$/, "") || "/";
   const searchParams = new URLSearchParams(window.location.search);
   const bookingParam = searchParams.get("rezerwacja") || searchParams.get("booking");
@@ -32,11 +33,84 @@ export function parseCurrentRoute(): RouteState {
     return { tab: "cover", isBookingOpen: bookingParam === "true" };
   }
 
-  // 2. Treatments (Menu Zabiegowe & Monografie)
-  if (path === "/zabiegi" || path === "/menu-zabiegowe" || path === "/klinika" || path === "/oferta") {
+  // 2. Specialized Knowledge Base & Educational Articles URLs (from Google Search Console / Baza Wiedzy)
+  if (
+    path === "/baza-wiedzy/jak-odbudowac-bariere-hydrolipidowa" ||
+    path.includes("jak-odbudowac-bariere-hydrolipidowa")
+  ) {
+    return { tab: "journal", articleSlug: "art-hydrolipid-barrier" };
+  }
+  if (
+    path === "/baza-wiedzy/skora-wrazliwa-reaktywna" ||
+    path.includes("skora-wrazliwa-reaktywna")
+  ) {
+    return { tab: "journal", articleSlug: "art-slow-skin-philosophy" };
+  }
+  if (
+    path === "/baza-wiedzy/neurolifting-dla-kogo" ||
+    path.includes("neurolifting-dla-kogo")
+  ) {
+    return { tab: "journal", articleSlug: "art-neurobiology-skin" };
+  }
+  if (
+    path === "/baza-wiedzy/jak-przygotowac-sie-do-wizyty" ||
+    path.includes("jak-przygotowac-sie-do-wizyty") ||
+    path === "/pierwsza-wizyta-diagnostyka-skory" ||
+    path === "/pierwsza-wizyta"
+  ) {
+    return { tab: "clinic", treatmentSlug: "skin-readiness" };
+  }
+  if (path === "/baza-wiedzy" || path === "/edukacja") {
+    return { tab: "journal" };
+  }
+
+  // 3. Treatments (Menu Zabiegowe, Monografie i kategorie problemowe)
+  if (
+    path === "/zabiegi" ||
+    path === "/menu-zabiegowe" ||
+    path === "/klinika" ||
+    path === "/oferta" ||
+    path === "/zabiegi-na-twarz"
+  ) {
     return { tab: "clinic", isBookingOpen: bookingParam === "true" };
   }
 
+  // Direct problem/therapy routes mapping to key treatments
+  if (path === "/zabiegi-slow-aging" || path === "/slow-aging") {
+    return { tab: "clinic", treatmentSlug: "lift-firm-therapy" };
+  }
+  if (path === "/odbudowa-bariery-hydrolipidowej") {
+    return { tab: "clinic", treatmentSlug: "rosacea-calm-therapy" };
+  }
+  if (path === "/terapia-skory-wrazliwej-i-reaktywnej") {
+    return { tab: "clinic", treatmentSlug: "couperose-therapy" };
+  }
+  if (path === "/cera-naczynkowa-rumien") {
+    return { tab: "clinic", treatmentSlug: "couperose-therapy" };
+  }
+  if (path === "/neurolifting") {
+    return { tab: "clinic", treatmentSlug: "neurolifting-nogier" };
+  }
+  if (path === "/meso-remodeling") {
+    return { tab: "clinic", treatmentSlug: "skin-remodeling-therapy" };
+  }
+  if (path === "/hifu-lifting" || path === "/hifu") {
+    return { tab: "clinic", treatmentSlug: "hifu-lifting" };
+  }
+  if (path === "/rf-microneedling") {
+    return { tab: "clinic", treatmentSlug: "rf-microneedling" };
+  }
+  if (path === "/hydrogen-purification") {
+    return { tab: "clinic", treatmentSlug: "hydrogen-purification" };
+  }
+  if (path === "/ceragem") {
+    return { tab: "clinic", treatmentSlug: "ceragem-thermal-massage" };
+  }
+  if (path === "/pst") {
+    return { tab: "clinic", treatmentSlug: "pst-signal-therapy" };
+  }
+
+  // Treatment Slugs: /zabiegi/[slug] or /zabieg/[slug]
   if (path.startsWith("/zabiegi/") || path.startsWith("/zabieg/")) {
     const slug = path.replace(/^\/(zabiegi|zabieg)\//, "").trim();
     return {
@@ -46,49 +120,91 @@ export function parseCurrentRoute(): RouteState {
     };
   }
 
-  // 3. Methodology & Philosophy
-  if (path === "/metoda" || path === "/metodologia" || path === "/filozofia" || path === "/o-nas") {
-    return { tab: "method" };
-  }
-
-  // 4. Articles / Journal / Knowledge
-  if (path === "/artykuly" || path === "/magazyn" || path === "/journal" || path === "/wiedza") {
-    return { tab: "journal" };
-  }
-
-  if (path.startsWith("/artykuly/") || path.startsWith("/artykul/") || path.startsWith("/magazyn/")) {
-    const slug = path.replace(/^\/(artykuly|artykul|magazyn)\//, "").trim();
+  // Direct match to treatment IDs (e.g. /acne-balance-therapy)
+  const directTreatment = TREATMENTS.find(
+    (t) => t.id === path.replace(/^\//, "")
+  );
+  if (directTreatment) {
     return {
-      tab: "journal",
-      articleSlug: slug
+      tab: "clinic",
+      treatmentSlug: directTreatment.id,
+      isBookingOpen: bookingParam === "true"
     };
   }
 
-  // 5. Diagnostics
+  // 4. Methodology & Philosophy
+  if (
+    path === "/metoda" ||
+    path === "/metodologia" ||
+    path === "/filozofia" ||
+    path === "/o-nas" ||
+    path === "/katarzyna-brzezinska" ||
+    path === "/o-mnie"
+  ) {
+    return { tab: "method" };
+  }
+
+  // 5. Articles / Journal / Knowledge
+  if (
+    path === "/artykuly" ||
+    path === "/magazyn" ||
+    path === "/journal" ||
+    path === "/wiedza"
+  ) {
+    return { tab: "journal" };
+  }
+  if (
+    path.startsWith("/artykuly/") ||
+    path.startsWith("/artykul/") ||
+    path.startsWith("/magazyn/") ||
+    path.startsWith("/baza-wiedzy/")
+  ) {
+    const slug = path.replace(/^\/(artykuly|artykul|magazyn|baza-wiedzy)\//, "").trim();
+    // Try matching article by slug or prefix
+    const article = ARTICLES.find(
+      (a) => a.id === slug || a.id.replace(/^art-/, "") === slug.replace(/^art-/, "")
+    );
+    return {
+      tab: "journal",
+      articleSlug: article ? article.id : slug
+    };
+  }
+
+  // Direct match to article IDs
+  const directArticle = ARTICLES.find(
+    (a) => a.id === path.replace(/^\//, "")
+  );
+  if (directArticle) {
+    return {
+      tab: "journal",
+      articleSlug: directArticle.id
+    };
+  }
+
+  // 6. Diagnostics
   if (path === "/diagnoza" || path === "/analizator" || path === "/diagnostyka") {
     return { tab: "diagnose", diagnoseSubTab: "analyzer" };
   }
-
   if (path === "/paszport-skory" || path === "/paszport" || path === "/mapa-bariery") {
     return { tab: "diagnose", diagnoseSubTab: "barrierMap" };
   }
 
-  // 6. Shop
+  // 7. Shop
   if (path === "/sklep" || path === "/produkty" || path === "/kosmetyki") {
     return { tab: "shop" };
   }
 
-  // 7. Training / Academy
+  // 8. Training / Academy
   if (path === "/szkolenia" || path === "/akademia" || path === "/kursy") {
     return { tab: "training" };
   }
 
-  // 8. Patient Account
+  // 9. Patient Account
   if (path === "/konto" || path === "/profil" || path === "/panel-pacjenta") {
     return { tab: "account" };
   }
 
-  // 9. Direct Booking route
+  // 10. Direct Booking route
   if (path === "/rezerwacja" || path === "/umow-wizyte") {
     const zabieg = searchParams.get("zabieg");
     return {
@@ -96,6 +212,14 @@ export function parseCurrentRoute(): RouteState {
       treatmentSlug: zabieg,
       isBookingOpen: true
     };
+  }
+
+  // 11. Social Proof & Contact
+  if (path === "/opinie" || path === "/rekomendacje") {
+    return { tab: "cover" };
+  }
+  if (path === "/kontakt") {
+    return { tab: "cover" };
   }
 
   // Default fallback
@@ -151,9 +275,9 @@ export function syncRoute(
   if (typeof window === "undefined") return;
 
   const targetPath = getPathForRoute(state);
-  const currentPath = window.location.pathname;
+  const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
 
-  // Only push or replace if path is different
+  // Only push or replace if path is different (normalized)
   if (targetPath !== currentPath) {
     if (options?.replace) {
       window.history.replaceState({ ...state }, "", targetPath);
@@ -178,7 +302,6 @@ export function updateSeoTags(
   let pageTitle = "Instytut Zdrowej Skóry Slow Skin Concept — Biologiczna Terapia Skóry Jelcz-Laskowice";
   let pageDesc = "Instytut Zdrowej Skóry Slow Skin Concept w Jelczu-Laskowicach (k. Wrocławia). Biologiczna terapia skóry, odbudowa bariery hydrolipidowej i autorski Neurolifting.";
   let ogImage = "https://slow-skin-concept.pl/hero-main.png";
-
   const canonicalUrl = `https://slow-skin-concept.pl${getPathForRoute(state)}`;
 
   // Find details if treatment or article
