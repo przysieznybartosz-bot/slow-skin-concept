@@ -384,32 +384,8 @@ async function startServer() {
 
   function getWeekdayRecurringGoogleEvents(dayOfWeek: number, dateStr: string): GoogleCalendarStoredEvent[] {
     const recurring: Array<{ id: string; summary: string; startTimeStr: string; endTimeStr: string }> = [
-      { id: `rec-${dateStr}-lunch`, summary: "obiad (przerwa gabinetowa)", startTimeStr: "14:30", endTimeStr: "15:30" }
+      { id: `rec-${dateStr}-za1`, summary: "za1 (Cały dzień zajęty w Google)", startTimeStr: "07:30", endTimeStr: "23:00" }
     ];
-    if (dayOfWeek === 1) { // Poniedziałek
-      recurring.push(
-        { id: `rec-${dateStr}-1`, summary: "Konsultacja barierowa i zabieg", startTimeStr: "11:30", endTimeStr: "14:00" },
-        { id: `rec-${dateStr}-2`, summary: "Terapia Bionomiczna — Gabinet", startTimeStr: "16:00", endTimeStr: "18:00" }
-      );
-    } else if (dayOfWeek === 2) { // Wtorek
-      recurring.push(
-        { id: `rec-${dateStr}-1`, summary: "Wizyta gabinetowa — Joanna M.", startTimeStr: "10:30", endTimeStr: "12:30" },
-        { id: `rec-${dateStr}-2`, summary: "Autorski Rytuał Slow Skin", startTimeStr: "15:00", endTimeStr: "17:00" }
-      );
-    } else if (dayOfWeek === 3) { // Środa
-      recurring.push(
-        { id: `rec-${dateStr}-1`, summary: "Terapia Bionomiczna — Gabinet", startTimeStr: "10:00", endTimeStr: "12:00" },
-        { id: `rec-${dateStr}-2`, summary: "Diagnoza Komputerowa i Konsultacja", startTimeStr: "16:00", endTimeStr: "18:30" }
-      );
-    } else if (dayOfWeek === 4) { // Czwartek
-      recurring.push(
-        { id: `rec-${dateStr}-za1`, summary: "za1 (Cały dzień zajęty w Google)", startTimeStr: "07:00", endTimeStr: "23:00" }
-      );
-    } else if (dayOfWeek === 5) { // Piątek
-      recurring.push(
-        { id: `rec-${dateStr}-za1`, summary: "za1 (Cały dzień zajęty w Google)", startTimeStr: "07:30", endTimeStr: "23:00" }
-      );
-    }
     return recurring.map((r) => ({
       ...r,
       start: `${dateStr}T${r.startTimeStr}:00+02:00`,

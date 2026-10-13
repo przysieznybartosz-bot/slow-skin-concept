@@ -42,18 +42,29 @@ export default async function handler(req: IncomingMessage | any, res: ServerRes
     totalEvents: 14,
     events: [
       {
-        id: "gcal-1013-1",
-        summary: "zab1",
-        start: "2026-10-13T11:00:00+02:00",
-        end: "2026-10-13T12:00:00+02:00",
+        id: "gcal-1013-all-day",
+        summary: "za1 (Cały dzień zajęty w Google)",
+        start: "2026-10-13T07:30:00+02:00",
+        end: "2026-10-13T23:00:00+02:00",
         dateStr: "2026-10-13",
-        startTimeStr: "11:00",
-        endTimeStr: "12:00",
+        startTimeStr: "07:30",
+        endTimeStr: "23:00",
         isAllDay: false,
         calendarAccount: "slowskinconcept@gmail.com"
       },
       {
-        id: "gcal-1015-1",
+        id: "gcal-1014-all-day",
+        summary: "za1 (Cały dzień zajęty w Google)",
+        start: "2026-10-14T07:30:00+02:00",
+        end: "2026-10-14T23:00:00+02:00",
+        dateStr: "2026-10-14",
+        startTimeStr: "07:30",
+        endTimeStr: "23:00",
+        isAllDay: false,
+        calendarAccount: "slowskinconcept@gmail.com"
+      },
+      {
+        id: "gcal-1015-all-day",
         summary: "za1 (Cały dzień zajęty w Google)",
         start: "2026-10-15T07:00:00+02:00",
         end: "2026-10-15T23:00:00+02:00",
@@ -64,11 +75,33 @@ export default async function handler(req: IncomingMessage | any, res: ServerRes
         calendarAccount: "slowskinconcept@gmail.com"
       },
       {
-        id: "gcal-1016-1",
+        id: "gcal-1016-all-day",
         summary: "za1 (Cały dzień zajęty w Google)",
         start: "2026-10-16T07:30:00+02:00",
         end: "2026-10-16T23:00:00+02:00",
         dateStr: "2026-10-16",
+        startTimeStr: "07:30",
+        endTimeStr: "23:00",
+        isAllDay: false,
+        calendarAccount: "slowskinconcept@gmail.com"
+      },
+      {
+        id: "gcal-1019-all-day",
+        summary: "za1 (Cały dzień zajęty w Google)",
+        start: "2026-10-19T07:30:00+02:00",
+        end: "2026-10-19T23:00:00+02:00",
+        dateStr: "2026-10-19",
+        startTimeStr: "07:30",
+        endTimeStr: "23:00",
+        isAllDay: false,
+        calendarAccount: "slowskinconcept@gmail.com"
+      },
+      {
+        id: "gcal-1020-all-day",
+        summary: "za1 (Cały dzień zajęty w Google)",
+        start: "2026-10-20T07:30:00+02:00",
+        end: "2026-10-20T23:00:00+02:00",
+        dateStr: "2026-10-20",
         startTimeStr: "07:30",
         endTimeStr: "23:00",
         isAllDay: false,

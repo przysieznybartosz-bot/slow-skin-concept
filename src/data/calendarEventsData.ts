@@ -16,91 +16,31 @@ export const SLOW_SKIN_CALENDAR_ID = "ec7711f8f95afc5d0e88dd4a404e2b15d3503323b8
 
 export const DEFAULT_GOOGLE_EVENTS: GoogleCalendarStoredEvent[] = [
   {
-    id: "gcal-1013-1",
-    summary: "zab1",
-    start: "2026-10-13T11:00:00+02:00",
-    end: "2026-10-13T12:00:00+02:00",
+    id: "gcal-1013-all-day",
+    summary: "za1 (Cały dzień zajęty w Google)",
+    start: "2026-10-13T07:30:00+02:00",
+    end: "2026-10-13T23:00:00+02:00",
     dateStr: "2026-10-13",
-    startTimeStr: "11:00",
-    endTimeStr: "12:00",
+    startTimeStr: "07:30",
+    endTimeStr: "23:00",
     isAllDay: false,
     calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:20:00.000Z"
+    updatedAt: "2026-10-13T21:40:00.000Z"
   },
   {
-    id: "gcal-1013-2",
-    summary: "zab11",
-    start: "2026-10-13T13:00:00+02:00",
-    end: "2026-10-13T14:00:00+02:00",
-    dateStr: "2026-10-13",
-    startTimeStr: "13:00",
-    endTimeStr: "14:00",
-    isAllDay: false,
-    calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:20:00.000Z"
-  },
-  {
-    id: "gcal-1013-3",
-    summary: "obiad",
-    start: "2026-10-13T14:30:00+02:00",
-    end: "2026-10-13T15:30:00+02:00",
-    dateStr: "2026-10-13",
-    startTimeStr: "14:30",
-    endTimeStr: "15:30",
-    isAllDay: false,
-    calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:20:00.000Z"
-  },
-  {
-    id: "gcal-1013-4",
-    summary: "Wizyta w gabinecie",
-    start: "2026-10-13T15:30:00+02:00",
-    end: "2026-10-13T16:30:00+02:00",
-    dateStr: "2026-10-13",
-    startTimeStr: "15:30",
-    endTimeStr: "16:30",
-    isAllDay: false,
-    calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:20:00.000Z"
-  },
-  {
-    id: "gcal-1014-1",
-    summary: "Terapia Bionomiczna — Gabinet",
-    start: "2026-10-14T10:00:00+02:00",
-    end: "2026-10-14T12:00:00+02:00",
+    id: "gcal-1014-all-day",
+    summary: "za1 (Cały dzień zajęty w Google)",
+    start: "2026-10-14T07:30:00+02:00",
+    end: "2026-10-14T23:00:00+02:00",
     dateStr: "2026-10-14",
-    startTimeStr: "10:00",
-    endTimeStr: "12:00",
+    startTimeStr: "07:30",
+    endTimeStr: "23:00",
     isAllDay: false,
     calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:20:00.000Z"
+    updatedAt: "2026-10-13T21:40:00.000Z"
   },
   {
-    id: "gcal-1014-2",
-    summary: "obiad",
-    start: "2026-10-14T14:30:00+02:00",
-    end: "2026-10-14T15:30:00+02:00",
-    dateStr: "2026-10-14",
-    startTimeStr: "14:30",
-    endTimeStr: "15:30",
-    isAllDay: false,
-    calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:20:00.000Z"
-  },
-  {
-    id: "gcal-1014-3",
-    summary: "Konsultacja barierowa — stała klientka",
-    start: "2026-10-14T16:00:00+02:00",
-    end: "2026-10-14T18:30:00+02:00",
-    dateStr: "2026-10-14",
-    startTimeStr: "16:00",
-    endTimeStr: "18:30",
-    isAllDay: false,
-    calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:20:00.000Z"
-  },
-  {
-    id: "gcal-1015-1",
+    id: "gcal-1015-all-day",
     summary: "za1 (Cały dzień zajęty w Google)",
     start: "2026-10-15T07:00:00+02:00",
     end: "2026-10-15T23:00:00+02:00",
@@ -109,22 +49,10 @@ export const DEFAULT_GOOGLE_EVENTS: GoogleCalendarStoredEvent[] = [
     endTimeStr: "23:00",
     isAllDay: false,
     calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:20:00.000Z"
+    updatedAt: "2026-10-13T21:40:00.000Z"
   },
   {
-    id: "gcal-1015-2",
-    summary: "obiad",
-    start: "2026-10-15T14:30:00+02:00",
-    end: "2026-10-15T15:30:00+02:00",
-    dateStr: "2026-10-15",
-    startTimeStr: "14:30",
-    endTimeStr: "15:30",
-    isAllDay: false,
-    calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:20:00.000Z"
-  },
-  {
-    id: "gcal-1016-1",
+    id: "gcal-1016-all-day",
     summary: "za1 (Cały dzień zajęty w Google)",
     start: "2026-10-16T07:30:00+02:00",
     end: "2026-10-16T23:00:00+02:00",
@@ -133,98 +61,136 @@ export const DEFAULT_GOOGLE_EVENTS: GoogleCalendarStoredEvent[] = [
     endTimeStr: "23:00",
     isAllDay: false,
     calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:20:00.000Z"
+    updatedAt: "2026-10-13T21:40:00.000Z"
   },
   {
-    id: "gcal-1016-2",
-    summary: "obiad",
-    start: "2026-10-16T14:30:00+02:00",
-    end: "2026-10-16T15:30:00+02:00",
-    dateStr: "2026-10-16",
-    startTimeStr: "14:30",
-    endTimeStr: "15:30",
-    isAllDay: false,
-    calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:20:00.000Z"
-  },
-  {
-    id: "gcal-1019-1",
-    summary: "Konsultacja barierowa i zabieg",
-    start: "2026-10-19T11:30:00+02:00",
-    end: "2026-10-19T14:00:00+02:00",
+    id: "gcal-1019-all-day",
+    summary: "za1 (Cały dzień zajęty w Google)",
+    start: "2026-10-19T07:30:00+02:00",
+    end: "2026-10-19T23:00:00+02:00",
     dateStr: "2026-10-19",
-    startTimeStr: "11:30",
-    endTimeStr: "14:00",
+    startTimeStr: "07:30",
+    endTimeStr: "23:00",
     isAllDay: false,
     calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:20:00.000Z"
+    updatedAt: "2026-10-13T21:40:00.000Z"
   },
   {
-    id: "gcal-1019-2",
-    summary: "obiad",
-    start: "2026-10-19T14:30:00+02:00",
-    end: "2026-10-19T15:30:00+02:00",
-    dateStr: "2026-10-19",
-    startTimeStr: "14:30",
-    endTimeStr: "15:30",
-    isAllDay: false,
-    calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:20:00.000Z"
-  },
-  {
-    id: "gcal-1020-1",
-    summary: "Wizyta gabinetowa — Joanna M.",
-    start: "2026-10-20T10:30:00+02:00",
-    end: "2026-10-20T12:30:00+02:00",
+    id: "gcal-1020-all-day",
+    summary: "za1 (Cały dzień zajęty w Google)",
+    start: "2026-10-20T07:30:00+02:00",
+    end: "2026-10-20T23:00:00+02:00",
     dateStr: "2026-10-20",
-    startTimeStr: "10:30",
-    endTimeStr: "12:30",
+    startTimeStr: "07:30",
+    endTimeStr: "23:00",
     isAllDay: false,
     calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:20:00.000Z"
+    updatedAt: "2026-10-13T21:40:00.000Z"
   },
   {
-    id: "gcal-1020-2",
-    summary: "obiad",
-    start: "2026-10-20T14:30:00+02:00",
-    end: "2026-10-20T15:30:00+02:00",
-    dateStr: "2026-10-20",
-    startTimeStr: "14:30",
-    endTimeStr: "15:30",
+    id: "gcal-1021-all-day",
+    summary: "za1 (Cały dzień zajęty w Google)",
+    start: "2026-10-21T07:30:00+02:00",
+    end: "2026-10-21T23:00:00+02:00",
+    dateStr: "2026-10-21",
+    startTimeStr: "07:30",
+    endTimeStr: "23:00",
     isAllDay: false,
     calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:20:00.000Z"
+    updatedAt: "2026-10-13T21:40:00.000Z"
+  },
+  {
+    id: "gcal-1022-all-day",
+    summary: "za1 (Cały dzień zajęty w Google)",
+    start: "2026-10-22T07:00:00+02:00",
+    end: "2026-10-22T23:00:00+02:00",
+    dateStr: "2026-10-22",
+    startTimeStr: "07:00",
+    endTimeStr: "23:00",
+    isAllDay: false,
+    calendarAccount: "slowskinconcept@gmail.com",
+    updatedAt: "2026-10-13T21:40:00.000Z"
+  },
+  {
+    id: "gcal-1023-all-day",
+    summary: "za1 (Cały dzień zajęty w Google)",
+    start: "2026-10-23T07:30:00+02:00",
+    end: "2026-10-23T23:00:00+02:00",
+    dateStr: "2026-10-23",
+    startTimeStr: "07:30",
+    endTimeStr: "23:00",
+    isAllDay: false,
+    calendarAccount: "slowskinconcept@gmail.com",
+    updatedAt: "2026-10-13T21:40:00.000Z"
+  },
+  {
+    id: "gcal-1026-all-day",
+    summary: "za1 (Cały dzień zajęty w Google)",
+    start: "2026-10-26T07:30:00+02:00",
+    end: "2026-10-26T23:00:00+02:00",
+    dateStr: "2026-10-26",
+    startTimeStr: "07:30",
+    endTimeStr: "23:00",
+    isAllDay: false,
+    calendarAccount: "slowskinconcept@gmail.com",
+    updatedAt: "2026-10-13T21:40:00.000Z"
+  },
+  {
+    id: "gcal-1027-all-day",
+    summary: "za1 (Cały dzień zajęty w Google)",
+    start: "2026-10-27T07:30:00+02:00",
+    end: "2026-10-27T23:00:00+02:00",
+    dateStr: "2026-10-27",
+    startTimeStr: "07:30",
+    endTimeStr: "23:00",
+    isAllDay: false,
+    calendarAccount: "slowskinconcept@gmail.com",
+    updatedAt: "2026-10-13T21:40:00.000Z"
+  },
+  {
+    id: "gcal-1028-all-day",
+    summary: "za1 (Cały dzień zajęty w Google)",
+    start: "2026-10-28T07:30:00+02:00",
+    end: "2026-10-28T23:00:00+02:00",
+    dateStr: "2026-10-28",
+    startTimeStr: "07:30",
+    endTimeStr: "23:00",
+    isAllDay: false,
+    calendarAccount: "slowskinconcept@gmail.com",
+    updatedAt: "2026-10-13T21:40:00.000Z"
+  },
+  {
+    id: "gcal-1029-all-day",
+    summary: "za1 (Cały dzień zajęty w Google)",
+    start: "2026-10-29T07:00:00+02:00",
+    end: "2026-10-29T23:00:00+02:00",
+    dateStr: "2026-10-29",
+    startTimeStr: "07:00",
+    endTimeStr: "23:00",
+    isAllDay: false,
+    calendarAccount: "slowskinconcept@gmail.com",
+    updatedAt: "2026-10-13T21:40:00.000Z"
+  },
+  {
+    id: "gcal-1030-all-day",
+    summary: "za1 (Cały dzień zajęty w Google)",
+    start: "2026-10-30T07:30:00+02:00",
+    end: "2026-10-30T23:00:00+02:00",
+    dateStr: "2026-10-30",
+    startTimeStr: "07:30",
+    endTimeStr: "23:00",
+    isAllDay: false,
+    calendarAccount: "slowskinconcept@gmail.com",
+    updatedAt: "2026-10-13T21:40:00.000Z"
   }
 ];
 
 export function getWeekdayRecurringGoogleEvents(dayOfWeek: number, dateStr: string): GoogleCalendarStoredEvent[] {
+  // If no specific override, protect full working hours as occupied in Google Calendar
   const recurring: Array<{ id: string; summary: string; startTimeStr: string; endTimeStr: string }> = [
-    { id: `rec-${dateStr}-lunch`, summary: "obiad (przerwa gabinetowa)", startTimeStr: "14:30", endTimeStr: "15:30" }
+    { id: `rec-${dateStr}-za1`, summary: "Zajęty w Kalendarzu Google (slowskinconcept@gmail.com)", startTimeStr: "07:30", endTimeStr: "23:00" }
   ];
-  if (dayOfWeek === 1) { // Poniedziałek
-    recurring.push(
-      { id: `rec-${dateStr}-1`, summary: "Konsultacja barierowa i zabieg", startTimeStr: "11:30", endTimeStr: "14:00" },
-      { id: `rec-${dateStr}-2`, summary: "Terapia Bionomiczna — Gabinet", startTimeStr: "16:00", endTimeStr: "18:00" }
-    );
-  } else if (dayOfWeek === 2) { // Wtorek
-    recurring.push(
-      { id: `rec-${dateStr}-1`, summary: "Wizyta gabinetowa — Joanna M.", startTimeStr: "10:30", endTimeStr: "12:30" },
-      { id: `rec-${dateStr}-2`, summary: "Autorski Rytuał Slow Skin", startTimeStr: "15:00", endTimeStr: "17:00" }
-    );
-  } else if (dayOfWeek === 3) { // Środa
-    recurring.push(
-      { id: `rec-${dateStr}-1`, summary: "Terapia Bionomiczna — Gabinet", startTimeStr: "10:00", endTimeStr: "12:00" },
-      { id: `rec-${dateStr}-2`, summary: "Diagnoza Komputerowa i Konsultacja", startTimeStr: "16:00", endTimeStr: "18:30" }
-    );
-  } else if (dayOfWeek === 4) { // Czwartek
-    recurring.push(
-      { id: `rec-${dateStr}-za1`, summary: "za1 (Cały dzień zajęty w Google)", startTimeStr: "07:00", endTimeStr: "23:00" }
-    );
-  } else if (dayOfWeek === 5) { // Piątek
-    recurring.push(
-      { id: `rec-${dateStr}-za1`, summary: "za1 (Cały dzień zajęty w Google)", startTimeStr: "07:30", endTimeStr: "23:00" }
-    );
-  }
+
   return recurring.map((r) => ({
     ...r,
     start: `${dateStr}T${r.startTimeStr}:00+02:00`,

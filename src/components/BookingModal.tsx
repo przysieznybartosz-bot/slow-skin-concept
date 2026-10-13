@@ -88,7 +88,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
   // Set default minimum date (today or tomorrow)
   const todayStr = new Date().toISOString().split("T")[0];
 
-  // Quick Days Generation (next 7 days, highlighting closed weekends)
+  // Quick Days Generation (next 7 days, highlighting closed weekends and Google Calendar busy days)
   const quickDays = Array.from({ length: 7 }, (_, i) => {
     const d = new Date();
     d.setDate(d.getDate() + (i + 1));
@@ -96,12 +96,15 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
     const dayNames = ["Ndz", "Pon", "Wt", "Śr", "Czw", "Pt", "Sob"];
     const monthNames = ["Sty", "Lut", "Mar", "Kwi", "Maj", "Cze", "Lip", "Sie", "Wrz", "Paź", "Lis", "Gru"];
     const isWeekend = d.getDay() === 0 || d.getDay() === 6;
+    const dayEvts = getEventsForDate(iso);
+    const isFullGoogle = !isWeekend && dayEvts.some(e => e.isAllDay || (e.startTimeStr && e.endTimeStr && e.startTimeStr <= "10:00" && e.endTimeStr >= "19:00"));
     return {
       iso,
       dayNum: d.getDate(),
       dayName: dayNames[d.getDay()],
       monthName: monthNames[d.getMonth()],
       isWeekend,
+      isFullGoogle,
     };
   });
 
@@ -521,6 +524,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                               ? "border-luxury-gold bg-luxury-gold text-white shadow-sm ring-1 ring-luxury-gold"
                               : qd.isWeekend
                               ? "border-luxury-sand/30 bg-luxury-sand/15 text-luxury-dark/40 hover:border-luxury-sand"
+                              : qd.isFullGoogle
+                              ? "border-amber-200 bg-amber-50/70 text-amber-900 hover:border-amber-400"
                               : "border-luxury-sand/60 bg-white hover:border-luxury-gold/70 text-luxury-dark"
                           }`}
                         >
@@ -531,7 +536,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                             {qd.dayNum}
                           </div>
                           <div className="text-[7.5px] font-mono opacity-80">
-                            {qd.isWeekend ? "Nieczynne" : qd.monthName}
+                            {qd.isWeekend ? "Nieczynne" : qd.isFullGoogle ? "Zajęte w Google" : qd.monthName}
                           </div>
                         </button>
                       );
@@ -866,12 +871,18 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
 
               {/* Action Buttons: Synchronize Google vs Book directly */}
               <div className="space-y-3 pt-2 border-t border-luxury-sand/40">
+                {slotsData && (slotsData.availableSlotsCount === 0 || slotsData.isClosed) && (
+                  <div className="p-2.5 bg-amber-50 border border-amber-300 text-amber-900 text-[10px] font-mono text-center rounded-xs flex items-center justify-center gap-1.5 font-semibold">
+                    <Lock className="w-3.5 h-3.5 text-amber-800 shrink-0" />
+                    <span>Dzień {slotsData.date} jest w pełni zajęty w Kalendarzu Google. Wybierz inną datę powyżej.</span>
+                  </div>
+                )}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {/* Primary Button: Google Sync */}
                   <button
                     type="button"
                     onClick={handleGoogleSignInAndSync}
-                    disabled={isSyncingGoogle || isSubmittingWithoutGoogle || !clientName || !clientPhone || slotsData?.isClosed}
+                    disabled={isSyncingGoogle || isSubmittingWithoutGoogle || !clientName || !clientPhone || !selectedTime || slotsData?.isClosed || slotsData?.availableSlotsCount === 0}
                     className="w-full bg-luxury-dark text-luxury-cream hover:bg-luxury-gold hover:text-white p-3.5 text-xs font-mono tracking-widest uppercase transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-md disabled:opacity-50 disabled:cursor-not-allowed rounded-xs"
                   >
                     {isSyncingGoogle ? (
@@ -891,7 +902,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                   <button
                     type="button"
                     onClick={handleBookWithoutGoogle}
-                    disabled={isSyncingGoogle || isSubmittingWithoutGoogle || !clientName || !clientPhone || slotsData?.isClosed}
+                    disabled={isSyncingGoogle || isSubmittingWithoutGoogle || !clientName || !clientPhone || !selectedTime || slotsData?.isClosed || slotsData?.availableSlotsCount === 0}
                     className="w-full bg-white border border-luxury-gold/80 text-luxury-dark hover:bg-luxury-sand/20 p-3.5 text-xs font-mono tracking-widest uppercase transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-sm disabled:opacity-50 disabled:cursor-not-allowed rounded-xs font-semibold"
                   >
                     {isSubmittingWithoutGoogle ? (
