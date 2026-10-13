@@ -15,11 +15,16 @@ import {
   User as FirebaseUser 
 } from "firebase/auth";
 import firebaseConfig from "../../firebase-applet-config.json";
-import DEFAULT_GOOGLE_EVENTS from "../../google_calendar_events.json";
+import { 
+  DEFAULT_GOOGLE_EVENTS, 
+  getWeekdayRecurringGoogleEvents as getWeekdayDefaults,
+  GoogleCalendarStoredEvent as SharedStoredEvent
+} from "../data/calendarEventsData";
 import { safeStorage } from "../utils/storage";
 
 export const SLOW_SKIN_GOOGLE_ACCOUNT = "slowskinconcept@gmail.com";
 export const SLOW_SKIN_CALENDAR_ID = "ec7711f8f95afc5d0e88dd4a404e2b15d3503323b86963b41d25747356d8b0d7@group.calendar.google.com";
+export const RAW_GITHUB_EVENTS_URL = "https://raw.githubusercontent.com/przysieznybartosz-bot/slow-skin-concept/main/google_calendar_events.json";
 
 export function getLocalGoogleEvents(): GoogleCalendarStoredEvent[] {
   try {
@@ -32,6 +37,37 @@ export function getLocalGoogleEvents(): GoogleCalendarStoredEvent[] {
     console.warn("Error reading local Google events:", e);
   }
   return DEFAULT_GOOGLE_EVENTS as GoogleCalendarStoredEvent[];
+}
+
+/**
+ * Silently fetches the latest synchronized Google Calendar busy events from the live store
+ * so every client browsing the website sees the salon's current availability in real-time.
+ */
+export async function initializeLiveCalendarSync(): Promise<GoogleCalendarStoredEvent[]> {
+  try {
+    // 1. Try local API
+    const apiRes = await fetch("/api/calendar/google-events", { cache: "no-store" }).catch(() => null);
+    if (apiRes && apiRes.ok) {
+      const data = await apiRes.json();
+      if (Array.isArray(data.events) && data.events.length > 0) {
+        safeStorage.setItem("slowskin_google_events", JSON.stringify(data.events));
+        return data.events;
+      }
+    }
+
+    // 2. Try raw GitHub store directly
+    const rawRes = await fetch(RAW_GITHUB_EVENTS_URL, { cache: "no-store" }).catch(() => null);
+    if (rawRes && rawRes.ok) {
+      const data = await rawRes.json();
+      if (Array.isArray(data) && data.length > 0) {
+        safeStorage.setItem("slowskin_google_events", JSON.stringify(data));
+        return data;
+      }
+    }
+  } catch (err) {
+    console.warn("Live calendar background sync notice:", err);
+  }
+  return getLocalGoogleEvents();
 }
 
 /**
@@ -326,23 +362,44 @@ export async function syncGoogleCalendarWithBackend(token: string): Promise<{ su
     const timeMin = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
     const timeMax = new Date(now.getFullYear(), now.getMonth() + 3, 28).toISOString();
 
-    const url = `https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${encodeURIComponent(timeMin)}&timeMax=${encodeURIComponent(timeMax)}&singleEvents=true&maxResults=250&orderBy=startTime`;
-    
-    const res = await fetch(url, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const fetchCalendarItems = async (calId: string) => {
+      try {
+        const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calId)}/events?timeMin=${encodeURIComponent(timeMin)}&timeMax=${encodeURIComponent(timeMax)}&singleEvents=true&maxResults=250&orderBy=startTime`;
+        const res = await fetch(url, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (res.ok) {
+          const data = await res.json();
+          return Array.isArray(data.items) ? data.items : [];
+        }
+      } catch (e) {
+        console.warn(`Could not fetch events for ${calId}:`, e);
+      }
+      return [];
+    };
 
-    if (!res.ok) {
-      const err = await res.json().catch(() => null);
-      throw new Error(err?.error?.message || "Nie udało się pobrać terminów z Google Calendar.");
+    // Query BOTH primary and dedicated group calendar ID
+    const [primaryItems, salonItems] = await Promise.all([
+      fetchCalendarItems("primary"),
+      fetchCalendarItems(SLOW_SKIN_CALENDAR_ID),
+    ]);
+
+    const allItems = [...primaryItems];
+    const seenIds = new Set(primaryItems.map((it: any) => it.id));
+    for (const item of salonItems) {
+      if (!seenIds.has(item.id)) {
+        allItems.push(item);
+        seenIds.add(item.id);
+      }
     }
 
-    const data = await res.json();
-    const items = data.items || [];
+    if (allItems.length === 0 && primaryItems.length === 0 && salonItems.length === 0) {
+      console.warn("No events returned from either Google Calendar.");
+    }
 
     const parsedEvents: GoogleCalendarStoredEvent[] = [];
 
-    for (const item of items) {
+    for (const item of allItems) {
       if (item.status === "cancelled") continue;
 
       const isAllDay = !item.start?.dateTime && !!item.start?.date;
@@ -382,14 +439,18 @@ export async function syncGoogleCalendarWithBackend(token: string): Promise<{ su
           endTimeStr,
           isAllDay,
           calendarAccount: SLOW_SKIN_GOOGLE_ACCOUNT,
+          updatedAt: new Date().toISOString(),
         });
       }
     }
 
+    // Sort by dateStr and startTimeStr
+    parsedEvents.sort((a, b) => `${a.dateStr} ${a.startTimeStr || ""}`.localeCompare(`${b.dateStr} ${b.startTimeStr || ""}`));
+
     // Always save to client storage so it works immediately across sessions on LIVE
     safeStorage.setItem("slowskin_google_events", JSON.stringify(parsedEvents));
 
-    // Also send parsed events to backend
+    // Send parsed events to backend (which also pushes to GitHub and updates live serverless memory)
     try {
       await fetch("/api/calendar/sync-google-events", {
         method: "POST",

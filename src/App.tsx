@@ -75,6 +75,7 @@ import {
   getSyncedGoogleEvents, 
   addManualCalendarBlock, 
   deleteCalendarBlock, 
+  initializeLiveCalendarSync,
   SLOW_SKIN_GOOGLE_ACCOUNT 
 } from "./services/googleCalendar";
 import { TREATMENTS, ARTICLES, REVIEWS } from "./data";
@@ -488,6 +489,15 @@ export default function App() {
       setGoogleTranslateCookie(currentLanguage);
     }
   }, [currentLanguage]);
+
+  // Synchronize Google Calendar occupied slots live on app load
+  useEffect(() => {
+    initializeLiveCalendarSync().then((events) => {
+      if (events && events.length > 0) {
+        setGoogleEventsList(events);
+      }
+    });
+  }, []);
 
   const [isLanguageModalOpen, setIsLanguageModalOpen] = useState(false);
   const [isLanguageLoading, setIsLanguageLoading] = useState(false);

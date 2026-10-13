@@ -1,33 +1,26 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
-import DEFAULT_EVENTS from "../../google_calendar_events.json";
+import type { IncomingMessage, ServerResponse } from "node:http";
+import {
+  CalendarSlot,
+  getLiveGoogleEvents,
+  getWeekdayRecurringGoogleEvents,
+  timeToMinutes,
+  minutesToTime,
+  sendJson
+} from "./_shared";
 
-interface CalendarSlot {
-  time: string;
-  endTime: string;
-  durationMinutes: number;
-  bufferMinutes: number;
-  isAvailable: boolean;
-  reason?: string;
-  source?: "booking" | "google_calendar" | null;
-}
+export default async function handler(req: IncomingMessage | any, res: ServerResponse | any) {
+  if (req.method === "OPTIONS") {
+    return sendJson(res, 200, { ok: true });
+  }
 
-const timeToMinutes = (t: string): number => {
-  if (!t) return 0;
-  const [h, m] = t.split(":").map(Number);
-  return (h || 0) * 60 + (m || 0);
-};
-
-const pad = (n: number) => n.toString().padStart(2, "0");
-const minutesToTime = (m: number) => `${pad(Math.floor(m / 60))}:${pad(m % 60)}`;
-
-export default function handler(req: VercelRequest, res: VercelResponse) {
   try {
-    const dateStr = (req.query.date as string) || "";
-    const duration = parseInt(req.query.duration as string, 10) || 75;
+    const url = new URL(req.url || "", `http://${req.headers?.host || "localhost"}`);
+    const dateStr = url.searchParams.get("date") || (req.query?.date as string) || "";
+    const duration = parseInt(url.searchParams.get("duration") || (req.query?.duration as string) || "75", 10) || 75;
     const bufferMinutes = 15;
 
     if (!dateStr || !/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
-      return res.status(400).json({ error: "Nieprawidłowy format daty (wymagany YYYY-MM-DD)." });
+      return sendJson(res, 400, { error: "Nieprawidłowy format daty (wymagany YYYY-MM-DD)." });
     }
 
     const [year, month, day] = dateStr.split("-").map(Number);
@@ -35,7 +28,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     const dayOfWeek = reqDate.getDay();
 
     if (dayOfWeek === 0) {
-      return res.json({
+      return sendJson(res, 200, {
         date: dateStr,
         isClosed: true,
         dayName: "Niedziela",
@@ -49,7 +42,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     if (dayOfWeek === 6) {
-      return res.json({
+      return sendJson(res, 200, {
         date: dateStr,
         isClosed: true,
         dayName: "Sobota",
@@ -65,15 +58,14 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     const openMinutes = 10 * 60; // 10:00
     const closeMinutes = 19 * 60 + 30; // 19:30
 
-    // Specific events matching dateStr
-    const specificEvents = (DEFAULT_EVENTS as any[]).filter((ev) => ev.dateStr === dateStr);
-
-    // If no specific events for this date, provide standard recurring busy blocks from Google Calendar for this weekday
+    // Fetch live Google events (synced online from Google Calendar & GitHub raw store)
+    const allEvents = await getLiveGoogleEvents();
+    const specificEvents = allEvents.filter((ev) => ev.dateStr === dateStr);
     const dayGoogleEvents = specificEvents.length > 0 ? specificEvents : getWeekdayRecurringGoogleEvents(dayOfWeek, dateStr);
 
     const allDayEvent = dayGoogleEvents.find((ev) => ev.isAllDay);
     if (allDayEvent) {
-      return res.json({
+      return sendJson(res, 200, {
         date: dateStr,
         isClosed: true,
         dayName: ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"][dayOfWeek],
@@ -139,7 +131,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
-    return res.json({
+    return sendJson(res, 200, {
       date: dateStr,
       dayName: ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"][dayOfWeek],
       isClosed: false,
@@ -154,42 +146,6 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
       slots,
     });
   } catch (err: any) {
-    return res.status(500).json({ error: err.message || "Błąd generowania slotów kalendarza." });
+    return sendJson(res, 500, { error: err.message || "Błąd generowania slotów kalendarza." });
   }
-}
-
-function getWeekdayRecurringGoogleEvents(dayOfWeek: number, dateStr: string) {
-  const recurring: any[] = [];
-  if (dayOfWeek === 1) { // Poniedziałek
-    recurring.push(
-      { id: `rec-${dateStr}-1`, summary: "Konsultacja barierowa i zabieg", startTimeStr: "11:30", endTimeStr: "14:00" },
-      { id: `rec-${dateStr}-2`, summary: "Terapia Bionomiczna — Gabinet", startTimeStr: "16:00", endTimeStr: "18:00" }
-    );
-  } else if (dayOfWeek === 2) { // Wtorek
-    recurring.push(
-      { id: `rec-${dateStr}-1`, summary: "Wizyta gabinetowa — Joanna M.", startTimeStr: "10:30", endTimeStr: "12:30" },
-      { id: `rec-${dateStr}-2`, summary: "Autorski Rytuał Slow Skin", startTimeStr: "15:00", endTimeStr: "17:00" }
-    );
-  } else if (dayOfWeek === 3) { // Środa
-    recurring.push(
-      { id: `rec-${dateStr}-1`, summary: "Terapia Bionomiczna — Gabinet", startTimeStr: "10:00", endTimeStr: "12:00" },
-      { id: `rec-${dateStr}-2`, summary: "Diagnoza Komputerowa i Konsultacja", startTimeStr: "14:00", endTimeStr: "16:30" }
-    );
-  } else if (dayOfWeek === 4) { // Czwartek
-    recurring.push(
-      { id: `rec-${dateStr}-1`, summary: "Neurolifting — Fale Nogiera", startTimeStr: "11:00", endTimeStr: "13:00" },
-      { id: `rec-${dateStr}-2`, summary: "Lift & Firm Therapy — Wizyta stała", startTimeStr: "15:30", endTimeStr: "17:30" }
-    );
-  } else if (dayOfWeek === 5) { // Piątek
-    recurring.push(
-      { id: `rec-${dateStr}-1`, summary: "Konsultacja kosmetologiczna", startTimeStr: "10:00", endTimeStr: "12:30" },
-      { id: `rec-${dateStr}-2`, summary: "Autorski Rytuał Slow Skin", startTimeStr: "14:00", endTimeStr: "16:00" }
-    );
-  }
-  return recurring.map((r) => ({
-    ...r,
-    dateStr,
-    isAllDay: false,
-    calendarAccount: "slowskinconcept@gmail.com",
-  }));
 }

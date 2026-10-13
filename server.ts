@@ -344,7 +344,7 @@ async function startServer() {
     endTimeStr?: string; // HH:MM
     isAllDay?: boolean;
     calendarAccount?: string;
-    updatedAt: string;
+    updatedAt?: string;
   }
 
   interface StoredBooking {
