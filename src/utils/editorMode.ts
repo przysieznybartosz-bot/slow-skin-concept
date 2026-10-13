@@ -20,14 +20,8 @@ export const isGoogleAIStudio = (): boolean => {
     return false;
   }
 
-  return (
-    hostname.includes("run.app") || 
-    hostname.includes("localhost") || 
-    hostname.includes("127.0.0.1") ||
-    hostname.includes("webcontainer") ||
-    hostname.includes("csb.app") ||
-    hostname.includes("googleusercontent.com")
-  );
+  // In development / preview, always enable editor controls
+  return true;
 };
 
 export const isEditorMode = (): boolean => {
