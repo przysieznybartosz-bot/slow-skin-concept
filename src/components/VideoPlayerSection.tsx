@@ -35,7 +35,9 @@ export const VideoPlayerSection: React.FC = () => {
 
   const [duration, setDuration] = useState<number>(29);
   const [isUploadingVideo, setIsUploadingVideo] = useState<boolean>(false);
+  const [uploadProgress, setUploadProgress] = useState<number | null>(null);
   const [uploadSuccess, setUploadSuccess] = useState<string | null>(null);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
   // Synchronize audio state with HTML5 video
   useEffect(() => {
@@ -91,43 +93,56 @@ export const VideoPlayerSection: React.FC = () => {
 
     try {
       setIsUploadingVideo(true);
+      setUploadError(null);
+      setUploadSuccess(null);
+      setUploadProgress(0);
+
       const chosenFilename = file.name || "film-o-instytucie.mp4";
-      const reader = new FileReader();
-      reader.onload = async () => {
-        const base64 = reader.result as string;
-        try {
-          const resp = await fetch("/api/upload-video", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              dataUrl: base64,
-              filename: chosenFilename
-            }),
-          });
-          const data = await resp.json();
-          const targetUrl = data.success && data.url ? data.url : base64;
 
-          try {
-            localStorage.setItem("custom_main_video_url", targetUrl);
-          } catch {}
+      // Streaming binary upload with progress tracking directly to server filesystem
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", "/api/upload-video-stream", true);
+      xhr.setRequestHeader("Content-Type", file.type || "video/mp4");
+      xhr.setRequestHeader("X-Filename", encodeURIComponent(chosenFilename));
 
-          setVideoSrc(targetUrl);
-          setUploadSuccess("Film o instytucie zaktualizowany!");
-          setTimeout(() => setUploadSuccess(null), 4000);
-        } catch {
-          // Local fallback
+      xhr.upload.onprogress = (evt) => {
+        if (evt.lengthComputable) {
+          const pct = Math.round((evt.loaded / evt.total) * 100);
+          setUploadProgress(pct);
+        }
+      };
+
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status < 300) {
           try {
-            localStorage.setItem("custom_main_video_url", base64);
-          } catch {}
-          setVideoSrc(base64);
-          setUploadSuccess("Wideo zapisane lokalnie!");
-          setTimeout(() => setUploadSuccess(null), 4000);
-        } finally {
+            const data = JSON.parse(xhr.responseText);
+            const targetUrl = data.url || `/videos/film-o-instytucie.mp4?v=${Date.now()}`;
+            try {
+              localStorage.setItem("custom_main_video_url", targetUrl);
+            } catch {}
+            setVideoSrc(targetUrl);
+            const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+            setUploadSuccess(`Plik "${chosenFilename}" (${sizeMb} MB) został pomyślnie wgrany i zapisany na serwerze!`);
+            setUploadProgress(null);
+            setIsUploadingVideo(false);
+          } catch {
+            setUploadError("Błąd parsowania odpowiedzi serwera.");
+            setIsUploadingVideo(false);
+          }
+        } else {
+          setUploadError(`Błąd serwera (${xhr.status}): ${xhr.responseText || xhr.statusText}`);
           setIsUploadingVideo(false);
         }
       };
-      reader.readAsDataURL(file);
-    } catch {
+
+      xhr.onerror = () => {
+        setUploadError("Błąd transmisji sieciowej.");
+        setIsUploadingVideo(false);
+      };
+
+      xhr.send(file);
+    } catch (err: any) {
+      setUploadError("Nieoczekiwany błąd: " + (err?.message || "Nie udało się przesłać wideo"));
       setIsUploadingVideo(false);
     }
   };
@@ -257,10 +272,35 @@ export const VideoPlayerSection: React.FC = () => {
             </button>
           </div>
 
+          {isUploadingVideo && (
+            <div className="w-full space-y-1.5 pt-2">
+              <div className="flex justify-between items-center text-[10px] font-mono text-luxury-gold">
+                <span className="flex items-center gap-1.5">
+                  <RefreshCw className="w-3 h-3 animate-spin text-luxury-gold" />
+                  Trwa strumieniowe przesyłanie filmu o instytucie na dysk serwera...
+                </span>
+                <span className="font-bold">{uploadProgress !== null ? `${uploadProgress}%` : ""}</span>
+              </div>
+              <div className="w-full bg-white/10 h-1.5 rounded-full overflow-hidden">
+                <div
+                  className="bg-luxury-gold h-full transition-all duration-150"
+                  style={{ width: `${uploadProgress ?? 0}%` }}
+                />
+              </div>
+            </div>
+          )}
+
           {uploadSuccess && (
             <div className="w-full flex items-center gap-1.5 text-emerald-400 font-mono text-[10px] pt-1">
-              <Check className="w-3.5 h-3.5" />
+              <Check className="w-3.5 h-3.5 shrink-0" />
               <span>{uploadSuccess}</span>
+            </div>
+          )}
+
+          {uploadError && (
+            <div className="w-full flex items-center gap-1.5 text-rose-400 font-mono text-[10px] pt-1">
+              <span className="shrink-0">⚠️</span>
+              <span>{uploadError}</span>
             </div>
           )}
         </div>

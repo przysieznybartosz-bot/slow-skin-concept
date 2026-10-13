@@ -247,6 +247,84 @@ async function startServer() {
     }
   });
 
+  // Streaming raw binary video upload endpoint to handle HD/4K videos without memory limits
+  app.post("/api/upload-video-stream", (req, res) => {
+    try {
+      const filenameHeader = req.headers["x-filename"];
+      const rawFilename = filenameHeader ? decodeURIComponent(filenameHeader as string) : "film-o-instytucie.mp4";
+      console.log(`[Upload-Stream] Rozpoczynanie zapisu wideo: ${rawFilename}`);
+
+      const fileNames = [
+        "film-o-instytucie.mp4",
+        "film o instytucie.mp4",
+        "film.mp4",
+        "rolka-glowna.mp4"
+      ];
+
+      const publicVideosDir = path.join(process.cwd(), "public", "videos");
+      if (!fs.existsSync(publicVideosDir)) {
+        fs.mkdirSync(publicVideosDir, { recursive: true });
+      }
+      const srcVideosDir = path.join(process.cwd(), "src", "assets", "videos");
+      if (!fs.existsSync(srcVideosDir)) {
+        fs.mkdirSync(srcVideosDir, { recursive: true });
+      }
+      const distVideosDir = path.join(process.cwd(), "dist", "videos");
+      if (!fs.existsSync(distVideosDir)) {
+        fs.mkdirSync(distVideosDir, { recursive: true });
+      }
+
+      // Stream to temp file first, then copy to targets
+      const tempPath = path.join(publicVideosDir, ".temp-upload.mp4");
+      const writeStream = fs.createWriteStream(tempPath);
+
+      req.pipe(writeStream);
+
+      writeStream.on("finish", () => {
+        try {
+          const stats = fs.statSync(tempPath);
+          console.log(`[Upload-Stream] Pomyślnie odebrano ${stats.size} bajtów do ${tempPath}`);
+
+          for (const name of fileNames) {
+            fs.copyFileSync(tempPath, path.join(publicVideosDir, name));
+            fs.copyFileSync(tempPath, path.join(srcVideosDir, name));
+            if (fs.existsSync(distVideosDir)) {
+              fs.copyFileSync(tempPath, path.join(distVideosDir, name));
+            }
+          }
+
+          try {
+            fs.unlinkSync(tempPath);
+          } catch {}
+
+          console.log(`[Upload-Stream] Zsynchronizowano film: ${fileNames.join(", ")} (${stats.size} bajtów)`);
+          return res.json({
+            success: true,
+            size: stats.size,
+            filename: rawFilename,
+            url: `/videos/film-o-instytucie.mp4?v=${Date.now()}`
+          });
+        } catch (copyErr: any) {
+          console.error("[Upload-Stream] Błąd kopiowania:", copyErr);
+          return res.status(500).json({ error: copyErr.message });
+        }
+      });
+
+      writeStream.on("error", (err) => {
+        console.error("[Upload-Stream] Błąd zapisu pliku:", err);
+        return res.status(500).json({ error: "Błąd zapisu pliku: " + err.message });
+      });
+
+      req.on("error", (err) => {
+        console.error("[Upload-Stream] Błąd strumienia wejściowego:", err);
+        return res.status(500).json({ error: "Błąd transmisji: " + err.message });
+      });
+    } catch (err: any) {
+      console.error("[Upload-Stream] Błąd ogólny:", err);
+      return res.status(500).json({ error: err.message });
+    }
+  });
+
   // Health check route for production monitoring and Cloud Run probes
   app.get("/api/health", (req, res) => {
     res.json({ status: "ok", service: "Slow Skin Concept", timestamp: new Date().toISOString() });
