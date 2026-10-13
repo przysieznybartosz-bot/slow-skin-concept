@@ -75,41 +75,7 @@ export async function initializeLiveCalendarSync(): Promise<GoogleCalendarStored
  * providing predictable busy slot protection for every weekday.
  */
 export function getWeekdayRecurringGoogleEvents(dayOfWeek: number, dateStr: string): GoogleCalendarStoredEvent[] {
-  const recurring: Array<{ id: string; summary: string; startTimeStr: string; endTimeStr: string }> = [];
-  if (dayOfWeek === 1) { // Poniedziałek
-    recurring.push(
-      { id: `rec-${dateStr}-1`, summary: "Konsultacja barierowa i zabieg", startTimeStr: "11:30", endTimeStr: "14:00" },
-      { id: `rec-${dateStr}-2`, summary: "Terapia Bionomiczna — Gabinet", startTimeStr: "16:00", endTimeStr: "18:00" }
-    );
-  } else if (dayOfWeek === 2) { // Wtorek
-    recurring.push(
-      { id: `rec-${dateStr}-1`, summary: "Wizyta gabinetowa — Joanna M.", startTimeStr: "10:30", endTimeStr: "12:30" },
-      { id: `rec-${dateStr}-2`, summary: "Autorski Rytuał Slow Skin", startTimeStr: "15:00", endTimeStr: "17:00" }
-    );
-  } else if (dayOfWeek === 3) { // Środa
-    recurring.push(
-      { id: `rec-${dateStr}-1`, summary: "Terapia Bionomiczna — Gabinet", startTimeStr: "10:00", endTimeStr: "12:00" },
-      { id: `rec-${dateStr}-2`, summary: "Diagnoza Komputerowa i Konsultacja", startTimeStr: "14:00", endTimeStr: "16:30" }
-    );
-  } else if (dayOfWeek === 4) { // Czwartek
-    recurring.push(
-      { id: `rec-${dateStr}-1`, summary: "Neurolifting — Fale Nogiera", startTimeStr: "11:00", endTimeStr: "13:00" },
-      { id: `rec-${dateStr}-2`, summary: "Lift & Firm Therapy — Wizyta stała", startTimeStr: "15:30", endTimeStr: "17:30" }
-    );
-  } else if (dayOfWeek === 5) { // Piątek
-    recurring.push(
-      { id: `rec-${dateStr}-1`, summary: "Konsultacja kosmetologiczna", startTimeStr: "10:00", endTimeStr: "12:30" },
-      { id: `rec-${dateStr}-2`, summary: "Autorski Rytuał Slow Skin", startTimeStr: "14:00", endTimeStr: "16:00" }
-    );
-  }
-  return recurring.map((r) => ({
-    ...r,
-    start: `${dateStr}T${r.startTimeStr}:00+02:00`,
-    end: `${dateStr}T${r.endTimeStr}:00+02:00`,
-    dateStr,
-    isAllDay: false,
-    calendarAccount: SLOW_SKIN_GOOGLE_ACCOUNT,
-  }));
+  return getWeekdayDefaults(dayOfWeek, dateStr);
 }
 
 /**

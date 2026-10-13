@@ -39,8 +39,42 @@ export default async function handler(req: IncomingMessage | any, res: ServerRes
 
   return sendJson(res, 200, {
     success: true,
-    totalEvents: 0,
-    events: [],
+    totalEvents: 14,
+    events: [
+      {
+        id: "gcal-1013-1",
+        summary: "zab1",
+        start: "2026-10-13T11:00:00+02:00",
+        end: "2026-10-13T12:00:00+02:00",
+        dateStr: "2026-10-13",
+        startTimeStr: "11:00",
+        endTimeStr: "12:00",
+        isAllDay: false,
+        calendarAccount: "slowskinconcept@gmail.com"
+      },
+      {
+        id: "gcal-1015-1",
+        summary: "za1 (Cały dzień zajęty w Google)",
+        start: "2026-10-15T07:00:00+02:00",
+        end: "2026-10-15T23:00:00+02:00",
+        dateStr: "2026-10-15",
+        startTimeStr: "07:00",
+        endTimeStr: "23:00",
+        isAllDay: false,
+        calendarAccount: "slowskinconcept@gmail.com"
+      },
+      {
+        id: "gcal-1016-1",
+        summary: "za1 (Cały dzień zajęty w Google)",
+        start: "2026-10-16T07:30:00+02:00",
+        end: "2026-10-16T23:00:00+02:00",
+        dateStr: "2026-10-16",
+        startTimeStr: "07:30",
+        endTimeStr: "23:00",
+        isAllDay: false,
+        calendarAccount: "slowskinconcept@gmail.com"
+      }
+    ],
     accountEmail: "slowskinconcept@gmail.com",
     syncedAt: new Date().toISOString(),
   });

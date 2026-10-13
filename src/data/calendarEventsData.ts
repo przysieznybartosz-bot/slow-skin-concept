@@ -16,6 +16,54 @@ export const SLOW_SKIN_CALENDAR_ID = "ec7711f8f95afc5d0e88dd4a404e2b15d3503323b8
 
 export const DEFAULT_GOOGLE_EVENTS: GoogleCalendarStoredEvent[] = [
   {
+    id: "gcal-1013-1",
+    summary: "zab1",
+    start: "2026-10-13T11:00:00+02:00",
+    end: "2026-10-13T12:00:00+02:00",
+    dateStr: "2026-10-13",
+    startTimeStr: "11:00",
+    endTimeStr: "12:00",
+    isAllDay: false,
+    calendarAccount: "slowskinconcept@gmail.com",
+    updatedAt: "2026-10-13T21:20:00.000Z"
+  },
+  {
+    id: "gcal-1013-2",
+    summary: "zab11",
+    start: "2026-10-13T13:00:00+02:00",
+    end: "2026-10-13T14:00:00+02:00",
+    dateStr: "2026-10-13",
+    startTimeStr: "13:00",
+    endTimeStr: "14:00",
+    isAllDay: false,
+    calendarAccount: "slowskinconcept@gmail.com",
+    updatedAt: "2026-10-13T21:20:00.000Z"
+  },
+  {
+    id: "gcal-1013-3",
+    summary: "obiad",
+    start: "2026-10-13T14:30:00+02:00",
+    end: "2026-10-13T15:30:00+02:00",
+    dateStr: "2026-10-13",
+    startTimeStr: "14:30",
+    endTimeStr: "15:30",
+    isAllDay: false,
+    calendarAccount: "slowskinconcept@gmail.com",
+    updatedAt: "2026-10-13T21:20:00.000Z"
+  },
+  {
+    id: "gcal-1013-4",
+    summary: "Wizyta w gabinecie",
+    start: "2026-10-13T15:30:00+02:00",
+    end: "2026-10-13T16:30:00+02:00",
+    dateStr: "2026-10-13",
+    startTimeStr: "15:30",
+    endTimeStr: "16:30",
+    isAllDay: false,
+    calendarAccount: "slowskinconcept@gmail.com",
+    updatedAt: "2026-10-13T21:20:00.000Z"
+  },
+  {
     id: "gcal-1014-1",
     summary: "Terapia Bionomiczna — Gabinet",
     start: "2026-10-14T10:00:00+02:00",
@@ -25,79 +73,79 @@ export const DEFAULT_GOOGLE_EVENTS: GoogleCalendarStoredEvent[] = [
     endTimeStr: "12:00",
     isAllDay: false,
     calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T12:40:00.000Z"
+    updatedAt: "2026-10-13T21:20:00.000Z"
   },
   {
     id: "gcal-1014-2",
-    summary: "Diagnoza Komputerowa i Konsultacja",
-    start: "2026-10-14T14:00:00+02:00",
-    end: "2026-10-14T16:30:00+02:00",
+    summary: "obiad",
+    start: "2026-10-14T14:30:00+02:00",
+    end: "2026-10-14T15:30:00+02:00",
     dateStr: "2026-10-14",
-    startTimeStr: "14:00",
-    endTimeStr: "16:30",
+    startTimeStr: "14:30",
+    endTimeStr: "15:30",
     isAllDay: false,
     calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T12:40:00.000Z"
+    updatedAt: "2026-10-13T21:20:00.000Z"
   },
   {
     id: "gcal-1014-3",
     summary: "Konsultacja barierowa — stała klientka",
-    start: "2026-10-14T17:00:00+02:00",
-    end: "2026-10-14T19:00:00+02:00",
+    start: "2026-10-14T16:00:00+02:00",
+    end: "2026-10-14T18:30:00+02:00",
     dateStr: "2026-10-14",
-    startTimeStr: "17:00",
-    endTimeStr: "19:00",
+    startTimeStr: "16:00",
+    endTimeStr: "18:30",
     isAllDay: false,
     calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T12:40:00.000Z"
+    updatedAt: "2026-10-13T21:20:00.000Z"
   },
   {
     id: "gcal-1015-1",
-    summary: "Neurolifting — Fale Nogiera",
-    start: "2026-10-15T11:00:00+02:00",
-    end: "2026-10-15T13:00:00+02:00",
+    summary: "za1 (Cały dzień zajęty w Google)",
+    start: "2026-10-15T07:00:00+02:00",
+    end: "2026-10-15T23:00:00+02:00",
     dateStr: "2026-10-15",
-    startTimeStr: "11:00",
-    endTimeStr: "13:00",
+    startTimeStr: "07:00",
+    endTimeStr: "23:00",
     isAllDay: false,
     calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T12:40:00.000Z"
+    updatedAt: "2026-10-13T21:20:00.000Z"
   },
   {
     id: "gcal-1015-2",
-    summary: "Lift & Firm Therapy — Wizyta stała",
-    start: "2026-10-15T15:30:00+02:00",
-    end: "2026-10-15T17:30:00+02:00",
+    summary: "obiad",
+    start: "2026-10-15T14:30:00+02:00",
+    end: "2026-10-15T15:30:00+02:00",
     dateStr: "2026-10-15",
-    startTimeStr: "15:30",
-    endTimeStr: "17:30",
+    startTimeStr: "14:30",
+    endTimeStr: "15:30",
     isAllDay: false,
     calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T12:40:00.000Z"
+    updatedAt: "2026-10-13T21:20:00.000Z"
   },
   {
     id: "gcal-1016-1",
-    summary: "Konsultacja kosmetologiczna",
-    start: "2026-10-16T10:00:00+02:00",
-    end: "2026-10-16T12:30:00+02:00",
+    summary: "za1 (Cały dzień zajęty w Google)",
+    start: "2026-10-16T07:30:00+02:00",
+    end: "2026-10-16T23:00:00+02:00",
     dateStr: "2026-10-16",
-    startTimeStr: "10:00",
-    endTimeStr: "12:30",
+    startTimeStr: "07:30",
+    endTimeStr: "23:00",
     isAllDay: false,
     calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T12:40:00.000Z"
+    updatedAt: "2026-10-13T21:20:00.000Z"
   },
   {
     id: "gcal-1016-2",
-    summary: "Autorski Rytuał Slow Skin",
-    start: "2026-10-16T14:00:00+02:00",
-    end: "2026-10-16T16:00:00+02:00",
+    summary: "obiad",
+    start: "2026-10-16T14:30:00+02:00",
+    end: "2026-10-16T15:30:00+02:00",
     dateStr: "2026-10-16",
-    startTimeStr: "14:00",
-    endTimeStr: "16:00",
+    startTimeStr: "14:30",
+    endTimeStr: "15:30",
     isAllDay: false,
     calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T12:40:00.000Z"
+    updatedAt: "2026-10-13T21:20:00.000Z"
   },
   {
     id: "gcal-1019-1",
@@ -109,7 +157,19 @@ export const DEFAULT_GOOGLE_EVENTS: GoogleCalendarStoredEvent[] = [
     endTimeStr: "14:00",
     isAllDay: false,
     calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T12:40:00.000Z"
+    updatedAt: "2026-10-13T21:20:00.000Z"
+  },
+  {
+    id: "gcal-1019-2",
+    summary: "obiad",
+    start: "2026-10-19T14:30:00+02:00",
+    end: "2026-10-19T15:30:00+02:00",
+    dateStr: "2026-10-19",
+    startTimeStr: "14:30",
+    endTimeStr: "15:30",
+    isAllDay: false,
+    calendarAccount: "slowskinconcept@gmail.com",
+    updatedAt: "2026-10-13T21:20:00.000Z"
   },
   {
     id: "gcal-1020-1",
@@ -121,12 +181,26 @@ export const DEFAULT_GOOGLE_EVENTS: GoogleCalendarStoredEvent[] = [
     endTimeStr: "12:30",
     isAllDay: false,
     calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T12:40:00.000Z"
+    updatedAt: "2026-10-13T21:20:00.000Z"
+  },
+  {
+    id: "gcal-1020-2",
+    summary: "obiad",
+    start: "2026-10-20T14:30:00+02:00",
+    end: "2026-10-20T15:30:00+02:00",
+    dateStr: "2026-10-20",
+    startTimeStr: "14:30",
+    endTimeStr: "15:30",
+    isAllDay: false,
+    calendarAccount: "slowskinconcept@gmail.com",
+    updatedAt: "2026-10-13T21:20:00.000Z"
   }
 ];
 
 export function getWeekdayRecurringGoogleEvents(dayOfWeek: number, dateStr: string): GoogleCalendarStoredEvent[] {
-  const recurring: Array<{ id: string; summary: string; startTimeStr: string; endTimeStr: string }> = [];
+  const recurring: Array<{ id: string; summary: string; startTimeStr: string; endTimeStr: string }> = [
+    { id: `rec-${dateStr}-lunch`, summary: "obiad (przerwa gabinetowa)", startTimeStr: "14:30", endTimeStr: "15:30" }
+  ];
   if (dayOfWeek === 1) { // Poniedziałek
     recurring.push(
       { id: `rec-${dateStr}-1`, summary: "Konsultacja barierowa i zabieg", startTimeStr: "11:30", endTimeStr: "14:00" },
@@ -140,17 +214,15 @@ export function getWeekdayRecurringGoogleEvents(dayOfWeek: number, dateStr: stri
   } else if (dayOfWeek === 3) { // Środa
     recurring.push(
       { id: `rec-${dateStr}-1`, summary: "Terapia Bionomiczna — Gabinet", startTimeStr: "10:00", endTimeStr: "12:00" },
-      { id: `rec-${dateStr}-2`, summary: "Diagnoza Komputerowa i Konsultacja", startTimeStr: "14:00", endTimeStr: "16:30" }
+      { id: `rec-${dateStr}-2`, summary: "Diagnoza Komputerowa i Konsultacja", startTimeStr: "16:00", endTimeStr: "18:30" }
     );
   } else if (dayOfWeek === 4) { // Czwartek
     recurring.push(
-      { id: `rec-${dateStr}-1`, summary: "Neurolifting — Fale Nogiera", startTimeStr: "11:00", endTimeStr: "13:00" },
-      { id: `rec-${dateStr}-2`, summary: "Lift & Firm Therapy — Wizyta stała", startTimeStr: "15:30", endTimeStr: "17:30" }
+      { id: `rec-${dateStr}-za1`, summary: "za1 (Cały dzień zajęty w Google)", startTimeStr: "07:00", endTimeStr: "23:00" }
     );
   } else if (dayOfWeek === 5) { // Piątek
     recurring.push(
-      { id: `rec-${dateStr}-1`, summary: "Konsultacja kosmetologiczna", startTimeStr: "10:00", endTimeStr: "12:30" },
-      { id: `rec-${dateStr}-2`, summary: "Autorski Rytuał Slow Skin", startTimeStr: "14:00", endTimeStr: "16:00" }
+      { id: `rec-${dateStr}-za1`, summary: "za1 (Cały dzień zajęty w Google)", startTimeStr: "07:30", endTimeStr: "23:00" }
     );
   }
   return recurring.map((r) => ({

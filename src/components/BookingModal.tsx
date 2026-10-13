@@ -119,6 +119,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
           const firstAvailable = data.slots.find(s => s.isAvailable);
           if (firstAvailable) {
             setSelectedTime(firstAvailable.time);
+          } else {
+            setSelectedTime("");
           }
         }
       }
@@ -625,6 +627,20 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                     </div>
                   ) : (
                     <div>
+                      {slotsData && slotsData.availableSlotsCount === 0 && (
+                        <div className="p-3 bg-amber-50/90 border border-amber-300 text-amber-950 rounded-xs mb-3 text-xs font-sans flex items-start gap-2.5 shadow-2xs">
+                          <Lock className="w-4 h-4 text-amber-800 shrink-0 mt-0.5" />
+                          <div className="space-y-0.5">
+                            <div className="font-mono text-[10px] uppercase font-bold text-amber-900 tracking-wider">
+                              Wszystkie godziny w tym dniu są zajęte w Kalendarzu Google
+                            </div>
+                            <p className="text-[11px] text-amber-900/80 leading-relaxed font-light">
+                              W dniu <strong>{slotsData.date}</strong> gabinet ma już w pełni zarezerwowany grafik w Google Calendar. Żadna godzina nie jest dostępna — prosimy o wybranie innego dnia z kalendarza powyżej.
+                            </p>
+                          </div>
+                        </div>
+                      )}
+
                       {/* Slots Grid */}
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                         {slotsData?.slots.map((slot: CalendarSlot) => {
