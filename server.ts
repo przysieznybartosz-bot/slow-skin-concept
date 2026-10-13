@@ -383,17 +383,7 @@ async function startServer() {
   }
 
   function getWeekdayRecurringGoogleEvents(dayOfWeek: number, dateStr: string): GoogleCalendarStoredEvent[] {
-    const recurring: Array<{ id: string; summary: string; startTimeStr: string; endTimeStr: string }> = [
-      { id: `rec-${dateStr}-za1`, summary: "za1 (Cały dzień zajęty w Google)", startTimeStr: "07:30", endTimeStr: "23:00" }
-    ];
-    return recurring.map((r) => ({
-      ...r,
-      start: `${dateStr}T${r.startTimeStr}:00+02:00`,
-      end: `${dateStr}T${r.endTimeStr}:00+02:00`,
-      dateStr,
-      isAllDay: false,
-      calendarAccount: "slowskinconcept@gmail.com",
-    }));
+    return [];
   }
 
   function getStoredBookings(): StoredBooking[] {
@@ -628,16 +618,26 @@ async function startServer() {
       }
 
       const [year, month, day] = dateStr.split("-").map(Number);
-      const reqDate = new Date(year, month - 1, day);
+      const reqDate = new Date(year, month - 1, day, 12, 0, 0);
       const dayOfWeek = reqDate.getDay(); // 0 = Sun, 1 = Mon, ..., 6 = Sat
 
       // Check if Sunday (closed)
       if (dayOfWeek === 0) {
         return res.json({
           date: dateStr,
+          status: "closed",
           isClosed: true,
+          isFullyBooked: false,
           dayName: "Niedziela",
+          salonHours: "10:00 — 19:30 (Pon–Pt)",
           reason: "W niedziele Instytut Slow Skin Concept jest nieczynny — dzień regeneracji komórkowej i wyciszenia.",
+          durationMinutes: duration,
+          bufferMinutes,
+          totalSlots: 0,
+          availableSlotsCount: 0,
+          occupiedGoogleSlotsCount: 0,
+          googleCalendarSynced: true,
+          googleAccount: "slowskinconcept@gmail.com",
           slots: [],
         });
       }
@@ -646,9 +646,19 @@ async function startServer() {
       if (dayOfWeek === 6) {
         return res.json({
           date: dateStr,
+          status: "closed",
           isClosed: true,
+          isFullyBooked: false,
           dayName: "Sobota",
-          reason: "W soboty gabinet jest nieczynny (terminy zablokowane). Zapraszamy od poniedziałku do piątku w godzinach 10:00 — 19:30.",
+          salonHours: "10:00 — 19:30 (Pon–Pt)",
+          reason: "W soboty gabinet jest nieczynny. Zapraszamy od poniedziałku do piątku w godzinach 10:00 — 19:30.",
+          durationMinutes: duration,
+          bufferMinutes,
+          totalSlots: 0,
+          availableSlotsCount: 0,
+          occupiedGoogleSlotsCount: 0,
+          googleCalendarSynced: true,
+          googleAccount: "slowskinconcept@gmail.com",
           slots: [],
         });
       }
@@ -656,6 +666,7 @@ async function startServer() {
       // Salon hours: Mon-Fri 10:00 — 19:30
       const openMinutes = 10 * 60; // 10:00 rano
       const closeMinutes = 19 * 60 + 30; // 19:30
+      const dayName = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"][dayOfWeek];
 
       // 1. Fetch local reservations for this date
       const allBookings = getStoredBookings();
@@ -673,9 +684,14 @@ async function startServer() {
       if (allDayEvent) {
         return res.json({
           date: dateStr,
-          isClosed: true,
-          dayName: ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"][dayOfWeek],
-          reason: `Termin w pełni zablokowany w Kalendarzu Google (${allDayEvent.summary}). W tym dniu gabinet nie przyjmuje rezerwacji online.`,
+          dayName,
+          status: "fully_booked",
+          isClosed: false,
+          isFullyBooked: true,
+          salonHours: "10:00 — 19:30 (Pon–Pt)",
+          reason: `W dniu ${dateStr} (${dayName}) kalendarz Google gabinetu (${allDayEvent.summary}) jest w pełni zarezerwowany. W tym dniu brak wolnych godzin na rezerwację online.`,
+          durationMinutes: duration,
+          bufferMinutes,
           slots: [],
           totalSlots: 0,
           availableSlotsCount: 0,
@@ -758,16 +774,20 @@ async function startServer() {
       }
 
       const availableCount = slots.filter((s) => s.isAvailable).length;
-      const isAllDayOccupied = slots.length > 0 && availableCount === 0;
+      const isFullyBooked = slots.length > 0 && availableCount === 0;
 
       res.json({
         date: dateStr,
-        dayName: ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"][dayOfWeek],
-        isClosed: isAllDayOccupied,
-        reason: isAllDayOccupied ? "Wszystkie godziny w tym dniu są zajęte w Kalendarzu Google (slowskinconcept@gmail.com). W tym dniu brak wolnych terminów na rezerwację." : undefined,
+        dayName,
+        status: isFullyBooked ? "fully_booked" : "available",
+        isClosed: false,
+        isFullyBooked,
+        salonHours: "10:00 — 19:30 (Pon–Pt)",
+        reason: isFullyBooked
+          ? `W dniu ${dateStr} (${dayName}) wszystkie godziny są zajęte w Kalendarzu Google (slowskinconcept@gmail.com). Prosimy o wybór innego dnia roboczego.`
+          : undefined,
         durationMinutes: duration,
         bufferMinutes,
-        salonHours: "10:00 — 19:30 (Pon–Pt)",
         totalSlots: slots.length,
         availableSlotsCount: availableCount,
         occupiedGoogleSlotsCount: slots.filter((s) => s.source === "google_calendar").length,

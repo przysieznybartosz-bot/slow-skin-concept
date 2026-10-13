@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { 
   Calendar, 
@@ -48,6 +48,21 @@ interface BookingModalProps {
   onClose: () => void;
 }
 
+// Exact date formatting without UTC midnight shift
+export const formatDateKey = (d: Date): string => {
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
+export const parseDateKey = (dateStr: string): { year: number; month: number; day: number; date: Date } => {
+  const [year, month, day] = dateStr.split("-").map(Number);
+  // Noon (12:00) ensures no DST midnight rollover across timezones
+  const date = new Date(year, month - 1, day, 12, 0, 0);
+  return { year, month, day, date };
+};
+
 export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }) => {
   const isVideoService = treatment ? (treatment.id === "videokonsultacja" || treatment.id.includes("video") || treatment.title.toLowerCase().includes("video") || treatment.title.toLowerCase().includes("online")) : false;
   
@@ -65,34 +80,34 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
     while (d.getDay() === 0 || d.getDay() === 6) {
       d.setDate(d.getDate() + 1); // Jump to Monday
     }
-    return d.toISOString().split("T")[0];
+    return formatDateKey(d);
   };
 
+  const todayStr = formatDateKey(new Date());
   const [selectedDate, setSelectedDate] = useState(getInitialDate());
-  const [selectedTime, setSelectedTime] = useState("10:00");
+  const [selectedTime, setSelectedTime] = useState("");
   const [isOnline, setIsOnline] = useState(isVideoService);
   const [notes, setNotes] = useState("");
 
   const [slotsData, setSlotsData] = useState<CalendarSlotsResponse | null>(null);
   const [isLoadingSlots, setIsLoadingSlots] = useState(false);
+  const [slotsError, setSlotsError] = useState<string | null>(null);
+  const reqIdRef = useRef(0);
 
   const [googleUser, setGoogleUser] = useState<GoogleUserProfile | null>(null);
   const [googleToken, setGoogleToken] = useState<string | null>(null);
   const [isSyncingGoogle, setIsSyncingGoogle] = useState(false);
-  const [isSubmittingWithoutGoogle, setIsSubmittingWithoutGoogle] = useState(false);
+  const [isSubmittingBooking, setIsSubmittingBooking] = useState(false);
   const [googleEventLink, setGoogleEventLink] = useState<string | null>(null);
   const [syncError, setSyncError] = useState<string | null>(null);
   const [syncSuccessMessage, setSyncSuccessMessage] = useState<string | null>(null);
   const [isConfirmed, setIsConfirmed] = useState(false);
 
-  // Set default minimum date (today or tomorrow)
-  const todayStr = new Date().toISOString().split("T")[0];
-
-  // Quick Days Generation (next 7 days, highlighting closed weekends and Google Calendar busy days)
+  // Quick Days Generation (next 7 days, aligned local date with matching label)
   const quickDays = Array.from({ length: 7 }, (_, i) => {
     const d = new Date();
     d.setDate(d.getDate() + (i + 1));
-    const iso = d.toISOString().split("T")[0];
+    const iso = formatDateKey(d);
     const dayNames = ["Ndz", "Pon", "Wt", "Śr", "Czw", "Pt", "Sob"];
     const monthNames = ["Sty", "Lut", "Mar", "Kwi", "Maj", "Cze", "Lip", "Sie", "Wrz", "Paź", "Lis", "Gru"];
     const isWeekend = d.getDay() === 0 || d.getDay() === 6;
@@ -108,30 +123,43 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
     };
   });
 
-  // Load dynamic slots whenever date or duration changes
+  // Load dynamic slots with race-condition prevention & state cleanup
   const loadSlots = async (dateStr: string, duration: number) => {
+    const currentReqId = ++reqIdRef.current;
     setIsLoadingSlots(true);
+    setSlotsError(null);
+    setSelectedTime("");
+    setSlotsData(null); // Clear previous date's slots immediately to avoid stale state
+
     try {
       const data = await fetchCalendarSlots(dateStr, duration);
+      if (reqIdRef.current !== currentReqId) return;
+
       setSlotsData(data);
 
-      // Auto-select first available slot if current selectedTime is unavailable
-      if (data && !data.isClosed && data.slots.length > 0) {
-        const currentSlotValid = data.slots.some(s => s.time === selectedTime && s.isAvailable);
-        if (!currentSlotValid) {
-          const firstAvailable = data.slots.find(s => s.isAvailable);
-          if (firstAvailable) {
-            setSelectedTime(firstAvailable.time);
-          } else {
-            setSelectedTime("");
-          }
+      // Auto-select first available slot if present
+      if (data && !data.isClosed && !data.isFullyBooked && data.slots.length > 0) {
+        const firstAvailable = data.slots.find(s => s.isAvailable);
+        if (firstAvailable) {
+          setSelectedTime(firstAvailable.time);
         }
       }
-    } catch (e) {
-      console.error("Failed to load slots:", e);
+    } catch (e: any) {
+      if (reqIdRef.current !== currentReqId) return;
+      setSlotsError(e?.message || "Nie udało się połączyć z Kalendarzem Google. Kliknij ponów.");
     } finally {
-      setIsLoadingSlots(false);
+      if (reqIdRef.current === currentReqId) {
+        setIsLoadingSlots(false);
+      }
     }
+  };
+
+  const handleGoToNextWorkingDay = () => {
+    const { date: target } = parseDateKey(selectedDate);
+    do {
+      target.setDate(target.getDate() + 1);
+    } while (target.getDay() === 0 || target.getDay() === 6);
+    setSelectedDate(formatDateKey(target));
   };
 
   const handleManualSyncGoogle = async () => {
@@ -139,24 +167,11 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
     setSyncError(null);
     setSyncSuccessMessage(null);
     try {
-      let token = googleToken || getCachedGoogleToken();
-      if (!token) {
-        token = await requestGoogleCalendarAccess();
-        setGoogleToken(token);
-        const profile = await fetchGoogleUserProfile(token);
-        if (profile) setGoogleUser(profile);
-      }
-      if (token) {
-        const syncResult = await syncGoogleCalendarWithBackend(token);
-        if (syncResult.success) {
-          setSyncSuccessMessage(`Zsynchronizowano ${syncResult.count} terminów z Kalendarzem Google (${SLOW_SKIN_GOOGLE_ACCOUNT}). Zajęte godziny są zablokowane.`);
-          await loadSlots(selectedDate, durationMin);
-        } else {
-          setSyncError(syncResult.message);
-        }
-      }
+      // Re-fetch current selectedDate availability directly
+      await loadSlots(selectedDate, durationMin);
+      setSyncSuccessMessage(`Dostępność dla ${selectedDate} zaktualizowana z kalendarzem ${SLOW_SKIN_GOOGLE_ACCOUNT}.`);
     } catch (e: any) {
-      setSyncError(e.message || "Nie udało się zsynchronizować kalendarza.");
+      setSyncError(e?.message || "Błąd odświeżania kalendarza.");
     } finally {
       setIsSyncingGoogle(false);
     }
@@ -247,88 +262,69 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
     }
   };
 
-  const handleGoogleSignInAndSync = async () => {
+  const handleBookAppointment = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     if (!clientName || !clientPhone) {
       setSyncError("Prosimy o podanie imienia, nazwiska oraz numeru telefonu.");
       return;
     }
+    if (!selectedTime) {
+      setSyncError("Prosimy o wybranie dogodnej godziny z listy dostępnych slotów.");
+      return;
+    }
 
-    setIsSyncingGoogle(true);
+    setIsSubmittingBooking(true);
     setSyncError(null);
 
     const eventData = getEventData();
 
-    // 1. Verify and record on server (blocks collision)
+    // 1. Verify and record on server (blocks collision in real-time)
     const serverResult = await recordBookingOnServer(eventData);
     if (!serverResult.success) {
-      setSyncError(serverResult.error || "Kolizja terminu!");
-      setIsSyncingGoogle(false);
+      setSyncError(serverResult.error || "Kolizja terminu! Wybrany slot został właśnie zajęty. Prosimy o wybranie innej godziny.");
+      setIsSubmittingBooking(false);
       loadSlots(selectedDate, durationMin);
       return;
     }
 
-    try {
-      let token = googleToken || getCachedGoogleToken();
-      
-      if (!token) {
-        token = await requestGoogleCalendarAccess();
-        setGoogleToken(token);
-        const profile = await fetchGoogleUserProfile(token);
-        if (profile) {
-          setGoogleUser(profile);
-          if (!clientName && profile.name) setClientName(profile.name);
-          if (!clientEmail && profile.email) setClientEmail(profile.email);
+    // 2. Try background sync to Google Calendar if token exists
+    const token = googleToken || getCachedGoogleToken();
+    if (token) {
+      try {
+        const result = await insertEventIntoGoogleCalendar(token, eventData);
+        if (result.success && result.eventLink) {
+          setGoogleEventLink(result.eventLink);
         }
+      } catch (gErr) {
+        console.warn("Background Google Calendar event sync notice:", gErr);
       }
+    }
 
-      const result = await insertEventIntoGoogleCalendar(token, eventData);
+    saveToLocalHistory(eventData);
+    setIsConfirmed(true);
+    setIsSubmittingBooking(false);
+  };
 
-      if (result.success) {
-        setGoogleEventLink(result.eventLink || null);
-        setIsConfirmed(true);
-        saveToLocalHistory(eventData);
-      } else {
-        // If Google token sync had issue, the slot is still confirmed on salon server
-        setIsConfirmed(true);
-        saveToLocalHistory(eventData);
-        setSyncError(result.error || "Zapisano w kalendarzu gabinetu. Możesz również dodać spotkanie jednym kliknięciem poniżej.");
+  const handleGoogleSignInAndSync = async () => {
+    setIsSyncingGoogle(true);
+    setSyncError(null);
+    try {
+      const token = await requestGoogleCalendarAccess();
+      setGoogleToken(token);
+      const profile = await fetchGoogleUserProfile(token);
+      if (profile) {
+        setGoogleUser(profile);
+        if (!clientName && profile.name) setClientName(profile.name);
+        if (!clientEmail && profile.email) setClientEmail(profile.email);
       }
     } catch (err: any) {
-      // Even if Google OAuth was cancelled, the appointment is registered on salon server
-      setIsConfirmed(true);
-      saveToLocalHistory(eventData);
-      setSyncError(err.message || "Rezerwacja zarejestrowana w gabinecie. Możesz dodać wpis do swojego kalendarza poniżej.");
+      setSyncError(err.message || "Logowanie Google anulowane.");
     } finally {
       setIsSyncingGoogle(false);
     }
   };
 
-  const handleBookWithoutGoogle = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!clientName || !clientPhone) {
-      setSyncError("Prosimy o podanie imienia, nazwiska oraz numeru telefonu.");
-      return;
-    }
-
-    setIsSubmittingWithoutGoogle(true);
-    setSyncError(null);
-
-    const eventData = getEventData();
-
-    // Verify and record on server (prevents collisions)
-    const serverResult = await recordBookingOnServer(eventData);
-    if (!serverResult.success) {
-      setSyncError(serverResult.error || "Kolizja terminu! Wybrany slot został właśnie zajęty. Wybierz inną godzinę.");
-      setIsSubmittingWithoutGoogle(false);
-      loadSlots(selectedDate, durationMin);
-      return;
-    }
-
-    saveToLocalHistory(eventData);
-    setIsConfirmed(true);
-    setIsSubmittingWithoutGoogle(false);
-
-    // Optional mailto trigger
+  const triggerMailtoNotification = () => {
     const subject = encodeURIComponent(`[Rezerwacja Wizyty] ${treatment?.title || "Zabieg"} — ${selectedDate} ${selectedTime} — ${clientName}`);
     const body = encodeURIComponent(
       `Dzień dobry!\n\n` +
@@ -609,39 +605,66 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                     </div>
                   </div>
 
-                  {slotsData?.isClosed ? (
-                    <div className="p-4 bg-amber-50/80 border border-amber-200 text-amber-900 text-xs font-sans space-y-2 rounded-xs">
-                      <div className="flex items-center gap-2 font-mono font-semibold text-[10px] uppercase">
-                        <AlertCircle className="w-4 h-4 text-amber-700" />
+                  {slotsError ? (
+                    <div className="p-4 bg-red-50/90 border border-red-200 text-red-950 rounded-xs text-xs font-sans space-y-2">
+                      <div className="flex items-center gap-2 font-mono font-semibold text-[10px] uppercase text-red-800">
+                        <AlertCircle className="w-4 h-4 text-red-600" />
+                        <span>Błąd weryfikacji kalendarza</span>
+                      </div>
+                      <p className="text-[11px] text-red-800/80 leading-relaxed">
+                        {slotsError}
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => loadSlots(selectedDate, durationMin)}
+                        className="py-1 px-3 bg-red-700 hover:bg-red-800 text-white font-mono text-[9px] uppercase tracking-wider rounded-xs cursor-pointer inline-flex items-center gap-1"
+                      >
+                        <RefreshCw className="w-2.5 h-2.5" /> Spróbuj ponownie
+                      </button>
+                    </div>
+                  ) : slotsData?.isClosed ? (
+                    <div className="p-4 bg-stone-100 border border-stone-300 text-stone-800 text-xs font-sans space-y-2 rounded-xs">
+                      <div className="flex items-center gap-2 font-mono font-semibold text-[10px] uppercase text-stone-700">
+                        <AlertCircle className="w-4 h-4 text-stone-600" />
                         <span>{slotsData.dayName}: Gabinet Nieczynny</span>
                       </div>
-                      <p className="text-[11px] leading-relaxed">
+                      <p className="text-[11px] leading-relaxed text-stone-600">
                         {slotsData.reason || "W weekendy (sobota i niedziela) gabinet jest nieczynny. Zapraszamy od poniedziałku do piątku w godzinach 10:00 — 19:30."}
                       </p>
                       <button
                         type="button"
-                        onClick={() => {
-                          const nextMon = new Date();
-                          nextMon.setDate(nextMon.getDate() + ((1 + 7 - nextMon.getDay()) % 7 || 7));
-                          setSelectedDate(nextMon.toISOString().split("T")[0]);
-                        }}
-                        className="py-1.5 px-3 bg-amber-700 hover:bg-amber-800 text-white font-mono text-[9px] uppercase tracking-wider rounded-xs cursor-pointer inline-flex items-center gap-1"
+                        onClick={handleGoToNextWorkingDay}
+                        className="py-1.5 px-3 bg-stone-800 hover:bg-stone-900 text-white font-mono text-[9px] uppercase tracking-wider rounded-xs cursor-pointer inline-flex items-center gap-1"
                       >
                         Przejdź do najbliższego dnia roboczego (Poniedziałek) →
                       </button>
                     </div>
                   ) : (
                     <div>
-                      {slotsData && slotsData.availableSlotsCount === 0 && (
-                        <div className="p-3 bg-amber-50/90 border border-amber-300 text-amber-950 rounded-xs mb-3 text-xs font-sans flex items-start gap-2.5 shadow-2xs">
-                          <Lock className="w-4 h-4 text-amber-800 shrink-0 mt-0.5" />
-                          <div className="space-y-0.5">
-                            <div className="font-mono text-[10px] uppercase font-bold text-amber-900 tracking-wider">
-                              Wszystkie godziny w tym dniu są zajęte w Kalendarzu Google
-                            </div>
-                            <p className="text-[11px] text-amber-900/80 leading-relaxed font-light">
-                              W dniu <strong>{slotsData.date}</strong> gabinet ma już w pełni zarezerwowany grafik w Google Calendar. Żadna godzina nie jest dostępna — prosimy o wybranie innego dnia z kalendarza powyżej.
-                            </p>
+                      {slotsData && (slotsData.isFullyBooked || slotsData.availableSlotsCount === 0) && (
+                        <div className="p-3.5 bg-amber-50/95 border border-amber-300 text-amber-950 rounded-xs mb-3 text-xs font-sans space-y-2 shadow-2xs">
+                          <div className="flex items-center gap-2 font-mono text-[10px] uppercase font-bold text-amber-900 tracking-wider">
+                            <Lock className="w-4 h-4 text-amber-800 shrink-0" />
+                            <span>Dzień roboczy w pełni zajęty ({slotsData.dayName})</span>
+                          </div>
+                          <p className="text-[11px] text-amber-900/80 leading-relaxed font-light">
+                            {slotsData.reason || `W dniu ${slotsData.date} (${slotsData.dayName}) gabinet ma już w pełni zarezerwowany grafik w Kalendarzu Google. Żadna godzina na zabieg (${durationMin} min) nie jest dostępna — prosimy o wybranie innego dnia z kalendarza.`}
+                          </p>
+                          <div className="pt-1 flex flex-wrap gap-2">
+                            <button
+                              type="button"
+                              onClick={handleGoToNextWorkingDay}
+                              className="py-1 px-3 bg-amber-800 hover:bg-amber-900 text-white font-mono text-[9px] uppercase tracking-wider rounded-xs cursor-pointer inline-flex items-center gap-1"
+                            >
+                              Sprawdź kolejny dzień roboczy →
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => loadSlots(selectedDate, durationMin)}
+                              className="py-1 px-3 bg-white hover:bg-amber-100 border border-amber-300 text-amber-900 font-mono text-[9px] uppercase tracking-wider rounded-xs cursor-pointer inline-flex items-center gap-1"
+                            >
+                              <RefreshCw className="w-2.5 h-2.5" /> Odśwież dostępność
+                            </button>
                           </div>
                         </div>
                       )}
@@ -871,51 +894,30 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                 </div>
               )}
 
-              {/* Action Buttons: Synchronize Google vs Book directly */}
+              {/* Action Buttons: Unified direct booking with real-time calendar sync */}
               <div className="space-y-3 pt-2 border-t border-luxury-sand/40">
-                {slotsData && (slotsData.availableSlotsCount === 0 || slotsData.isClosed) && (
+                {slotsData && (slotsData.availableSlotsCount === 0 || slotsData.isClosed || slotsData.isFullyBooked) && (
                   <div className="p-2.5 bg-amber-50 border border-amber-300 text-amber-900 text-[10px] font-mono text-center rounded-xs flex items-center justify-center gap-1.5 font-semibold">
                     <Lock className="w-3.5 h-3.5 text-amber-800 shrink-0" />
-                    <span>Dzień {slotsData.date} jest w pełni zajęty w Kalendarzu Google. Wybierz inną datę powyżej.</span>
+                    <span>Dzień {slotsData.date} jest niedostępny do rezerwacji. Wybierz inną datę z kalendarza powyżej.</span>
                   </div>
                 )}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {/* Primary Button: Google Sync */}
+                <div>
                   <button
                     type="button"
-                    onClick={handleGoogleSignInAndSync}
-                    disabled={isSyncingGoogle || isSubmittingWithoutGoogle || !clientName || !clientPhone || !selectedTime || slotsData?.isClosed || slotsData?.availableSlotsCount === 0}
-                    className="w-full bg-luxury-dark text-luxury-cream hover:bg-luxury-gold hover:text-white p-3.5 text-xs font-mono tracking-widest uppercase transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-md disabled:opacity-50 disabled:cursor-not-allowed rounded-xs"
+                    onClick={handleBookAppointment}
+                    disabled={isSubmittingBooking || !clientName || !clientPhone || !selectedTime || slotsData?.isClosed || slotsData?.isFullyBooked || slotsData?.availableSlotsCount === 0}
+                    className="w-full bg-luxury-dark text-luxury-cream hover:bg-luxury-gold hover:text-white p-4 text-xs font-mono tracking-widest uppercase transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-md disabled:opacity-50 disabled:cursor-not-allowed rounded-xs font-bold"
                   >
-                    {isSyncingGoogle ? (
+                    {isSubmittingBooking ? (
                       <>
                         <RefreshCw className="w-4 h-4 animate-spin text-luxury-gold" />
-                        <span>Synchronizuję z Google...</span>
+                        <span>Rezerwuję termin w kalendarzu...</span>
                       </>
                     ) : (
                       <>
                         <CalendarCheck2 className="w-4 h-4 text-luxury-gold" />
-                        <span>Zsynchronizuj z Google</span>
-                      </>
-                    )}
-                  </button>
-
-                  {/* Secondary Button: Book without Google login */}
-                  <button
-                    type="button"
-                    onClick={handleBookWithoutGoogle}
-                    disabled={isSyncingGoogle || isSubmittingWithoutGoogle || !clientName || !clientPhone || !selectedTime || slotsData?.isClosed || slotsData?.availableSlotsCount === 0}
-                    className="w-full bg-white border border-luxury-gold/80 text-luxury-dark hover:bg-luxury-sand/20 p-3.5 text-xs font-mono tracking-widest uppercase transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-sm disabled:opacity-50 disabled:cursor-not-allowed rounded-xs font-semibold"
-                  >
-                    {isSubmittingWithoutGoogle ? (
-                      <>
-                        <RefreshCw className="w-4 h-4 animate-spin text-luxury-dark" />
-                        <span>Rezerwuję slot...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Check className="w-4 h-4 text-emerald-700" />
-                        <span>Rezerwuj bez logowania</span>
+                        <span>Potwierdź rezerwację wizyty {selectedTime ? `(${selectedTime} — ${slotEndTime})` : ""}</span>
                       </>
                     )}
                   </button>

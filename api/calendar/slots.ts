@@ -25,174 +25,19 @@ interface GoogleCalendarStoredEvent {
 
 const RAW_EVENTS_URL = "https://raw.githubusercontent.com/przysieznybartosz-bot/slow-skin-concept/main/google_calendar_events.json";
 
+// Default known synchronized events (Friday 16.10 busy schedule)
 const DEFAULT_EVENTS: GoogleCalendarStoredEvent[] = [
   {
-    id: "gcal-1013-all-day",
-    summary: "za1 (Cały dzień zajęty w Google)",
-    start: "2026-10-13T07:30:00+02:00",
-    end: "2026-10-13T23:00:00+02:00",
-    dateStr: "2026-10-13",
-    startTimeStr: "07:30",
-    endTimeStr: "23:00",
-    isAllDay: false,
-    calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:40:00.000Z"
-  },
-  {
-    id: "gcal-1014-all-day",
-    summary: "za1 (Cały dzień zajęty w Google)",
-    start: "2026-10-14T07:30:00+02:00",
-    end: "2026-10-14T23:00:00+02:00",
-    dateStr: "2026-10-14",
-    startTimeStr: "07:30",
-    endTimeStr: "23:00",
-    isAllDay: false,
-    calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:40:00.000Z"
-  },
-  {
-    id: "gcal-1015-all-day",
-    summary: "za1 (Cały dzień zajęty w Google)",
-    start: "2026-10-15T07:00:00+02:00",
-    end: "2026-10-15T23:00:00+02:00",
-    dateStr: "2026-10-15",
-    startTimeStr: "07:00",
-    endTimeStr: "23:00",
-    isAllDay: false,
-    calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:40:00.000Z"
-  },
-  {
-    id: "gcal-1016-all-day",
-    summary: "za1 (Cały dzień zajęty w Google)",
-    start: "2026-10-16T07:30:00+02:00",
-    end: "2026-10-16T23:00:00+02:00",
+    id: "gcal-1016-slowskin-full",
+    summary: "Termin zajęty w kalendarzu gabinetu",
+    start: "2026-10-16T10:00:00+02:00",
+    end: "2026-10-16T19:30:00+02:00",
     dateStr: "2026-10-16",
-    startTimeStr: "07:30",
-    endTimeStr: "23:00",
-    isAllDay: false,
+    startTimeStr: "10:00",
+    endTimeStr: "19:30",
+    isAllDay: true,
     calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:40:00.000Z"
-  },
-  {
-    id: "gcal-1019-all-day",
-    summary: "za1 (Cały dzień zajęty w Google)",
-    start: "2026-10-19T07:30:00+02:00",
-    end: "2026-10-19T23:00:00+02:00",
-    dateStr: "2026-10-19",
-    startTimeStr: "07:30",
-    endTimeStr: "23:00",
-    isAllDay: false,
-    calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:40:00.000Z"
-  },
-  {
-    id: "gcal-1020-all-day",
-    summary: "za1 (Cały dzień zajęty w Google)",
-    start: "2026-10-20T07:30:00+02:00",
-    end: "2026-10-20T23:00:00+02:00",
-    dateStr: "2026-10-20",
-    startTimeStr: "07:30",
-    endTimeStr: "23:00",
-    isAllDay: false,
-    calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:40:00.000Z"
-  },
-  {
-    id: "gcal-1021-all-day",
-    summary: "za1 (Cały dzień zajęty w Google)",
-    start: "2026-10-21T07:30:00+02:00",
-    end: "2026-10-21T23:00:00+02:00",
-    dateStr: "2026-10-21",
-    startTimeStr: "07:30",
-    endTimeStr: "23:00",
-    isAllDay: false,
-    calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:40:00.000Z"
-  },
-  {
-    id: "gcal-1022-all-day",
-    summary: "za1 (Cały dzień zajęty w Google)",
-    start: "2026-10-22T07:00:00+02:00",
-    end: "2026-10-22T23:00:00+02:00",
-    dateStr: "2026-10-22",
-    startTimeStr: "07:00",
-    endTimeStr: "23:00",
-    isAllDay: false,
-    calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:40:00.000Z"
-  },
-  {
-    id: "gcal-1023-all-day",
-    summary: "za1 (Cały dzień zajęty w Google)",
-    start: "2026-10-23T07:30:00+02:00",
-    end: "2026-10-23T23:00:00+02:00",
-    dateStr: "2026-10-23",
-    startTimeStr: "07:30",
-    endTimeStr: "23:00",
-    isAllDay: false,
-    calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:40:00.000Z"
-  },
-  {
-    id: "gcal-1026-all-day",
-    summary: "za1 (Cały dzień zajęty w Google)",
-    start: "2026-10-26T07:30:00+02:00",
-    end: "2026-10-26T23:00:00+02:00",
-    dateStr: "2026-10-26",
-    startTimeStr: "07:30",
-    endTimeStr: "23:00",
-    isAllDay: false,
-    calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:40:00.000Z"
-  },
-  {
-    id: "gcal-1027-all-day",
-    summary: "za1 (Cały dzień zajęty w Google)",
-    start: "2026-10-27T07:30:00+02:00",
-    end: "2026-10-27T23:00:00+02:00",
-    dateStr: "2026-10-27",
-    startTimeStr: "07:30",
-    endTimeStr: "23:00",
-    isAllDay: false,
-    calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:40:00.000Z"
-  },
-  {
-    id: "gcal-1028-all-day",
-    summary: "za1 (Cały dzień zajęty w Google)",
-    start: "2026-10-28T07:30:00+02:00",
-    end: "2026-10-28T23:00:00+02:00",
-    dateStr: "2026-10-28",
-    startTimeStr: "07:30",
-    endTimeStr: "23:00",
-    isAllDay: false,
-    calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:40:00.000Z"
-  },
-  {
-    id: "gcal-1029-all-day",
-    summary: "za1 (Cały dzień zajęty w Google)",
-    start: "2026-10-29T07:00:00+02:00",
-    end: "2026-10-29T23:00:00+02:00",
-    dateStr: "2026-10-29",
-    startTimeStr: "07:00",
-    endTimeStr: "23:00",
-    isAllDay: false,
-    calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:40:00.000Z"
-  },
-  {
-    id: "gcal-1030-all-day",
-    summary: "za1 (Cały dzień zajęty w Google)",
-    start: "2026-10-30T07:30:00+02:00",
-    end: "2026-10-30T23:00:00+02:00",
-    dateStr: "2026-10-30",
-    startTimeStr: "07:30",
-    endTimeStr: "23:00",
-    isAllDay: false,
-    calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T21:40:00.000Z"
+    updatedAt: "2026-10-13T22:30:00.000Z"
   }
 ];
 
@@ -214,17 +59,8 @@ async function getLiveGoogleEvents(): Promise<GoogleCalendarStoredEvent[]> {
     clearTimeout(timeout);
     if (res.ok) {
       const data = await res.json();
-      if (Array.isArray(data) && data.length > 0) {
-        const map = new Map<string, GoogleCalendarStoredEvent>();
-        // Default events first
-        DEFAULT_EVENTS.forEach((e) => {
-          map.set(e.id, e);
-        });
-        // Override or append remote events
-        data.forEach((e: GoogleCalendarStoredEvent) => {
-          if (e.id) map.set(e.id, e);
-        });
-        cachedEvents = Array.from(map.values());
+      if (Array.isArray(data)) {
+        cachedEvents = data;
         lastCacheTime = now;
         return cachedEvents;
       }
@@ -232,8 +68,7 @@ async function getLiveGoogleEvents(): Promise<GoogleCalendarStoredEvent[]> {
   } catch {
     // fallback to cache
   }
-  cachedEvents = [...DEFAULT_EVENTS];
-  return DEFAULT_EVENTS;
+  return cachedEvents.length > 0 ? cachedEvents : DEFAULT_EVENTS;
 }
 
 function sendJson(res: ServerResponse | any, status: number, data: any) {
@@ -257,21 +92,6 @@ function timeToMinutes(t: string): number {
 const pad = (n: number) => n.toString().padStart(2, "0");
 const minutesToTime = (m: number) => `${pad(Math.floor(m / 60))}:${pad(m % 60)}`;
 
-function getWeekdayRecurringGoogleEvents(dayOfWeek: number, dateStr: string): GoogleCalendarStoredEvent[] {
-  // If calendar has entire day busy, block full working hours
-  const recurring: any[] = [
-    { id: `rec-${dateStr}-za1`, summary: "za1 (Cały dzień zajęty w Google)", startTimeStr: "07:30", endTimeStr: "23:00" }
-  ];
-  return recurring.map((r) => ({
-    ...r,
-    start: `${dateStr}T${r.startTimeStr}:00+02:00`,
-    end: `${dateStr}T${r.endTimeStr}:00+02:00`,
-    dateStr,
-    isAllDay: false,
-    calendarAccount: "slowskinconcept@gmail.com",
-  }));
-}
-
 export default async function handler(req: IncomingMessage | any, res: ServerResponse | any) {
   if (req.method === "OPTIONS") {
     return sendJson(res, 200, { ok: true });
@@ -288,19 +108,26 @@ export default async function handler(req: IncomingMessage | any, res: ServerRes
     }
 
     const [year, month, day] = dateStr.split("-").map(Number);
-    const reqDate = new Date(year, month - 1, day);
+    // Use noon (12:00) to ensure zero midnight timezone DST shift
+    const reqDate = new Date(year, month - 1, day, 12, 0, 0);
     const dayOfWeek = reqDate.getDay();
 
     if (dayOfWeek === 0) {
       return sendJson(res, 200, {
         date: dateStr,
+        status: "closed",
         isClosed: true,
+        isFullyBooked: false,
         dayName: "Niedziela",
+        salonHours: "10:00 — 19:30 (Pon–Pt)",
         reason: "W niedziele Instytut Slow Skin Concept jest nieczynny — dzień regeneracji komórkowej i wyciszenia.",
         durationMinutes: duration,
         bufferMinutes,
         totalSlots: 0,
         availableSlotsCount: 0,
+        occupiedGoogleSlotsCount: 0,
+        googleCalendarSynced: true,
+        googleAccount: "slowskinconcept@gmail.com",
         slots: [],
       });
     }
@@ -308,33 +135,43 @@ export default async function handler(req: IncomingMessage | any, res: ServerRes
     if (dayOfWeek === 6) {
       return sendJson(res, 200, {
         date: dateStr,
+        status: "closed",
         isClosed: true,
+        isFullyBooked: false,
         dayName: "Sobota",
-        reason: "W soboty gabinet jest nieczynny (terminy zablokowane). Zapraszamy od poniedziałku do piątku w godzinach 10:00 — 19:30.",
+        salonHours: "10:00 — 19:30 (Pon–Pt)",
+        reason: "W soboty gabinet jest nieczynny. Zapraszamy od poniedziałku do piątku w godzinach 10:00 — 19:30.",
         durationMinutes: duration,
         bufferMinutes,
         totalSlots: 0,
         availableSlotsCount: 0,
+        occupiedGoogleSlotsCount: 0,
+        googleCalendarSynced: true,
+        googleAccount: "slowskinconcept@gmail.com",
         slots: [],
       });
     }
 
     const openMinutes = 10 * 60; // 10:00
     const closeMinutes = 19 * 60 + 30; // 19:30
+    const dayName = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"][dayOfWeek];
 
     const allEvents = await getLiveGoogleEvents();
     const specificEvents = allEvents.filter((ev) => ev.dateStr === dateStr);
-    const dayGoogleEvents = specificEvents.length > 0 ? specificEvents : getWeekdayRecurringGoogleEvents(dayOfWeek, dateStr);
 
-    const allDayEvent = dayGoogleEvents.find(
+    const allDayEvent = specificEvents.find(
       (ev) => ev.isAllDay || (ev.startTimeStr && ev.endTimeStr && ev.startTimeStr <= "10:00" && ev.endTimeStr >= "19:30")
     );
+
     if (allDayEvent) {
       return sendJson(res, 200, {
         date: dateStr,
-        isClosed: true,
-        dayName: ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"][dayOfWeek],
-        reason: `Termin w pełni zablokowany w Kalendarzu Google (${allDayEvent.summary}). W tym dniu gabinet nie przyjmuje rezerwacji online.`,
+        dayName,
+        status: "fully_booked",
+        isClosed: false,
+        isFullyBooked: true,
+        salonHours: "10:00 — 19:30 (Pon–Pt)",
+        reason: `W dniu ${dateStr} (${dayName}) kalendarz Google gabinetu (${allDayEvent.summary}) jest w pełni zarezerwowany. W tym dniu brak wolnych godzin na rezerwację online.`,
         durationMinutes: duration,
         bufferMinutes,
         totalSlots: 0,
@@ -353,7 +190,7 @@ export default async function handler(req: IncomingMessage | any, res: ServerRes
       source: "booking" | "google_calendar";
     }> = [];
 
-    dayGoogleEvents.forEach((ev) => {
+    specificEvents.forEach((ev) => {
       if (ev.startTimeStr && ev.endTimeStr) {
         bookedIntervals.push({
           start: timeToMinutes(ev.startTimeStr),
@@ -397,16 +234,20 @@ export default async function handler(req: IncomingMessage | any, res: ServerRes
     }
 
     const availableCount = slots.filter((s) => s.isAvailable).length;
-    const isAllDayOccupied = slots.length > 0 && availableCount === 0;
+    const isFullyBooked = slots.length > 0 && availableCount === 0;
 
     return sendJson(res, 200, {
       date: dateStr,
-      dayName: ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"][dayOfWeek],
-      isClosed: isAllDayOccupied,
-      reason: isAllDayOccupied ? "Wszystkie godziny w tym dniu są zajęte w Kalendarzu Google (slowskinconcept@gmail.com). W tym dniu brak wolnych terminów na rezerwację." : undefined,
+      dayName,
+      status: isFullyBooked ? "fully_booked" : "available",
+      isClosed: false,
+      isFullyBooked,
+      salonHours: "10:00 — 19:30 (Pon–Pt)",
+      reason: isFullyBooked
+        ? `W dniu ${dateStr} (${dayName}) wszystkie godziny są zajęte w Kalendarzu Google (slowskinconcept@gmail.com). Prosimy o wybór innego dnia roboczego.`
+        : undefined,
       durationMinutes: duration,
       bufferMinutes,
-      salonHours: "10:00 — 19:30 (Pon–Pt)",
       totalSlots: slots.length,
       availableSlotsCount: availableCount,
       occupiedGoogleSlotsCount: slots.filter((s) => s.source === "google_calendar").length,
