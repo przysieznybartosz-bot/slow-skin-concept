@@ -14697,134 +14697,6 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   </motion.div>
                 )}
               </AnimatePresence>
-
-              {/* MODAL: ZAŁÓŻ KARTĘ NOWEGO PACJENTA W GABINECIE */}
-              <AnimatePresence>
-                {isAddPatientModalOpen && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/65 backdrop-blur-xs overflow-y-auto"
-                    onClick={() => setIsAddPatientModalOpen(false)}
-                  >
-                    <motion.div
-                      initial={{ scale: 0.95, opacity: 0, y: 15 }}
-                      animate={{ scale: 1, opacity: 1, y: 0 }}
-                      exit={{ scale: 0.95, opacity: 0, y: 15 }}
-                      className="bg-white border border-luxury-gold p-6 md:p-8 max-w-md w-full text-left space-y-5 shadow-2xl relative my-8"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <div className="flex justify-between items-start border-b border-luxury-sand/40 pb-3">
-                        <div>
-                          <span className="font-mono text-[8.5px] tracking-widest text-luxury-gold uppercase block font-bold">
-                            PERSONEL GABINETU • NOWA KARTOTEKA
-                          </span>
-                          <h3 className="font-serif text-xl font-light text-luxury-dark mt-0.5">
-                            Załóż Kartę Nowego Pacjenta
-                          </h3>
-                          <p className="text-[11px] text-luxury-dark/80 font-light">
-                            Wprowadź dane pacjenta. Karta zostanie utworzona ze statusem czystej kartoteki (0 zabiegów).
-                          </p>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => setIsAddPatientModalOpen(false)}
-                          className="text-luxury-dark/70 hover:text-luxury-dark font-mono text-sm cursor-pointer p-1"
-                        >
-                          ✕
-                        </button>
-                      </div>
-
-                      <form onSubmit={handleCreatePatientByStaff} className="space-y-3.5 text-xs">
-                        <div className="space-y-1">
-                          <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
-                            Imię i Nazwisko Pacjenta *:
-                          </label>
-                          <input
-                            type="text"
-                            required
-                            value={newPatientForm.name}
-                            onChange={(e) => setNewPatientForm(prev => ({ ...prev, name: e.target.value }))}
-                            placeholder="np. Anna Nowak"
-                            className="w-full bg-white border border-luxury-sand p-2.5 text-xs text-luxury-dark outline-0 focus:border-luxury-gold"
-                          />
-                        </div>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                          <div className="space-y-1">
-                            <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
-                              Adres e-mail *:
-                            </label>
-                            <input
-                              type="email"
-                              required
-                              value={newPatientForm.email}
-                              onChange={(e) => setNewPatientForm(prev => ({ ...prev, email: e.target.value }))}
-                              placeholder="anna.nowak@gmail.com"
-                              className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold"
-                            />
-                          </div>
-                          <div className="space-y-1">
-                            <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
-                              Numer telefonu:
-                            </label>
-                            <input
-                              type="tel"
-                              value={newPatientForm.phone}
-                              onChange={(e) => setNewPatientForm(prev => ({ ...prev, phone: e.target.value }))}
-                              placeholder="+48 600 000 000"
-                              className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold"
-                            />
-                          </div>
-                        </div>
-
-                        <div className="space-y-1">
-                          <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
-                            Wstępna diagnoza komórkowa:
-                          </label>
-                          <input
-                            type="text"
-                            value={newPatientForm.skinConcern}
-                            onChange={(e) => setNewPatientForm(prev => ({ ...prev, skinConcern: e.target.value }))}
-                            placeholder="np. Oczekuje na pierwsze badanie / suchość naskórka"
-                            className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold"
-                          />
-                        </div>
-
-                        <div className="space-y-1">
-                          <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
-                            Notatka początkowa kosmetologa:
-                          </label>
-                          <textarea
-                            rows={2}
-                            value={newPatientForm.cabinetNotes}
-                            onChange={(e) => setNewPatientForm(prev => ({ ...prev, cabinetNotes: e.target.value }))}
-                            placeholder="Wpisz uwagi z pierwszej rozmowy telefonicznej lub rejestracji stacjonarnej..."
-                            className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold resize-none"
-                          />
-                        </div>
-
-                        <div className="flex justify-end gap-2.5 pt-3 border-t border-luxury-sand/30">
-                          <button
-                            type="button"
-                            onClick={() => setIsAddPatientModalOpen(false)}
-                            className="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-luxury-dark font-mono text-[9.5px] uppercase tracking-wider cursor-pointer"
-                          >
-                            Anuluj
-                          </button>
-                          <button
-                            type="submit"
-                            className="px-5 py-2.5 bg-luxury-dark hover:bg-luxury-gold text-white font-mono text-[9.5px] uppercase tracking-widest font-semibold cursor-pointer shadow-xs transition-colors"
-                          >
-                            Utwórz Kartotekę &rarr;
-                          </button>
-                        </div>
-                      </form>
-                    </motion.div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
             </motion.div>
           )}
 
@@ -15189,6 +15061,134 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   </div>
                 </div>
               )}
+
+              {/* MODAL: ZAŁÓŻ KARTĘ NOWEGO PACJENTA W GABINECIE */}
+              <AnimatePresence>
+                {isAddPatientModalOpen && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/65 backdrop-blur-xs overflow-y-auto"
+                    onClick={() => setIsAddPatientModalOpen(false)}
+                  >
+                    <motion.div
+                      initial={{ scale: 0.95, opacity: 0, y: 15 }}
+                      animate={{ scale: 1, opacity: 1, y: 0 }}
+                      exit={{ scale: 0.95, opacity: 0, y: 15 }}
+                      className="bg-white border border-luxury-gold p-6 md:p-8 max-w-md w-full text-left space-y-5 shadow-2xl relative my-8"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div className="flex justify-between items-start border-b border-luxury-sand/40 pb-3">
+                        <div>
+                          <span className="font-mono text-[8.5px] tracking-widest text-luxury-gold uppercase block font-bold">
+                            PERSONEL GABINETU • NOWA KARTOTEKA
+                          </span>
+                          <h3 className="font-serif text-xl font-light text-luxury-dark mt-0.5">
+                            Załóż Kartę Nowego Pacjenta
+                          </h3>
+                          <p className="text-[11px] text-luxury-dark/80 font-light">
+                            Wprowadź dane pacjenta. Karta zostanie utworzona ze statusem czystej kartoteki (0 zabiegów).
+                          </p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setIsAddPatientModalOpen(false)}
+                          className="text-luxury-dark/70 hover:text-luxury-dark font-mono text-sm cursor-pointer p-1"
+                        >
+                          ✕
+                        </button>
+                      </div>
+
+                      <form onSubmit={handleCreatePatientByStaff} className="space-y-3.5 text-xs">
+                        <div className="space-y-1">
+                          <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
+                            Imię i Nazwisko Pacjenta *:
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            value={newPatientForm.name}
+                            onChange={(e) => setNewPatientForm(prev => ({ ...prev, name: e.target.value }))}
+                            placeholder="np. Anna Nowak"
+                            className="w-full bg-white border border-luxury-sand p-2.5 text-xs text-luxury-dark outline-0 focus:border-luxury-gold"
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          <div className="space-y-1">
+                            <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
+                              Adres e-mail *:
+                            </label>
+                            <input
+                              type="email"
+                              required
+                              value={newPatientForm.email}
+                              onChange={(e) => setNewPatientForm(prev => ({ ...prev, email: e.target.value }))}
+                              placeholder="anna.nowak@gmail.com"
+                              className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold"
+                            />
+                          </div>
+                          <div className="space-y-1">
+                            <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
+                              Numer telefonu:
+                            </label>
+                            <input
+                              type="tel"
+                              value={newPatientForm.phone}
+                              onChange={(e) => setNewPatientForm(prev => ({ ...prev, phone: e.target.value }))}
+                              placeholder="+48 600 000 000"
+                              className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="space-y-1">
+                          <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
+                            Wstępna diagnoza komórkowa:
+                          </label>
+                          <input
+                            type="text"
+                            value={newPatientForm.skinConcern}
+                            onChange={(e) => setNewPatientForm(prev => ({ ...prev, skinConcern: e.target.value }))}
+                            placeholder="np. Oczekuje na pierwsze badanie / suchość naskórka"
+                            className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold"
+                          />
+                        </div>
+
+                        <div className="space-y-1">
+                          <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
+                            Notatka początkowa kosmetologa:
+                          </label>
+                          <textarea
+                            rows={2}
+                            value={newPatientForm.cabinetNotes}
+                            onChange={(e) => setNewPatientForm(prev => ({ ...prev, cabinetNotes: e.target.value }))}
+                            placeholder="Wpisz uwagi z pierwszej rozmowy telefonicznej lub rejestracji stacjonarnej..."
+                            className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold resize-none"
+                          />
+                        </div>
+
+                        <div className="flex justify-end gap-2.5 pt-3 border-t border-luxury-sand/30">
+                          <button
+                            type="button"
+                            onClick={() => setIsAddPatientModalOpen(false)}
+                            className="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-luxury-dark font-mono text-[9.5px] uppercase tracking-wider cursor-pointer"
+                          >
+                            Anuluj
+                          </button>
+                          <button
+                            type="submit"
+                            className="px-5 py-2.5 bg-luxury-dark hover:bg-luxury-gold text-white font-mono text-[9.5px] uppercase tracking-widest font-semibold cursor-pointer shadow-xs transition-colors"
+                          >
+                            Utwórz Kartotekę &rarr;
+                          </button>
+                        </div>
+                      </form>
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           )}
 
