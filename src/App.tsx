@@ -15268,6 +15268,20 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               >
                 Regulamin i Bezpieczeństwo
               </button>
+              <span className="text-luxury-sand/60 select-none">•</span>
+              <button 
+                onClick={() => {
+                  window.history.pushState(null, "", "/admin");
+                  setActiveTab("admin");
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }} 
+                className="hover:text-luxury-gold transition-colors hover:underline cursor-pointer flex items-center gap-1 opacity-85 hover:opacity-100"
+                id="footer-staff-admin-link"
+                title="Dostęp do panelu administracyjnego i kartotek gabinetu"
+              >
+                <Lock className="w-2.5 h-2.5 text-luxury-gold" />
+                <span>Strefa Gabinetu</span>
+              </button>
               {isGoogleAIStudio() && (
                 <>
                   <span className="text-luxury-sand/60 select-none">•</span>
