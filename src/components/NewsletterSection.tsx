@@ -55,6 +55,41 @@ export const NewsletterSection: React.FC<NewsletterSectionProps> = ({
       if (response.ok && data.success) {
         setStatus("success");
         setMessage(data.message || "Jeśli adres wymaga potwierdzenia, wyślemy link. Sprawdź pocztę i spam. Link jest ważny 24 godziny. Po potwierdzeniu otrzymasz indywidualny kod rabatowy 10%.");
+        try {
+          const cleanSubmittedEmail = email.trim().toLowerCase();
+          const subscribersRaw = localStorage.getItem("slowskin_newsletter_subscribers");
+          const subscribers = subscribersRaw ? JSON.parse(subscribersRaw) : [];
+          if (!subscribers.includes(cleanSubmittedEmail)) {
+            subscribers.push(cleanSubmittedEmail);
+            localStorage.setItem("slowskin_newsletter_subscribers", JSON.stringify(subscribers));
+          }
+          // Also automatically add / ensure newsletter discount on account if user is registered
+          const accountsRaw = localStorage.getItem("slowskin_accounts_list");
+          if (accountsRaw) {
+            const accounts = JSON.parse(accountsRaw);
+            const userIdx = accounts.findIndex((a: any) => a.email?.toLowerCase() === cleanSubmittedEmail);
+            if (userIdx !== -1) {
+              const currentDiscounts = accounts[userIdx].discounts || [];
+              if (!currentDiscounts.some((d: any) => d.code === "NEWSLETTER-10" || d.id === "newsletter-10")) {
+                currentDiscounts.push({
+                  id: "newsletter-10",
+                  code: "NEWSLETTER-10",
+                  title: "Rabat za Zapis do Newslettera",
+                  type: "percentage",
+                  value: 10,
+                  target: "Konsultacje Online & Sklep",
+                  description: "10% zniżki powitalnej przyznane automatycznie za subskrypcję newslettera.",
+                  grantedDate: new Date().toLocaleDateString("pl-PL", { day: "numeric", month: "long", year: "numeric" }),
+                  status: "active"
+                });
+                accounts[userIdx].discounts = currentDiscounts;
+                localStorage.setItem("slowskin_accounts_list", JSON.stringify(accounts));
+              }
+            }
+          }
+        } catch (e) {
+          console.error("Local newsletter sync error:", e);
+        }
         setEmail("");
         setConsent(false);
       } else if (data.code === "ORIGIN_WHITELIST_PENDING") {

@@ -62,7 +62,11 @@ import {
   UserPlus,
   UserCheck,
   Lock,
-  Key
+  Key,
+  Tag,
+  Percent,
+  Gift,
+  CheckCircle
 } from "lucide-react";
 import { TREATMENTS, ARTICLES, REVIEWS } from "./data";
 import { VideoPlayerSection } from "./components/VideoPlayerSection";
@@ -1611,6 +1615,151 @@ export default function App() {
     setNewPatientForm({ name: "", email: "", phone: "", skinConcern: "", sensitivityLevel: "", cabinetNotes: "" });
     triggerToast(`Założono nową kartotekę dla: ${name}`);
     handleSelectPatientAsStaff(createdAccount);
+  };
+
+  // Helper to check if an email is subscribed to newsletter
+  const isEmailSubscribedToNewsletter = (email?: string): boolean => {
+    if (!email) return false;
+    try {
+      const raw = safeStorage.getItem("slowskin_newsletter_subscribers");
+      if (!raw) return false;
+      const list = JSON.parse(raw);
+      return Array.isArray(list) && list.some((e: string) => e?.toLowerCase() === email.toLowerCase());
+    } catch {
+      return false;
+    }
+  };
+
+  // Discounts modal states
+  const [isDiscountModalOpen, setIsDiscountModalOpen] = useState(false);
+  const [discountTargetAccount, setDiscountTargetAccount] = useState<any>(null);
+  const [newDiscountForm, setNewDiscountForm] = useState({
+    title: "Rabat Indywidualny Gabinetu",
+    code: "",
+    type: "percentage" as "percentage" | "fixed",
+    value: 10,
+    target: "Wszystkie Usługi Gabinetu",
+    description: "",
+    validUntil: ""
+  });
+
+  const handleOpenDiscountModalForAccount = (account: any) => {
+    setDiscountTargetAccount(account);
+    setNewDiscountForm({
+      title: "Rabat Indywidualny Gabinetu",
+      code: "VIP-" + Math.floor(1000 + Math.random() * 9000),
+      type: "percentage",
+      value: 10,
+      target: "Wszystkie Usługi Gabinetu",
+      description: "Indywidualny rabat stałego pacjenta Instytutu Slow Skin.",
+      validUntil: "31 grudnia 2026"
+    });
+    setIsDiscountModalOpen(true);
+  };
+
+  const handleAddDiscountToAccount = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!discountTargetAccount?.email) return;
+    const title = newDiscountForm.title.trim() || "Rabat Gabinetowy";
+    const code = (newDiscountForm.code.trim() || "RABAT-" + Math.floor(1000 + Math.random() * 9000)).toUpperCase();
+    const value = Number(newDiscountForm.value) || 10;
+    const newDisc = {
+      id: "disc-" + Date.now(),
+      title,
+      code,
+      type: newDiscountForm.type,
+      value,
+      target: newDiscountForm.target,
+      description: newDiscountForm.description.trim() || `Rabat ${value}${newDiscountForm.type === "percentage" ? "%" : " PLN"} na ${newDiscountForm.target}`,
+      validUntil: newDiscountForm.validUntil.trim() || "Bezterminowo",
+      grantedDate: new Date().toLocaleDateString("pl-PL", { day: "numeric", month: "long", year: "numeric" }),
+      status: "active"
+    };
+
+    const storedAccounts = getStoredAccountsList();
+    const idx = storedAccounts.findIndex((a: any) => a.email?.toLowerCase() === discountTargetAccount.email.toLowerCase());
+    if (idx !== -1) {
+      const current = storedAccounts[idx].discounts || [];
+      storedAccounts[idx].discounts = [newDisc, ...current];
+      saveStoredAccounts(storedAccounts);
+      setDiscountTargetAccount({ ...storedAccounts[idx] });
+      // If active patient is the same, also update userProfile
+      if (userProfile?.email?.toLowerCase() === discountTargetAccount.email.toLowerCase()) {
+        setUserProfile((prev: any) => ({
+          ...prev,
+          discounts: storedAccounts[idx].discounts
+        }));
+      }
+      triggerToast(`Dodano rabat ${newDisc.code} (${value}${newDisc.type === "percentage" ? "%" : " PLN"}) dla ${discountTargetAccount.name}`);
+    }
+  };
+
+  const handleRemoveDiscountFromAccount = (accountEmail: string, discountId: string) => {
+    if (!window.confirm("Czy na pewno chcesz usunąć ten rabat z konta pacjenta?")) return;
+    const storedAccounts = getStoredAccountsList();
+    const idx = storedAccounts.findIndex((a: any) => a.email?.toLowerCase() === accountEmail.toLowerCase());
+    if (idx !== -1) {
+      storedAccounts[idx].discounts = (storedAccounts[idx].discounts || []).filter((d: any) => d.id !== discountId);
+      saveStoredAccounts(storedAccounts);
+      if (discountTargetAccount?.email?.toLowerCase() === accountEmail.toLowerCase()) {
+        setDiscountTargetAccount({ ...storedAccounts[idx] });
+      }
+      if (userProfile?.email?.toLowerCase() === accountEmail.toLowerCase()) {
+        setUserProfile((prev: any) => ({
+          ...prev,
+          discounts: storedAccounts[idx].discounts
+        }));
+      }
+      triggerToast("Rabat został usunięty z kartoteki.", "info");
+    }
+  };
+
+  const handleGrantNewsletterDiscount = (account: any) => {
+    const cleanEmail = account.email?.trim().toLowerCase();
+    // 1. Add to local newsletter subscribers registry
+    try {
+      const raw = safeStorage.getItem("slowskin_newsletter_subscribers");
+      const list = raw ? JSON.parse(raw) : [];
+      if (!list.includes(cleanEmail)) {
+        list.push(cleanEmail);
+        safeStorage.setItem("slowskin_newsletter_subscribers", JSON.stringify(list));
+      }
+    } catch {}
+
+    // 2. Add newsletter discount item to account
+    const storedAccounts = getStoredAccountsList();
+    const idx = storedAccounts.findIndex((a: any) => a.email?.toLowerCase() === cleanEmail);
+    if (idx !== -1) {
+      const current = storedAccounts[idx].discounts || [];
+      if (current.some((d: any) => d.id === "newsletter-10" || d.code === "NEWSLETTER-10")) {
+        triggerToast("Ten pacjent ma już przypisany rabat za newsletter (10%).", "info");
+        return;
+      }
+      const newsletterDisc = {
+        id: "newsletter-10",
+        code: "NEWSLETTER-10",
+        title: "Rabat za Zapis do Newslettera",
+        type: "percentage",
+        value: 10,
+        target: "Konsultacje Online & Sklep",
+        description: "10% zniżki powitalnej przyznane za subskrypcję newslettera Instytutu.",
+        grantedDate: new Date().toLocaleDateString("pl-PL", { day: "numeric", month: "long", year: "numeric" }),
+        validUntil: "31 grudnia 2026",
+        status: "active"
+      };
+      storedAccounts[idx].discounts = [newsletterDisc, ...current];
+      saveStoredAccounts(storedAccounts);
+      if (discountTargetAccount?.email?.toLowerCase() === cleanEmail) {
+        setDiscountTargetAccount({ ...storedAccounts[idx] });
+      }
+      if (userProfile?.email?.toLowerCase() === cleanEmail) {
+        setUserProfile((prev: any) => ({
+          ...prev,
+          discounts: storedAccounts[idx].discounts
+        }));
+      }
+      triggerToast(`Przypisano automatyczny rabat newsletterowy (10%) dla: ${account.name}`);
+    }
   };
 
   const handleDeletePatientByStaff = (emailToDelete: string) => {
@@ -13752,6 +13901,13 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       >
                         <Calendar className="w-3.5 h-3.5" /> Dziennik Rytuałów ({pastVisits.length})
                       </button>
+                      <button 
+                        onClick={() => setAccountSubTab("discounts")}
+                        className={`font-mono text-[11px] uppercase tracking-[0.15em] pb-3 border-b-2 transition-all cursor-pointer flex items-center gap-2 ${accountSubTab === "discounts" ? "border-luxury-gold text-luxury-gold font-bold" : "border-transparent text-luxury-dark/90 hover:text-luxury-dark"}`}
+                        id="tab-btn-discounts"
+                      >
+                        <Tag className="w-3.5 h-3.5 text-luxury-gold" /> Moje Rabaty & Przywileje ({(userProfile.discounts?.length || (isEmailSubscribedToNewsletter(userProfile.email) ? 1 : 0))})
+                      </button>
                     </div>
 
                     <AnimatePresence mode="wait">
@@ -14087,12 +14243,12 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             </div>
                           </div>
                         </motion.div>
-                      ) : (
+                      ) : accountSubTab === "beautyPlan" ? (
                         <motion.div
                           key="beauty-plan-content"
                           initial={{ opacity: 0, y: 12 }}
                           animate={{ opacity: 1, y: 0 }}
-           exit={{ opacity: 0, y: -12 }}
+                          exit={{ opacity: 0, y: -12 }}
                           transition={{ duration: 0.3 }}
                           className="space-y-6"
                         >
@@ -14413,6 +14569,215 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             >
                               ✕ Przywróć bionomiczny baseline
                             </button>
+                          </div>
+                        </motion.div>
+                      ) : (
+                        <motion.div
+                          key="discounts-content"
+                          initial={{ opacity: 0, y: 12 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -12 }}
+                          transition={{ duration: 0.3 }}
+                          className="space-y-6"
+                        >
+                          <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 border-b border-luxury-sand/40 pb-4">
+                            <div>
+                              <h3 className="font-serif text-2xl font-light text-luxury-dark">Karty Rabatowe, Vouchery & Przywileje</h3>
+                              <p className="text-xs text-luxury-dark/90 font-light mt-1">
+                                Wszystkie aktywne zniżki gabinetowe oraz powitalne kody przyznane dla Twojego konta bionomicznego.
+                              </p>
+                            </div>
+                            {isStaffMode && (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const currentAcc = getStoredAccountsList().find((a: any) => a.email?.toLowerCase() === userProfile.email?.toLowerCase()) || userProfile;
+                                  handleOpenDiscountModalForAccount(currentAcc);
+                                }}
+                                className="px-3.5 py-2 bg-luxury-dark hover:bg-luxury-gold text-white font-mono text-[9px] uppercase tracking-widest transition-all cursor-pointer flex items-center gap-1.5 self-start sm:self-auto shrink-0 shadow-xs font-semibold"
+                              >
+                                <Tag className="w-3 h-3 text-luxury-gold" /> + Dodaj Rabat dla Pacjenta (Wpis Gabinetu)
+                              </button>
+                            )}
+                          </div>
+
+                          {/* Status newslettera info card */}
+                          <div className="p-4 bg-gradient-to-r from-amber-50/60 to-luxury-cream border border-amber-200/80 rounded-xs flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-left">
+                            <div className="space-y-1">
+                              <span className="font-mono text-[8.5px] uppercase tracking-widest text-amber-800 font-bold block">
+                                Status Newslettera Instytutu
+                              </span>
+                              <div className="flex items-center gap-2">
+                                <span className={`w-2 h-2 rounded-full ${isEmailSubscribedToNewsletter(userProfile.email) ? "bg-emerald-500 animate-pulse" : "bg-stone-300"}`} />
+                                <h4 className="font-serif text-sm font-medium text-luxury-dark">
+                                  {isEmailSubscribedToNewsletter(userProfile.email) 
+                                    ? "Adres e-mail jest aktywnym subskrybentem newslettera" 
+                                    : "Adres e-mail nie jest jeszcze w bazie subskrybentów newslettera"}
+                                </h4>
+                              </div>
+                              <p className="text-[11px] text-luxury-dark/80 font-light leading-relaxed">
+                                {isEmailSubscribedToNewsletter(userProfile.email)
+                                  ? "Dla tego adresu został wygenerowany kod rabatowy 10% do sklepu slow-skin.shop oraz na wybrane konsultacje online."
+                                  : "Zapisz się do newslettera w stopce strony lub kliknij poniżej, aby aktywować powitalne 10% rabatu."}
+                              </p>
+                            </div>
+
+                            <div className="shrink-0 flex items-center gap-2">
+                              {isEmailSubscribedToNewsletter(userProfile.email) ? (
+                                <span className="px-3 py-1.5 bg-emerald-100 text-emerald-900 border border-emerald-300 font-mono text-[9px] uppercase tracking-wider font-semibold flex items-center gap-1">
+                                  <CheckCircle className="w-3 h-3 text-emerald-700" /> Aktywny Rabat 10%
+                                </span>
+                              ) : isStaffMode ? (
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const currentAcc = getStoredAccountsList().find((a: any) => a.email?.toLowerCase() === userProfile.email?.toLowerCase()) || userProfile;
+                                    handleGrantNewsletterDiscount(currentAcc);
+                                  }}
+                                  className="px-3.5 py-2 bg-amber-700 hover:bg-amber-800 text-white font-mono text-[9px] uppercase tracking-wider transition-colors cursor-pointer font-semibold shadow-2xs"
+                                >
+                                  Aktywuj 10% za Newsletter &rarr;
+                                </button>
+                              ) : (
+                                <a
+                                  href="#newsletter-section"
+                                  className="px-3.5 py-2 bg-luxury-dark hover:bg-luxury-gold text-white font-mono text-[9px] uppercase tracking-wider transition-colors font-semibold"
+                                >
+                                  Zapisz do Newslettera &rarr;
+                                </a>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Lista aktywnych rabatów */}
+                          {(!userProfile.discounts || userProfile.discounts.length === 0) && !isEmailSubscribedToNewsletter(userProfile.email) ? (
+                            <div className="p-8 md:p-12 border border-dashed border-luxury-sand text-center space-y-4 bg-luxury-sand/5">
+                              <div className="w-12 h-12 rounded-full bg-purple-50 text-purple-700 flex items-center justify-center mx-auto text-xl border border-purple-200">
+                                <Tag className="w-6 h-6 stroke-[1.2]" />
+                              </div>
+                              <div className="space-y-1.5 max-w-lg mx-auto">
+                                <span className="font-mono text-[9px] uppercase tracking-widest text-purple-800 font-semibold block">
+                                  Portfel Przywilejów • Brak Indywidualnych Rabatów
+                                </span>
+                                <h4 className="font-serif text-xl font-light text-luxury-dark">
+                                  Brak przypisanych rabatów do Twojej karty
+                                </h4>
+                                <p className="text-xs text-luxury-dark/80 font-light leading-relaxed">
+                                  Dla Twojego profilu nie odnotowano jeszcze indywidualnych bonów gabinetowych.
+                                  Kosmetolog może przypisać Ci dedykowaną zniżkę lojalnościową podczas wizyty stacjonarnej w Instytucie.
+                                </p>
+                              </div>
+
+                              {isStaffMode && (
+                                <div className="pt-2">
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      const currentAcc = getStoredAccountsList().find((a: any) => a.email?.toLowerCase() === userProfile.email?.toLowerCase()) || userProfile;
+                                      handleOpenDiscountModalForAccount(currentAcc);
+                                    }}
+                                    className="px-5 py-2.5 bg-luxury-dark hover:bg-luxury-gold text-white font-mono text-[10px] uppercase tracking-widest transition-colors cursor-pointer shadow-xs inline-flex items-center gap-2"
+                                  >
+                                    <Plus className="w-3.5 h-3.5 text-luxury-gold" /> Dodaj Pierwszy Rabat Gabinetowy
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                          ) : (
+                            <div className="space-y-4">
+                              {/* Display combined discounts */}
+                              {(() => {
+                                const list: any[] = [...(userProfile.discounts || [])];
+                                // If email subscribed to newsletter but not yet in discounts list, inject virtual display voucher
+                                if (isEmailSubscribedToNewsletter(userProfile.email) && !list.some(d => d.id === "newsletter-10" || d.code === "NEWSLETTER-10")) {
+                                  list.unshift({
+                                    id: "newsletter-10-auto",
+                                    code: "NEWSLETTER-10",
+                                    title: "Rabat za Zapis do Newslettera",
+                                    type: "percentage",
+                                    value: 10,
+                                    target: "Konsultacje Online & Sklep",
+                                    description: "10% zniżki powitalnej przyznane automatycznie za subskrypcję newslettera.",
+                                    grantedDate: "Aktywny od zapisu",
+                                    validUntil: "31 grudnia 2026",
+                                    status: "active"
+                                  });
+                                }
+
+                                return list.map((discount: any) => (
+                                  <div
+                                    key={discount.id}
+                                    className="p-5 border border-purple-200/90 bg-gradient-to-r from-purple-50/30 via-white to-purple-50/20 hover:border-purple-400 transition-all flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-2xs relative overflow-hidden"
+                                  >
+                                    <div className="space-y-1.5 text-left flex-1">
+                                      <div className="flex flex-wrap items-center gap-2">
+                                        <span className="font-serif text-base font-medium text-luxury-dark">
+                                          {discount.title}
+                                        </span>
+                                        <span className="font-mono text-[11px] px-2.5 py-0.5 bg-purple-900 text-white font-bold tracking-wider rounded-xs">
+                                          {discount.value}{discount.type === "percentage" ? "%" : " PLN"}
+                                        </span>
+                                        <span className="font-mono text-[9px] px-2 py-0.5 bg-luxury-sand/30 text-luxury-dark/80 border border-luxury-sand font-semibold uppercase">
+                                          KOD: <strong className="text-luxury-dark">{discount.code}</strong>
+                                        </span>
+                                      </div>
+
+                                      <p className="text-xs text-luxury-dark/85 font-light leading-relaxed">
+                                        {discount.description}
+                                      </p>
+
+                                      <div className="text-[10px] font-mono text-luxury-dark/70 flex flex-wrap gap-x-4 gap-y-0.5 pt-1">
+                                        <span>🎯 Dotyczy: <strong className="text-luxury-dark">{discount.target}</strong></span>
+                                        {discount.validUntil && <span>⏳ Ważność: {discount.validUntil}</span>}
+                                        {discount.grantedDate && <span>📅 Przyznano: {discount.grantedDate}</span>}
+                                      </div>
+                                    </div>
+
+                                    <div className="flex items-center gap-2 shrink-0 self-end md:self-center">
+                                      <button
+                                        type="button"
+                                        onClick={() => {
+                                          navigator.clipboard?.writeText(discount.code);
+                                          triggerToast(`Skopiowano kod rabatowy: ${discount.code}`);
+                                        }}
+                                        className="px-3.5 py-2 bg-white border border-purple-300 hover:border-purple-600 text-purple-900 font-mono text-[9px] uppercase tracking-wider transition-colors cursor-pointer font-semibold shadow-2xs flex items-center gap-1.5"
+                                        title="Skopiuj kod do schowka"
+                                      >
+                                        Kopiuj Kod 📋
+                                      </button>
+
+                                      {isStaffMode && discount.id !== "newsletter-10-auto" && (
+                                        <button
+                                          type="button"
+                                          onClick={() => handleRemoveDiscountFromAccount(userProfile.email, discount.id)}
+                                          className="p-2 text-stone-400 hover:text-red-700 transition-colors cursor-pointer"
+                                          title="Usuń ten rabat z kartoteki"
+                                        >
+                                          <Trash2 className="w-3.5 h-3.5" />
+                                        </button>
+                                      )}
+                                    </div>
+                                  </div>
+                                ));
+                              })()}
+                            </div>
+                          )}
+
+                          {/* Objaśnienie zasad rabatowych w gabinecie */}
+                          <div className="bg-luxury-sand/15 p-5 space-y-2 border border-dashed border-luxury-sand text-left">
+                            <span className="font-mono text-[8.5px] tracking-widest text-luxury-gold uppercase block font-bold">
+                              💡 Zasady Realizacji Rabatów Bionomicznych
+                            </span>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs font-light text-luxury-dark leading-relaxed">
+                              <div>
+                                <strong className="font-medium text-luxury-dark block">Wizyta w Instytucie (Jelcz-Laskowice):</strong>
+                                Rabaty kwotowe oraz procentowe są uwzględniane automatycznie przy rozliczeniu wizyty w recepcji na podstawie numeru karty pacjenta.
+                              </div>
+                              <div>
+                                <strong className="font-medium text-luxury-dark block">Sklep Internetowy & Konsultacje Online:</strong>
+                                Kod z kuponu wpisuje się w koszyku w polu „Kod promocyjny” na stronie sklepu partnerskiego <code>slow-skin.shop</code>.
+                              </div>
+                            </div>
                           </div>
                         </motion.div>
                       )}
@@ -14998,6 +15363,16 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                       Konto Demo
                                     </span>
                                   )}
+                                  {isEmailSubscribedToNewsletter(account.email) && (
+                                    <span className="font-mono text-[7.5px] px-1.5 py-0.5 bg-amber-50 text-amber-800 border border-amber-200 uppercase font-semibold flex items-center gap-1">
+                                      ✉ Zapisany do Newslettera (10% online)
+                                    </span>
+                                  )}
+                                  {account.discounts && account.discounts.length > 0 && (
+                                    <span className="font-mono text-[7.5px] px-1.5 py-0.5 bg-purple-50 text-purple-900 border border-purple-200 uppercase font-semibold flex items-center gap-1">
+                                      <Tag className="w-2.5 h-2.5 text-purple-700" /> {account.discounts.length} {account.discounts.length === 1 ? "rabat" : "rabaty"}
+                                    </span>
+                                  )}
                                 </div>
                                 <div className="text-[10.5px] font-mono text-luxury-dark/70 flex flex-wrap gap-x-4 gap-y-0.5">
                                   <span>✉ {account.email}</span>
@@ -15018,6 +15393,14 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                     {visitsCount === 0 ? "Nowa Karta" : "Aktywna"}
                                   </span>
                                 </div>
+                                <button
+                                  type="button"
+                                  onClick={() => handleOpenDiscountModalForAccount(account)}
+                                  className="px-3 py-2 bg-purple-50 border border-purple-300 hover:bg-purple-100 text-purple-900 font-mono text-[9px] uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-1.5 font-semibold"
+                                  title="Zarządzaj rabatami i voucherami klienta"
+                                >
+                                  <Tag className="w-3 h-3 text-purple-700" /> Rabaty ({account.discounts?.length || 0})
+                                </button>
                                 <button
                                   type="button"
                                   onClick={() => {
@@ -15182,6 +15565,249 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             className="px-5 py-2.5 bg-luxury-dark hover:bg-luxury-gold text-white font-mono text-[9.5px] uppercase tracking-widest font-semibold cursor-pointer shadow-xs transition-colors"
                           >
                             Utwórz Kartotekę &rarr;
+                          </button>
+                        </div>
+                      </form>
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* MODAL: ZARZĄDZAJ RABATAMI PACJENTA (PANEL GABINETU) */}
+              <AnimatePresence>
+                {isDiscountModalOpen && discountTargetAccount && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/65 backdrop-blur-xs overflow-y-auto"
+                    onClick={() => setIsDiscountModalOpen(false)}
+                  >
+                    <motion.div
+                      initial={{ scale: 0.95, opacity: 0, y: 15 }}
+                      animate={{ scale: 1, opacity: 1, y: 0 }}
+                      exit={{ scale: 0.95, opacity: 0, y: 15 }}
+                      className="bg-white border border-luxury-gold p-6 md:p-8 max-w-xl w-full text-left space-y-5 shadow-2xl relative my-8"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div className="flex justify-between items-start border-b border-luxury-sand/40 pb-3">
+                        <div>
+                          <span className="font-mono text-[8.5px] tracking-widest text-purple-900 uppercase block font-bold">
+                            STREFA GABINETOWA • ZARZĄDZANIE RABATAMI
+                          </span>
+                          <h3 className="font-serif text-xl font-light text-luxury-dark mt-0.5">
+                            Rabaty i Vouchery: {discountTargetAccount.name}
+                          </h3>
+                          <p className="text-[11px] text-luxury-dark/80 font-mono">
+                            {discountTargetAccount.email} • Karta: {discountTargetAccount.memberId || "SSP"}
+                          </p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setIsDiscountModalOpen(false)}
+                          className="text-luxury-dark/70 hover:text-luxury-dark font-mono text-sm cursor-pointer p-1"
+                        >
+                          ✕
+                        </button>
+                      </div>
+
+                      {/* Status newslettera z przyciskiem szybkiego nadania */}
+                      <div className="p-3 bg-amber-50/70 border border-amber-200 text-xs flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                        <div className="space-y-0.5">
+                          <span className="font-mono text-[8px] uppercase tracking-wider text-amber-900 font-bold block">
+                            Subskrypcja Newslettera:
+                          </span>
+                          <div className="flex items-center gap-1.5">
+                            <span className={`w-2 h-2 rounded-full ${isEmailSubscribedToNewsletter(discountTargetAccount.email) ? "bg-emerald-500" : "bg-stone-300"}`} />
+                            <span className="font-medium text-luxury-dark text-[11px]">
+                              {isEmailSubscribedToNewsletter(discountTargetAccount.email)
+                                ? "Zapisany do newslettera (kod 10% online)"
+                                : "Brak zapisu do newslettera"}
+                            </span>
+                          </div>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => handleGrantNewsletterDiscount(discountTargetAccount)}
+                          className="px-3 py-1.5 bg-amber-800 hover:bg-amber-900 text-white font-mono text-[8.5px] uppercase tracking-wider transition-colors cursor-pointer font-semibold shadow-2xs shrink-0"
+                        >
+                          {isEmailSubscribedToNewsletter(discountTargetAccount.email)
+                            ? "Odśwież / Dopisz 10%"
+                            : "+ Przypisz Rabat 10% za Newsletter"}
+                        </button>
+                      </div>
+
+                      {/* Lista aktualnych rabatów tego pacjenta */}
+                      <div className="space-y-2">
+                        <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block font-bold">
+                          Aktualne Rabaty Pacjenta ({discountTargetAccount.discounts?.length || 0}):
+                        </label>
+
+                        {(!discountTargetAccount.discounts || discountTargetAccount.discounts.length === 0) ? (
+                          <div className="p-4 border border-dashed border-luxury-sand text-center text-xs text-luxury-dark/70 bg-stone-50">
+                            Brak aktywnych rabatów w kartotece tego pacjenta. Dodaj nowy poniżej.
+                          </div>
+                        ) : (
+                          <div className="space-y-2 max-h-44 overflow-y-auto pr-1">
+                            {discountTargetAccount.discounts.map((d: any) => (
+                              <div
+                                key={d.id}
+                                className="p-3 bg-purple-50/40 border border-purple-200 flex justify-between items-center text-xs"
+                              >
+                                <div>
+                                  <div className="flex items-center gap-2">
+                                    <span className="font-serif font-medium text-luxury-dark">{d.title}</span>
+                                    <span className="font-mono text-[10px] font-bold px-1.5 py-0.2 bg-purple-900 text-white">
+                                      {d.value}{d.type === "percentage" ? "%" : " PLN"}
+                                    </span>
+                                    <span className="font-mono text-[8.5px] px-1 bg-white border border-purple-300 text-purple-900 font-semibold">
+                                      {d.code}
+                                    </span>
+                                  </div>
+                                  <div className="text-[10px] font-mono text-luxury-dark/70 pt-0.5">
+                                    <span>Dotyczy: {d.target}</span> • <span>Ważność: {d.validUntil || "Bezterminowo"}</span>
+                                  </div>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => handleRemoveDiscountFromAccount(discountTargetAccount.email, d.id)}
+                                  className="p-1 text-stone-400 hover:text-red-700 transition-colors cursor-pointer"
+                                  title="Usuń ten rabat"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Formularz dodania nowego rabatu */}
+                      <form onSubmit={handleAddDiscountToAccount} className="space-y-3 pt-3 border-t border-luxury-sand/40 text-xs">
+                        <span className="font-mono text-[9px] uppercase tracking-wider text-purple-900 font-bold block">
+                          + Dodaj Nowy Rabat / Voucher dla Klienta:
+                        </span>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          <div className="space-y-1">
+                            <label className="font-mono text-[8.5px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
+                              Nazwa rabatu:
+                            </label>
+                            <input
+                              type="text"
+                              required
+                              value={newDiscountForm.title}
+                              onChange={(e) => setNewDiscountForm(prev => ({ ...prev, title: e.target.value }))}
+                              placeholder="np. Rabat Stałego Klienta"
+                              className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold"
+                            />
+                          </div>
+
+                          <div className="space-y-1">
+                            <label className="font-mono text-[8.5px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
+                              Unikalny Kod Kuponu:
+                            </label>
+                            <input
+                              type="text"
+                              required
+                              value={newDiscountForm.code}
+                              onChange={(e) => setNewDiscountForm(prev => ({ ...prev, code: e.target.value }))}
+                              placeholder="np. VIP-2026, URODZINY-20"
+                              className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold uppercase font-mono"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                          <div className="space-y-1">
+                            <label className="font-mono text-[8.5px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
+                              Typ zniżki:
+                            </label>
+                            <select
+                              value={newDiscountForm.type}
+                              onChange={(e) => setNewDiscountForm(prev => ({ ...prev, type: e.target.value as any }))}
+                              className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold cursor-pointer"
+                            >
+                              <option value="percentage">Procentowa (%)</option>
+                              <option value="fixed">Kwotowa (PLN)</option>
+                            </select>
+                          </div>
+
+                          <div className="space-y-1">
+                            <label className="font-mono text-[8.5px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
+                              Wartość ({newDiscountForm.type === "percentage" ? "%" : "PLN"}):
+                            </label>
+                            <input
+                              type="number"
+                              min="1"
+                              max={newDiscountForm.type === "percentage" ? "100" : "5000"}
+                              required
+                              value={newDiscountForm.value}
+                              onChange={(e) => setNewDiscountForm(prev => ({ ...prev, value: Number(e.target.value) }))}
+                              className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold"
+                            />
+                          </div>
+
+                          <div className="space-y-1">
+                            <label className="font-mono text-[8.5px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
+                              Zakres zniżki:
+                            </label>
+                            <select
+                              value={newDiscountForm.target}
+                              onChange={(e) => setNewDiscountForm(prev => ({ ...prev, target: e.target.value }))}
+                              className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold cursor-pointer"
+                            >
+                              <option value="Wszystkie Usługi Gabinetu">Wszystkie Usługi Gabinetu</option>
+                              <option value="Pierwsza Wizyta Diagnostyczna">Pierwsza Wizyta Diagnostyczna</option>
+                              <option value="Rytuały Twarz & Szyja">Rytuały Twarz & Szyja</option>
+                              <option value="Konsultacje Online & Sklep">Konsultacje Online & Sklep</option>
+                              <option value="Kosmetyki w Butiku Bionomicznym">Kosmetyki w Butiku Bionomicznym</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          <div className="space-y-1">
+                            <label className="font-mono text-[8.5px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
+                              Data ważności:
+                            </label>
+                            <input
+                              type="text"
+                              value={newDiscountForm.validUntil}
+                              onChange={(e) => setNewDiscountForm(prev => ({ ...prev, validUntil: e.target.value }))}
+                              placeholder="np. 31 grudnia 2026 / Bezterminowo"
+                              className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold"
+                            />
+                          </div>
+
+                          <div className="space-y-1">
+                            <label className="font-mono text-[8.5px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
+                              Opis / notatka dla pacjenta:
+                            </label>
+                            <input
+                              type="text"
+                              value={newDiscountForm.description}
+                              onChange={(e) => setNewDiscountForm(prev => ({ ...prev, description: e.target.value }))}
+                              placeholder="np. Podziękowanie za regularne rytuały w Instytucie"
+                              className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="flex justify-end gap-2.5 pt-3 border-t border-luxury-sand/30">
+                          <button
+                            type="button"
+                            onClick={() => setIsDiscountModalOpen(false)}
+                            className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-luxury-dark font-mono text-[9px] uppercase tracking-wider cursor-pointer"
+                          >
+                            Zamknij
+                          </button>
+                          <button
+                            type="submit"
+                            className="px-5 py-2 bg-purple-950 hover:bg-purple-900 text-white font-mono text-[9px] uppercase tracking-widest font-semibold cursor-pointer shadow-xs transition-colors"
+                          >
+                            + Zapisz Rabat w Kartotece
                           </button>
                         </div>
                       </form>
