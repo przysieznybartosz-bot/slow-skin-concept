@@ -27,10 +27,10 @@ export const VideoPlayerSection: React.FC = () => {
     if (typeof window !== "undefined") {
       try {
         const stored = localStorage.getItem("custom_main_video_poster");
-        if (stored && stored !== "/video_thumbnail.jpg") return stored;
+        if (stored) return stored;
       } catch {}
     }
-    return "/video_poster.jpg?v=2";
+    return "/video_thumbnail.png";
   });
 
   const [duration, setDuration] = useState<number>(29);
