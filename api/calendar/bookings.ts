@@ -1,5 +1,36 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { sendJson, parseJsonBody } from "./_shared.js";
+
+function sendJson(res: ServerResponse | any, status: number, data: any) {
+  res.setHeader("Content-Type", "application/json; charset=utf-8");
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  if (typeof res.status === "function" && typeof res.json === "function") {
+    return res.status(status).json(data);
+  }
+  res.statusCode = status;
+  res.end(JSON.stringify(data));
+}
+
+async function parseJsonBody(req: IncomingMessage | any): Promise<any> {
+  if (req.body && typeof req.body === "object") {
+    return req.body;
+  }
+  return new Promise((resolve) => {
+    let raw = "";
+    req.on("data", (chunk: any) => {
+      raw += chunk;
+    });
+    req.on("end", () => {
+      try {
+        resolve(JSON.parse(raw));
+      } catch {
+        resolve({});
+      }
+    });
+    req.on("error", () => resolve({}));
+  });
+}
 
 export default async function handler(req: IncomingMessage | any, res: ServerResponse | any) {
   if (req.method === "OPTIONS") {

@@ -1,19 +1,59 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import {
-  GoogleCalendarStoredEvent,
-  updateInMemoryEvents,
-  sendJson,
-  parseJsonBody,
-  GITHUB_REPO,
-  GITHUB_TOKEN
-} from "./_shared";
+
+interface GoogleCalendarStoredEvent {
+  id: string;
+  summary: string;
+  start: string;
+  end: string;
+  dateStr: string;
+  startTimeStr?: string;
+  endTimeStr?: string;
+  isAllDay?: boolean;
+  calendarAccount?: string;
+  updatedAt?: string;
+}
+
+const GITHUB_REPO = "przysieznybartosz-bot/slow-skin-concept";
+
+function sendJson(res: ServerResponse | any, status: number, data: any) {
+  res.setHeader("Content-Type", "application/json; charset=utf-8");
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  if (typeof res.status === "function" && typeof res.json === "function") {
+    return res.status(status).json(data);
+  }
+  res.statusCode = status;
+  res.end(JSON.stringify(data));
+}
+
+async function parseJsonBody(req: IncomingMessage | any): Promise<any> {
+  if (req.body && typeof req.body === "object") {
+    return req.body;
+  }
+  return new Promise((resolve) => {
+    let raw = "";
+    req.on("data", (chunk: any) => {
+      raw += chunk;
+    });
+    req.on("end", () => {
+      try {
+        resolve(JSON.parse(raw));
+      } catch {
+        resolve({});
+      }
+    });
+    req.on("error", () => resolve({}));
+  });
+}
 
 async function persistToGitHub(events: GoogleCalendarStoredEvent[]): Promise<boolean> {
-  if (!GITHUB_TOKEN) return false;
+  const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
+  if (!token) return false;
   try {
     const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/google_calendar_events.json`;
     const headers = {
-      Authorization: `token ${GITHUB_TOKEN}`,
+      Authorization: `token ${token}`,
       "User-Agent": "Slow-Skin-Concept-Calendar-Sync",
       Accept: "application/vnd.github.v3+json",
     };
@@ -60,8 +100,6 @@ export default async function handler(req: IncomingMessage | any, res: ServerRes
       const accountEmail = body?.accountEmail || "slowskinconcept@gmail.com";
 
       if (events.length > 0) {
-        updateInMemoryEvents(events);
-        // Persist asynchronously / synchronously to GitHub
         await persistToGitHub(events);
       }
 
