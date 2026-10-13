@@ -103,8 +103,8 @@ async function startServer() {
   const app = express();
   const PORT = 3000;
 
-  app.use(express.json({ limit: "50mb" }));
-  app.use(express.urlencoded({ limit: "50mb", extended: true }));
+  app.use(express.json({ limit: "500mb" }));
+  app.use(express.urlencoded({ limit: "500mb", extended: true }));
 
   // Endpoint to allow uploading and saving user's exact original hero photo directly to disk
   app.post("/api/upload-hero-image", (req, res) => {
@@ -196,10 +196,10 @@ async function startServer() {
     }
   });
 
-  // Endpoint to allow uploading and saving the official video reel directly to disk
+  // Endpoint to allow uploading and saving the official institute video directly to disk
   app.post("/api/upload-video", (req, res) => {
     try {
-      const { dataUrl, filename = "rolka-glowna.mp4" } = req.body;
+      const { dataUrl, filename = "film-o-instytucie.mp4" } = req.body;
       if (!dataUrl) {
         return res.status(400).json({ error: "Brak danych pliku wideo (dataUrl)" });
       }
@@ -209,27 +209,38 @@ async function startServer() {
       }
       const buffer = Buffer.from(matches[2], "base64");
       
-      const targetFilename = "rolka-glowna.mp4";
+      const fileNames = [
+        "film-o-instytucie.mp4",
+        "film o instytucie.mp4",
+        "film.mp4",
+        "rolka-glowna.mp4"
+      ];
+
       const publicVideosDir = path.join(process.cwd(), "public", "videos");
       if (!fs.existsSync(publicVideosDir)) {
         fs.mkdirSync(publicVideosDir, { recursive: true });
       }
-      fs.writeFileSync(path.join(publicVideosDir, targetFilename), buffer);
+      for (const name of fileNames) {
+        fs.writeFileSync(path.join(publicVideosDir, name), buffer);
+      }
 
       const srcVideosDir = path.join(process.cwd(), "src", "assets", "videos");
       if (!fs.existsSync(srcVideosDir)) {
         fs.mkdirSync(srcVideosDir, { recursive: true });
       }
-      fs.writeFileSync(path.join(srcVideosDir, targetFilename), buffer);
-      fs.writeFileSync(path.join(srcVideosDir, "film.mp4"), buffer);
+      for (const name of fileNames) {
+        fs.writeFileSync(path.join(srcVideosDir, name), buffer);
+      }
 
       const distVideosDir = path.join(process.cwd(), "dist", "videos");
       if (fs.existsSync(distVideosDir)) {
-        fs.writeFileSync(path.join(distVideosDir, targetFilename), buffer);
+        for (const name of fileNames) {
+          fs.writeFileSync(path.join(distVideosDir, name), buffer);
+        }
       }
 
-      console.log(`[Upload] Zapisano wideo ${targetFilename} (${buffer.length} bajtów)`);
-      return res.json({ success: true, url: `/videos/${targetFilename}?v=${Date.now()}` });
+      console.log(`[Upload] Zapisano film o instytucie: ${fileNames.join(", ")} (${buffer.length} bajtów)`);
+      return res.json({ success: true, url: `/videos/film-o-instytucie.mp4?v=${Date.now()}` });
     } catch (err: any) {
       console.error("[Upload] Błąd podczas zapisywania wideo:", err);
       return res.status(500).json({ error: err.message });

@@ -17,10 +17,10 @@ export const VideoPlayerSection: React.FC = () => {
     if (typeof window !== "undefined") {
       try {
         const stored = localStorage.getItem("custom_main_video_url");
-        if (stored) return stored;
+        if (stored && stored !== "/videos/rolka-glowna.mp4") return stored;
       } catch {}
     }
-    return "/videos/rolka-glowna.mp4";
+    return "/videos/film-o-instytucie.mp4";
   });
 
   const [posterSrc, setPosterSrc] = useState<string>(() => {
@@ -91,6 +91,7 @@ export const VideoPlayerSection: React.FC = () => {
 
     try {
       setIsUploadingVideo(true);
+      const chosenFilename = file.name || "film-o-instytucie.mp4";
       const reader = new FileReader();
       reader.onload = async () => {
         const base64 = reader.result as string;
@@ -100,7 +101,7 @@ export const VideoPlayerSection: React.FC = () => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               dataUrl: base64,
-              filename: "rolka-glowna.mp4"
+              filename: chosenFilename
             }),
           });
           const data = await resp.json();
@@ -111,7 +112,7 @@ export const VideoPlayerSection: React.FC = () => {
           } catch {}
 
           setVideoSrc(targetUrl);
-          setUploadSuccess("Wideo wgrane pomyślnie!");
+          setUploadSuccess("Film o instytucie zaktualizowany!");
           setTimeout(() => setUploadSuccess(null), 4000);
         } catch {
           // Local fallback
@@ -297,6 +298,13 @@ export const VideoPlayerSection: React.FC = () => {
           muted={isMuted}
           loop
           onClick={togglePlay}
+          onError={() => {
+            if (videoSrc !== "/videos/film-o-instytucie.mp4") {
+              setVideoSrc("/videos/film-o-instytucie.mp4");
+            } else {
+              setVideoSrc("/videos/film.mp4");
+            }
+          }}
           onLoadedMetadata={() => {
             if (videoRef.current && Number.isFinite(videoRef.current.duration)) {
               setDuration(Math.round(videoRef.current.duration));
@@ -325,7 +333,7 @@ export const VideoPlayerSection: React.FC = () => {
                 <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-3 py-1.5 border border-luxury-gold/40 rounded-full">
                   <span className={`w-2 h-2 rounded-full ${isPlaying ? "bg-emerald-400 animate-ping" : "bg-luxury-gold"}`} />
                   <span className="text-[10px] font-mono tracking-widest text-white uppercase font-medium">
-                    Film Główny · Rolka Instytutu
+                    Film o Instytucie · Slow Skin Concept
                   </span>
                 </div>
 
