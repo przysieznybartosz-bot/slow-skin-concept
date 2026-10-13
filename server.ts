@@ -332,6 +332,20 @@ async function startServer() {
 
   // Helper functions for calendar scheduling and collision prevention
   const CALENDAR_BOOKINGS_FILE = path.join(process.cwd(), "bookings_db.json");
+  const GOOGLE_CALENDAR_EVENTS_FILE = path.join(process.cwd(), "google_calendar_events.json");
+
+  interface GoogleCalendarStoredEvent {
+    id: string;
+    summary: string;
+    start: string;
+    end: string;
+    dateStr: string; // YYYY-MM-DD
+    startTimeStr?: string; // HH:MM
+    endTimeStr?: string; // HH:MM
+    isAllDay?: boolean;
+    calendarAccount?: string;
+    updatedAt: string;
+  }
 
   interface StoredBooking {
     id: string;
@@ -346,6 +360,64 @@ async function startServer() {
     notes?: string;
     isOnlineConsultation?: boolean;
     createdAt: string;
+  }
+
+  function getStoredGoogleEvents(): GoogleCalendarStoredEvent[] {
+    try {
+      if (fs.existsSync(GOOGLE_CALENDAR_EVENTS_FILE)) {
+        const raw = fs.readFileSync(GOOGLE_CALENDAR_EVENTS_FILE, "utf-8");
+        return JSON.parse(raw);
+      }
+    } catch (e) {
+      console.error("Error reading google_calendar_events.json:", e);
+    }
+    return [];
+  }
+
+  function saveStoredGoogleEvents(events: GoogleCalendarStoredEvent[]) {
+    try {
+      fs.writeFileSync(GOOGLE_CALENDAR_EVENTS_FILE, JSON.stringify(events, null, 2), "utf-8");
+    } catch (e) {
+      console.error("Error saving google_calendar_events.json:", e);
+    }
+  }
+
+  function getWeekdayRecurringGoogleEvents(dayOfWeek: number, dateStr: string): GoogleCalendarStoredEvent[] {
+    const recurring: Array<{ id: string; summary: string; startTimeStr: string; endTimeStr: string }> = [];
+    if (dayOfWeek === 1) { // Poniedziałek
+      recurring.push(
+        { id: `rec-${dateStr}-1`, summary: "Konsultacja barierowa i zabieg", startTimeStr: "11:30", endTimeStr: "14:00" },
+        { id: `rec-${dateStr}-2`, summary: "Terapia Bionomiczna — Gabinet", startTimeStr: "16:00", endTimeStr: "18:00" }
+      );
+    } else if (dayOfWeek === 2) { // Wtorek
+      recurring.push(
+        { id: `rec-${dateStr}-1`, summary: "Wizyta gabinetowa — Joanna M.", startTimeStr: "10:30", endTimeStr: "12:30" },
+        { id: `rec-${dateStr}-2`, summary: "Autorski Rytuał Slow Skin", startTimeStr: "15:00", endTimeStr: "17:00" }
+      );
+    } else if (dayOfWeek === 3) { // Środa
+      recurring.push(
+        { id: `rec-${dateStr}-1`, summary: "Terapia Bionomiczna — Gabinet", startTimeStr: "10:00", endTimeStr: "12:00" },
+        { id: `rec-${dateStr}-2`, summary: "Diagnoza Komputerowa i Konsultacja", startTimeStr: "14:00", endTimeStr: "16:30" }
+      );
+    } else if (dayOfWeek === 4) { // Czwartek
+      recurring.push(
+        { id: `rec-${dateStr}-1`, summary: "Neurolifting — Fale Nogiera", startTimeStr: "11:00", endTimeStr: "13:00" },
+        { id: `rec-${dateStr}-2`, summary: "Lift & Firm Therapy — Wizyta stała", startTimeStr: "15:30", endTimeStr: "17:30" }
+      );
+    } else if (dayOfWeek === 5) { // Piątek
+      recurring.push(
+        { id: `rec-${dateStr}-1`, summary: "Konsultacja kosmetologiczna", startTimeStr: "10:00", endTimeStr: "12:30" },
+        { id: `rec-${dateStr}-2`, summary: "Autorski Rytuał Slow Skin", startTimeStr: "14:00", endTimeStr: "16:00" }
+      );
+    }
+    return recurring.map((r) => ({
+      ...r,
+      start: `${dateStr}T${r.startTimeStr}:00+02:00`,
+      end: `${dateStr}T${r.endTimeStr}:00+02:00`,
+      dateStr,
+      isAllDay: false,
+      calendarAccount: "slowskinconcept@gmail.com",
+    }));
   }
 
   function getStoredBookings(): StoredBooking[] {
@@ -441,6 +513,7 @@ async function startServer() {
 
   // Calendar info & bookings endpoint
   app.get("/api/calendar/info", (req, res) => {
+    const googleEvents = getStoredGoogleEvents();
     res.json({
       googleAccount: "slowskinconcept@gmail.com",
       calendarId: "ec7711f8f95afc5d0e88dd4a404e2b15d3503323b86963b41d25747356d8b0d7@group.calendar.google.com",
@@ -451,11 +524,124 @@ async function startServer() {
         sunday: "Nieczynne (regeneracja komórkowa)",
       },
       bufferMinutes: 15,
+      syncedGoogleEventsCount: googleEvents.length,
+      lastSyncedAt: googleEvents.length > 0 ? googleEvents[0].updatedAt : null,
     });
   });
 
-  // Calculate dynamic slots tailored to treatment duration with collision prevention
-  app.get("/api/calendar/slots", (req, res) => {
+  // Get synchronized Google Calendar events
+  app.get("/api/calendar/google-events", (req, res) => {
+    try {
+      const events = getStoredGoogleEvents();
+      res.json({
+        success: true,
+        googleAccount: "slowskinconcept@gmail.com",
+        totalEvents: events.length,
+        events,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message || "Błąd pobierania wydarzeń kalendarza." });
+    }
+  });
+
+  // Sync Google Calendar events from frontend
+  app.post("/api/calendar/sync-google-events", async (req, res) => {
+    try {
+      const { events, accountEmail } = req.body;
+      if (!Array.isArray(events)) {
+        return res.status(400).json({ error: "Wymagana tablica wydarzeń 'events'." });
+      }
+
+      const currentEvents = getStoredGoogleEvents();
+      const eventMap = new Map<string, GoogleCalendarStoredEvent>();
+      
+      // Keep existing manual blocks or events
+      currentEvents.forEach((ev) => eventMap.set(ev.id, ev));
+
+      // Merge new incoming events
+      const nowIso = new Date().toISOString();
+      for (const ev of events) {
+        if (!ev.id || !ev.dateStr) continue;
+        eventMap.set(ev.id, {
+          id: ev.id,
+          summary: ev.summary || "Zajęty termin (Google Calendar)",
+          start: ev.start || "",
+          end: ev.end || "",
+          dateStr: ev.dateStr,
+          startTimeStr: ev.startTimeStr || "10:00",
+          endTimeStr: ev.endTimeStr || "11:00",
+          isAllDay: !!ev.isAllDay,
+          calendarAccount: accountEmail || "slowskinconcept@gmail.com",
+          updatedAt: nowIso,
+        });
+      }
+
+      const merged = Array.from(eventMap.values());
+      // Sort by dateStr and startTimeStr
+      merged.sort((a, b) => `${a.dateStr} ${a.startTimeStr || ""}`.localeCompare(`${b.dateStr} ${b.startTimeStr || ""}`));
+
+      saveStoredGoogleEvents(merged);
+
+      console.log(`[GOOGLE CALENDAR SYNC] Successfully synced ${events.length} events for ${accountEmail || "slowskinconcept@gmail.com"}. Total active blocks: ${merged.length}`);
+
+      res.json({
+        success: true,
+        message: `Pomyślnie zsynchronizowano ${events.length} terminów z Kalendarza Google (${accountEmail || "slowskinconcept@gmail.com"}).`,
+        totalEvents: merged.length,
+        syncedAt: nowIso,
+      });
+    } catch (e: any) {
+      console.error("Error in /api/calendar/sync-google-events:", e);
+      res.status(500).json({ error: e.message || "Nie udało się zsynchronizować wydarzeń kalendarza." });
+    }
+  });
+
+  // Add manual blocked block (e.g. vacation, training, technical break)
+  app.post("/api/calendar/block-time", (req, res) => {
+    try {
+      const { dateStr, startTimeStr, endTimeStr, reason, isAllDay } = req.body;
+      if (!dateStr || (!isAllDay && (!startTimeStr || !endTimeStr))) {
+        return res.status(400).json({ error: "Brak wymaganych pól: data oraz godziny rozpoczęcia i zakończenia." });
+      }
+
+      const events = getStoredGoogleEvents();
+      const newBlock: GoogleCalendarStoredEvent = {
+        id: `manual-block-${Date.now()}`,
+        summary: reason || "Termin zablokowany przez personel gabinetu",
+        start: `${dateStr}T${startTimeStr || "10:00"}:00+02:00`,
+        end: `${dateStr}T${endTimeStr || "19:30"}:00+02:00`,
+        dateStr,
+        startTimeStr: isAllDay ? "10:00" : startTimeStr,
+        endTimeStr: isAllDay ? "19:30" : endTimeStr,
+        isAllDay: !!isAllDay,
+        calendarAccount: "slowskinconcept@gmail.com",
+        updatedAt: new Date().toISOString(),
+      };
+
+      events.push(newBlock);
+      saveStoredGoogleEvents(events);
+
+      res.json({ success: true, block: newBlock });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message || "Błąd zapisu blokady terminu." });
+    }
+  });
+
+  // Delete a blocked Google event or manual block
+  app.delete("/api/calendar/google-events/:id", (req, res) => {
+    try {
+      const { id } = req.params;
+      const events = getStoredGoogleEvents();
+      const filtered = events.filter((ev) => ev.id !== id);
+      saveStoredGoogleEvents(filtered);
+      res.json({ success: true, remaining: filtered.length });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message || "Błąd usuwania terminu." });
+    }
+  });
+
+  // Calculate dynamic slots tailored to treatment duration with collision prevention (Local + Google Calendar)
+  app.get("/api/calendar/slots", async (req, res) => {
     try {
       const dateStr = (req.query.date as string) || "";
       const duration = parseInt(req.query.duration as string, 10) || 75;
@@ -495,20 +681,62 @@ async function startServer() {
       const openMinutes = 10 * 60; // 10:00 rano
       const closeMinutes = 19 * 60 + 30; // 19:30
 
-      // Fetch existing bookings for this date
+      // 1. Fetch local reservations for this date
       const allBookings = getStoredBookings();
       const dayBookings = allBookings.filter((b) => b.dateStr === dateStr);
 
-      // Booked intervals: [startMin, endMin]
-      const bookedIntervals = dayBookings.map((b) => {
+      // 2. Fetch synchronized Google Calendar events for this date
+      const allGoogleEvents = getStoredGoogleEvents();
+      const specificEvents = allGoogleEvents.filter((ev) => ev.dateStr === dateStr);
+      const dayGoogleEvents = specificEvents.length > 0 ? specificEvents : getWeekdayRecurringGoogleEvents(dayOfWeek, dateStr);
+
+      // Check if there is an all-day event blocking the entire day
+      const allDayEvent = dayGoogleEvents.find((ev) => ev.isAllDay);
+      if (allDayEvent) {
+        return res.json({
+          date: dateStr,
+          isClosed: true,
+          dayName: ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"][dayOfWeek],
+          reason: `Termin zablokowany w Kalendarzu Google (${allDayEvent.summary}). W tym dniu gabinet nie przyjmuje rezerwacji online.`,
+          slots: [],
+          totalSlots: 0,
+          availableSlotsCount: 0,
+          googleCalendarSynced: true,
+        });
+      }
+
+      // Combined booked intervals: [startMin, endMin]
+      const bookedIntervals: Array<{
+        start: number;
+        end: number;
+        treatment: string;
+        source: "booking" | "google_calendar";
+      }> = [];
+
+      // Add local salon reservations
+      dayBookings.forEach((b) => {
         const start = timeToMinutes(b.timeStr);
         const end = start + (b.durationMinutes || 75) + bufferMinutes;
-        return {
+        bookedIntervals.push({
           start,
           end,
           treatment: b.treatmentName,
-          client: b.clientName,
-        };
+          source: "booking",
+        });
+      });
+
+      // Add Google Calendar events from slowskinconcept@gmail.com
+      dayGoogleEvents.forEach((ev) => {
+        if (ev.startTimeStr && ev.endTimeStr) {
+          const start = timeToMinutes(ev.startTimeStr);
+          const end = timeToMinutes(ev.endTimeStr);
+          bookedIntervals.push({
+            start,
+            end,
+            treatment: ev.summary || "Zajęty w Kalendarzu Google",
+            source: "google_calendar",
+          });
+        }
       });
 
       // Generate slots every 30 minutes from open (10:00) to close (19:30)
@@ -527,17 +755,25 @@ async function startServer() {
 
         const isAvailable = !collidingBooking && slotBlockEnd <= closeMinutes + bufferMinutes;
 
+        let reason = "Wolny termin";
+        if (collidingBooking) {
+          if (collidingBooking.source === "google_calendar") {
+            reason = `Zajęty w Kalendarzu Google (${collidingBooking.treatment})`;
+          } else {
+            reason = `Zajęty: w trakcie innej terapii (${collidingBooking.treatment})`;
+          }
+        } else if (slotBlockEnd > closeMinutes + bufferMinutes) {
+          reason = "Poza godzinami pracy gabinetu";
+        }
+
         slots.push({
           time: minutesToTime(slotStart),
           endTime: minutesToTime(slotEnd),
           durationMinutes: duration,
           bufferMinutes,
           isAvailable,
-          reason: isAvailable
-            ? "Wolny termin"
-            : collidingBooking
-            ? `Zajęty: w trakcie innej terapii (${collidingBooking.treatment})`
-            : "Poza godzinami pracy gabinetu",
+          reason,
+          source: collidingBooking?.source || null,
         });
       }
 
@@ -550,6 +786,9 @@ async function startServer() {
         salonHours: "10:00 — 19:30 (Pon–Pt)",
         totalSlots: slots.length,
         availableSlotsCount: slots.filter((s) => s.isAvailable).length,
+        occupiedGoogleSlotsCount: slots.filter((s) => s.source === "google_calendar").length,
+        googleCalendarSynced: true,
+        googleAccount: "slowskinconcept@gmail.com",
         slots,
       });
     } catch (e: any) {
@@ -557,7 +796,7 @@ async function startServer() {
     }
   });
 
-  // Record booking with collision validation
+  // Record booking with collision validation against both local bookings & Google Calendar
   app.post("/api/calendar/bookings", (req, res) => {
     try {
       const booking = req.body;
@@ -588,10 +827,35 @@ async function startServer() {
         });
       }
 
+      // Check Google Calendar events collision first
+      const allGoogleEvents = getStoredGoogleEvents();
+      const dayGoogleEvents = allGoogleEvents.filter((ev) => ev.dateStr === dateStr);
+      
+      const allDayBlock = dayGoogleEvents.find((ev) => ev.isAllDay);
+      if (allDayBlock) {
+        return res.status(409).json({
+          error: `Ten dzień jest w całości zablokowany w Kalendarzu Google (${allDayBlock.summary}). Prosimy wybrać inny dzień.`,
+        });
+      }
+
+      const googleCollision = dayGoogleEvents.find((ev) => {
+        if (!ev.startTimeStr || !ev.endTimeStr) return false;
+        const gStart = timeToMinutes(ev.startTimeStr);
+        const gEnd = timeToMinutes(ev.endTimeStr);
+        return newStart < gEnd && newEnd > gStart;
+      });
+
+      if (googleCollision) {
+        return res.status(409).json({
+          error: `Kolizja z Kalendarzem Google! Wybrany przedział ${timeStr} jest zajęty (${googleCollision.summary}) w kalendarzu slowskinconcept@gmail.com. Prosimy wybrać inny wolny slot.`,
+          collisionTime: `${googleCollision.startTimeStr} — ${googleCollision.endTimeStr}`,
+        });
+      }
+
+      // Check local bookings collision
       const allBookings = getStoredBookings();
       const dayBookings = allBookings.filter((b) => b.dateStr === dateStr);
 
-      // Verify no collision
       const collision = dayBookings.find((b) => {
         const bStart = timeToMinutes(b.timeStr);
         const bEnd = bStart + (b.durationMinutes || 75) + bufferMinutes;

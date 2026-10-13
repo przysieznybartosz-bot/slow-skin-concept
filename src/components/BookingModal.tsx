@@ -31,6 +31,10 @@ import {
   clearGoogleToken,
   parseTreatmentDuration,
   fetchCalendarSlots,
+  syncGoogleCalendarWithBackend,
+  getSyncedGoogleEvents,
+  getLocalGoogleEvents,
+  getEventsForDate,
   SLOW_SKIN_GOOGLE_ACCOUNT,
   SLOW_SKIN_CALENDAR_ID,
   BookingEventData,
@@ -78,6 +82,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
   const [isSubmittingWithoutGoogle, setIsSubmittingWithoutGoogle] = useState(false);
   const [googleEventLink, setGoogleEventLink] = useState<string | null>(null);
   const [syncError, setSyncError] = useState<string | null>(null);
+  const [syncSuccessMessage, setSyncSuccessMessage] = useState<string | null>(null);
   const [isConfirmed, setIsConfirmed] = useState(false);
 
   // Set default minimum date (today or tomorrow)
@@ -121,6 +126,34 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
       console.error("Failed to load slots:", e);
     } finally {
       setIsLoadingSlots(false);
+    }
+  };
+
+  const handleManualSyncGoogle = async () => {
+    setIsSyncingGoogle(true);
+    setSyncError(null);
+    setSyncSuccessMessage(null);
+    try {
+      let token = googleToken || getCachedGoogleToken();
+      if (!token) {
+        token = await requestGoogleCalendarAccess();
+        setGoogleToken(token);
+        const profile = await fetchGoogleUserProfile(token);
+        if (profile) setGoogleUser(profile);
+      }
+      if (token) {
+        const syncResult = await syncGoogleCalendarWithBackend(token);
+        if (syncResult.success) {
+          setSyncSuccessMessage(`Zsynchronizowano ${syncResult.count} terminów z Kalendarzem Google (${SLOW_SKIN_GOOGLE_ACCOUNT}). Zajęte godziny są zablokowane.`);
+          await loadSlots(selectedDate, durationMin);
+        } else {
+          setSyncError(syncResult.message);
+        }
+      }
+    } catch (e: any) {
+      setSyncError(e.message || "Nie udało się zsynchronizować kalendarza.");
+    } finally {
+      setIsSyncingGoogle(false);
     }
   };
 
@@ -187,7 +220,25 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
       }
       return { success: true };
     } catch {
-      return { success: true }; // Proceed gracefully even if network is offline
+      // Offline / static hosting fallback verification against Google Calendar
+      const localEvents = getEventsForDate(data.dateStr);
+      const [h, m] = (data.timeStr || "10:00").split(":").map(Number);
+      const startMin = h * 60 + m;
+      const endMin = startMin + data.durationMinutes + 15;
+
+      const coll = localEvents.find(ev => {
+        if (ev.isAllDay) return true;
+        if (!ev.startTimeStr || !ev.endTimeStr) return false;
+        const [sh, sm] = ev.startTimeStr.split(":").map(Number);
+        const [eh, em] = ev.endTimeStr.split(":").map(Number);
+        return startMin < (eh * 60 + em) && endMin > (sh * 60 + sm);
+      });
+
+      if (coll) {
+        return { success: false, error: `Kolizja z Kalendarzem Google! Wybrany przedział jest zajęty (${coll.summary}). Wybierz inny wolny termin.` };
+      }
+
+      return { success: true };
     }
   };
 
@@ -500,17 +551,55 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                 </div>
 
                 {/* DYNAMIC TIME SLOTS SECTION */}
-                <div className="space-y-2 pt-2 border-t border-luxury-sand/40">
+                <div className="space-y-2.5 pt-2 border-t border-luxury-sand/40">
+                  {/* Google Calendar live correlation indicator */}
+                  <div className="p-2.5 bg-luxury-sand/15 border border-luxury-gold/30 rounded-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse shrink-0" />
+                      <div className="text-[9px] font-mono leading-tight">
+                        <span className="text-luxury-dark font-semibold">Skorelowano z Google Calendar:</span>{" "}
+                        <span className="text-luxury-gold font-bold">{SLOW_SKIN_GOOGLE_ACCOUNT}</span>
+                        <span className="block text-luxury-dark/70 text-[8px]">
+                          Zajęte terminy w kalendarzu są automatycznie zablokowane i niedostępne dla klientów.
+                        </span>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleManualSyncGoogle}
+                      disabled={isSyncingGoogle}
+                      className="px-2.5 py-1 text-[8.5px] font-mono uppercase tracking-wider bg-white hover:bg-luxury-gold hover:text-white border border-luxury-gold/50 text-luxury-dark rounded-xs transition-colors shrink-0 flex items-center gap-1 cursor-pointer"
+                    >
+                      <RefreshCw className={`w-2.5 h-2.5 ${isSyncingGoogle ? "animate-spin text-luxury-gold" : ""}`} />
+                      {isSyncingGoogle ? "Synchronizuję..." : "Odśwież z Google"}
+                    </button>
+                  </div>
+
+                  {syncSuccessMessage && (
+                    <div className="p-2 bg-emerald-50 border border-emerald-200 text-emerald-900 text-[9px] font-mono flex items-center gap-1.5 rounded-xs">
+                      <Check className="w-3 h-3 text-emerald-700 shrink-0" />
+                      <span>{syncSuccessMessage}</span>
+                    </div>
+                  )}
+
                   <div className="flex items-center justify-between">
                     <label className="font-mono text-[9.5px] text-luxury-dark uppercase tracking-widest font-bold flex items-center gap-1.5">
                       <Clock className="w-3.5 h-3.5 text-luxury-gold" />
                       2. Wybierz Wolną Godzinę (Dopasowaną do {durationMin} min zabiegu)
                     </label>
-                    {isLoadingSlots && (
-                      <span className="text-[9px] font-mono text-luxury-gold flex items-center gap-1">
-                        <RefreshCw className="w-3 h-3 animate-spin" /> Sprawdzam kalendarz...
-                      </span>
-                    )}
+                    <div className="flex items-center gap-2">
+                      {slotsData?.occupiedGoogleSlotsCount ? (
+                        <span className="text-[8.5px] font-mono text-amber-800 bg-amber-100/70 border border-amber-200 px-1.5 py-0.5 rounded-xs flex items-center gap-1">
+                          <Lock className="w-2.5 h-2.5 text-amber-700" />
+                          {slotsData.occupiedGoogleSlotsCount} zajęte w Google
+                        </span>
+                      ) : null}
+                      {isLoadingSlots && (
+                        <span className="text-[9px] font-mono text-luxury-gold flex items-center gap-1">
+                          <RefreshCw className="w-3 h-3 animate-spin" /> Sprawdzam kalendarz...
+                        </span>
+                      )}
+                    </div>
                   </div>
 
                   {slotsData?.isClosed ? (
@@ -540,6 +629,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                         {slotsData?.slots.map((slot: CalendarSlot) => {
                           const isSelected = selectedTime === slot.time;
+                          const isGoogleBlocked = !slot.isAvailable && slot.source === "google_calendar";
                           return (
                             <button
                               key={slot.time}
@@ -555,6 +645,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                                   ? "border-luxury-gold bg-luxury-gold text-white shadow-md ring-2 ring-luxury-gold/30"
                                   : slot.isAvailable
                                   ? "border-luxury-sand/70 bg-white hover:border-luxury-gold text-luxury-dark cursor-pointer shadow-2xs hover:bg-luxury-gold/5"
+                                  : isGoogleBlocked
+                                  ? "border-amber-200 bg-amber-50/60 text-amber-900/60 cursor-not-allowed line-through"
                                   : "border-luxury-sand/30 bg-luxury-sand/15 text-luxury-dark/40 cursor-not-allowed line-through"
                               }`}
                             >
@@ -573,6 +665,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                                   ) : (
                                     <span className="text-emerald-700 font-medium">Wolny</span>
                                   )
+                                ) : isGoogleBlocked ? (
+                                  <span className="text-amber-800 font-medium flex items-center gap-0.5">
+                                    <Lock className="w-2 h-2 text-amber-700" /> Zajęty w Google
+                                  </span>
                                 ) : (
                                   <span className="text-luxury-dark/40 flex items-center gap-0.5">
                                     <Lock className="w-2 h-2" /> Zajęty

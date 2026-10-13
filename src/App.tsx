@@ -66,8 +66,17 @@ import {
   Tag,
   Percent,
   Gift,
-  CheckCircle
+  CheckCircle,
+  RefreshCw
 } from "lucide-react";
+import { 
+  requestGoogleCalendarAccess, 
+  syncGoogleCalendarWithBackend, 
+  getSyncedGoogleEvents, 
+  addManualCalendarBlock, 
+  deleteCalendarBlock, 
+  SLOW_SKIN_GOOGLE_ACCOUNT 
+} from "./services/googleCalendar";
 import { TREATMENTS, ARTICLES, REVIEWS } from "./data";
 import { VideoPlayerSection } from "./components/VideoPlayerSection";
 import TreatmentCard from "./components/TreatmentCard";
@@ -1196,6 +1205,93 @@ export default function App() {
       return () => clearTimeout(timer);
     }
   }, [staffLockoutSeconds]);
+
+  // Google Calendar integration states in Admin / Staff mode
+  const [googleEventsList, setGoogleEventsList] = useState<any[]>([]);
+  const [isLoadingGoogleEvents, setIsLoadingGoogleEvents] = useState(false);
+  const [isSyncingAdminGoogle, setIsSyncingAdminGoogle] = useState(false);
+  const [adminGoogleSyncMsg, setAdminGoogleSyncMsg] = useState("");
+  const [isGoogleEventsExpanded, setIsGoogleEventsExpanded] = useState(false);
+  const [isManualBlockModalOpen, setIsManualBlockModalOpen] = useState(false);
+  const [manualBlockForm, setManualBlockForm] = useState({
+    dateStr: new Date().toISOString().split("T")[0],
+    startTimeStr: "10:00",
+    endTimeStr: "12:00",
+    reason: "Blokada terminu w gabinecie (szkolenie / konsultacja)",
+    isAllDay: false,
+  });
+
+  const loadAdminGoogleEvents = async () => {
+    setIsLoadingGoogleEvents(true);
+    try {
+      const res = await getSyncedGoogleEvents();
+      setGoogleEventsList(res.events || []);
+    } catch (e) {
+      console.error("Failed to load Google events:", e);
+    } finally {
+      setIsLoadingGoogleEvents(false);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === "admin" && isStaffPinUnlocked) {
+      loadAdminGoogleEvents();
+    }
+  }, [activeTab, isStaffPinUnlocked]);
+
+  const handleSyncAdminGoogle = async () => {
+    setIsSyncingAdminGoogle(true);
+    setAdminGoogleSyncMsg("");
+    try {
+      const token = await requestGoogleCalendarAccess();
+      if (token) {
+        const res = await syncGoogleCalendarWithBackend(token);
+        if (res.success) {
+          setAdminGoogleSyncMsg(`✓ ${res.message} Wszystkie zajęte godziny zostały zablokowane.`);
+          await loadAdminGoogleEvents();
+        } else {
+          setAdminGoogleSyncMsg(`✕ ${res.message}`);
+        }
+      }
+    } catch (e: any) {
+      setAdminGoogleSyncMsg(`✕ ${e.message || "Błąd autoryzacji kalendarza Google."}`);
+    } finally {
+      setIsSyncingAdminGoogle(false);
+    }
+  };
+
+  const handleAddManualBlock = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const res = await addManualCalendarBlock(
+        manualBlockForm.dateStr,
+        manualBlockForm.startTimeStr,
+        manualBlockForm.endTimeStr,
+        manualBlockForm.reason,
+        manualBlockForm.isAllDay
+      );
+      if (res.success) {
+        setIsManualBlockModalOpen(false);
+        setAdminGoogleSyncMsg("✓ Pomyślnie zablokowano termin w grafiku.");
+        await loadAdminGoogleEvents();
+      } else {
+        alert(res.error || "Błąd zapisu blokady.");
+      }
+    } catch (e: any) {
+      alert(e.message || "Wystąpił błąd.");
+    }
+  };
+
+  const handleDeleteGoogleBlock = async (id: string) => {
+    if (!window.confirm("Czy na pewno chcesz usunąć tę blokadę terminu?")) return;
+    try {
+      await deleteCalendarBlock(id);
+      await loadAdminGoogleEvents();
+      setAdminGoogleSyncMsg("✓ Usunięto blokadę terminu.");
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   // Synchronize 'Slow Skin Pass' data to storage and per-user registry
   useEffect(() => {
@@ -15263,6 +15359,121 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     </div>
                   </div>
 
+                  {/* Google Calendar Synchronization Panel */}
+                  <div className="bg-white border border-luxury-sand p-6 shadow-xs space-y-4">
+                    <div className="flex flex-col md:flex-row justify-between md:items-center gap-3 border-b border-luxury-sand/50 pb-4">
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2">
+                          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                          <span className="font-mono text-[9px] uppercase tracking-widest text-luxury-gold font-bold">
+                            KALENDARZ GABINETU & GOOGLE CALENDAR
+                          </span>
+                        </div>
+                        <h3 className="font-serif text-xl font-light text-luxury-dark">
+                          Korelacja Umawiania Wizyt: {SLOW_SKIN_GOOGLE_ACCOUNT}
+                        </h3>
+                        <p className="text-xs text-luxury-dark/75 font-light">
+                          Wszystkie zajęte godziny z Twojego kalendarza Google są automatycznie pobierane i blokowane w formularzu umawiania wizyt na stronie, zapobiegając kolizjom terminów.
+                        </p>
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-2 shrink-0">
+                        <button
+                          type="button"
+                          onClick={handleSyncAdminGoogle}
+                          disabled={isSyncingAdminGoogle}
+                          className="px-4 py-2.5 bg-luxury-dark hover:bg-luxury-gold text-white font-mono text-[9.5px] uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-1.5 shadow-2xs font-semibold"
+                        >
+                          <RefreshCw className={`w-3.5 h-3.5 ${isSyncingAdminGoogle ? "animate-spin text-luxury-gold" : "text-luxury-gold"}`} />
+                          {isSyncingAdminGoogle ? "Pobieram z Google..." : "Zsynchronizuj z Google Calendar"}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setIsManualBlockModalOpen(true)}
+                          className="px-3.5 py-2.5 bg-stone-100 hover:bg-stone-200 border border-luxury-sand/70 text-luxury-dark font-mono text-[9.5px] uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-1"
+                        >
+                          <Plus className="w-3.5 h-3.5 text-luxury-gold" /> Zablokuj Termin w Grafiku
+                        </button>
+                      </div>
+                    </div>
+
+                    {adminGoogleSyncMsg && (
+                      <div className="p-3 bg-stone-50 border border-luxury-sand/80 text-xs font-mono text-luxury-dark flex items-center justify-between">
+                        <span>{adminGoogleSyncMsg}</span>
+                        <button
+                          type="button"
+                          onClick={() => setAdminGoogleSyncMsg("")}
+                          className="text-stone-400 hover:text-stone-600 cursor-pointer ml-2"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    )}
+
+                    {/* Stats bar */}
+                    <div className="flex flex-wrap items-center justify-between gap-3 text-xs pt-1">
+                      <div className="flex items-center gap-4 text-xs font-mono">
+                        <span className="text-luxury-dark">
+                          Aktywne blokady w systemie: <strong className="text-luxury-gold text-sm">{googleEventsList.length}</strong>
+                        </span>
+                        <span className="text-luxury-dark/70">
+                          Konto: <strong className="text-luxury-dark">{SLOW_SKIN_GOOGLE_ACCOUNT}</strong>
+                        </span>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => setIsGoogleEventsExpanded(!isGoogleEventsExpanded)}
+                        className="font-mono text-[10px] text-luxury-gold uppercase tracking-wider hover:underline flex items-center gap-1 cursor-pointer"
+                      >
+                        {isGoogleEventsExpanded ? "▲ Zwiń listę zablokowanych godzin" : `▼ Pokaż zablokowane godziny (${googleEventsList.length})`}
+                      </button>
+                    </div>
+
+                    {/* Collapsible list of blocked periods */}
+                    {isGoogleEventsExpanded && (
+                      <div className="mt-3 pt-3 border-t border-luxury-sand/30 space-y-2">
+                        {googleEventsList.length === 0 ? (
+                          <div className="p-4 bg-stone-50 text-center text-xs text-luxury-dark/60 font-mono">
+                            Brak aktywnych blokad terminów. Kliknij &quot;Zsynchronizuj z Google Calendar&quot;, aby pobrać terminy z kalendarza.
+                          </div>
+                        ) : (
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-64 overflow-y-auto pr-1">
+                            {googleEventsList.map((ev) => (
+                              <div
+                                key={ev.id}
+                                className="p-2.5 bg-stone-50/80 border border-luxury-sand/60 rounded-xs flex items-center justify-between gap-2 text-xs"
+                              >
+                                <div>
+                                  <div className="font-serif font-medium text-luxury-dark text-[13px] flex items-center gap-1.5">
+                                    <Lock className="w-3 h-3 text-luxury-gold shrink-0" />
+                                    <span>{ev.summary}</span>
+                                  </div>
+                                  <div className="text-[10px] font-mono text-luxury-dark/70 mt-0.5">
+                                    <span className="font-semibold text-luxury-dark">{ev.dateStr}</span>
+                                    {ev.isAllDay ? (
+                                      <span className="ml-1 text-amber-800 font-semibold">(Cały dzień)</span>
+                                    ) : (
+                                      <span className="ml-1">({ev.startTimeStr} — {ev.endTimeStr})</span>
+                                    )}
+                                  </div>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => handleDeleteGoogleBlock(ev.id)}
+                                  className="p-1.5 text-stone-400 hover:text-red-700 transition-colors cursor-pointer shrink-0"
+                                  title="Usuń blokadę"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
                   {/* Patients Directory Toolbar */}
                   <div className="bg-white border border-luxury-sand p-6 shadow-xs space-y-5">
                     <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 border-b border-luxury-sand/50 pb-4">
@@ -15808,6 +16019,133 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             className="px-5 py-2 bg-purple-950 hover:bg-purple-900 text-white font-mono text-[9px] uppercase tracking-widest font-semibold cursor-pointer shadow-xs transition-colors"
                           >
                             + Zapisz Rabat w Kartotece
+                          </button>
+                        </div>
+                      </form>
+                    </motion.div>
+                  </motion.div>
+                )}
+
+                {/* MODAL: BLOKADA TERMINU W GRAFIKU (MANUALNA) */}
+                {isManualBlockModalOpen && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 overflow-y-auto"
+                    onClick={() => setIsManualBlockModalOpen(false)}
+                  >
+                    <motion.div
+                      initial={{ scale: 0.95, opacity: 0, y: 15 }}
+                      animate={{ scale: 1, opacity: 1, y: 0 }}
+                      exit={{ scale: 0.95, opacity: 0, y: 15 }}
+                      className="bg-white border border-luxury-gold p-6 md:p-8 max-w-md w-full text-left space-y-5 shadow-2xl relative my-8"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div className="flex justify-between items-start border-b border-luxury-sand/40 pb-3">
+                        <div>
+                          <span className="font-mono text-[8.5px] tracking-widest text-luxury-gold uppercase block font-bold">
+                            GRAFIK GABINETU • BLOKADA GODZIN
+                          </span>
+                          <h3 className="font-serif text-xl font-light text-luxury-dark mt-0.5">
+                            Zablokuj Termin w Formularzu
+                          </h3>
+                          <p className="text-[11px] text-luxury-dark/80 font-mono">
+                            Zablokowane godziny będą natychmiast niedostępne dla rezerwacji online.
+                          </p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setIsManualBlockModalOpen(false)}
+                          className="text-luxury-dark/70 hover:text-luxury-dark font-mono text-sm cursor-pointer p-1"
+                        >
+                          ✕
+                        </button>
+                      </div>
+
+                      <form onSubmit={handleAddManualBlock} className="space-y-4 text-xs">
+                        <div className="space-y-1">
+                          <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
+                            Data blokady:
+                          </label>
+                          <input
+                            type="date"
+                            required
+                            value={manualBlockForm.dateStr}
+                            onChange={(e) => setManualBlockForm(prev => ({ ...prev, dateStr: e.target.value }))}
+                            className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold font-mono"
+                          />
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            id="allDayBlockCheckbox"
+                            checked={manualBlockForm.isAllDay}
+                            onChange={(e) => setManualBlockForm(prev => ({ ...prev, isAllDay: e.target.checked }))}
+                            className="accent-luxury-gold cursor-pointer"
+                          />
+                          <label htmlFor="allDayBlockCheckbox" className="font-mono text-[10px] text-luxury-dark cursor-pointer font-medium">
+                            Zablokuj cały dzień (brak wolnych slotów w tym dniu)
+                          </label>
+                        </div>
+
+                        {!manualBlockForm.isAllDay && (
+                          <div className="grid grid-cols-2 gap-3">
+                            <div className="space-y-1">
+                              <label className="font-mono text-[8.5px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
+                                Od godziny:
+                              </label>
+                              <input
+                                type="time"
+                                required
+                                value={manualBlockForm.startTimeStr}
+                                onChange={(e) => setManualBlockForm(prev => ({ ...prev, startTimeStr: e.target.value }))}
+                                className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold font-mono"
+                              />
+                            </div>
+                            <div className="space-y-1">
+                              <label className="font-mono text-[8.5px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
+                                Do godziny:
+                              </label>
+                              <input
+                                type="time"
+                                required
+                                value={manualBlockForm.endTimeStr}
+                                onChange={(e) => setManualBlockForm(prev => ({ ...prev, endTimeStr: e.target.value }))}
+                                className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold font-mono"
+                              />
+                            </div>
+                          </div>
+                        )}
+
+                        <div className="space-y-1">
+                          <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
+                            Powód blokady (widoczny w grafiku):
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            value={manualBlockForm.reason}
+                            onChange={(e) => setManualBlockForm(prev => ({ ...prev, reason: e.target.value }))}
+                            placeholder="np. Szkolenie bionomiczne, przerwa techniczna, urlop"
+                            className="w-full bg-white border border-luxury-sand p-2.5 text-xs text-luxury-dark outline-0 focus:border-luxury-gold"
+                          />
+                        </div>
+
+                        <div className="flex justify-end gap-2.5 pt-3 border-t border-luxury-sand/30">
+                          <button
+                            type="button"
+                            onClick={() => setIsManualBlockModalOpen(false)}
+                            className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-luxury-dark font-mono text-[9px] uppercase tracking-wider cursor-pointer"
+                          >
+                            Anuluj
+                          </button>
+                          <button
+                            type="submit"
+                            className="px-5 py-2 bg-luxury-dark hover:bg-luxury-gold text-white font-mono text-[9px] uppercase tracking-widest font-semibold cursor-pointer shadow-xs transition-colors"
+                          >
+                            Zablokuj w Kalendarzu &rarr;
                           </button>
                         </div>
                       </form>
