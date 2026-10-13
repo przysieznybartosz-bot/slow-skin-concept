@@ -167,11 +167,28 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
     setSyncError(null);
     setSyncSuccessMessage(null);
     try {
-      // Re-fetch current selectedDate availability directly
+      let token = googleToken || getCachedGoogleToken();
+      if (!token) {
+        // Attempt Google authorization for live calendar synchronization
+        token = await requestGoogleCalendarAccess().catch(() => null);
+        if (token) {
+          setGoogleToken(token);
+          const profile = await fetchGoogleUserProfile(token);
+          if (profile) setGoogleUser(profile);
+        }
+      }
+      if (token) {
+        const syncRes = await syncGoogleCalendarWithBackend(token);
+        if (syncRes.success) {
+          setSyncSuccessMessage(`✓ Zsynchronizowano ${syncRes.count} terminów z Kalendarzem Google (${SLOW_SKIN_GOOGLE_ACCOUNT}).`);
+        }
+      } else {
+        setSyncSuccessMessage(`Dostępność dla ${selectedDate} odświeżona.`);
+      }
       await loadSlots(selectedDate, durationMin);
-      setSyncSuccessMessage(`Dostępność dla ${selectedDate} zaktualizowana z kalendarzem ${SLOW_SKIN_GOOGLE_ACCOUNT}.`);
     } catch (e: any) {
-      setSyncError(e?.message || "Błąd odświeżania kalendarza.");
+      await loadSlots(selectedDate, durationMin);
+      setSyncError(e?.message || "Nie udało się połączyć bezpośrednio z kontem Google. Zaktualizowano z bazy.");
     } finally {
       setIsSyncingGoogle(false);
     }
@@ -317,6 +334,11 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
         if (!clientName && profile.name) setClientName(profile.name);
         if (!clientEmail && profile.email) setClientEmail(profile.email);
       }
+      const syncRes = await syncGoogleCalendarWithBackend(token);
+      if (syncRes.success) {
+        setSyncSuccessMessage(`✓ Zsynchronizowano ${syncRes.count} terminów z Kalendarzem Google (${SLOW_SKIN_GOOGLE_ACCOUNT}).`);
+      }
+      await loadSlots(selectedDate, durationMin);
     } catch (err: any) {
       setSyncError(err.message || "Logowanie Google anulowane.");
     } finally {

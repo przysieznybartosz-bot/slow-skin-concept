@@ -384,6 +384,7 @@ export async function syncGoogleCalendarWithBackend(token: string): Promise<{ su
 
     for (const item of allItems) {
       if (item.status === "cancelled") continue;
+      if (item.transparency === "transparent") continue; // Respect 'Show as free' setting in Google Calendar
 
       const isAllDay = !item.start?.dateTime && !!item.start?.date;
       let dateStr = "";

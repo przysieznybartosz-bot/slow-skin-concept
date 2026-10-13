@@ -1,4 +1,6 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
+import fs from "node:fs";
+import path from "node:path";
 
 interface CalendarSlot {
   time: string;
@@ -19,36 +21,106 @@ interface GoogleCalendarStoredEvent {
   startTimeStr?: string;
   endTimeStr?: string;
   isAllDay?: boolean;
+  transparency?: string;
   calendarAccount?: string;
   updatedAt?: string;
 }
 
 const RAW_EVENTS_URL = "https://raw.githubusercontent.com/przysieznybartosz-bot/slow-skin-concept/main/google_calendar_events.json";
 
-// Default known synchronized events (Friday 16.10 busy schedule)
-const DEFAULT_EVENTS: GoogleCalendarStoredEvent[] = [
-  {
-    id: "gcal-1016-slowskin-full",
-    summary: "Termin zajęty w kalendarzu gabinetu",
-    start: "2026-10-16T10:00:00+02:00",
-    end: "2026-10-16T19:30:00+02:00",
-    dateStr: "2026-10-16",
-    startTimeStr: "10:00",
-    endTimeStr: "19:30",
-    isAllDay: true,
-    calendarAccount: "slowskinconcept@gmail.com",
-    updatedAt: "2026-10-13T22:30:00.000Z"
+function getLocalEvents(): GoogleCalendarStoredEvent[] | null {
+  try {
+    const candidates = [
+      path.join(process.cwd(), "google_calendar_events.json"),
+      path.join(process.cwd(), "..", "google_calendar_events.json"),
+      "/app/applet/google_calendar_events.json"
+    ];
+    for (const filePath of candidates) {
+      if (fs.existsSync(filePath)) {
+        const raw = fs.readFileSync(filePath, "utf-8");
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+    }
+  } catch (e) {
+    // ignore
   }
-];
+  return null;
+}
 
-let cachedEvents: GoogleCalendarStoredEvent[] = [...DEFAULT_EVENTS];
-let lastCacheTime = 0;
+let cachedRemoteEvents: GoogleCalendarStoredEvent[] = [];
+let lastRemoteCacheTime = 0;
 
-async function getLiveGoogleEvents(): Promise<GoogleCalendarStoredEvent[]> {
+async function getStoredEvents(authToken?: string): Promise<GoogleCalendarStoredEvent[]> {
+  // 1. If auth token passed, try live fetch from Google Calendar
+  if (authToken && authToken.startsWith("Bearer ")) {
+    try {
+      const token = authToken.replace("Bearer ", "").trim();
+      const now = new Date();
+      const timeMin = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+      const timeMax = new Date(now.getFullYear(), now.getMonth() + 3, 28).toISOString();
+      const gRes = await fetch(
+        `https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${encodeURIComponent(timeMin)}&timeMax=${encodeURIComponent(timeMax)}&singleEvents=true&maxResults=250&orderBy=startTime`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (gRes.ok) {
+        const gData = await gRes.json();
+        if (Array.isArray(gData.items)) {
+          const liveEvents: GoogleCalendarStoredEvent[] = [];
+          for (const item of gData.items) {
+            if (item.status === "cancelled") continue;
+            if (item.transparency === "transparent") continue; // Available/Free event
+            const isAllDay = !item.start?.dateTime && !!item.start?.date;
+            let dateStr = "";
+            let startTimeStr = "10:00";
+            let endTimeStr = "19:30";
+            if (isAllDay) {
+              dateStr = item.start.date;
+            } else if (item.start?.dateTime) {
+              const startDate = new Date(item.start.dateTime);
+              const endDate = item.end?.dateTime ? new Date(item.end.dateTime) : new Date(startDate.getTime() + 60 * 60 * 1000);
+              const pad = (n: number) => n.toString().padStart(2, "0");
+              dateStr = `${startDate.getFullYear()}-${pad(startDate.getMonth() + 1)}-${pad(startDate.getDate())}`;
+              startTimeStr = `${pad(startDate.getHours())}:${pad(startDate.getMinutes())}`;
+              endTimeStr = `${pad(endDate.getHours())}:${pad(endDate.getMinutes())}`;
+            }
+            if (dateStr) {
+              liveEvents.push({
+                id: item.id || `gcal-${dateStr}-${startTimeStr}`,
+                summary: item.summary || "Zajęty termin w kalendarzu",
+                start: item.start?.dateTime || item.start?.date || "",
+                end: item.end?.dateTime || item.end?.date || "",
+                dateStr,
+                startTimeStr,
+                endTimeStr,
+                isAllDay,
+                calendarAccount: "slowskinconcept@gmail.com",
+                updatedAt: new Date().toISOString(),
+              });
+            }
+          }
+          if (liveEvents.length > 0) return liveEvents;
+        }
+      }
+    } catch {
+      // ignore
+    }
+  }
+
+  // 2. Check local disk
+  const local = getLocalEvents();
+  if (local && local.length > 0) {
+    return local;
+  }
+
+  // 3. Fallback to cached or remote GitHub file
   const now = Date.now();
-  if (cachedEvents.length > 0 && now - lastCacheTime < 15_000) {
-    return cachedEvents;
+  if (cachedRemoteEvents.length > 0 && now - lastRemoteCacheTime < 30_000) {
+    return cachedRemoteEvents;
   }
+
   try {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 2500);
@@ -59,16 +131,17 @@ async function getLiveGoogleEvents(): Promise<GoogleCalendarStoredEvent[]> {
     clearTimeout(timeout);
     if (res.ok) {
       const data = await res.json();
-      if (Array.isArray(data)) {
-        cachedEvents = data;
-        lastCacheTime = now;
-        return cachedEvents;
+      if (Array.isArray(data) && data.length > 0) {
+        cachedRemoteEvents = data;
+        lastRemoteCacheTime = now;
+        return cachedRemoteEvents;
       }
     }
   } catch {
-    // fallback to cache
+    // fallback
   }
-  return cachedEvents.length > 0 ? cachedEvents : DEFAULT_EVENTS;
+
+  return cachedRemoteEvents;
 }
 
 function sendJson(res: ServerResponse | any, status: number, data: any) {
@@ -156,9 +229,11 @@ export default async function handler(req: IncomingMessage | any, res: ServerRes
     const closeMinutes = 19 * 60 + 30; // 19:30
     const dayName = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"][dayOfWeek];
 
-    const allEvents = await getLiveGoogleEvents();
+    const authHeader = req.headers?.authorization || (typeof req.header === "function" ? req.header("authorization") : undefined);
+    const allEvents = await getStoredEvents(authHeader);
     const specificEvents = allEvents.filter((ev) => ev.dateStr === dateStr);
 
+    // All-day event check (must actually cover operating hours 10:00 to 19:30)
     const allDayEvent = specificEvents.find(
       (ev) => ev.isAllDay || (ev.startTimeStr && ev.endTimeStr && ev.startTimeStr <= "10:00" && ev.endTimeStr >= "19:30")
     );
@@ -209,6 +284,7 @@ export default async function handler(req: IncomingMessage | any, res: ServerRes
       const slotEnd = slotStart + duration;
       const slotBlockEnd = slotStart + requiredBlock;
 
+      // Collision condition: slotStart < busyEnd && slotBlockEnd > busyStart
       const colliding = bookedIntervals.find(
         (b) => slotStart < b.end && slotBlockEnd > b.start
       );
