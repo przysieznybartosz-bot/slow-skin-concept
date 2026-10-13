@@ -702,21 +702,23 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                       </div>
 
                       {/* Selected Slot Confirmation Summary */}
-                      <div className="mt-3 p-3 bg-white border border-luxury-gold/40 rounded-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
-                        <div className="space-y-0.5">
-                          <span className="font-mono text-[9px] uppercase tracking-wider text-luxury-gold font-bold block">
-                            Zarezerwowany przedział czasowy:
-                          </span>
-                          <p className="font-serif text-sm font-medium text-luxury-dark">
-                            {selectedDate} • godz. <strong className="text-luxury-gold">{selectedTime} — {slotEndTime}</strong>
-                          </p>
+                      {selectedTime && slotsData && slotsData.availableSlotsCount > 0 && (
+                        <div className="mt-3 p-3 bg-white border border-luxury-gold/40 rounded-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+                          <div className="space-y-0.5">
+                            <span className="font-mono text-[9px] uppercase tracking-wider text-luxury-gold font-bold block">
+                              Zarezerwowany przedział czasowy:
+                            </span>
+                            <p className="font-serif text-sm font-medium text-luxury-dark">
+                              {selectedDate} • godz. <strong className="text-luxury-gold">{selectedTime} — {slotEndTime}</strong>
+                            </p>
+                          </div>
+                          <div className="text-right">
+                            <span className="font-mono text-[9px] text-emerald-800 bg-emerald-50 border border-emerald-200 px-2 py-1 rounded-xs font-semibold inline-flex items-center gap-1">
+                              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> Brak kolizji z innymi gośćmi
+                            </span>
+                          </div>
                         </div>
-                        <div className="text-right">
-                          <span className="font-mono text-[9px] text-emerald-800 bg-emerald-50 border border-emerald-200 px-2 py-1 rounded-xs font-semibold inline-flex items-center gap-1">
-                            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> Brak kolizji z innymi gośćmi
-                          </span>
-                        </div>
-                      </div>
+                      )}
                     </div>
                   )}
                 </div>

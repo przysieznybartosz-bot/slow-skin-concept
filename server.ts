@@ -667,17 +667,21 @@ async function startServer() {
       const dayGoogleEvents = specificEvents.length > 0 ? specificEvents : getWeekdayRecurringGoogleEvents(dayOfWeek, dateStr);
 
       // Check if there is an all-day event blocking the entire day
-      const allDayEvent = dayGoogleEvents.find((ev) => ev.isAllDay);
+      const allDayEvent = dayGoogleEvents.find(
+        (ev) => ev.isAllDay || (ev.startTimeStr && ev.endTimeStr && ev.startTimeStr <= "10:00" && ev.endTimeStr >= "19:30")
+      );
       if (allDayEvent) {
         return res.json({
           date: dateStr,
           isClosed: true,
           dayName: ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"][dayOfWeek],
-          reason: `Termin zablokowany w Kalendarzu Google (${allDayEvent.summary}). W tym dniu gabinet nie przyjmuje rezerwacji online.`,
+          reason: `Termin w pełni zablokowany w Kalendarzu Google (${allDayEvent.summary}). W tym dniu gabinet nie przyjmuje rezerwacji online.`,
           slots: [],
           totalSlots: 0,
           availableSlotsCount: 0,
+          occupiedGoogleSlotsCount: 18,
           googleCalendarSynced: true,
+          googleAccount: "slowskinconcept@gmail.com",
         });
       }
 
@@ -753,15 +757,19 @@ async function startServer() {
         });
       }
 
+      const availableCount = slots.filter((s) => s.isAvailable).length;
+      const isAllDayOccupied = slots.length > 0 && availableCount === 0;
+
       res.json({
         date: dateStr,
         dayName: ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"][dayOfWeek],
-        isClosed: false,
+        isClosed: isAllDayOccupied,
+        reason: isAllDayOccupied ? "Wszystkie godziny w tym dniu są zajęte w Kalendarzu Google (slowskinconcept@gmail.com). W tym dniu brak wolnych terminów na rezerwację." : undefined,
         durationMinutes: duration,
         bufferMinutes,
         salonHours: "10:00 — 19:30 (Pon–Pt)",
         totalSlots: slots.length,
-        availableSlotsCount: slots.filter((s) => s.isAvailable).length,
+        availableSlotsCount: availableCount,
         occupiedGoogleSlotsCount: slots.filter((s) => s.source === "google_calendar").length,
         googleCalendarSynced: true,
         googleAccount: "slowskinconcept@gmail.com",
