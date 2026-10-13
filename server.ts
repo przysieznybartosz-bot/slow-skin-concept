@@ -6,6 +6,21 @@ import { GoogleGenAI, Type } from "@google/genai";
 import OpenAI from "openai";
 import dotenv from "dotenv";
 import { getKnowledgeBaseTextContext } from "./src/knowledgeBase";
+import {
+  verifyCalendarConnection,
+  getLiveAvailableSlots,
+  insertBookingIntoSalonCalendar,
+  getAuthenticatedCalendarClient,
+  getActiveCalendarId,
+  saveStoredRefreshToken,
+  getStoredRefreshToken,
+  SALON_ACCOUNT_EMAIL,
+} from "./src/server/googleCalendarBackend";
+import {
+  generateAdminAuthUrl,
+  handleOAuthCallback,
+  getEffectiveOAuthCredentials,
+} from "./src/server/googleOAuthService";
 
 dotenv.config();
 
@@ -362,100 +377,17 @@ async function startServer() {
     createdAt: string;
   }
 
-  function getStoredGoogleEvents(): GoogleCalendarStoredEvent[] {
-    try {
-      if (fs.existsSync(GOOGLE_CALENDAR_EVENTS_FILE)) {
-        const raw = fs.readFileSync(GOOGLE_CALENDAR_EVENTS_FILE, "utf-8");
-        return JSON.parse(raw);
-      }
-    } catch (e) {
-      console.error("Error reading google_calendar_events.json:", e);
-    }
-    return [];
-  }
-
-  function saveStoredGoogleEvents(events: GoogleCalendarStoredEvent[]) {
-    try {
-      fs.writeFileSync(GOOGLE_CALENDAR_EVENTS_FILE, JSON.stringify(events, null, 2), "utf-8");
-    } catch (e) {
-      console.error("Error saving google_calendar_events.json:", e);
-    }
-  }
-
-  function getWeekdayRecurringGoogleEvents(dayOfWeek: number, dateStr: string): GoogleCalendarStoredEvent[] {
-    return [];
-  }
-
   function getStoredBookings(): StoredBooking[] {
     try {
       if (fs.existsSync(CALENDAR_BOOKINGS_FILE)) {
         const raw = fs.readFileSync(CALENDAR_BOOKINGS_FILE, "utf-8");
-        return JSON.parse(raw);
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) return parsed;
       }
     } catch (e) {
       console.error("Error reading bookings_db.json:", e);
     }
-    // Return sample seeded bookings for realistic salon schedule demonstration
-    const now = new Date();
-    const pad = (n: number) => n.toString().padStart(2, "0");
-    const todayStr = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
-    
-    // Tomorrow
-    const tom = new Date(now);
-    tom.setDate(tom.getDate() + 1);
-    const tomStr = `${tom.getFullYear()}-${pad(tom.getMonth() + 1)}-${pad(tom.getDate())}`;
-
-    // Day after tomorrow
-    const dat = new Date(now);
-    dat.setDate(dat.getDate() + 2);
-    const datStr = `${dat.getFullYear()}-${pad(dat.getMonth() + 1)}-${pad(dat.getDate())}`;
-
-    const seed: StoredBooking[] = [
-      {
-        id: "seed-1",
-        treatmentName: "Skin Readiness™ — Diagnoza Komputerowa",
-        durationMinutes: 90,
-        price: "400 PLN",
-        clientName: "Joanna M.",
-        clientPhone: "+48 600 *** ***",
-        clientEmail: "j.m@example.com",
-        dateStr: tomStr,
-        timeStr: "11:00",
-        notes: "Stała klientka",
-        createdAt: new Date().toISOString(),
-      },
-      {
-        id: "seed-2",
-        treatmentName: "Neurolifting — Fale Nogiera",
-        durationMinutes: 90,
-        price: "500 PLN",
-        clientName: "Ewa K.",
-        clientPhone: "+48 501 *** ***",
-        clientEmail: "e.k@example.com",
-        dateStr: tomStr,
-        timeStr: "15:00",
-        notes: "Wizyta cykliczna",
-        createdAt: new Date().toISOString(),
-      },
-      {
-        id: "seed-3",
-        treatmentName: "Lift & Firm Therapy™",
-        durationMinutes: 75,
-        price: "500 PLN",
-        clientName: "Magdalena W.",
-        clientPhone: "+48 692 *** ***",
-        clientEmail: "m.w@example.com",
-        dateStr: datStr,
-        timeStr: "10:30",
-        notes: "Konsultacja barierowa",
-        createdAt: new Date().toISOString(),
-      },
-    ];
-
-    try {
-      fs.writeFileSync(CALENDAR_BOOKINGS_FILE, JSON.stringify(seed, null, 2), "utf-8");
-    } catch {}
-    return seed;
+    return [];
   }
 
   function saveStoredBookings(bookings: StoredBooking[]) {
@@ -466,413 +398,297 @@ async function startServer() {
     }
   }
 
-  function timeToMinutes(timeStr: string): number {
-    const [h, m] = timeStr.split(":").map(Number);
-    return h * 60 + m;
-  }
+  // Calendar info & authentication endpoint
+  app.get("/api/calendar/info", async (req, res) => {
+    try {
+      const status = await verifyCalendarConnection();
+      res.json({
+        googleAccount: SALON_ACCOUNT_EMAIL,
+        calendarId: getActiveCalendarId(),
+        connected: status.ready,
+        authMethod: status.authMethod,
+        operatingHours: {
+          weekdays: "10:00 — 19:30",
+          saturday: "Nieczynne",
+          sunday: "Nieczynne",
+        },
+        bufferMinutes: 15,
+        error: status.error,
+        instructions: status.instructions,
+      });
+    } catch (err: any) {
+      res.status(500).json({
+        googleAccount: SALON_ACCOUNT_EMAIL,
+        calendarId: getActiveCalendarId(),
+        connected: false,
+        error: err.message || "Błąd sprawdzania statusu kalendarza Google.",
+      });
+    }
+  });
 
-  function minutesToTime(mins: number): string {
-    const h = Math.floor(mins / 60);
-    const m = mins % 60;
-    return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}`;
-  }
+  // Calendar auth status & refresh token configuration
+  app.get("/api/calendar/auth", async (req, res) => {
+    const status = await verifyCalendarConnection();
+    const hasRefreshToken = !!getStoredRefreshToken();
+    const clientId = process.env.GOOGLE_CLIENT_ID;
+    const hasClientSecret = !!process.env.GOOGLE_CLIENT_SECRET;
 
-  // Calendar info & bookings endpoint
-  app.get("/api/calendar/info", (req, res) => {
-    const googleEvents = getStoredGoogleEvents();
     res.json({
-      googleAccount: "slowskinconcept@gmail.com",
-      calendarId: "ec7711f8f95afc5d0e88dd4a404e2b15d3503323b86963b41d25747356d8b0d7@group.calendar.google.com",
-      status: "connected",
-      operatingHours: {
-        weekdays: "10:00 — 19:30",
-        saturday: "Nieczynne (zablokowane)",
-        sunday: "Nieczynne (regeneracja komórkowa)",
+      accountEmail: SALON_ACCOUNT_EMAIL,
+      calendarId: getActiveCalendarId(),
+      connected: status.ready,
+      authMethod: status.authMethod,
+      config: {
+        hasClientId: !!clientId,
+        hasClientSecret,
+        hasRefreshToken,
       },
-      bufferMinutes: 15,
-      syncedGoogleEventsCount: googleEvents.length,
-      lastSyncedAt: googleEvents.length > 0 ? googleEvents[0].updatedAt : null,
+      error: status.error,
+      instructions: status.instructions,
     });
   });
 
-  // Get synchronized Google Calendar events
-  app.get("/api/calendar/google-events", (req, res) => {
+  app.post("/api/calendar/auth", async (req, res) => {
+    const { refreshToken } = req.body || {};
+    if (!refreshToken || typeof refreshToken !== "string") {
+      return res.status(400).json({ error: "Wymagany parametr 'refreshToken' (string)." });
+    }
+    saveStoredRefreshToken(refreshToken);
+    const testResult = await verifyCalendarConnection();
+    res.json({
+      success: testResult.ready,
+      message: testResult.ready
+        ? "Refresh token zapisany pomyślnie. Kalendarz Google gabinetu jest połączony."
+        : `Refresh token zapisany, ale test połączenia zwrócił błąd: ${testResult.error}`,
+      verification: testResult,
+    });
+  });
+
+  // Google OAuth Login URL generator / redirect
+  app.get("/api/calendar/auth/login", (req, res) => {
+    const origin = `${req.protocol}://${req.get("host") || "slow-skin-concept.pl"}`;
+    const { clientSecret, clientId, redirectUri } = getEffectiveOAuthCredentials(origin);
+    if (!clientSecret) {
+      return res.status(400).json({
+        success: false,
+        error: "Brak GOOGLE_CLIENT_SECRET w zmiennych środowiskowych serwera.",
+        configuredClientId: clientId,
+        requiredRedirectUri: redirectUri,
+        instruction: "Wprowadź GOOGLE_CLIENT_SECRET w panelu Vercel (Environment Variables), a następnie ponów autoryzację.",
+      });
+    }
+    const { url } = generateAdminAuthUrl(origin);
+    if (req.accepts("html")) {
+      return res.redirect(url);
+    }
+    res.json({ success: true, authUrl: url, redirectUri, clientId });
+  });
+
+  // Google OAuth Callback
+  app.get("/api/calendar/auth/callback", async (req, res) => {
+    const code = req.query.code as string;
+    const errorParam = req.query.error as string;
+    const origin = `${req.protocol}://${req.get("host") || "slow-skin-concept.pl"}`;
+
+    if (errorParam) {
+      return res.status(400).send(`<h2>Błąd autoryzacji Google: ${errorParam}</h2><p><a href="/admin">Wróć</a></p>`);
+    }
+    if (!code) {
+      return res.status(400).send(`<h2>Brak kodu autoryzacji.</h2><p><a href="/admin">Wróć</a></p>`);
+    }
+
+    const result = await handleOAuthCallback(code, origin);
+    if (result.success) {
+      return res.send(`
+        <div style="font-family:sans-serif;padding:30px;max-width:600px;margin:auto">
+          <h2 style="color:#15803d">✓ Kalendarz Google połączony pomyślnie</h2>
+          <p>${result.message}</p>
+          <p><strong>ID kalendarza:</strong> <code>${result.calendarId}</code></p>
+          <a href="/admin" style="display:inline-block;padding:10px 18px;background:#1a1918;color:#fff;text-decoration:none;border-radius:3px">Przejdź do Panelu Administratora →</a>
+        </div>
+      `);
+    }
+    return res.status(502).send(`
+      <div style="font-family:sans-serif;padding:30px;max-width:600px;margin:auto">
+        <h2 style="color:#b91c1c">✕ Błąd autoryzacji kalendarza</h2>
+        <p>${result.message}</p>
+        <p><a href="/admin">Wróć</a></p>
+      </div>
+    `);
+  });
+
+  // Get synchronized Google Calendar events directly from Google API
+  app.get("/api/calendar/google-events", async (req, res) => {
+    const { calendar, authMethod, error } = await getAuthenticatedCalendarClient();
+    const calendarId = getActiveCalendarId();
+
+    if (!calendar) {
+      return res.json({
+        success: false,
+        connected: false,
+        authMethod,
+        error: error || "Brak uwierzytelnienia serwerowego do Google Calendar gabinetu.",
+        accountEmail: SALON_ACCOUNT_EMAIL,
+        calendarId,
+        totalEvents: 0,
+        events: [],
+        syncedAt: null,
+      });
+    }
+
     try {
-      const events = getStoredGoogleEvents();
+      const now = new Date();
+      const timeMin = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+      const timeMax = new Date(now.getFullYear(), now.getMonth() + 3, 28).toISOString();
+
+      const gRes = await calendar.events.list({
+        calendarId,
+        timeMin,
+        timeMax,
+        singleEvents: true,
+        orderBy: "startTime",
+        maxResults: 250,
+      });
+
+      const items = gRes.data.items || [];
+      const events: any[] = [];
+      const pad = (n: number) => n.toString().padStart(2, "0");
+
+      for (const item of items) {
+        if (item.status === "cancelled") continue;
+        if (item.transparency === "transparent") continue;
+
+        const isAllDay = !item.start?.dateTime && !!item.start?.date;
+        let dateStr = "";
+        let startTimeStr = "10:00";
+        let endTimeStr = "19:30";
+
+        if (isAllDay && item.start?.date) {
+          dateStr = item.start.date;
+        } else if (item.start?.dateTime) {
+          const startDate = new Date(item.start.dateTime);
+          const endDate = item.end?.dateTime ? new Date(item.end.dateTime) : new Date(startDate.getTime() + 60 * 60 * 1000);
+          dateStr = `${startDate.getFullYear()}-${pad(startDate.getMonth() + 1)}-${pad(startDate.getDate())}`;
+          startTimeStr = `${pad(startDate.getHours())}:${pad(startDate.getMinutes())}`;
+          endTimeStr = `${pad(endDate.getHours())}:${pad(endDate.getMinutes())}`;
+        }
+
+        if (dateStr) {
+          events.push({
+            id: item.id,
+            summary: "Zajęty termin w kalendarzu",
+            start: item.start?.dateTime || item.start?.date,
+            end: item.end?.dateTime || item.end?.date,
+            dateStr,
+            startTimeStr,
+            endTimeStr,
+            isAllDay,
+            calendarAccount: SALON_ACCOUNT_EMAIL,
+          });
+        }
+      }
+
       res.json({
         success: true,
-        googleAccount: "slowskinconcept@gmail.com",
+        connected: true,
+        authMethod,
+        accountEmail: SALON_ACCOUNT_EMAIL,
+        calendarId,
         totalEvents: events.length,
         events,
+        syncedAt: new Date().toISOString(),
       });
-    } catch (e: any) {
-      res.status(500).json({ error: e.message || "Błąd pobierania wydarzeń kalendarza." });
-    }
-  });
-
-  // Sync Google Calendar events from frontend
-  app.post("/api/calendar/sync-google-events", async (req, res) => {
-    try {
-      const { events, accountEmail } = req.body;
-      if (!Array.isArray(events)) {
-        return res.status(400).json({ error: "Wymagana tablica wydarzeń 'events'." });
-      }
-
-      const currentEvents = getStoredGoogleEvents();
-      const eventMap = new Map<string, GoogleCalendarStoredEvent>();
-      
-      // Keep existing manual blocks or events
-      currentEvents.forEach((ev) => eventMap.set(ev.id, ev));
-
-      // Merge new incoming events
-      const nowIso = new Date().toISOString();
-      for (const ev of events) {
-        if (!ev.id || !ev.dateStr) continue;
-        eventMap.set(ev.id, {
-          id: ev.id,
-          summary: ev.summary || "Zajęty termin (Google Calendar)",
-          start: ev.start || "",
-          end: ev.end || "",
-          dateStr: ev.dateStr,
-          startTimeStr: ev.startTimeStr || "10:00",
-          endTimeStr: ev.endTimeStr || "11:00",
-          isAllDay: !!ev.isAllDay,
-          calendarAccount: accountEmail || "slowskinconcept@gmail.com",
-          updatedAt: nowIso,
-        });
-      }
-
-      const merged = Array.from(eventMap.values());
-      // Sort by dateStr and startTimeStr
-      merged.sort((a, b) => `${a.dateStr} ${a.startTimeStr || ""}`.localeCompare(`${b.dateStr} ${b.startTimeStr || ""}`));
-
-      saveStoredGoogleEvents(merged);
-
-      console.log(`[GOOGLE CALENDAR SYNC] Successfully synced ${events.length} events for ${accountEmail || "slowskinconcept@gmail.com"}. Total active blocks: ${merged.length}`);
-
-      res.json({
-        success: true,
-        message: `Pomyślnie zsynchronizowano ${events.length} terminów z Kalendarza Google (${accountEmail || "slowskinconcept@gmail.com"}).`,
-        totalEvents: merged.length,
-        syncedAt: nowIso,
+    } catch (apiErr: any) {
+      res.status(500).json({
+        success: false,
+        connected: false,
+        error: apiErr?.message || "Błąd pobierania wydarzeń z Google Calendar.",
+        accountEmail: SALON_ACCOUNT_EMAIL,
+        calendarId,
+        totalEvents: 0,
+        events: [],
+        syncedAt: null,
       });
-    } catch (e: any) {
-      console.error("Error in /api/calendar/sync-google-events:", e);
-      res.status(500).json({ error: e.message || "Nie udało się zsynchronizować wydarzeń kalendarza." });
     }
   });
 
-  // Add manual blocked block (e.g. vacation, training, technical break)
-  app.post("/api/calendar/block-time", (req, res) => {
-    try {
-      const { dateStr, startTimeStr, endTimeStr, reason, isAllDay } = req.body;
-      if (!dateStr || (!isAllDay && (!startTimeStr || !endTimeStr))) {
-        return res.status(400).json({ error: "Brak wymaganych pól: data oraz godziny rozpoczęcia i zakończenia." });
-      }
-
-      const events = getStoredGoogleEvents();
-      const newBlock: GoogleCalendarStoredEvent = {
-        id: `manual-block-${Date.now()}`,
-        summary: reason || "Termin zablokowany przez personel gabinetu",
-        start: `${dateStr}T${startTimeStr || "10:00"}:00+02:00`,
-        end: `${dateStr}T${endTimeStr || "19:30"}:00+02:00`,
-        dateStr,
-        startTimeStr: isAllDay ? "10:00" : startTimeStr,
-        endTimeStr: isAllDay ? "19:30" : endTimeStr,
-        isAllDay: !!isAllDay,
-        calendarAccount: "slowskinconcept@gmail.com",
-        updatedAt: new Date().toISOString(),
-      };
-
-      events.push(newBlock);
-      saveStoredGoogleEvents(events);
-
-      res.json({ success: true, block: newBlock });
-    } catch (e: any) {
-      res.status(500).json({ error: e.message || "Błąd zapisu blokady terminu." });
-    }
-  });
-
-  // Delete a blocked Google event or manual block
-  app.delete("/api/calendar/google-events/:id", (req, res) => {
-    try {
-      const { id } = req.params;
-      const events = getStoredGoogleEvents();
-      const filtered = events.filter((ev) => ev.id !== id);
-      saveStoredGoogleEvents(filtered);
-      res.json({ success: true, remaining: filtered.length });
-    } catch (e: any) {
-      res.status(500).json({ error: e.message || "Błąd usuwania terminu." });
-    }
-  });
-
-  // Calculate dynamic slots tailored to treatment duration with collision prevention (Local + Google Calendar)
+  // Calculate dynamic slots tailored to treatment duration using Google Calendar freebusy.query
   app.get("/api/calendar/slots", async (req, res) => {
     try {
       const dateStr = (req.query.date as string) || "";
       const duration = parseInt(req.query.duration as string, 10) || 75;
-      const bufferMinutes = 15; // 15 min disinfection & room prep
 
       if (!dateStr || !/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
-        return res.status(400).json({ error: "Nieprawidłowy format daty (wymagany YYYY-MM-DD)." });
-      }
-
-      const [year, month, day] = dateStr.split("-").map(Number);
-      const reqDate = new Date(year, month - 1, day, 12, 0, 0);
-      const dayOfWeek = reqDate.getDay(); // 0 = Sun, 1 = Mon, ..., 6 = Sat
-
-      // Check if Sunday (closed)
-      if (dayOfWeek === 0) {
-        return res.json({
-          date: dateStr,
-          status: "closed",
-          isClosed: true,
-          isFullyBooked: false,
-          dayName: "Niedziela",
-          salonHours: "10:00 — 19:30 (Pon–Pt)",
-          reason: "W niedziele Instytut Slow Skin Concept jest nieczynny — dzień regeneracji komórkowej i wyciszenia.",
-          durationMinutes: duration,
-          bufferMinutes,
-          totalSlots: 0,
-          availableSlotsCount: 0,
-          occupiedGoogleSlotsCount: 0,
-          googleCalendarSynced: true,
-          googleAccount: "slowskinconcept@gmail.com",
+        return res.status(400).json({
+          success: false,
+          status: "sync_error",
+          error: "Nieprawidłowy format daty (wymagany YYYY-MM-DD).",
+          googleCalendarSynced: false,
           slots: [],
         });
       }
 
-      // Check if Saturday (closed / blocked)
-      if (dayOfWeek === 6) {
-        return res.json({
-          date: dateStr,
-          status: "closed",
-          isClosed: true,
-          isFullyBooked: false,
-          dayName: "Sobota",
-          salonHours: "10:00 — 19:30 (Pon–Pt)",
-          reason: "W soboty gabinet jest nieczynny. Zapraszamy od poniedziałku do piątku w godzinach 10:00 — 19:30.",
-          durationMinutes: duration,
-          bufferMinutes,
-          totalSlots: 0,
-          availableSlotsCount: 0,
-          occupiedGoogleSlotsCount: 0,
-          googleCalendarSynced: true,
-          googleAccount: "slowskinconcept@gmail.com",
-          slots: [],
-        });
-      }
-
-      // Salon hours: Mon-Fri 10:00 — 19:30
-      const openMinutes = 10 * 60; // 10:00 rano
-      const closeMinutes = 19 * 60 + 30; // 19:30
-      const dayName = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"][dayOfWeek];
-
-      // 1. Fetch local reservations for this date
       const allBookings = getStoredBookings();
-      const dayBookings = allBookings.filter((b) => b.dateStr === dateStr);
+      const dayBookings = allBookings
+        .filter((b) => b.dateStr === dateStr)
+        .map((b) => ({ timeStr: b.timeStr, durationMinutes: b.durationMinutes || 75 }));
 
-      // 2. Fetch synchronized Google Calendar events for this date
-      const allGoogleEvents = getStoredGoogleEvents();
-      const specificEvents = allGoogleEvents.filter((ev) => ev.dateStr === dateStr);
-      const dayGoogleEvents = specificEvents.length > 0 ? specificEvents : getWeekdayRecurringGoogleEvents(dayOfWeek, dateStr);
+      const result = await getLiveAvailableSlots(dateStr, duration, dayBookings);
 
-      // Check if there is an all-day event blocking the entire day
-      const allDayEvent = dayGoogleEvents.find(
-        (ev) => ev.isAllDay || (ev.startTimeStr && ev.endTimeStr && ev.startTimeStr <= "10:00" && ev.endTimeStr >= "19:30")
-      );
-      if (allDayEvent) {
-        return res.json({
-          date: dateStr,
-          dayName,
-          status: "fully_booked",
-          isClosed: false,
-          isFullyBooked: true,
-          salonHours: "10:00 — 19:30 (Pon–Pt)",
-          reason: `W dniu ${dateStr} (${dayName}) kalendarz Google gabinetu (${allDayEvent.summary}) jest w pełni zarezerwowany. W tym dniu brak wolnych godzin na rezerwację online.`,
-          durationMinutes: duration,
-          bufferMinutes,
-          slots: [],
-          totalSlots: 0,
-          availableSlotsCount: 0,
-          occupiedGoogleSlotsCount: 18,
-          googleCalendarSynced: true,
-          googleAccount: "slowskinconcept@gmail.com",
-        });
+      // Return 503 if Google Calendar query failed on a working day
+      if (!result.success && result.status === "sync_error") {
+        return res.status(503).json(result);
       }
 
-      // Combined booked intervals: [startMin, endMin]
-      const bookedIntervals: Array<{
-        start: number;
-        end: number;
-        treatment: string;
-        source: "booking" | "google_calendar";
-      }> = [];
-
-      // Add local salon reservations
-      dayBookings.forEach((b) => {
-        const start = timeToMinutes(b.timeStr);
-        const end = start + (b.durationMinutes || 75) + bufferMinutes;
-        bookedIntervals.push({
-          start,
-          end,
-          treatment: b.treatmentName,
-          source: "booking",
-        });
-      });
-
-      // Add Google Calendar events from slowskinconcept@gmail.com
-      dayGoogleEvents.forEach((ev) => {
-        if (ev.startTimeStr && ev.endTimeStr) {
-          const start = timeToMinutes(ev.startTimeStr);
-          const end = timeToMinutes(ev.endTimeStr);
-          bookedIntervals.push({
-            start,
-            end,
-            treatment: ev.summary || "Zajęty w Kalendarzu Google",
-            source: "google_calendar",
-          });
-        }
-      });
-
-      // Generate slots every 30 minutes from open (10:00) to close (19:30)
-      const slots: any[] = [];
-      const requiredBlock = duration + bufferMinutes;
-
-      for (let m = openMinutes; m + duration <= closeMinutes; m += 30) {
-        const slotStart = m;
-        const slotEnd = slotStart + duration;
-        const slotBlockEnd = slotStart + requiredBlock;
-
-        // Collision check: overlaps if slotStart < bookedEnd && slotBlockEnd > bookedStart
-        const collidingBooking = bookedIntervals.find(
-          (b) => slotStart < b.end && slotBlockEnd > b.start
-        );
-
-        const isAvailable = !collidingBooking && slotBlockEnd <= closeMinutes + bufferMinutes;
-
-        let reason = "Wolny termin";
-        if (collidingBooking) {
-          if (collidingBooking.source === "google_calendar") {
-            reason = `Zajęty w Kalendarzu Google (${collidingBooking.treatment})`;
-          } else {
-            reason = `Zajęty: w trakcie innej terapii (${collidingBooking.treatment})`;
-          }
-        } else if (slotBlockEnd > closeMinutes + bufferMinutes) {
-          reason = "Poza godzinami pracy gabinetu";
-        }
-
-        slots.push({
-          time: minutesToTime(slotStart),
-          endTime: minutesToTime(slotEnd),
-          durationMinutes: duration,
-          bufferMinutes,
-          isAvailable,
-          reason,
-          source: collidingBooking?.source || null,
-        });
-      }
-
-      const availableCount = slots.filter((s) => s.isAvailable).length;
-      const isFullyBooked = slots.length > 0 && availableCount === 0;
-
-      res.json({
-        date: dateStr,
-        dayName,
-        status: isFullyBooked ? "fully_booked" : "available",
-        isClosed: false,
-        isFullyBooked,
-        salonHours: "10:00 — 19:30 (Pon–Pt)",
-        reason: isFullyBooked
-          ? `W dniu ${dateStr} (${dayName}) wszystkie godziny są zajęte w Kalendarzu Google (slowskinconcept@gmail.com). Prosimy o wybór innego dnia roboczego.`
-          : undefined,
-        durationMinutes: duration,
-        bufferMinutes,
-        totalSlots: slots.length,
-        availableSlotsCount: availableCount,
-        occupiedGoogleSlotsCount: slots.filter((s) => s.source === "google_calendar").length,
-        googleCalendarSynced: true,
-        googleAccount: "slowskinconcept@gmail.com",
-        slots,
-      });
+      res.json(result);
     } catch (e: any) {
-      res.status(500).json({ error: e.message || "Błąd generowania slotów kalendarza." });
+      res.status(500).json({
+        success: false,
+        status: "sync_error",
+        error: e.message || "Błąd generowania slotów kalendarza.",
+        googleCalendarSynced: false,
+        lastSuccessfulSyncAt: null,
+        slots: [],
+      });
     }
   });
 
-  // Record booking with collision validation against both local bookings & Google Calendar
-  app.post("/api/calendar/bookings", (req, res) => {
+  // Record booking: directly inserts to the verified salon Google Calendar server-side
+  app.post("/api/calendar/bookings", async (req, res) => {
     try {
       const booking = req.body;
       const { treatmentName, durationMinutes, price, clientName, clientPhone, clientEmail, dateStr, timeStr, notes, isOnlineConsultation } = booking;
 
-      if (!dateStr || !timeStr || !treatmentName) {
-        return res.status(400).json({ error: "Brak wymaganych danych rezerwacji (data, godzina, zabieg)." });
-      }
-
-      const [year, month, day] = dateStr.split("-").map(Number);
-      const reqDate = new Date(year, month - 1, day);
-      const reqDay = reqDate.getDay();
-
-      if (reqDay === 0 || reqDay === 6) {
-        return res.status(400).json({ 
-          error: "W weekendy (sobota i niedziela) gabinet jest nieczynny. Prosimy wybrać termin od poniedziałku do piątku w godzinach 10:00 — 19:30." 
-        });
+      if (!dateStr || !timeStr || !treatmentName || !clientName || !clientPhone) {
+        return res.status(400).json({ error: "Brak wymaganych danych rezerwacji (data, godzina, zabieg, imię, telefon)." });
       }
 
       const duration = parseInt(durationMinutes, 10) || 75;
-      const bufferMinutes = 15;
-      const newStart = timeToMinutes(timeStr);
-      const newEnd = newStart + duration + bufferMinutes;
 
-      if (newStart < 10 * 60) {
-        return res.status(400).json({ 
-          error: "Gabinet rozpoczyna pracę od godziny 10:00 rano. Prosimy wybrać godzinę 10:00 lub późniejszą." 
-        });
-      }
-
-      // Check Google Calendar events collision first
-      const allGoogleEvents = getStoredGoogleEvents();
-      const dayGoogleEvents = allGoogleEvents.filter((ev) => ev.dateStr === dateStr);
-      
-      const allDayBlock = dayGoogleEvents.find((ev) => ev.isAllDay);
-      if (allDayBlock) {
-        return res.status(409).json({
-          error: `Ten dzień jest w całości zablokowany w Kalendarzu Google (${allDayBlock.summary}). Prosimy wybrać inny dzień.`,
-        });
-      }
-
-      const googleCollision = dayGoogleEvents.find((ev) => {
-        if (!ev.startTimeStr || !ev.endTimeStr) return false;
-        const gStart = timeToMinutes(ev.startTimeStr);
-        const gEnd = timeToMinutes(ev.endTimeStr);
-        return newStart < gEnd && newEnd > gStart;
+      // 1. Insert into Google Calendar of the salon
+      const googleResult = await insertBookingIntoSalonCalendar({
+        treatmentName,
+        durationMinutes: duration,
+        price: price || "Cena do potwierdzenia",
+        clientName,
+        clientPhone,
+        clientEmail: clientEmail || "",
+        dateStr,
+        timeStr,
+        notes,
+        isOnlineConsultation: !!isOnlineConsultation,
       });
 
-      if (googleCollision) {
-        return res.status(409).json({
-          error: `Kolizja z Kalendarzem Google! Wybrany przedział ${timeStr} jest zajęty (${googleCollision.summary}) w kalendarzu slowskinconcept@gmail.com. Prosimy wybrać inny wolny slot.`,
-          collisionTime: `${googleCollision.startTimeStr} — ${googleCollision.endTimeStr}`,
+      if (!googleResult.success) {
+        // Confirmation is strictly disallowed if Google write fails
+        return res.status(502).json({
+          success: false,
+          error: `Nie udało się zapisać rezerwacji w Kalendarzu Google gabinetu: ${googleResult.error}`,
         });
       }
 
-      // Check local bookings collision
+      // 2. Persist in local database with Google eventId and calendarId
       const allBookings = getStoredBookings();
-      const dayBookings = allBookings.filter((b) => b.dateStr === dateStr);
-
-      const collision = dayBookings.find((b) => {
-        const bStart = timeToMinutes(b.timeStr);
-        const bEnd = bStart + (b.durationMinutes || 75) + bufferMinutes;
-        return newStart < bEnd && newEnd > bStart;
-      });
-
-      if (collision) {
-        return res.status(409).json({
-          error: `Kolizja terminów! Wybrany przedział ${timeStr} koliduje z inną zaplanowaną wizytą (${collision.timeStr}). Prosimy wybrać inny wolny slot.`,
-          collisionTime: collision.timeStr,
-        });
-      }
-
       const newBooking: StoredBooking = {
         id: `book-${Date.now()}`,
         treatmentName,
@@ -891,13 +707,13 @@ async function startServer() {
       allBookings.push(newBooking);
       saveStoredBookings(allBookings);
 
-      console.log(`[SLOW SKIN BOOKING] Synchronized reservation for: ${treatmentName} (${duration} min) on ${dateStr} ${timeStr} by ${clientName} (${clientPhone}, ${clientEmail}) -> Synced to slowskinconcept@gmail.com`);
-
-      res.json({
+      res.status(201).json({
         success: true,
         bookingId: newBooking.id,
-        googleAccount: "slowskinconcept@gmail.com",
-        calendarId: "ec7711f8f95afc5d0e88dd4a404e2b15d3503323b86963b41d25747356d8b0d7@group.calendar.google.com",
+        eventId: googleResult.eventId,
+        calendarId: googleResult.calendarId,
+        htmlLink: googleResult.htmlLink,
+        googleAccount: SALON_ACCOUNT_EMAIL,
         timestamp: new Date().toISOString(),
       });
     } catch (e: any) {

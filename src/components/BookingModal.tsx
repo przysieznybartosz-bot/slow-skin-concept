@@ -244,38 +244,37 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
     isOnlineConsultation: isOnline,
   });
 
-  const recordBookingOnServer = async (data: BookingEventData): Promise<{ success: boolean; error?: string }> => {
+  const recordBookingOnServer = async (data: BookingEventData): Promise<{
+    success: boolean;
+    eventId?: string;
+    calendarId?: string;
+    htmlLink?: string;
+    error?: string;
+  }> => {
     try {
       const res = await fetch("/api/calendar/bookings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      const json = await res.json();
-      if (!res.ok) {
-        return { success: false, error: json.error || "Wystąpił problem z rezerwacją terminu." };
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok || !json.success) {
+        return {
+          success: false,
+          error: json.error || `Błąd serwera (${res.status}): Nie udało się zapisać wizyty w kalendarzu gabinetu.`,
+        };
       }
-      return { success: true };
-    } catch {
-      // Offline / static hosting fallback verification against Google Calendar
-      const localEvents = getEventsForDate(data.dateStr);
-      const [h, m] = (data.timeStr || "10:00").split(":").map(Number);
-      const startMin = h * 60 + m;
-      const endMin = startMin + data.durationMinutes + 15;
-
-      const coll = localEvents.find(ev => {
-        if (ev.isAllDay) return true;
-        if (!ev.startTimeStr || !ev.endTimeStr) return false;
-        const [sh, sm] = ev.startTimeStr.split(":").map(Number);
-        const [eh, em] = ev.endTimeStr.split(":").map(Number);
-        return startMin < (eh * 60 + em) && endMin > (sh * 60 + sm);
-      });
-
-      if (coll) {
-        return { success: false, error: `Kolizja z Kalendarzem Google! Wybrany przedział jest zajęty (${coll.summary}). Wybierz inny wolny termin.` };
-      }
-
-      return { success: true };
+      return {
+        success: true,
+        eventId: json.eventId || json.booking?.eventId,
+        calendarId: json.calendarId || json.booking?.calendarId,
+        htmlLink: json.htmlLink || json.booking?.htmlLink,
+      };
+    } catch (err: any) {
+      return {
+        success: false,
+        error: err.message || "Błąd sieci: Nie udało się połączyć z serwerem kalendarza gabinetu.",
+      };
     }
   };
 
@@ -295,26 +294,19 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
 
     const eventData = getEventData();
 
-    // 1. Verify and record on server (blocks collision in real-time)
+    // Verify and record directly on server into verified salon Google Calendar
     const serverResult = await recordBookingOnServer(eventData);
     if (!serverResult.success) {
-      setSyncError(serverResult.error || "Kolizja terminu! Wybrany slot został właśnie zajęty. Prosimy o wybranie innej godziny.");
+      setSyncError(serverResult.error || "Nie udało się zapisać rezerwacji w Kalendarzu Google gabinetu. Termin nie został zarezerwowany.");
       setIsSubmittingBooking(false);
       loadSlots(selectedDate, durationMin);
       return;
     }
 
-    // 2. Try background sync to Google Calendar if token exists
-    const token = googleToken || getCachedGoogleToken();
-    if (token) {
-      try {
-        const result = await insertEventIntoGoogleCalendar(token, eventData);
-        if (result.success && result.eventLink) {
-          setGoogleEventLink(result.eventLink);
-        }
-      } catch (gErr) {
-        console.warn("Background Google Calendar event sync notice:", gErr);
-      }
+    if (serverResult.htmlLink) {
+      setGoogleEventLink(serverResult.htmlLink);
+    } else if (serverResult.eventId) {
+      setGoogleEventLink(`https://calendar.google.com/calendar/u/0/r/eventedit/${serverResult.eventId}`);
     }
 
     saveToLocalHistory(eventData);
@@ -580,12 +572,16 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                   {/* Google Calendar live correlation indicator */}
                   <div className="p-2.5 bg-luxury-sand/15 border border-luxury-gold/30 rounded-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse shrink-0" />
+                      <span className={`w-2 h-2 rounded-full shrink-0 ${slotsData?.googleCalendarSynced ? "bg-emerald-600 animate-pulse" : "bg-amber-500"}`} />
                       <div className="text-[9px] font-mono leading-tight">
-                        <span className="text-luxury-dark font-semibold">Skorelowano z Google Calendar:</span>{" "}
+                        <span className="text-luxury-dark font-semibold">
+                          {slotsData?.googleCalendarSynced ? "Kalendarz Google zsynchronizowany:" : "Kalendarz gabinetu:"}
+                        </span>{" "}
                         <span className="text-luxury-gold font-bold">{SLOW_SKIN_GOOGLE_ACCOUNT}</span>
                         <span className="block text-luxury-dark/70 text-[8px]">
-                          Zajęte terminy w kalendarzu są automatycznie zablokowane i niedostępne dla klientów.
+                          {slotsData?.googleCalendarSynced
+                            ? "Zajęte godziny są zablokowane na podstawie bieżącego odczytu Google freebusy."
+                            : "Weryfikacja dostępności w toku. Kliknij odśwież w razie potrzeby."}
                         </span>
                       </div>
                     </div>
@@ -596,7 +592,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                       className="px-2.5 py-1 text-[8.5px] font-mono uppercase tracking-wider bg-white hover:bg-luxury-gold hover:text-white border border-luxury-gold/50 text-luxury-dark rounded-xs transition-colors shrink-0 flex items-center gap-1 cursor-pointer"
                     >
                       <RefreshCw className={`w-2.5 h-2.5 ${isSyncingGoogle ? "animate-spin text-luxury-gold" : ""}`} />
-                      {isSyncingGoogle ? "Synchronizuję..." : "Odśwież z Google"}
+                      {isSyncingGoogle ? "Sprawdzam..." : "Odśwież z Google"}
                     </button>
                   </div>
 

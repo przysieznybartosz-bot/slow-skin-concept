@@ -27,67 +27,33 @@ export const SLOW_SKIN_CALENDAR_ID = "ec7711f8f95afc5d0e88dd4a404e2b15d3503323b8
 export const RAW_GITHUB_EVENTS_URL = "https://raw.githubusercontent.com/przysieznybartosz-bot/slow-skin-concept/main/google_calendar_events.json";
 
 export function getLocalGoogleEvents(): GoogleCalendarStoredEvent[] {
-  try {
-    const raw = safeStorage.getItem("slowskin_google_events");
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
-    }
-  } catch (e) {
-    console.warn("Error reading local Google events:", e);
-  }
-  return DEFAULT_GOOGLE_EVENTS as GoogleCalendarStoredEvent[];
+  return [];
 }
 
 /**
- * Silently fetches the latest synchronized Google Calendar busy events from the live store
- * so every client browsing the website sees the salon's current availability in real-time.
+ * Fetches the latest verified synchronized Google Calendar busy events from the server.
  */
 export async function initializeLiveCalendarSync(): Promise<GoogleCalendarStoredEvent[]> {
   try {
-    // 1. Try local API
     const apiRes = await fetch("/api/calendar/google-events", { cache: "no-store" }).catch(() => null);
     if (apiRes && apiRes.ok) {
       const data = await apiRes.json();
-      if (Array.isArray(data.events) && data.events.length > 0) {
-        safeStorage.setItem("slowskin_google_events", JSON.stringify(data.events));
+      if (data.connected && Array.isArray(data.events)) {
         return data.events;
       }
     }
-
-    // 2. Try raw GitHub store directly
-    const rawRes = await fetch(RAW_GITHUB_EVENTS_URL, { cache: "no-store" }).catch(() => null);
-    if (rawRes && rawRes.ok) {
-      const data = await rawRes.json();
-      if (Array.isArray(data) && data.length > 0) {
-        safeStorage.setItem("slowskin_google_events", JSON.stringify(data));
-        return data;
-      }
-    }
   } catch (err) {
-    console.warn("Live calendar background sync notice:", err);
+    console.warn("Live calendar sync notice:", err);
   }
-  return getLocalGoogleEvents();
+  return [];
 }
 
-/**
- * Standard scheduled appointments in Google Calendar for slowskinconcept@gmail.com
- * providing predictable busy slot protection for every weekday.
- */
-export function getWeekdayRecurringGoogleEvents(dayOfWeek: number, dateStr: string): GoogleCalendarStoredEvent[] {
-  return getWeekdayDefaults(dayOfWeek, dateStr);
+export function getWeekdayRecurringGoogleEvents(_dayOfWeek: number, _dateStr: string): GoogleCalendarStoredEvent[] {
+  return [];
 }
 
-/**
- * Returns Google Calendar events for any specific date, merging synced events with recurring appointments.
- */
-export function getEventsForDate(dateStr: string): GoogleCalendarStoredEvent[] {
-  const localGoogleEvents = getLocalGoogleEvents();
-  const matched = localGoogleEvents.filter((ev) => ev.dateStr === dateStr);
-  if (matched.length > 0) return matched;
-  const [year, month, day] = dateStr.split("-").map(Number);
-  const dayOfWeek = new Date(year, month - 1, day).getDay();
-  return getWeekdayRecurringGoogleEvents(dayOfWeek, dateStr);
+export function getEventsForDate(_dateStr: string): GoogleCalendarStoredEvent[] {
+  return [];
 }
 
 export interface BookingEventData {
@@ -136,10 +102,11 @@ export interface GoogleCalendarStoredEvent {
 export interface CalendarSlotsResponse {
   date: string;
   dayName: string;
-  status?: "available" | "fully_booked" | "closed" | "error";
+  status?: "available" | "fully_booked" | "closed" | "error" | "sync_error";
   isClosed: boolean;
   isFullyBooked?: boolean;
   reason?: string;
+  error?: string;
   durationMinutes: number;
   bufferMinutes: number;
   salonHours?: string;
@@ -180,158 +147,50 @@ export function parseTreatmentDuration(durationStr?: string): number {
  * from the backend, pre-checking collision with existing bookings and Google Calendar.
  */
 export async function fetchCalendarSlots(dateStr: string, durationMinutes: number): Promise<CalendarSlotsResponse> {
-  try {
-    const token = getCachedGoogleToken();
-    const headers: Record<string, string> = {};
-    if (token) {
-      headers["Authorization"] = `Bearer ${token}`;
-    }
+  const [year, month, day] = dateStr.split("-").map(Number);
+  const reqDate = new Date(year, month - 1, day, 12, 0, 0);
+  const dayOfWeek = reqDate.getDay();
 
-    const res = await fetch(`/api/calendar/slots?date=${encodeURIComponent(dateStr)}&duration=${durationMinutes}`, {
-      headers,
-    });
-    const contentType = res.headers.get("content-type") || "";
-    if (!res.ok || !contentType.includes("application/json")) {
-      throw new Error("Nie udało się pobrać slotów kalendarza przez API.");
-    }
-    return await res.json();
-  } catch (err: any) {
-    console.warn("Using client-side / offline slot generator fallback:", err);
-    // Offline / direct calculation fallback
-    const [year, month, day] = dateStr.split("-").map(Number);
-    const reqDate = new Date(year, month - 1, day, 12, 0, 0);
-    const dayOfWeek = reqDate.getDay();
-
-    if (dayOfWeek === 0 || dayOfWeek === 6) {
-      return {
-        date: dateStr,
-        dayName: dayOfWeek === 6 ? "Sobota" : "Niedziela",
-        status: "closed",
-        isClosed: true,
-        isFullyBooked: false,
-        reason: dayOfWeek === 6 
-          ? "W soboty gabinet jest nieczynny. Zapraszamy od poniedziałku do piątku w godzinach 10:00 — 19:30."
-          : "W niedziele Instytut Slow Skin Concept jest nieczynny — dzień regeneracji komórkowej i wyciszenia.",
-        durationMinutes,
-        bufferMinutes: 15,
-        totalSlots: 0,
-        availableSlotsCount: 0,
-        slots: [],
-      };
-    }
-
-    const dayName = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"][dayOfWeek];
-    const dayGoogleEvents = getEventsForDate(dateStr);
-
-    const allDayEvent = dayGoogleEvents.find(
-      (ev) => ev.isAllDay || (ev.startTimeStr && ev.endTimeStr && ev.startTimeStr <= "10:00" && ev.endTimeStr >= "19:30")
-    );
-    if (allDayEvent) {
-      return {
-        date: dateStr,
-        dayName,
-        status: "fully_booked",
-        isClosed: false,
-        isFullyBooked: true,
-        reason: `W dniu ${dateStr} (${dayName}) kalendarz Google gabinetu (${allDayEvent.summary}) jest w pełni zarezerwowany. W tym dniu brak wolnych godzin na rezerwację online.`,
-        durationMinutes,
-        bufferMinutes: 15,
-        totalSlots: 0,
-        availableSlotsCount: 0,
-        occupiedGoogleSlotsCount: 18,
-        googleCalendarSynced: true,
-        googleAccount: SLOW_SKIN_GOOGLE_ACCOUNT,
-        slots: [],
-      };
-    }
-
-    // Local bookings from storage
-    let localBookings: any[] = [];
-    try {
-      localBookings = JSON.parse(safeStorage.getItem("slow_skin_bookings") || "[]");
-    } catch {}
-    const dayBookings = localBookings.filter((b: any) => b.dateStr === dateStr);
-
-    const bookedIntervals: Array<{ start: number; end: number; treatment: string; source: "booking" | "google_calendar" }> = [];
-
-    dayBookings.forEach((b: any) => {
-      const [h, m] = (b.timeStr || "10:00").split(":").map(Number);
-      const start = h * 60 + m;
-      const end = start + (b.durationMinutes || 75) + 15;
-      bookedIntervals.push({ start, end, treatment: b.treatmentName || "Rezerwacja", source: "booking" });
-    });
-
-    dayGoogleEvents.forEach((ev) => {
-      if (ev.startTimeStr && ev.endTimeStr) {
-        const [sh, sm] = ev.startTimeStr.split(":").map(Number);
-        const [eh, em] = ev.endTimeStr.split(":").map(Number);
-        bookedIntervals.push({
-          start: sh * 60 + sm,
-          end: eh * 60 + em,
-          treatment: ev.summary || "Zajęty w Kalendarzu Google",
-          source: "google_calendar",
-        });
-      }
-    });
-
-    const openMin = 10 * 60; // 10:00 rano
-    const closeMin = 19 * 60 + 30; // 19:30
-    const slots: CalendarSlot[] = [];
-
-    const pad = (n: number) => n.toString().padStart(2, "0");
-    const toTime = (m: number) => `${pad(Math.floor(m / 60))}:${pad(m % 60)}`;
-
-    for (let m = openMin; m + durationMinutes <= closeMin; m += 30) {
-      const slotStart = m;
-      const slotEnd = slotStart + durationMinutes;
-      const slotBlockEnd = slotStart + durationMinutes + 15;
-
-      const colliding = bookedIntervals.find(b => slotStart < b.end && slotBlockEnd > b.start);
-      const isAvailable = !colliding && slotBlockEnd <= closeMin + 15;
-
-      let reason = "Wolny termin";
-      if (colliding) {
-        reason = colliding.source === "google_calendar"
-          ? `Zajęty w Kalendarzu Google (${colliding.treatment})`
-          : `Zajęty: w trakcie innej terapii (${colliding.treatment})`;
-      } else if (slotBlockEnd > closeMin + 15) {
-        reason = "Poza godzinami pracy gabinetu";
-      }
-
-      slots.push({
-        time: toTime(slotStart),
-        endTime: toTime(slotEnd),
-        durationMinutes,
-        bufferMinutes: 15,
-        isAvailable,
-        reason,
-        source: colliding?.source || null,
-      });
-    }
-
-    const availableCount = slots.filter((s) => s.isAvailable).length;
-    const isFullyBooked = slots.length > 0 && availableCount === 0;
-
+  // Weekend: closed
+  if (dayOfWeek === 0 || dayOfWeek === 6) {
     return {
       date: dateStr,
-      dayName,
-      status: isFullyBooked ? "fully_booked" : "available",
-      isClosed: false,
-      isFullyBooked,
-      reason: isFullyBooked
-        ? `W dniu ${dateStr} (${dayName}) wszystkie godziny są zajęte w Kalendarzu Google (slowskinconcept@gmail.com). Prosimy o wybór innego dnia roboczego.`
-        : undefined,
+      dayName: dayOfWeek === 6 ? "Sobota" : "Niedziela",
+      status: "closed",
+      isClosed: true,
+      isFullyBooked: false,
+      reason: dayOfWeek === 6 
+        ? "W soboty gabinet jest nieczynny. Zapraszamy od poniedziałku do piątku w godzinach 10:00 — 19:30."
+        : "W niedziele Instytut Slow Skin Concept jest nieczynny — dzień regeneracji komórkowej i wyciszenia.",
       durationMinutes,
       bufferMinutes: 15,
       salonHours: "10:00 — 19:30 (Pon–Pt)",
-      totalSlots: slots.length,
-      availableSlotsCount: availableCount,
-      occupiedGoogleSlotsCount: slots.filter((s) => s.source === "google_calendar").length,
+      totalSlots: 0,
+      availableSlotsCount: 0,
       googleCalendarSynced: true,
       googleAccount: SLOW_SKIN_GOOGLE_ACCOUNT,
-      slots,
+      slots: [],
     };
   }
+
+  const res = await fetch(`/api/calendar/slots?date=${encodeURIComponent(dateStr)}&duration=${durationMinutes}`, {
+    cache: "no-store",
+  });
+
+  const contentType = res.headers.get("content-type") || "";
+  if (!res.ok || !contentType.includes("application/json")) {
+    const errorJson = await res.json().catch(() => null);
+    throw new Error(
+      errorJson?.reason || errorJson?.error || "Nie możemy teraz sprawdzić dostępności w Kalendarzu Google. Kliknij, aby ponowić próbę."
+    );
+  }
+
+  const data: CalendarSlotsResponse = await res.json();
+  if (data.status === "sync_error" || data.googleCalendarSynced === false) {
+    throw new Error(data.reason || data.error || "Nie możemy teraz sprawdzić dostępności w Kalendarzu Google. Kliknij, aby ponowić próbę.");
+  }
+
+  return data;
 }
 
 /**

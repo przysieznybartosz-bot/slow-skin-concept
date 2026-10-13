@@ -1,4 +1,5 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
+import { verifyCalendarConnection, SALON_ACCOUNT_EMAIL, getActiveCalendarId } from "../../src/server/googleCalendarBackend";
 
 function sendJson(res: ServerResponse | any, status: number, data: any) {
   res.setHeader("Content-Type", "application/json; charset=utf-8");
@@ -17,10 +18,28 @@ export default async function handler(req: IncomingMessage | any, res: ServerRes
     return sendJson(res, 200, { ok: true });
   }
 
-  return sendJson(res, 200, {
-    googleAccount: "slowskinconcept@gmail.com",
-    calendarId: "ec7711f8f95afc5d0e88dd4a404e2b15d3503323b86963b41d25747356d8b0d7@group.calendar.google.com",
-    status: "online",
-    syncedAt: new Date().toISOString(),
-  });
+  try {
+    const status = await verifyCalendarConnection();
+    return sendJson(res, 200, {
+      googleAccount: SALON_ACCOUNT_EMAIL,
+      calendarId: getActiveCalendarId(),
+      connected: status.ready,
+      authMethod: status.authMethod,
+      operatingHours: {
+        weekdays: "10:00 — 19:30",
+        saturday: "Nieczynne",
+        sunday: "Nieczynne",
+      },
+      bufferMinutes: 15,
+      error: status.error,
+      instructions: status.instructions,
+    });
+  } catch (err: any) {
+    return sendJson(res, 500, {
+      googleAccount: SALON_ACCOUNT_EMAIL,
+      calendarId: getActiveCalendarId(),
+      connected: false,
+      error: err.message || "Błąd sprawdzania statusu kalendarza Google.",
+    });
+  }
 }
