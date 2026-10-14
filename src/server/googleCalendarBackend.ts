@@ -16,7 +16,7 @@
 import { google } from "googleapis";
 import fs from "node:fs";
 import path from "node:path";
-import firebaseConfig from "../../firebase-applet-config.json";
+import firebaseConfig from "../../firebase-applet-config.json" with { type: "json" };
 
 export const SALON_ACCOUNT_EMAIL = "slowskinconcept@gmail.com";
 export const DEFAULT_SALON_CALENDAR_ID =

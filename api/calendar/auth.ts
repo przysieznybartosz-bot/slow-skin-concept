@@ -5,8 +5,8 @@ import {
   getStoredRefreshToken,
   SALON_ACCOUNT_EMAIL,
   getActiveCalendarId,
-} from "../../src/server/googleCalendarBackend";
-import firebaseConfig from "../../firebase-applet-config.json";
+} from "../../src/server/googleCalendarBackend.js";
+import firebaseConfig from "../../firebase-applet-config.json" with { type: "json" };
 
 function sendJson(res: ServerResponse | any, status: number, data: any) {
   res.setHeader("Content-Type", "application/json; charset=utf-8");

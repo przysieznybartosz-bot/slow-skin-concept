@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { handleOAuthCallback } from "../../../src/server/googleOAuthService";
+import { handleOAuthCallback } from "../../../src/server/googleOAuthService.js";
 
 export default async function handler(req: IncomingMessage | any, res: ServerResponse | any) {
   const url = new URL(req.url || "", `http://${req.headers?.host || "localhost"}`);
