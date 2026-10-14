@@ -1,11 +1,11 @@
 import { google } from "googleapis";
-import firebaseConfig from "../../firebase-applet-config.json";
+import firebaseConfig from "../../firebase-applet-config.json" with { type: "json" };
 import {
   saveStoredRefreshToken,
   verifyCalendarConnection,
   getActiveCalendarId,
   SALON_ACCOUNT_EMAIL,
-} from "./googleCalendarBackend";
+} from "./googleCalendarBackend.js";
 
 export const CALENDAR_SCOPES = [
   "https://www.googleapis.com/auth/calendar.events",

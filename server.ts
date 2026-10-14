@@ -5,7 +5,7 @@ import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
 import OpenAI from "openai";
 import dotenv from "dotenv";
-import { getKnowledgeBaseTextContext } from "./src/knowledgeBase";
+import { getKnowledgeBaseTextContext } from "./src/knowledgeBase.js";
 import {
   verifyCalendarConnection,
   getLiveAvailableSlots,
@@ -15,12 +15,12 @@ import {
   saveStoredRefreshToken,
   getStoredRefreshToken,
   SALON_ACCOUNT_EMAIL,
-} from "./src/server/googleCalendarBackend";
+} from "./src/server/googleCalendarBackend.js";
 import {
   generateAdminAuthUrl,
   handleOAuthCallback,
   getEffectiveOAuthCredentials,
-} from "./src/server/googleOAuthService";
+} from "./src/server/googleOAuthService.js";
 
 dotenv.config();
 

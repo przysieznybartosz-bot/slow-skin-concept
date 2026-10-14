@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { generateAdminAuthUrl, getEffectiveOAuthCredentials } from "../../../src/server/googleOAuthService";
+import { generateAdminAuthUrl, getEffectiveOAuthCredentials } from "../../../src/server/googleOAuthService.js";
 
 function sendJson(res: ServerResponse | any, status: number, data: any) {
   res.setHeader("Content-Type", "application/json; charset=utf-8");
