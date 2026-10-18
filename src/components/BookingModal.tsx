@@ -138,7 +138,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
       setSlotsData(data);
 
       // Auto-select first available slot if present
-      if (data && !data.isClosed && !data.isFullyBooked && data.slots.length > 0) {
+      if (data && data.googleCalendarSynced === true && !data.isClosed && !data.isFullyBooked && data.slots.length > 0) {
         const firstAvailable = data.slots.find(s => s.isAvailable);
         if (firstAvailable) {
           setSelectedTime(firstAvailable.time);
@@ -164,34 +164,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
 
   const handleManualSyncGoogle = async () => {
     setIsSyncingGoogle(true);
-    setSyncError(null);
     setSyncSuccessMessage(null);
-    try {
-      let token = googleToken || getCachedGoogleToken();
-      if (!token) {
-        // Attempt Google authorization for live calendar synchronization
-        token = await requestGoogleCalendarAccess().catch(() => null);
-        if (token) {
-          setGoogleToken(token);
-          const profile = await fetchGoogleUserProfile(token);
-          if (profile) setGoogleUser(profile);
-        }
-      }
-      if (token) {
-        const syncRes = await syncGoogleCalendarWithBackend(token);
-        if (syncRes.success) {
-          setSyncSuccessMessage(`✓ Zsynchronizowano ${syncRes.count} terminów z Kalendarzem Google (${SLOW_SKIN_GOOGLE_ACCOUNT}).`);
-        }
-      } else {
-        setSyncSuccessMessage(`Dostępność dla ${selectedDate} odświeżona.`);
-      }
-      await loadSlots(selectedDate, durationMin);
-    } catch (e: any) {
-      await loadSlots(selectedDate, durationMin);
-      setSyncError(e?.message || "Nie udało się połączyć bezpośrednio z kontem Google. Zaktualizowano z bazy.");
-    } finally {
-      setIsSyncingGoogle(false);
-    }
+    setSyncError(null);
+    try { await loadSlots(selectedDate, durationMin); }
+    finally { setIsSyncingGoogle(false); }
   };
 
   useEffect(() => {
@@ -924,7 +900,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                   <button
                     type="button"
                     onClick={handleBookAppointment}
-                    disabled={isSubmittingBooking || !clientName || !clientPhone || !selectedTime || slotsData?.isClosed || slotsData?.isFullyBooked || slotsData?.availableSlotsCount === 0}
+                    disabled={isLoadingSlots || !!slotsError || !slotsData?.googleCalendarSynced || isSubmittingBooking || !clientName || !clientPhone || !selectedTime || slotsData?.isClosed || slotsData?.isFullyBooked || slotsData?.availableSlotsCount === 0}
                     className="w-full bg-luxury-dark text-luxury-cream hover:bg-luxury-gold hover:text-white p-4 text-xs font-mono tracking-widest uppercase transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-md disabled:opacity-50 disabled:cursor-not-allowed rounded-xs font-bold"
                   >
                     {isSubmittingBooking ? (

@@ -325,21 +325,30 @@ export async function syncGoogleCalendarWithBackend(token: string): Promise<{ su
 /**
  * Gets currently synchronized Google Calendar events from the backend or local cache.
  */
+export async function calendarRequest(url: string, init: RequestInit = {}): Promise<any> {
+  const response = await fetch(url, { ...init, credentials: "include", cache: "no-store", signal: AbortSignal.timeout(15000) });
+  const data = await response.json().catch(() => { throw new Error("Serwer nie zwrócił odpowiedzi API kalendarza."); });
+  if (!response.ok) throw new Error(data.error || "Błąd połączenia z kalendarzem.");
+  return data;
+}
+
+export async function fetchCalendarStatus() {
+  return calendarRequest("/api/calendar/status");
+}
+
+export async function startSalonCalendarOAuth() {
+  const admin = await calendarRequest("/api/admin/session");
+  if (!admin.isAdmin) throw new Error("Sesja personelu wygasła. Zablokuj panel i zaloguj się ponownie PIN-em.");
+  const data = await calendarRequest("/api/calendar/auth/login", { headers: { Accept: "application/json" } });
+  const url = new URL(data.authUrl);
+  if (url.origin !== "https://accounts.google.com" || url.searchParams.get("response_type") !== "code" || url.searchParams.get("code_challenge_method") !== "S256") throw new Error("Nieprawidłowy adres autoryzacji serwera.");
+  window.location.assign(url.href);
+}
+
 export async function getSyncedGoogleEvents(): Promise<{ totalEvents: number; events: GoogleCalendarStoredEvent[] }> {
-  try {
-    const res = await fetch("/api/calendar/google-events");
-    if (res.ok) {
-      const data = await res.json();
-      if (Array.isArray(data.events) && data.events.length > 0) {
-        safeStorage.setItem("slowskin_google_events", JSON.stringify(data.events));
-        return { totalEvents: data.totalEvents || data.events.length, events: data.events };
-      }
-    }
-  } catch {
-    // Fallback to local
-  }
-  const local = getLocalGoogleEvents();
-  return { totalEvents: local.length, events: local };
+  const data = await calendarRequest("/api/calendar/google-events");
+  if (!data.success || !data.connected || !Array.isArray(data.events)) throw new Error(data.error || "Kalendarz niepołączony.");
+  return { totalEvents: data.events.length, events: data.events };
 }
 
 /**

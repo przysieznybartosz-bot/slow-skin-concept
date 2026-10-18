@@ -70,7 +70,9 @@ import {
   RefreshCw
 } from "lucide-react";
 import { 
-  requestGoogleCalendarAccess, 
+  fetchCalendarStatus,
+  startSalonCalendarOAuth,
+  calendarRequest,
   syncGoogleCalendarWithBackend, 
   getSyncedGoogleEvents, 
   addManualCalendarBlock, 
@@ -1188,9 +1190,7 @@ export default function App() {
   const [isStaffMode, setIsStaffMode] = useState(() => {
     return safeStorage.getItem("slowskin_is_staff") === "true";
   });
-  const [isStaffPinUnlocked, setIsStaffPinUnlocked] = useState(() => {
-    return safeStorage.getItem("slowskin_staff_unlocked") === "true";
-  });
+  const [isStaffPinUnlocked, setIsStaffPinUnlocked] = useState(false);
   const [staffPinInput, setStaffPinInput] = useState("");
   const [staffPinError, setStaffPinError] = useState("");
   const [staffSearchQuery, setStaffSearchQuery] = useState("");
@@ -1217,6 +1217,7 @@ export default function App() {
   }, [staffLockoutSeconds]);
 
   // Google Calendar integration states in Admin / Staff mode
+  const [adminCalendarState, setAdminCalendarState] = useState<"loading" | "connected" | "disconnected" | "error">("loading");
   const [googleEventsList, setGoogleEventsList] = useState<any[]>([]);
   const [isLoadingGoogleEvents, setIsLoadingGoogleEvents] = useState(false);
   const [isSyncingAdminGoogle, setIsSyncingAdminGoogle] = useState(false);
@@ -1233,41 +1234,37 @@ export default function App() {
 
   const loadAdminGoogleEvents = async () => {
     setIsLoadingGoogleEvents(true);
+    setAdminCalendarState("loading");
+    setAdminGoogleSyncMsg("");
+    setGoogleEventsList([]);
     try {
-      const res = await getSyncedGoogleEvents();
-      setGoogleEventsList(res.events || []);
-    } catch (e) {
-      console.error("Failed to load Google events:", e);
-    } finally {
-      setIsLoadingGoogleEvents(false);
-    }
+      const status = await fetchCalendarStatus();
+      if (!status.connected) {
+        setAdminCalendarState(status.authRequired ? "disconnected" : "error");
+        setAdminGoogleSyncMsg(status.authRequired ? "Połącz konto gabinetu z Google Calendar." : status.error || "Nie potwierdzono połączenia.");
+        return;
+      }
+      const data = await getSyncedGoogleEvents();
+      setGoogleEventsList(data.events);
+      setAdminCalendarState("connected");
+    } catch (e: any) {
+      setAdminCalendarState("error");
+      setAdminGoogleSyncMsg(e.message || "Błąd pobierania kalendarza.");
+    } finally { setIsLoadingGoogleEvents(false); }
   };
 
   useEffect(() => {
-    if (activeTab === "admin" && isStaffPinUnlocked) {
-      loadAdminGoogleEvents();
-    }
+    if (activeTab === "admin" && isStaffPinUnlocked) loadAdminGoogleEvents();
   }, [activeTab, isStaffPinUnlocked]);
 
   const handleSyncAdminGoogle = async () => {
     setIsSyncingAdminGoogle(true);
-    setAdminGoogleSyncMsg("");
     try {
-      const token = await requestGoogleCalendarAccess();
-      if (token) {
-        const res = await syncGoogleCalendarWithBackend(token);
-        if (res.success) {
-          setAdminGoogleSyncMsg(`✓ ${res.message} Wszystkie zajęte godziny zostały zablokowane.`);
-          await loadAdminGoogleEvents();
-        } else {
-          setAdminGoogleSyncMsg(`✕ ${res.message}`);
-        }
-      }
+      if (adminCalendarState === "disconnected") await startSalonCalendarOAuth();
+      else await loadAdminGoogleEvents();
     } catch (e: any) {
-      setAdminGoogleSyncMsg(`✕ ${e.message || "Błąd autoryzacji kalendarza Google."}`);
-    } finally {
-      setIsSyncingAdminGoogle(false);
-    }
+      setAdminGoogleSyncMsg(e.message || "Błąd połączenia kalendarza.");
+    } finally { setIsSyncingAdminGoogle(false); }
   };
 
   const handleAddManualBlock = async (e: React.FormEvent) => {
@@ -1623,37 +1620,25 @@ export default function App() {
   };
 
   // Staff and clinic management functions with rate limiting protection
-  const handleUnlockStaffMode = (e?: React.FormEvent) => {
-    if (e) e.preventDefault();
-    if (staffLockoutSeconds > 0) {
-      triggerToast(`Dostęp zablokowany z powodu zbyt wielu prób. Poczekaj ${staffLockoutSeconds} sekund.`, "error");
-      return;
-    }
-    const pin = staffPinInput.trim().toLowerCase();
-    if (pin === "2026" || pin === "slowskin" || pin === "admin" || pin === "aleksandra" || pin === "bartosz") {
+  const handleUnlockStaffMode = async (e?: React.FormEvent) => {
+    e?.preventDefault();
+    try {
+      await calendarRequest("/api/admin/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ pin: staffPinInput.trim() }) });
       setIsStaffPinUnlocked(true);
-      safeStorage.setItem("slowskin_staff_unlocked", "true");
       setStaffPinError("");
       setStaffPinInput("");
-      setStaffFailedAttempts(0);
-      triggerToast("Autoryzacja personelu pomyślna. Odblokowano Kartotekę Gabinetu.");
-    } else {
-      const newAttempts = staffFailedAttempts + 1;
-      setStaffFailedAttempts(newAttempts);
-      if (newAttempts >= 5) {
-        setStaffLockoutSeconds(60);
-        setStaffPinError("Zbyt wiele błędnych prób autoryzacji. Dostęp wstrzymany na 60 sekund ze względów bezpieczeństwa.");
-      } else {
-        setStaffPinError(`Nieprawidłowy kod autoryzacji gabinetu. Pozostało prób: ${5 - newAttempts}`);
-      }
-    }
+    } catch (error: any) { setStaffPinError(error.message || "Błąd logowania personelu."); }
   };
 
-  const handleLockStaffMode = () => {
+  const handleLockStaffMode = async () => {
     setIsStaffPinUnlocked(false);
     safeStorage.removeItem("slowskin_staff_unlocked");
-    triggerToast("Zablokowano panel personelu gabinetu.", "info");
+    await calendarRequest("/api/admin/logout", { method: "POST" }).catch(() => {});
   };
+
+  useEffect(() => {
+    calendarRequest("/api/admin/session").then(data => setIsStaffPinUnlocked(data.isAdmin === true)).catch(() => setIsStaffPinUnlocked(false));
+  }, []);
 
   const handleSelectPatientAsStaff = (patient: any, autoOpenAddVisit: boolean = false) => {
     const isDemo = patient.email?.toLowerCase() === DEMO_ACCOUNT_EMAIL.toLowerCase();
@@ -15361,7 +15346,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         Status Systemu
                       </span>
                       <span className="font-serif text-2xl font-light text-emerald-800 flex items-center gap-2">
-                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" /> Aktywny
+                        <span className={`w-2.5 h-2.5 rounded-full ${adminCalendarState === "connected" ? "bg-emerald-500" : "bg-amber-500"}`} /> Aktywny
                       </span>
                       <span className="text-[10px] font-mono text-luxury-dark/70 block">
                         Sesja personelu zautoryzowana
@@ -15374,9 +15359,9 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     <div className="flex flex-col md:flex-row justify-between md:items-center gap-3 border-b border-luxury-sand/50 pb-4">
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
-                          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                          <span className={`w-2.5 h-2.5 rounded-full ${adminCalendarState === "connected" ? "bg-emerald-500" : "bg-amber-500"}`} />
                           <span className="font-mono text-[9px] uppercase tracking-widest text-luxury-gold font-bold">
-                            KALENDARZ GABINETU & GOOGLE CALENDAR
+                            {adminCalendarState === "connected" ? "KALENDARZ GOOGLE POŁĄCZONY" : adminCalendarState === "disconnected" ? "KALENDARZ NIEPOŁĄCZONY" : adminCalendarState === "loading" ? "SPRAWDZANIE KALENDARZA" : "BŁĄD POŁĄCZENIA KALENDARZA"}
                           </span>
                         </div>
                         <h3 className="font-serif text-xl font-light text-luxury-dark">
@@ -15391,11 +15376,11 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         <button
                           type="button"
                           onClick={handleSyncAdminGoogle}
-                          disabled={isSyncingAdminGoogle}
+                          disabled={isSyncingAdminGoogle || isLoadingGoogleEvents}
                           className="px-4 py-2.5 bg-luxury-dark hover:bg-luxury-gold text-white font-mono text-[9.5px] uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-1.5 shadow-2xs font-semibold"
                         >
                           <RefreshCw className={`w-3.5 h-3.5 ${isSyncingAdminGoogle ? "animate-spin text-luxury-gold" : "text-luxury-gold"}`} />
-                          {isSyncingAdminGoogle ? "Pobieram z Google..." : "Zsynchronizuj z Google Calendar"}
+                          {isSyncingAdminGoogle || isLoadingGoogleEvents ? "Sprawdzam…" : adminCalendarState === "disconnected" ? "Połącz Google Calendar" : adminCalendarState === "error" ? "Spróbuj ponownie" : "Zsynchronizuj z Google Calendar"}
                         </button>
                         <button
                           type="button"
@@ -15424,7 +15409,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     <div className="flex flex-wrap items-center justify-between gap-3 text-xs pt-1">
                       <div className="flex items-center gap-4 text-xs font-mono">
                         <span className="text-luxury-dark">
-                          Aktywne blokady w systemie: <strong className="text-luxury-gold text-sm">{googleEventsList.length}</strong>
+                          Aktywne blokady w systemie: <strong className="text-luxury-gold text-sm">{adminCalendarState === "connected" ? googleEventsList.length : "Niezweryfikowane"}</strong>
                         </span>
                         <span className="text-luxury-dark/70">
                           Konto: <strong className="text-luxury-dark">{SLOW_SKIN_GOOGLE_ACCOUNT}</strong>
