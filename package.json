@@ -9,7 +9,7 @@
     "start": "node dist/server.cjs",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit",
-    "test": "tsx tests/calendar-integration.test.ts"
+    "test": "node --import tsx tests/calendar-integration.test.ts && node --import tsx --test tests/calendar-production-auth.test.ts"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",

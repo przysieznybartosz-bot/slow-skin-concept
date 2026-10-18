@@ -3,7 +3,7 @@ import {
   getAuthenticatedCalendarClient,
   getActiveCalendarId,
   SALON_ACCOUNT_EMAIL,
-} from "../../src/server/googleCalendarBackend";
+} from "../../src/server/googleCalendarBackend.js";
 
 function sendJson(res: ServerResponse | any, status: number, data: any) {
   res.setHeader("Content-Type", "application/json; charset=utf-8");

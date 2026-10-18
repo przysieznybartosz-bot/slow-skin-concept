@@ -1,7 +1,7 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import fs from "node:fs";
 import path from "node:path";
-import { getLiveAvailableSlots } from "../../src/server/googleCalendarBackend";
+import { getLiveAvailableSlots } from "../../src/server/googleCalendarBackend.js";
 
 function sendJson(res: ServerResponse | any, status: number, data: any) {
   res.setHeader("Content-Type", "application/json; charset=utf-8");

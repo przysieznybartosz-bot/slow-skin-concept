@@ -1,116 +1,77 @@
+import crypto from "node:crypto";
 import { google } from "googleapis";
-import firebaseConfig from "../../firebase-applet-config.json";
-import {
-  saveStoredRefreshToken,
-  verifyCalendarConnection,
-  getActiveCalendarId,
-  SALON_ACCOUNT_EMAIL,
-} from "./googleCalendarBackend";
+import { BACKEND_CLIENT_ID, SALON_EMAIL, required, encryptionKey, database, session, cookie, signed, unsign, setCookie, json, writeRefreshToken } from "./calendarAuth.js";
 
-export const CALENDAR_SCOPES = [
-  "https://www.googleapis.com/auth/calendar.events",
-  "https://www.googleapis.com/auth/calendar.readonly",
-];
-
-export function getEffectiveOAuthCredentials(reqOrigin?: string) {
-  const clientId = process.env.GOOGLE_CLIENT_ID || firebaseConfig.oAuthClientId;
-  const clientSecret = process.env.GOOGLE_CLIENT_SECRET || "";
-
-  // Priority for redirect URI:
-  // 1. Explicit GOOGLE_REDIRECT_URI env var
-  // 2. If running on slow-skin-concept.pl -> https://slow-skin-concept.pl/api/calendar/auth/callback
-  // 3. Current request origin + /api/calendar/auth/callback
-  let redirectUri = process.env.GOOGLE_REDIRECT_URI;
-  if (!redirectUri) {
-    if (reqOrigin && (reqOrigin.includes("slow-skin-concept.pl") || reqOrigin.includes("vercel.app"))) {
-      redirectUri = "https://slow-skin-concept.pl/api/calendar/auth/callback";
-    } else if (reqOrigin) {
-      redirectUri = `${reqOrigin}/api/calendar/auth/callback`;
-    } else {
-      redirectUri = "https://slow-skin-concept.pl/api/calendar/auth/callback";
-    }
-  }
-
+export function getEffectiveOAuthCredentials(_origin?: string) {
+  const clientId = required("GOOGLE_CLIENT_ID");
+  if (clientId !== BACKEND_CLIENT_ID) throw new Error("Nieprawidłowy GOOGLE_CLIENT_ID: wymagany klient backendu gabinetu.");
+  const clientSecret = required("GOOGLE_CLIENT_SECRET");
+  const redirectUri = required("GOOGLE_REDIRECT_URI");
+  const redirect = new URL(redirectUri);
+  if (redirect.protocol !== "https:" || redirect.pathname !== "/api/calendar/auth/callback" || redirect.search || redirect.hash) throw new Error("Nieprawidłowy GOOGLE_REDIRECT_URI.");
   return { clientId, clientSecret, redirectUri };
 }
 
-export function getOAuth2Client(reqOrigin?: string) {
-  const { clientId, clientSecret, redirectUri } = getEffectiveOAuthCredentials(reqOrigin);
-  return new google.auth.OAuth2(clientId, clientSecret, redirectUri);
-}
-
-export function generateAdminAuthUrl(reqOrigin?: string): { url: string; redirectUri: string } {
-  const oauth2Client = getOAuth2Client(reqOrigin);
-  const { redirectUri } = getEffectiveOAuthCredentials(reqOrigin);
-
-  const url = oauth2Client.generateAuthUrl({
-    access_type: "offline",
-    prompt: "consent", // Force to always return refresh_token
-    scope: CALENDAR_SCOPES,
-    redirect_uri: redirectUri,
-  });
-
-  return { url, redirectUri };
-}
-
-export async function handleOAuthCallback(code: string, reqOrigin?: string): Promise<{
-  success: boolean;
-  message: string;
-  calendarId: string;
-  hasRefreshToken: boolean;
-  verification?: any;
-  error?: string;
-}> {
-  const oauth2Client = getOAuth2Client(reqOrigin);
-  const calendarId = getActiveCalendarId();
-
+export async function oauthLogin(req: any, res: any) {
   try {
-    const { tokens } = await oauth2Client.getToken(code);
-    if (!tokens.refresh_token) {
-      return {
-        success: false,
-        message: "Google nie zwróciło refresh tokenu (prawdopodobnie pominięto ekran zgody prompt=consent).",
-        calendarId,
-        hasRefreshToken: false,
-        error: "Brak refresh_token w odpowiedzi Google OAuth.",
-      };
+    if (req.method !== "GET") return json(res, 405, { error: "Metoda niedozwolona." });
+    const admin = session(req);
+    if (!admin) return json(res, 401, { error: "Zaloguj się PIN-em w panelu personelu." });
+    const { clientId, clientSecret, redirectUri } = getEffectiveOAuthCredentials();
+    if (new URL(redirectUri).host !== req.headers.host) throw new Error("Adres callback musi należeć do bieżącego środowiska. Otwórz panel we właściwej domenie.");
+    encryptionKey();
+    const state = crypto.randomBytes(32).toString("base64url");
+    const verifier = crypto.randomBytes(32).toString("base64url");
+    const challenge = crypto.createHash("sha256").update(verifier).digest("base64url");
+    await database("slowskin_oauth_states", { method: "POST", headers: { Prefer: "return=minimal" }, body: JSON.stringify({
+      state_id: state, session_id: admin.sid, redirect_uri: redirectUri, code_challenge: challenge,
+      expires_at: new Date(Date.now() + 600000).toISOString(),
+    }) });
+    setCookie(res, "slowskin_oauth_attempt", signed({ type: "oauth", state, verifier, sid: admin.sid, exp: Date.now() + 600000 }), 600);
+    const oauth = new google.auth.OAuth2(clientId, clientSecret, redirectUri);
+    const url = oauth.generateAuthUrl({ access_type: "offline", prompt: "consent select_account", login_hint: SALON_EMAIL,
+      scope: ["openid", "email", "https://www.googleapis.com/auth/calendar.readonly", "https://www.googleapis.com/auth/calendar.events"],
+      state, code_challenge: challenge, code_challenge_method: "S256" as any });
+    res.setHeader("Cache-Control", "no-store");
+    if (String(req.headers.accept || "").includes("text/html")) {
+      res.statusCode = 302; res.setHeader("Location", url); return res.end();
     }
+    return json(res, 200, { success: true, authUrl: url });
+  } catch (error) { return json(res, 503, { error: error instanceof Error ? error.message : "Błąd rozpoczęcia OAuth." }); }
+}
 
-    saveStoredRefreshToken(tokens.refresh_token);
-
-    // Verify connection immediately
-    oauth2Client.setCredentials(tokens);
-    const calendar = google.calendar({ version: "v3", auth: oauth2Client });
-
-    // Test access to the designated salon calendar ID
-    let calendarFound = false;
-    try {
-      const getCal = await calendar.calendars.get({ calendarId });
-      if (getCal.status === 200) {
-        calendarFound = true;
-      }
-    } catch (calErr: any) {
-      console.warn(`[OAuth] Designated calendar ID ${calendarId} check notice:`, calErr.message);
-    }
-
-    const verification = await verifyCalendarConnection();
-
-    return {
-      success: verification.ready,
-      message: verification.ready
-        ? `Pomyślnie autoryzowano kalendarz gabinetu (${SALON_ACCOUNT_EMAIL}). Refresh token został bezpiecznie zapisany na serwerze.`
-        : `Token został zapisany, ale test połączenia zwrócił błąd: ${verification.error}`,
-      calendarId,
-      hasRefreshToken: true,
-      verification,
-    };
-  } catch (err: any) {
-    return {
-      success: false,
-      message: `Błąd wymiany kodu autoryzacji Google: ${err.message}`,
-      calendarId,
-      hasRefreshToken: false,
-      error: err.message,
-    };
+export async function oauthCallback(req: any, res: any) {
+  setCookie(res, "slowskin_oauth_attempt", "", 0);
+  try {
+    if (req.method !== "GET") return json(res, 405, { error: "Metoda niedozwolona." });
+    const url = new URL(req.url, "https://localhost");
+    const admin = session(req);
+    const attempt = unsign(cookie(req, "slowskin_oauth_attempt"));
+    const state = url.searchParams.get("state");
+    if (!admin || attempt?.type !== "oauth" || attempt.sid !== admin.sid || !state || state !== attempt.state) return json(res, 400, { error: "Nieprawidłowy lub wygasły stan OAuth. Rozpocznij ponownie w panelu." });
+    const { clientId, clientSecret, redirectUri } = getEffectiveOAuthCredentials();
+    if (new URL(redirectUri).host !== req.headers.host) throw new Error("Niezgodny adres callback.");
+    const consumed = await database("rpc/consume_slowskin_oauth_state", { method: "POST", body: JSON.stringify({ p_state_id: state }) });
+    const record = consumed?.[0];
+    const challenge = crypto.createHash("sha256").update(attempt.verifier).digest("base64url");
+    if (!record?.valid || record.session_id !== admin.sid || record.redirect_uri !== redirectUri || record.code_challenge !== challenge) return json(res, 400, { error: "Stan OAuth został odrzucony lub był już użyty." });
+    const code = url.searchParams.get("code");
+    if (url.searchParams.has("error") || !code) return json(res, 400, { error: "Nie udzielono zgody Google." });
+    const oauth = new google.auth.OAuth2(clientId, clientSecret, redirectUri);
+    const { tokens } = await oauth.getToken({ code, codeVerifier: attempt.verifier });
+    if (!tokens.id_token || !tokens.refresh_token) throw new Error("Google nie wydało kompletnych poświadczeń offline.");
+    const ticket = await oauth.verifyIdToken({ idToken: tokens.id_token, audience: clientId });
+    const account = ticket.getPayload();
+    if (!account?.email_verified || account.email?.toLowerCase() !== SALON_EMAIL) return json(res, 403, { error: `Dozwolone jest wyłącznie konto ${SALON_EMAIL}.` });
+    oauth.setCredentials(tokens);
+    const calendarId = process.env.GOOGLE_CALENDAR_ID?.trim() || SALON_EMAIL;
+    await google.calendar({ version: "v3", auth: oauth }).calendars.get({ calendarId }, { timeout: 10000 });
+    await writeRefreshToken(tokens.refresh_token, calendarId);
+    res.statusCode = 303; res.setHeader("Cache-Control", "no-store");
+    res.setHeader("Location", "/?admin=true&calendar=connected"); return res.end();
+  } catch (error) {
+    // Avoid reflecting Google token responses, authorization codes, or account details.
+    console.warn("[CalendarOAuth] Callback failed", error instanceof Error ? error.name : "Error");
+    return json(res, 502, { error: "Nie potwierdzono połączenia i trwałego zapisu tokenu. Sprawdź konfigurację serwera oraz magazyn Supabase." });
   }
 }

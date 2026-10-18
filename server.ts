@@ -16,11 +16,8 @@ import {
   getStoredRefreshToken,
   SALON_ACCOUNT_EMAIL,
 } from "./src/server/googleCalendarBackend";
-import {
-  generateAdminAuthUrl,
-  handleOAuthCallback,
-  getEffectiveOAuthCredentials,
-} from "./src/server/googleOAuthService";
+import { oauthLogin, oauthCallback } from "./src/server/googleOAuthService";
+import { adminHandler } from "./src/server/calendarAuth";
 
 dotenv.config();
 
@@ -427,94 +424,16 @@ async function startServer() {
   });
 
   // Calendar auth status & refresh token configuration
-  app.get("/api/calendar/auth", async (req, res) => {
+  app.post("/api/calendar/auth", (_req, res) => res.status(405).json({ error: "Użyj OAuth w panelu personelu." }));
+  app.get("/api/calendar/auth/login", oauthLogin);
+  app.get("/api/calendar/auth/callback", oauthCallback);
+  for (const action of ["login", "logout", "session"]) {
+    app.all(`/api/admin/${action}`, (req, res) => adminHandler(req, res, action));
+  }
+  app.get("/api/calendar/status", async (_req, res) => {
     const status = await verifyCalendarConnection();
-    const hasRefreshToken = !!getStoredRefreshToken();
-    const clientId = process.env.GOOGLE_CLIENT_ID;
-    const hasClientSecret = !!process.env.GOOGLE_CLIENT_SECRET;
-
-    res.json({
-      accountEmail: SALON_ACCOUNT_EMAIL,
-      calendarId: getActiveCalendarId(),
-      connected: status.ready,
-      authMethod: status.authMethod,
-      config: {
-        hasClientId: !!clientId,
-        hasClientSecret,
-        hasRefreshToken,
-      },
-      error: status.error,
-      instructions: status.instructions,
-    });
-  });
-
-  app.post("/api/calendar/auth", async (req, res) => {
-    const { refreshToken } = req.body || {};
-    if (!refreshToken || typeof refreshToken !== "string") {
-      return res.status(400).json({ error: "Wymagany parametr 'refreshToken' (string)." });
-    }
-    saveStoredRefreshToken(refreshToken);
-    const testResult = await verifyCalendarConnection();
-    res.json({
-      success: testResult.ready,
-      message: testResult.ready
-        ? "Refresh token zapisany pomyślnie. Kalendarz Google gabinetu jest połączony."
-        : `Refresh token zapisany, ale test połączenia zwrócił błąd: ${testResult.error}`,
-      verification: testResult,
-    });
-  });
-
-  // Google OAuth Login URL generator / redirect
-  app.get("/api/calendar/auth/login", (req, res) => {
-    const origin = `${req.protocol}://${req.get("host") || "slow-skin-concept.pl"}`;
-    const { clientSecret, clientId, redirectUri } = getEffectiveOAuthCredentials(origin);
-    if (!clientSecret) {
-      return res.status(400).json({
-        success: false,
-        error: "Brak GOOGLE_CLIENT_SECRET w zmiennych środowiskowych serwera.",
-        configuredClientId: clientId,
-        requiredRedirectUri: redirectUri,
-        instruction: "Wprowadź GOOGLE_CLIENT_SECRET w panelu Vercel (Environment Variables), a następnie ponów autoryzację.",
-      });
-    }
-    const { url } = generateAdminAuthUrl(origin);
-    if (req.accepts("html")) {
-      return res.redirect(url);
-    }
-    res.json({ success: true, authUrl: url, redirectUri, clientId });
-  });
-
-  // Google OAuth Callback
-  app.get("/api/calendar/auth/callback", async (req, res) => {
-    const code = req.query.code as string;
-    const errorParam = req.query.error as string;
-    const origin = `${req.protocol}://${req.get("host") || "slow-skin-concept.pl"}`;
-
-    if (errorParam) {
-      return res.status(400).send(`<h2>Błąd autoryzacji Google: ${errorParam}</h2><p><a href="/admin">Wróć</a></p>`);
-    }
-    if (!code) {
-      return res.status(400).send(`<h2>Brak kodu autoryzacji.</h2><p><a href="/admin">Wróć</a></p>`);
-    }
-
-    const result = await handleOAuthCallback(code, origin);
-    if (result.success) {
-      return res.send(`
-        <div style="font-family:sans-serif;padding:30px;max-width:600px;margin:auto">
-          <h2 style="color:#15803d">✓ Kalendarz Google połączony pomyślnie</h2>
-          <p>${result.message}</p>
-          <p><strong>ID kalendarza:</strong> <code>${result.calendarId}</code></p>
-          <a href="/admin" style="display:inline-block;padding:10px 18px;background:#1a1918;color:#fff;text-decoration:none;border-radius:3px">Przejdź do Panelu Administratora →</a>
-        </div>
-      `);
-    }
-    return res.status(502).send(`
-      <div style="font-family:sans-serif;padding:30px;max-width:600px;margin:auto">
-        <h2 style="color:#b91c1c">✕ Błąd autoryzacji kalendarza</h2>
-        <p>${result.message}</p>
-        <p><a href="/admin">Wróć</a></p>
-      </div>
-    `);
+    res.setHeader("Cache-Control", "no-store");
+    res.status(status.error ? 503 : 200).json({ connected: status.ready, ...status });
   });
 
   // Get synchronized Google Calendar events directly from Google API
