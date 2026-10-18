@@ -46,7 +46,11 @@ export async function database(path: string, init: RequestInit = {}) {
     headers: { apikey: key, Authorization: `Bearer ${key}`, 'Content-Type': 'application/json', ...init.headers },
   });
   if (!response.ok) throw new Error(`Błąd magazynu kalendarza (HTTP ${response.status}).`);
-  return response.status === 204 ? null : response.json();
+  // PostgREST return=minimal can reply 201 Created with an empty body.
+  const body = await response.text();
+  if (!body.trim()) return null;
+  try { return JSON.parse(body); }
+  catch { throw new Error('Nieprawidłowa odpowiedź JSON magazynu kalendarza.'); }
 }
 
 export async function readRefreshToken(): Promise<string | null> {

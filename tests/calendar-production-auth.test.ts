@@ -35,7 +35,7 @@ test('no-session OAuth is rejected before accessing storage or Google', async ()
 
 test('OAuth uses correct backend client, PKCE and durable session-bound state', async () => {
  let stored: any;
- globalThis.fetch = async (url, init) => { assert.equal(String(url), 'https://example.supabase.co/rest/v1/slowskin_oauth_states'); stored=JSON.parse(String(init?.body)); return new Response(null, {status:204}); };
+ globalThis.fetch = async (url, init) => { assert.equal(String(url), 'https://example.supabase.co/rest/v1/slowskin_oauth_states'); stored=JSON.parse(String(init?.body)); return new Response(null, {status:201}); };
  const res=response(); await oauthLogin(req(adminCookie()),res); assert.equal(res.statusCode,200);
  const url=new URL(JSON.parse(res.body).authUrl);
  assert.equal(url.searchParams.get('client_id'),BACKEND_CLIENT_ID);
@@ -62,7 +62,7 @@ test('callback rejects forged or expired attempt before token exchange', async (
 test('encrypted token is read back from persistent storage, without memory/env fallback', async () => {
  let record: any;
  globalThis.fetch=async (_url, init)=>{
-   if(init?.method==='POST') {record=JSON.parse(String(init.body));return new Response(null,{status:204});}
+   if(init?.method==='POST') {record=JSON.parse(String(init.body));return new Response(null,{status:201});}
    return Response.json(record?[record]:[]);
  };
  await writeRefreshToken('test-refresh-token','slowskinconcept@gmail.com');
@@ -77,7 +77,7 @@ test('encrypted token is read back from persistent storage, without memory/env f
 test('PIN failures are counted in durable store and login enforces origin and session signature', async () => {
  const failures: any[]=[];
  globalThis.fetch=async (_url, init)=>{
-  if(init?.method==='POST') {failures.push(JSON.parse(String(init.body)));return new Response(null,{status:204});}
+  if(init?.method==='POST') {failures.push(JSON.parse(String(init.body)));return new Response(null,{status:201});}
   return Response.json(failures);
  };
  for(let i=0;i<5;i++){const res=response();await adminHandler({...req(),method:'POST',body:{pin:'wrong'}},res,'login');assert.equal(res.statusCode,401);}
