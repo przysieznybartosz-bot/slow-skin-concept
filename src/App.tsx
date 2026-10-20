@@ -3037,7 +3037,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
   const currentYear = new Date().getFullYear();
 
   return (
-    <div id="app-root" className="min-h-screen bg-luxury-cream text-luxury-dark font-sans flex flex-col selection:bg-luxury-sand selection:text-luxury-gold w-full max-w-full overflow-x-clip">
+    <div id="app-root" className="min-h-screen bg-luxury-cream text-luxury-dark font-sans flex flex-col selection:bg-luxury-sand selection:text-luxury-gold w-full max-w-full relative">
       
       {/* Invisible placeholder container to initiate official Google Translate element */}
       <div id="google-translate-hidden-container" className="hidden" style={{ display: 'none' }} />
@@ -3093,9 +3093,10 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
         id="main-luxury-header"
         className={`sticky top-0 z-50 w-full border-b transition-all duration-300 ${
           isScrolled 
-            ? "bg-luxury-cream/98 backdrop-blur-md border-luxury-sand shadow-sm" 
+            ? "bg-luxury-cream/98 backdrop-blur-md border-luxury-sand shadow-md" 
             : "bg-luxury-cream/95 backdrop-blur-md border-luxury-sand/80 shadow-none"
         }`}
+        style={{ position: "sticky", top: 0, zIndex: 50 }}
       >
         <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 md:px-8 xl:px-12 h-16 sm:h-18 lg:h-20 flex items-center justify-between gap-3 md:gap-6">
           
@@ -5112,96 +5113,98 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
       <main className="flex-grow w-full max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-10">
         
         {/* Elegancja i Nawigacja: Breadcrumbs w stylu Quiet Luxury */}
-        <div className="mb-8 pb-4 border-b border-luxury-sand/50 flex items-center justify-between text-xs sm:text-[11px] font-mono tracking-wider sm:tracking-widest text-luxury-dark font-medium" id="editorial-breadcrumbs">
-          <div className="flex items-center flex-wrap gap-2 text-left">
-            <button 
-              onClick={() => { setActiveTab("cover"); setSelectedArticle(null); setSelectedTreatment(null); setBookingTreatment(null); }}
-              className="hover:text-luxury-gold transition-colors uppercase cursor-pointer"
-            >
-              Slow Skin Concept
-            </button>
+        {activeTab !== "admin" && activeTab !== "legal" && (
+          <div className="mb-8 pb-4 border-b border-luxury-sand/50 flex items-center justify-between text-xs sm:text-[11px] font-mono tracking-wider sm:tracking-widest text-luxury-dark font-medium" id="editorial-breadcrumbs">
+            <div className="flex items-center flex-wrap gap-2 text-left">
+              <button 
+                onClick={() => { setActiveTab("cover"); setSelectedArticle(null); setSelectedTreatment(null); setBookingTreatment(null); }}
+                className="hover:text-luxury-gold transition-colors uppercase cursor-pointer"
+              >
+                Slow Skin Concept
+              </button>
+              
+              <span className="text-luxury-gold/40 select-none font-light">/</span>
+              
+              {activeTab === "cover" && (
+                <span className="text-luxury-dark select-none uppercase font-medium">Okładka</span>
+              )}
+              
+              {activeTab === "journal" && (
+                <>
+                  {selectedArticle ? (
+                    <>
+                      <button 
+                        onClick={() => setSelectedArticle(null)}
+                        className="hover:text-luxury-gold transition-colors uppercase cursor-pointer text-luxury-dark/95"
+                      >
+                        Magazyn
+                      </button>
+                      <span className="text-luxury-gold/40 select-none">/</span>
+                      <span className="text-luxury-dark select-none italic font-serif tracking-normal text-xs font-medium">
+                        {selectedArticle.title}
+                      </span>
+                    </>
+                  ) : (
+                    <span className="text-luxury-dark select-none uppercase font-medium">Magazyn</span>
+                  )}
+                </>
+              )}
+              
+              {activeTab === "method" && (
+                <span className="text-luxury-dark select-none uppercase font-medium">Metoda Autorska</span>
+              )}
+              
+              {activeTab === "clinic" && (
+                <>
+                  {selectedTreatment ? (
+                    <>
+                      <button 
+                        onClick={() => setSelectedTreatment(null)}
+                        className="hover:text-luxury-gold transition-colors uppercase cursor-pointer text-luxury-dark/95"
+                      >
+                        Gabinet & Terapie
+                      </button>
+                      <span className="text-luxury-gold/40 select-none">/</span>
+                      <span className="text-luxury-dark select-none italic font-serif tracking-normal text-xs font-medium">
+                        {selectedTreatment.title}
+                      </span>
+                    </>
+                  ) : (
+                    <span className="text-luxury-dark select-none uppercase font-medium">Gabinet & Terapie</span>
+                  )}
+                </>
+              )}
+              
+              {activeTab === "diagnose" && (
+                <>
+                  <button 
+                    onClick={() => { setDiagnosticStep(0); setDiagnosticReport(null); }}
+                    className={`${diagnosticStep > 0 ? "hover:text-luxury-gold cursor-pointer text-luxury-dark/95" : "text-luxury-dark cursor-default"} transition-colors uppercase`}
+                  >
+                    Diagnoza Komórkowa AI
+                  </button>
+                  {diagnosticStep > 0 && (
+                    <>
+                      <span className="text-luxury-gold/40 select-none">/</span>
+                      <span className="text-luxury-dark select-none uppercase font-medium">
+                        {diagnosticStep === 7 ? "Twój Raport Skóry" : `Krok ${diagnosticStep + 1}`}
+                      </span>
+                    </>
+                  )}
+                </>
+              )}
+            </div>
             
-            <span className="text-luxury-gold/40 select-none font-light">/</span>
-            
-            {activeTab === "cover" && (
-              <span className="text-luxury-dark select-none uppercase font-medium">Okładka</span>
-            )}
-            
-            {activeTab === "journal" && (
-              <>
-                {selectedArticle ? (
-                  <>
-                    <button 
-                      onClick={() => setSelectedArticle(null)}
-                      className="hover:text-luxury-gold transition-colors uppercase cursor-pointer text-luxury-dark/95"
-                    >
-                      Magazyn
-                    </button>
-                    <span className="text-luxury-gold/40 select-none">/</span>
-                    <span className="text-luxury-dark select-none italic font-serif tracking-normal text-xs font-medium">
-                      {selectedArticle.title}
-                    </span>
-                  </>
-                ) : (
-                  <span className="text-luxury-dark select-none uppercase font-medium">Magazyn</span>
-                )}
-              </>
-            )}
-            
-            {activeTab === "method" && (
-              <span className="text-luxury-dark select-none uppercase font-medium">Metoda Autorska</span>
-            )}
-            
-            {activeTab === "clinic" && (
-              <>
-                {selectedTreatment ? (
-                  <>
-                    <button 
-                      onClick={() => setSelectedTreatment(null)}
-                      className="hover:text-luxury-gold transition-colors uppercase cursor-pointer text-luxury-dark/95"
-                    >
-                      Gabinet & Terapie
-                    </button>
-                    <span className="text-luxury-gold/40 select-none">/</span>
-                    <span className="text-luxury-dark select-none italic font-serif tracking-normal text-xs font-medium">
-                      {selectedTreatment.title}
-                    </span>
-                  </>
-                ) : (
-                  <span className="text-luxury-dark select-none uppercase font-medium">Gabinet & Terapie</span>
-                )}
-              </>
-            )}
-            
-            {activeTab === "diagnose" && (
-              <>
-                <button 
-                  onClick={() => { setDiagnosticStep(0); setDiagnosticReport(null); }}
-                  className={`${diagnosticStep > 0 ? "hover:text-luxury-gold cursor-pointer text-luxury-dark/95" : "text-luxury-dark cursor-default"} transition-colors uppercase`}
-                >
-                  Diagnoza Komórkowa AI
-                </button>
-                {diagnosticStep > 0 && (
-                  <>
-                    <span className="text-luxury-gold/40 select-none">/</span>
-                    <span className="text-luxury-dark select-none uppercase font-medium">
-                      {diagnosticStep === 7 ? "Twój Raport Skóry" : `Krok ${diagnosticStep + 1}`}
-                    </span>
-                  </>
-                )}
-              </>
-            )}
+            {/* Subtle dynamic identifier of current view to enforce quiet luxury authority */}
+            <div className="hidden sm:block text-[9px] text-luxury-gold/60 uppercase select-none tracking-[0.25em]">
+              {activeTab === "cover" && "Okładka No. 1"}
+              {activeTab === "journal" && (selectedArticle ? "Lektura Ekspercka" : "Artykuły i Publikacje")}
+              {activeTab === "method" && "Metodologia Naukowa"}
+              {activeTab === "clinic" && (selectedTreatment ? "Monografia Rytuału" : "Menu Zabiegowe")}
+              {activeTab === "diagnose" && (diagnosticStep === 7 ? "Paszport Skóry" : "Interaktywny Analizator")}
+            </div>
           </div>
-          
-          {/* Subtle dynamic identifier of current view to enforce quiet luxury authority */}
-          <div className="hidden sm:block text-[9px] text-luxury-gold/60 uppercase select-none tracking-[0.25em]">
-            {activeTab === "cover" && "Okładka No. 1"}
-            {activeTab === "journal" && (selectedArticle ? "Lektura Ekspercka" : "Artykuły i Publikacje")}
-            {activeTab === "method" && "Metodologia Naukowa"}
-            {activeTab === "clinic" && (selectedTreatment ? "Monografia Rytuału" : "Menu Zabiegowe")}
-            {activeTab === "diagnose" && (diagnosticStep === 7 ? "Paszport Skóry" : "Interaktywny Analizator")}
-          </div>
-        </div>
+        )}
 
         <AnimatePresence mode="wait">
           

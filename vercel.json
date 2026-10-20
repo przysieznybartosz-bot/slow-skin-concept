@@ -1,17 +1,50 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "vite",
+  "installCommand": "npm install",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "functions": {
-    "api/**/*.ts": {
-      "includeFiles": [
-        "src/server/**",
-        "firebase-applet-config.json"
-      ]
-    }
-  },
   "rewrites": [
+    {
+      "source": "/polityka-prywatnosci",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/prywatnosc",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/rodo",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/klauzula-rodo",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/regulamin",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/regulamin-gabinetu",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/polityka-cookies",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/konto",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/index.html"
+    },
     {
       "source": "/((?!api/|.*\\.(?:xml|txt|png|jpg|jpeg|svg|webp|ico|mp4|json|html|js|css)(?:\\?.*)?$).*)",
       "destination": "/index.html"
