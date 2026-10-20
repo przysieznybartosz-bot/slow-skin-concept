@@ -53,18 +53,23 @@
   background: var(--color-luxury-gold);
 }
 
-html, body {
-  overflow-x: clip;
-  max-width: 100vw;
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
   width: 100%;
 }
 
 /* Ensure Main Luxury Header remains permanently pinned at the top on scroll */
 #main-luxury-header {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-  z-index: 50;
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 50 !important;
 }
 
 /* Hide Google Translate generic top-bar and floating widgets silently to keep quiet luxury clean layout */
