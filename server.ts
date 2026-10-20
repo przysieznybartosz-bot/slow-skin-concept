@@ -5,7 +5,7 @@ import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
 import OpenAI from "openai";
 import dotenv from "dotenv";
-import { getKnowledgeBaseTextContext } from "./src/knowledgeBase";
+import { getKnowledgeBaseTextContext } from "./src/knowledgeBase.js";
 import {
   verifyCalendarConnection,
   getLiveAvailableSlots,
@@ -14,10 +14,26 @@ import {
   getActiveCalendarId,
   saveStoredRefreshToken,
   getStoredRefreshToken,
+  getStoredRefreshTokenAsync,
+  removeStoredRefreshToken,
   SALON_ACCOUNT_EMAIL,
-} from "./src/server/googleCalendarBackend";
-import { oauthLogin, oauthCallback } from "./src/server/googleOAuthService";
-import { adminHandler } from "./src/server/calendarAuth";
+} from "./src/server/googleCalendarBackend.js";
+import {
+  generateAdminAuthUrl,
+  handleOAuthCallback,
+  getEffectiveOAuthCredentials,
+} from "./src/server/googleOAuthService.js";
+import {
+  verifyAdminRequest,
+  parseCookies,
+  serializeCookie,
+  isValidAdminPin,
+  createAdminSessionToken,
+  checkLoginRateLimit,
+  recordFailedLogin,
+  recordSuccessfulLogin,
+} from "./src/server/adminAuth.js";
+import { executeBookingWorkflow } from "./src/server/bookingWorkflow.js";
 
 dotenv.config();
 
@@ -395,8 +411,8 @@ async function startServer() {
     }
   }
 
-  // Calendar info & authentication endpoint
-  app.get("/api/calendar/info", async (req, res) => {
+  // Calendar info & status endpoint
+  app.get(["/api/calendar/info", "/api/calendar/status"], async (req, res) => {
     try {
       const status = await verifyCalendarConnection();
       res.json({
@@ -423,17 +439,332 @@ async function startServer() {
     }
   });
 
-  // Calendar auth status & refresh token configuration
-  app.post("/api/calendar/auth", (_req, res) => res.status(405).json({ error: "Użyj OAuth w panelu personelu." }));
-  app.get("/api/calendar/auth/login", oauthLogin);
-  app.get("/api/calendar/auth/callback", oauthCallback);
-  for (const action of ["login", "logout", "session"]) {
-    app.all(`/api/admin/${action}`, (req, res) => adminHandler(req, res, action));
-  }
-  app.get("/api/calendar/status", async (_req, res) => {
+  // Calendar auth status & refresh token configuration (Admin restricted)
+  app.get("/api/calendar/auth", async (req, res) => {
+    const adminCheck = verifyAdminRequest(req);
+    if (!adminCheck.isAdmin) {
+      return res.status(401).json({
+        success: false,
+        error: "Brak uprawnień administratora gabinetu. Operacja wymaga zalogowania w panelu personelu.",
+      });
+    }
+
     const status = await verifyCalendarConnection();
-    res.setHeader("Cache-Control", "no-store");
-    res.status(status.error ? 503 : 200).json({ connected: status.ready, ...status });
+    const hasRefreshToken = !!getStoredRefreshToken();
+    const clientId = process.env.GOOGLE_CLIENT_ID;
+    const hasClientSecret = !!process.env.GOOGLE_CLIENT_SECRET;
+
+    res.json({
+      accountEmail: SALON_ACCOUNT_EMAIL,
+      calendarId: getActiveCalendarId(),
+      connected: status.ready,
+      authMethod: status.authMethod,
+      config: {
+        hasClientId: !!clientId,
+        hasClientSecret,
+        hasRefreshToken,
+      },
+      error: status.error,
+      instructions: status.instructions,
+    });
+  });
+
+  app.post("/api/calendar/auth", async (req, res) => {
+    const adminCheck = verifyAdminRequest(req);
+    if (!adminCheck.isAdmin) {
+      return res.status(401).json({
+        success: false,
+        error: "Brak uprawnień administratora gabinetu.",
+      });
+    }
+
+    const { refreshToken } = req.body || {};
+    if (!refreshToken || typeof refreshToken !== "string" || !refreshToken.trim()) {
+      return res.status(400).json({ error: "Wymagany parametr 'refreshToken' (string)." });
+    }
+
+    try {
+      await saveStoredRefreshToken(refreshToken);
+    } catch (saveErr: any) {
+      return res.status(500).json({
+        success: false,
+        error: saveErr?.message || "Błąd zapisu tokenu w trwałym magazynie serwera.",
+      });
+    }
+
+    const testResult = await verifyCalendarConnection();
+    res.json({
+      success: testResult.ready,
+      message: testResult.ready
+        ? "Refresh token zapisany pomyślnie. Kalendarz Google gabinetu jest połączony."
+        : `Refresh token zapisany, ale test połączenia zwrócił błąd: ${testResult.error}`,
+      verification: testResult,
+    });
+  });
+
+  app.delete("/api/calendar/auth", async (req, res) => {
+    const adminCheck = verifyAdminRequest(req);
+    if (!adminCheck.isAdmin) {
+      return res.status(401).json({
+        success: false,
+        error: "Brak uprawnień administratora gabinetu.",
+      });
+    }
+
+    try {
+      await removeStoredRefreshToken();
+      res.json({
+        success: true,
+        message: "Kalendarz Google został odłączony, a token trwale usunięty.",
+      });
+    } catch (err: any) {
+      res.status(500).json({
+        success: false,
+        error: err.message || "Błąd odłączania kalendarza.",
+      });
+    }
+  });
+
+  // Staff Administrator Login - verifies configured ADMIN_PIN and sets server-signed HttpOnly session cookie
+  // Protected against brute-force / PIN guessing with rate-limiting & 15-minute lockout
+  app.post("/api/admin/login", (req, res) => {
+    const clientIp =
+      (req.headers["x-forwarded-for"] as string)?.split(",")[0]?.trim() ||
+      req.socket.remoteAddress ||
+      "unknown-ip";
+
+    // 1. Sprawdź blokadę czasową IP
+    const rateCheck = checkLoginRateLimit(clientIp);
+    if (rateCheck.isLocked) {
+      const minutesLeft = Math.ceil(rateCheck.remainingSeconds / 60);
+      return res.status(429).json({
+        success: false,
+        error: `Zbyt wiele nieudanych prób logowania. Dostęp zablokowany na ${minutesLeft} min (pozostało ${rateCheck.remainingSeconds}s).`,
+        remainingSeconds: rateCheck.remainingSeconds,
+      });
+    }
+
+    const { pin } = req.body || {};
+    if (!pin || typeof pin !== "string" || !pin.trim()) {
+      return res.status(400).json({ success: false, error: "Wymagany parametr 'pin' (string)." });
+    }
+
+    // 2. Weryfikacja PIN-u administratora
+    if (!isValidAdminPin(pin)) {
+      const failInfo = recordFailedLogin(clientIp);
+      if (failInfo.isLocked) {
+        return res.status(429).json({
+          success: false,
+          error: "Przekroczono limit 5 nieudanych prób logowania. Dostęp zablokowany na 15 minut.",
+          remainingSeconds: failInfo.remainingSeconds,
+        });
+      }
+      return res.status(401).json({
+        success: false,
+        error: `Nieprawidłowy PIN administratora gabinetu. Pozostało prób przed blokadą: ${failInfo.attemptsLeft}.`,
+        attemptsLeft: failInfo.attemptsLeft,
+      });
+    }
+
+    // 3. Pomyślne uwierzytelnienie - wyczyść licznik błędnych prób
+    recordSuccessfulLogin(clientIp);
+
+    const sessionId = `admin-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    const sessionToken = createAdminSessionToken(sessionId);
+    if (!sessionToken) {
+      return res.status(500).json({
+        success: false,
+        error: "Brak skonfigurowanego klucza autoryzacji serwera (wymagany ADMIN_JWT_SECRET o entropii min. 256 bitów). Operacja zablokowana.",
+      });
+    }
+
+    const isHttps = req.protocol === "https" || req.headers["x-forwarded-proto"] === "https";
+    res.setHeader(
+      "Set-Cookie",
+      serializeCookie("slowskin_admin_session", sessionToken, {
+        maxAge: 86400, // 24 hours
+        httpOnly: true,
+        secure: isHttps,
+        sameSite: "Lax",
+        path: "/",
+      })
+    );
+
+    res.json({
+      success: true,
+      message: "Sesja administratora utworzona pomyślnie.",
+      sessionId,
+    });
+  });
+
+  app.post("/api/admin/logout", (req, res) => {
+    const isHttps = req.protocol === "https" || req.headers["x-forwarded-proto"] === "https";
+    res.setHeader(
+      "Set-Cookie",
+      serializeCookie("slowskin_admin_session", "", {
+        maxAge: 0,
+        httpOnly: true,
+        secure: isHttps,
+        sameSite: "Lax",
+        path: "/",
+      })
+    );
+    res.json({ success: true, message: "Wylogowano z sesji administratora." });
+  });
+
+  app.get("/api/admin/session", (req, res) => {
+    const adminCheck = verifyAdminRequest(req);
+    res.json({
+      isAdmin: adminCheck.isAdmin,
+      sessionId: adminCheck.sessionId || null,
+      error: adminCheck.error,
+    });
+  });
+
+  // Direct download endpoints for deployment artifacts
+  app.get("/calendar-security.patch", (req, res) => {
+    const patchPath = path.resolve(process.cwd(), "public/calendar-security.patch");
+    if (!fs.existsSync(patchPath)) {
+      return res.status(404).type("text/plain").send("Plik calendar-security.patch nie jest jeszcze dostępny.");
+    }
+    res.setHeader("Content-Disposition", 'attachment; filename="calendar-security.patch"');
+    res.setHeader("Content-Type", "text/x-diff; charset=utf-8");
+    res.sendFile(patchPath);
+  });
+
+  app.get("/calendar-security-deployment.md", (req, res) => {
+    const mdPath = path.resolve(process.cwd(), "public/calendar-security-deployment.md");
+    if (!fs.existsSync(mdPath)) {
+      return res.status(404).type("text/plain").send("Plik calendar-security-deployment.md nie jest jeszcze dostępny.");
+    }
+    res.setHeader("Content-Disposition", 'attachment; filename="calendar-security-deployment.md"');
+    res.setHeader("Content-Type", "text/markdown; charset=utf-8");
+    res.sendFile(mdPath);
+  });
+
+  // Google OAuth Login URL generator / redirect (Admin restricted)
+  app.get("/api/calendar/auth/login", async (req, res) => {
+    const adminCheck = verifyAdminRequest(req);
+    if (!adminCheck.isAdmin) {
+      return res.status(401).json({
+        success: false,
+        error: "Brak autoryzacji administratora gabinetu. Rozpoczęcie połączenia wymaga zalogowania w panelu personelu.",
+      });
+    }
+
+    const host = req.get("host") || "slow-skin-concept.pl";
+    const protocol = req.protocol || (host.includes("localhost") ? "http" : "https");
+    const origin = `${protocol}://${host}`;
+
+    const { clientSecret, clientId, redirectUri } = getEffectiveOAuthCredentials(origin);
+    if (!clientSecret) {
+      return res.status(400).json({
+        success: false,
+        error: "Brak GOOGLE_CLIENT_SECRET w zmiennych środowiskowych serwera.",
+        configuredClientId: clientId,
+        requiredRedirectUri: redirectUri,
+        instruction: "Wprowadź GOOGLE_CLIENT_SECRET w panelu Vercel (Environment Variables), a następnie ponów autoryzację.",
+      });
+    }
+
+    const { url, state, codeVerifier, redirectUri: authRedirectUri } = await generateAdminAuthUrl({
+      customRedirectUri: origin,
+      sessionId: adminCheck.sessionId,
+    });
+
+    const isHttps = protocol === "https" || req.headers["x-forwarded-proto"] === "https";
+    res.setHeader("Set-Cookie", [
+      serializeCookie("slowskin_oauth_state", state, {
+        maxAge: 600,
+        httpOnly: true,
+        secure: isHttps,
+        sameSite: "Lax",
+        path: "/",
+      }),
+      serializeCookie("slowskin_code_verifier", codeVerifier, {
+        maxAge: 600,
+        httpOnly: true,
+        secure: isHttps,
+        sameSite: "Lax",
+        path: "/",
+      }),
+    ]);
+
+    if (req.headers.accept?.includes("application/json") || req.xhr) {
+      return res.json({ success: true, authUrl: url, redirectUri, clientId });
+    }
+    return res.redirect(url);
+  });
+
+  // Google OAuth Callback (State verified, Account strictly matched)
+  app.get("/api/calendar/auth/callback", async (req, res) => {
+    const code = req.query.code as string;
+    const state = req.query.state as string;
+    const errorParam = req.query.error as string;
+    const host = req.get("host") || "slow-skin-concept.pl";
+    const protocol = req.protocol || (host.includes("localhost") ? "http" : "https");
+    const isHttps = protocol === "https" || req.headers["x-forwarded-proto"] === "https";
+
+    const cookies = parseCookies(req.headers?.cookie);
+    const cookieState = cookies["slowskin_oauth_state"];
+    const codeVerifier = cookies["slowskin_code_verifier"];
+
+    // Clear state and verifier cookies
+    res.setHeader("Set-Cookie", [
+      serializeCookie("slowskin_oauth_state", "", {
+        maxAge: 0,
+        httpOnly: true,
+        secure: isHttps,
+        sameSite: "Lax",
+        path: "/",
+      }),
+      serializeCookie("slowskin_code_verifier", "", {
+        maxAge: 0,
+        httpOnly: true,
+        secure: isHttps,
+        sameSite: "Lax",
+        path: "/",
+      }),
+    ]);
+
+    if (errorParam) {
+      return res.status(400).send(`<h2>Błąd autoryzacji Google: ${errorParam}</h2><p><a href="/admin">Wróć</a></p>`);
+    }
+    if (!code) {
+      return res.status(400).send(`<h2>Brak kodu autoryzacji.</h2><p><a href="/admin">Wróć</a></p>`);
+    }
+    if (!state) {
+      return res.status(400).send(`<h2>Brak stanu autoryzacji (state).</h2><p><a href="/admin">Wróć</a></p>`);
+    }
+
+    const result = await handleOAuthCallback({
+      code,
+      state,
+      cookieState,
+      codeVerifier,
+    });
+
+    if (result.success) {
+      return res.send(`
+        <div style="font-family:sans-serif;padding:30px;max-width:600px;margin:auto">
+          <h2 style="color:#15803d">✓ Kalendarz Google połączony pomyślnie</h2>
+          <p>${result.message}</p>
+          <p><strong>Konto:</strong> <code>${result.accountEmail}</code></p>
+          <p><strong>ID kalendarza:</strong> <code>${result.calendarId}</code></p>
+          <a href="/admin" style="display:inline-block;padding:10px 18px;background:#1a1918;color:#fff;text-decoration:none;border-radius:3px">Przejdź do Panelu Administratora →</a>
+        </div>
+      `);
+    }
+
+    const statusCode = result.error?.includes("Nieautoryzowane konto") ? 403 : 400;
+    return res.status(statusCode).send(`
+      <div style="font-family:sans-serif;padding:30px;max-width:600px;margin:auto">
+        <h2 style="color:#b91c1c">✕ Błąd autoryzacji kalendarza</h2>
+        <p>${result.message}</p>
+        ${result.error ? `<pre style="background:#fef2f2;padding:10px;color:#991b1b;font-size:12px">${result.error}</pre>` : ""}
+        <p><a href="/admin">Wróć</a></p>
+      </div>
+    `);
   });
 
   // Get synchronized Google Calendar events directly from Google API
@@ -552,10 +883,13 @@ async function startServer() {
         .filter((b) => b.dateStr === dateStr)
         .map((b) => ({ timeStr: b.timeStr, durationMinutes: b.durationMinutes || 75 }));
 
-      const result = await getLiveAvailableSlots(dateStr, duration, dayBookings);
+      const serviceType = (req.query.serviceType as "treatment" | "consultation") ||
+        (req.query.isOnline === "true" ? "consultation" : "treatment");
 
-      // Return 503 if Google Calendar query failed on a working day
-      if (!result.success && result.status === "sync_error") {
+      const result = await getLiveAvailableSlots(dateStr, duration, dayBookings, serviceType);
+
+      // Return 503 if Google Calendar query failed on a working day or calendar not verified
+      if (!result.success || result.status === "sync_error" || !result.googleCalendarSynced) {
         return res.status(503).json(result);
       }
 
@@ -572,67 +906,54 @@ async function startServer() {
     }
   });
 
-  // Record booking: directly inserts to the verified salon Google Calendar server-side
+  // Record booking: directly inserts to the verified salon Google Calendar server-side with collision protection
   app.post("/api/calendar/bookings", async (req, res) => {
     try {
-      const booking = req.body;
-      const { treatmentName, durationMinutes, price, clientName, clientPhone, clientEmail, dateStr, timeStr, notes, isOnlineConsultation } = booking;
+      const idempotencyKey =
+        (req.headers?.["idempotency-key"] as string) || req.body?.idempotencyKey;
 
-      if (!dateStr || !timeStr || !treatmentName || !clientName || !clientPhone) {
-        return res.status(400).json({ error: "Brak wymaganych danych rezerwacji (data, godzina, zabieg, imię, telefon)." });
-      }
-
-      const duration = parseInt(durationMinutes, 10) || 75;
-
-      // 1. Insert into Google Calendar of the salon
-      const googleResult = await insertBookingIntoSalonCalendar({
-        treatmentName,
-        durationMinutes: duration,
-        price: price || "Cena do potwierdzenia",
-        clientName,
-        clientPhone,
-        clientEmail: clientEmail || "",
-        dateStr,
-        timeStr,
-        notes,
-        isOnlineConsultation: !!isOnlineConsultation,
+      const result = await executeBookingWorkflow({
+        ...req.body,
+        idempotencyKey,
       });
 
-      if (!googleResult.success) {
-        // Confirmation is strictly disallowed if Google write fails
-        return res.status(502).json({
+      if (!result.success) {
+        return res.status(result.statusCode).json({
           success: false,
-          error: `Nie udało się zapisać rezerwacji w Kalendarzu Google gabinetu: ${googleResult.error}`,
+          error: result.error,
+          bookingId: result.bookingId,
         });
       }
 
-      // 2. Persist in local database with Google eventId and calendarId
-      const allBookings = getStoredBookings();
-      const newBooking: StoredBooking = {
-        id: `book-${Date.now()}`,
-        treatmentName,
-        durationMinutes: duration,
-        price: price || "",
-        clientName: clientName || "Klient",
-        clientPhone: clientPhone || "",
-        clientEmail: clientEmail || "",
-        dateStr,
-        timeStr,
-        notes: notes || "",
-        isOnlineConsultation: !!isOnlineConsultation,
-        createdAt: new Date().toISOString(),
-      };
-
-      allBookings.push(newBooking);
-      saveStoredBookings(allBookings);
+      // Also maintain local bookings_db for offline/fallback caching
+      try {
+        const allBookings = getStoredBookings();
+        allBookings.push({
+          id: result.bookingId || `book-${Date.now()}`,
+          treatmentName: req.body.treatmentName,
+          durationMinutes: parseInt(req.body.durationMinutes, 10) || 75,
+          price: req.body.price || "",
+          clientName: req.body.clientName || "Klient",
+          clientPhone: req.body.clientPhone || "",
+          clientEmail: req.body.clientEmail || "",
+          dateStr: req.body.dateStr,
+          timeStr: req.body.timeStr,
+          notes: req.body.notes || "",
+          isOnlineConsultation: !!req.body.isOnlineConsultation,
+          createdAt: new Date().toISOString(),
+        });
+        saveStoredBookings(allBookings);
+      } catch {
+        // ignore cache write error
+      }
 
       res.status(201).json({
         success: true,
-        bookingId: newBooking.id,
-        eventId: googleResult.eventId,
-        calendarId: googleResult.calendarId,
-        htmlLink: googleResult.htmlLink,
-        googleAccount: SALON_ACCOUNT_EMAIL,
+        bookingId: result.bookingId,
+        eventId: result.eventId,
+        calendarId: result.calendarId,
+        htmlLink: result.htmlLink,
+        googleAccount: result.googleAccount,
         timestamp: new Date().toISOString(),
       });
     } catch (e: any) {
@@ -1505,10 +1826,15 @@ Stwórz ekskluzywny raport diagnostyczny, który uświadomi klientce biologiczn�
 
     app.get("/api/settings/openai", (req, res) => {
       const key = getOpenaiApiKey();
-      return res.json({ key });
+      return res.json({ configured: Boolean(key) });
     });
 
     app.post("/api/settings/openai", (req, res) => {
+      const adminCheck = verifyAdminRequest(req);
+      if (!adminCheck.isAdmin) {
+        return res.status(401).json({ success: false, error: "Wymagana autoryzacja administratora gabinetu." });
+      }
+
       const { key } = req.body;
       if (typeof key === "string") {
         const trimmed = key.trim();
@@ -1517,7 +1843,7 @@ Stwórz ekskluzywny raport diagnostyczny, który uświadomi klientce biologiczn�
         } else {
           deleteOpenaiApiKey();
         }
-        return res.json({ success: true, key: trimmed });
+        return res.json({ success: true, configured: Boolean(trimmed) });
       }
       return res.status(400).json({ error: "Invalid key format" });
     });
@@ -1808,6 +2134,15 @@ Nigdy nie zmyślaj innych identyfikatorów ani nie dopisuj linków zewnętrznych
 
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server listening on port ${PORT}`);
+
+    // Pre-load stored OAuth refresh token from Supabase if available
+    getStoredRefreshTokenAsync().then((token) => {
+      if (token) {
+        console.log("[Server] Pomyślnie załadowano i odszyfrowano token Kalendarza Google z bazy Supabase.");
+      }
+    }).catch((err) => {
+      console.warn("[Server] Ostrzeżenie ładowania tokenu z Supabase:", err.message);
+    });
   });
 }
 

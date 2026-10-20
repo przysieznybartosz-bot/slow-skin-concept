@@ -23,7 +23,9 @@ import {
 import { safeStorage } from "../utils/storage";
 
 export const SLOW_SKIN_GOOGLE_ACCOUNT = "slowskinconcept@gmail.com";
-export const SLOW_SKIN_CALENDAR_ID = "ec7711f8f95afc5d0e88dd4a404e2b15d3503323b86963b41d25747356d8b0d7@group.calendar.google.com";
+export const SLOW_SKIN_TREATMENTS_CALENDAR_ID = "slowskinconcept@gmail.com";
+export const SLOW_SKIN_CONSULTATIONS_CALENDAR_ID = "ec7711f8f95afc5d0e88dd4a404e2b15d3503323b86963b41d25747356d8b0d7@group.calendar.google.com";
+export const SLOW_SKIN_CALENDAR_ID = SLOW_SKIN_TREATMENTS_CALENDAR_ID;
 export const RAW_GITHUB_EVENTS_URL = "https://raw.githubusercontent.com/przysieznybartosz-bot/slow-skin-concept/main/google_calendar_events.json";
 
 export function getLocalGoogleEvents(): GoogleCalendarStoredEvent[] {
@@ -146,7 +148,12 @@ export function parseTreatmentDuration(durationStr?: string): number {
  * Fetches dynamic available and occupied slots tailored to the treatment duration
  * from the backend, pre-checking collision with existing bookings and Google Calendar.
  */
-export async function fetchCalendarSlots(dateStr: string, durationMinutes: number): Promise<CalendarSlotsResponse> {
+export async function fetchCalendarSlots(
+  dateStr: string,
+  durationMinutes: number,
+  isOnlineConsultation?: boolean,
+  signal?: AbortSignal
+): Promise<CalendarSlotsResponse> {
   const [year, month, day] = dateStr.split("-").map(Number);
   const reqDate = new Date(year, month - 1, day, 12, 0, 0);
   const dayOfWeek = reqDate.getDay();
@@ -173,24 +180,48 @@ export async function fetchCalendarSlots(dateStr: string, durationMinutes: numbe
     };
   }
 
-  const res = await fetch(`/api/calendar/slots?date=${encodeURIComponent(dateStr)}&duration=${durationMinutes}`, {
-    cache: "no-store",
-  });
+  let internalTimeout: any;
+  let effectiveSignal = signal;
+  if (!signal) {
+    const controller = new AbortController();
+    internalTimeout = setTimeout(() => controller.abort(), 8000);
+    effectiveSignal = controller.signal;
+  }
 
-  const contentType = res.headers.get("content-type") || "";
-  if (!res.ok || !contentType.includes("application/json")) {
-    const errorJson = await res.json().catch(() => null);
-    throw new Error(
-      errorJson?.reason || errorJson?.error || "Nie możemy teraz sprawdzić dostępności w Kalendarzu Google. Kliknij, aby ponowić próbę."
+  try {
+    const serviceType = isOnlineConsultation ? "consultation" : "treatment";
+    const res = await fetch(
+      `/api/calendar/slots?date=${encodeURIComponent(dateStr)}&duration=${durationMinutes}&serviceType=${serviceType}&isOnline=${Boolean(isOnlineConsultation)}`,
+      {
+        cache: "no-store",
+        signal: effectiveSignal,
+      }
     );
-  }
 
-  const data: CalendarSlotsResponse = await res.json();
-  if (data.status === "sync_error" || data.googleCalendarSynced === false) {
-    throw new Error(data.reason || data.error || "Nie możemy teraz sprawdzić dostępności w Kalendarzu Google. Kliknij, aby ponowić próbę.");
-  }
+    const contentType = res.headers.get("content-type") || "";
+    if (!res.ok || !contentType.includes("application/json")) {
+      const errorJson = await res.json().catch(() => null);
+      throw new Error(
+        errorJson?.reason || errorJson?.error || `Błąd weryfikacji kalendarza (HTTP ${res.status}). Kliknij, aby ponowić próbę.`
+      );
+    }
 
-  return data;
+    const data: CalendarSlotsResponse = await res.json();
+    if (data.status === "sync_error" || !data.googleCalendarSynced) {
+      throw new Error(data.reason || data.error || "Nie udało się zweryfikować dostępności w Kalendarzu Google gabinetu. Kliknij, aby ponowić próbę.");
+    }
+
+    return data;
+  } catch (err: any) {
+    if (err.name === "AbortError") {
+      throw new Error("Przekroczono limit czasu odpowiedzi serwera kalendarza (8s). Kliknij, aby ponowić.");
+    }
+    throw err;
+  } finally {
+    if (internalTimeout) {
+      clearTimeout(internalTimeout);
+    }
+  }
 }
 
 /**
@@ -323,37 +354,62 @@ export async function syncGoogleCalendarWithBackend(token: string): Promise<{ su
 }
 
 /**
- * Gets currently synchronized Google Calendar events from the backend or local cache.
+ * Gets currently synchronized Google Calendar events from the backend with strict 15s timeout.
  */
-export async function calendarRequest(url: string, init: RequestInit = {}): Promise<any> {
-  const response = await fetch(url, { ...init, credentials: "include", cache: "no-store", signal: AbortSignal.timeout(15000) });
-  const data = await response.json().catch(() => { throw new Error("Serwer nie zwrócił odpowiedzi API kalendarza."); });
-  if (!response.ok) throw new Error(data.error || "Błąd połączenia z kalendarzem.");
-  return data;
+export async function getSyncedGoogleEvents(timeoutMs: number = 15000): Promise<{
+  totalEvents: number;
+  events: GoogleCalendarStoredEvent[];
+  connected: boolean;
+  error?: string;
+}> {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    const res = await fetch("/api/calendar/google-events", {
+      signal: controller.signal,
+      cache: "no-store",
+    });
+    clearTimeout(timeoutId);
+
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data.events)) {
+        safeStorage.setItem("slowskin_google_events", JSON.stringify(data.events));
+        return {
+          totalEvents: data.totalEvents || data.events.length,
+          events: data.events,
+          connected: Boolean(data.connected),
+        };
+      }
+    }
+    const errData = await res.json().catch(() => null);
+    return {
+      totalEvents: 0,
+      events: [],
+      connected: false,
+      error: errData?.error || `Błąd serwera (HTTP ${res.status})`,
+    };
+  } catch (err: any) {
+    clearTimeout(timeoutId);
+    if (err.name === "AbortError") {
+      throw new Error(`Przekroczono limit czasu pobierania zdarzeń (${Math.round(timeoutMs / 1000)} s).`);
+    }
+    throw err;
+  }
 }
 
-export async function fetchCalendarStatus() {
-  return calendarRequest("/api/calendar/status");
+export function getClientWarsawOffset(date: Date): string {
+  const utcDate = new Date(date.toLocaleString("en-US", { timeZone: "UTC" }));
+  const warsawDate = new Date(date.toLocaleString("en-US", { timeZone: "Europe/Warsaw" }));
+  const diffMinutes = Math.round((warsawDate.getTime() - utcDate.getTime()) / 60000);
+  const sign = diffMinutes >= 0 ? "+" : "-";
+  const absDiff = Math.abs(diffMinutes);
+  const hours = String(Math.floor(absDiff / 60)).padStart(2, "0");
+  const mins = String(absDiff % 60).padStart(2, "0");
+  return `${sign}${hours}:${mins}`;
 }
 
-export async function startSalonCalendarOAuth() {
-  const admin = await calendarRequest("/api/admin/session");
-  if (!admin.isAdmin) throw new Error("Sesja personelu wygasła. Zablokuj panel i zaloguj się ponownie PIN-em.");
-  const data = await calendarRequest("/api/calendar/auth/login", { headers: { Accept: "application/json" } });
-  const url = new URL(data.authUrl);
-  if (url.origin !== "https://accounts.google.com" || url.searchParams.get("response_type") !== "code" || url.searchParams.get("code_challenge_method") !== "S256") throw new Error("Nieprawidłowy adres autoryzacji serwera.");
-  window.location.assign(url.href);
-}
-
-export async function getSyncedGoogleEvents(): Promise<{ totalEvents: number; events: GoogleCalendarStoredEvent[] }> {
-  const data = await calendarRequest("/api/calendar/google-events");
-  if (!data.success || !data.connected || !Array.isArray(data.events)) throw new Error(data.error || "Kalendarz niepołączony.");
-  return { totalEvents: data.events.length, events: data.events };
-}
-
-/**
- * Adds manual blocked time block (e.g. vacation or break).
- */
 export async function addManualCalendarBlock(
   dateStr: string,
   startTimeStr: string,
@@ -361,11 +417,13 @@ export async function addManualCalendarBlock(
   reason: string,
   isAllDay: boolean = false
 ): Promise<{ success: boolean; error?: string }> {
+  const approx = new Date(`${dateStr}T12:00:00Z`);
+  const offset = getClientWarsawOffset(approx);
   const newBlock: GoogleCalendarStoredEvent = {
     id: `manual-block-${Date.now()}`,
     summary: reason || "Termin zablokowany przez personel gabinetu",
-    start: `${dateStr}T${startTimeStr || "10:00"}:00+02:00`,
-    end: `${dateStr}T${endTimeStr || "19:30"}:00+02:00`,
+    start: `${dateStr}T${startTimeStr || "10:00"}:00${offset}`,
+    end: `${dateStr}T${endTimeStr || "19:30"}:00${offset}`,
     dateStr,
     startTimeStr: isAllDay ? "10:00" : startTimeStr,
     endTimeStr: isAllDay ? "19:30" : endTimeStr,
@@ -480,64 +538,32 @@ export const initCalendarAuth = (
 };
 
 /**
- * Requests Google Calendar permission using Firebase Auth popup with GSI fallback
+ * Inicjalizuje serwerowy proces autoryzacji Google OAuth 2.0 PKCE dla kalendarza gabinetu.
+ * Całkowicie usuwa popup Firebase oraz fallback GSI z tego przepływu.
+ * Używa wyłącznie backendowego klienta GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET i GOOGLE_REDIRECT_URI.
  */
-export async function requestGoogleCalendarAccess(): Promise<string> {
-  isSigningIn = true;
-  try {
-    if (auth) {
-      const result = await signInWithPopup(auth, googleProvider);
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      if (credential?.accessToken) {
-        saveGoogleToken(credential.accessToken, 3500);
-        return credential.accessToken;
-      }
-    }
-  } catch (err: any) {
-    console.warn("Firebase signInWithPopup note, trying GSI client fallback:", err?.message || err);
-  } finally {
-    isSigningIn = false;
+export async function requestGoogleCalendarAccess(): Promise<string | null> {
+  // 1. Sprawdź i potwierdź sesję administratora
+  const sessionRes = await fetch("/api/admin/session", { credentials: "include" });
+  const sessionData = await sessionRes.json().catch(() => ({}));
+  if (!sessionData.isAdmin) {
+    throw new Error("Brak autoryzacji administratora gabinetu. Wprowadź kod PIN w panelu personelu.");
   }
 
-  // Fallback to Google Identity Services (GSI)
-  return new Promise((resolve, reject) => {
-    const oAuthClientId = firebaseConfig.oAuthClientId || (typeof import.meta !== "undefined" && import.meta.env ? import.meta.env.VITE_GOOGLE_CLIENT_ID : "");
-    const gsiAvailable = typeof window !== "undefined" && typeof (window as any).google?.accounts?.oauth2 !== "undefined";
-
-    if (!gsiAvailable) {
-      reject(new Error("Zaloguj się kontem Google lub skorzystaj z bezpośredniego linku do kalendarza poniżej."));
-      return;
-    }
-
-    if (!oAuthClientId) {
-      reject(new Error("Brak identyfikatora klienta Google OAuth. Skorzystaj z opcji bezpośredniego dodania do kalendarza."));
-      return;
-    }
-
-    try {
-      const client = (window as any).google.accounts.oauth2.initTokenClient({
-        client_id: oAuthClientId,
-        scope: "https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile",
-        callback: (response: any) => {
-          if (response.error) {
-            reject(new Error(response.error_description || response.error));
-            return;
-          }
-          if (response.access_token) {
-            const expiresIn = response.expires_in ? parseInt(response.expires_in, 10) : 3500;
-            saveGoogleToken(response.access_token, expiresIn);
-            resolve(response.access_token);
-          } else {
-            reject(new Error("Nie otrzymano tokenu dostępu Google."));
-          }
-        },
-      });
-
-      client.requestAccessToken({ prompt: "consent" });
-    } catch (err) {
-      reject(err);
-    }
+  // 2. Pobierz URL autoryzacji z backendu
+  const authRes = await fetch("/api/calendar/auth/login", {
+    headers: { Accept: "application/json" },
+    credentials: "include",
   });
+  const authData = await authRes.json().catch(() => ({}));
+
+  if (!authRes.ok || !authData.success || !authData.authUrl) {
+    throw new Error(authData.error || "Nie udało się wygenerować adresu autoryzacji Google Calendar.");
+  }
+
+  // 3. Przekieruj do oficjalnego formularza zgody Google
+  window.location.href = authData.authUrl;
+  return null;
 }
 
 /**

@@ -7,8 +7,11 @@
 import { TREATMENTS, ARTICLES } from "../data";
 import { Treatment, MagazineArticle } from "../types";
 
+export type LegalDocType = "privacy" | "rodo" | "terms" | "cookies";
+
 export interface RouteState {
-  tab: "cover" | "journal" | "method" | "clinic" | "diagnose" | "account" | "shop" | "training" | "admin";
+  tab: "cover" | "journal" | "method" | "clinic" | "diagnose" | "account" | "shop" | "training" | "admin" | "legal";
+  legalDoc?: LegalDocType;
   treatmentSlug?: string | null;
   articleSlug?: string | null;
   diagnoseSubTab?: "analyzer" | "barrierMap" | "plan";
@@ -39,6 +42,42 @@ export function parseCurrentRoute(): RouteState {
     (typeof window !== "undefined" && (window.location.hash.toLowerCase() === "#admin" || window.location.hash.toLowerCase() === "#panel-gabinetu"))
   ) {
     return { tab: "admin" };
+  }
+
+  // 0.1 Dedicated Standalone Legal & Policy Pages (Clean URLs for Facebook, Meta Ads, RODO, Terms)
+  if (
+    path === "/polityka-prywatnosci" ||
+    path === "/prywatnosc" ||
+    path === "/privacy" ||
+    path === "/polityka-prywatnosci-i-rodo" ||
+    path === "/polityka_prywatnosci"
+  ) {
+    return { tab: "legal", legalDoc: "privacy" };
+  }
+  if (
+    path === "/rodo" ||
+    path === "/klauzula-rodo" ||
+    path === "/ochrona-danych" ||
+    path === "/klauzula-informacyjna"
+  ) {
+    return { tab: "legal", legalDoc: "rodo" };
+  }
+  if (
+    path === "/regulamin" ||
+    path === "/regulamin-gabinetu" ||
+    path === "/regulamin-i-bezpieczenstwo" ||
+    path === "/terms" ||
+    path === "/regulaminy"
+  ) {
+    return { tab: "legal", legalDoc: "terms" };
+  }
+  if (
+    path === "/polityka-cookies" ||
+    path === "/cookies" ||
+    path === "/ciasteczka" ||
+    path === "/cookie-policy"
+  ) {
+    return { tab: "legal", legalDoc: "cookies" };
   }
 
   // 1. Root / Cover
@@ -270,6 +309,12 @@ export function getPathForRoute(state: RouteState): string {
   if (state.tab === "account") {
     return "/konto";
   }
+  if (state.tab === "legal") {
+    if (state.legalDoc === "rodo") return "/rodo";
+    if (state.legalDoc === "terms") return "/regulamin";
+    if (state.legalDoc === "cookies") return "/polityka-cookies";
+    return "/polityka-prywatnosci";
+  }
   if (state.tab === "admin") {
     return "/admin";
   }
@@ -381,6 +426,21 @@ export function updateSeoTags(
       case "account":
         pageTitle = "Panel Pacjenta i Paszport Skóry | Slow Skin Concept";
         pageDesc = "Zarządzaj swoimi wizytami, historią zabiegów i indywidualnym planem pielęgnacji domowej.";
+        break;
+      case "legal":
+        if (state.legalDoc === "rodo") {
+          pageTitle = "Klauzula Informacyjna RODO i Prawa Pacjenta | Slow Skin Concept Jelcz-Laskowice";
+          pageDesc = "Szczegółowa klauzula informacyjna RODO (art. 13 i 14) dla pacjentów Instytutu Zdrowej Skóry Slow Skin Concept w Jelczu-Laskowicach.";
+        } else if (state.legalDoc === "terms") {
+          pageTitle = "Regulamin Świadczenia Usług i Bezpieczeństwo | Slow Skin Concept";
+          pageDesc = "Regulamin rezerwacji terminów, kwalifikacji zabiegowej oraz standardy opieki Instytutu Slow Skin Concept.";
+        } else if (state.legalDoc === "cookies") {
+          pageTitle = "Polityka Plików Cookies i Podobnych Technologii | Slow Skin Concept";
+          pageDesc = "Informacje o wykorzystaniu plików cookies oraz technologii analitycznych i reklamowych Meta Pixel w serwisie Slow Skin Concept.";
+        } else {
+          pageTitle = "Polityka Prywatności i Ochrona Danych Osobowych | Slow Skin Concept Jelcz-Laskowice";
+          pageDesc = "Oficjalna polityka prywatności i ochrony danych osobowych Instytutu Slow Skin Concept, zgodna z RODO i wytycznymi reklamowymi Meta Platforms.";
+        }
         break;
       default:
         break;

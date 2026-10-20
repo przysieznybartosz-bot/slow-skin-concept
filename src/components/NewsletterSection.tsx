@@ -192,9 +192,7 @@ export const NewsletterSection: React.FC<NewsletterSectionProps> = ({
                 </a>{" "}
                 oraz{" "}
                 <a 
-                  href="https://slow-skin.shop/polityka-prywatnosci" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
+                  href="/polityka-prywatnosci" 
                   className="underline text-luxury-gold hover:text-luxury-dark transition-colors font-medium"
                 >
                   Politykę Prywatności
@@ -403,9 +401,7 @@ export const NewsletterSection: React.FC<NewsletterSectionProps> = ({
                   </a>{" "}
                   oraz{" "}
                   <a 
-                    href="https://slow-skin.shop/polityka-prywatnosci" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
+                    href="/polityka-prywatnosci" 
                     className="underline text-luxury-gold hover:text-luxury-dark transition-colors font-medium"
                   >
                     Polityką Prywatności

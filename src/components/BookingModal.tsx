@@ -89,10 +89,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
   const [isOnline, setIsOnline] = useState(isVideoService);
   const [notes, setNotes] = useState("");
 
+  const [availabilityState, setAvailabilityState] = useState<"loading" | "ready" | "error">("loading");
   const [slotsData, setSlotsData] = useState<CalendarSlotsResponse | null>(null);
   const [isLoadingSlots, setIsLoadingSlots] = useState(false);
   const [slotsError, setSlotsError] = useState<string | null>(null);
   const reqIdRef = useRef(0);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   const [googleUser, setGoogleUser] = useState<GoogleUserProfile | null>(null);
   const [googleToken, setGoogleToken] = useState<string | null>(null);
@@ -123,22 +125,40 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
     };
   });
 
-  // Load dynamic slots with race-condition prevention & state cleanup
-  const loadSlots = async (dateStr: string, duration: number) => {
+  // Load dynamic slots with strict 3-state management & race-condition prevention
+  const loadSlots = async (dateStr: string, duration: number, isOnlineConsult: boolean = isOnline) => {
+    // Abort previous in-flight request if user rapidly changed dates or formats
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
     const currentReqId = ++reqIdRef.current;
+    setAvailabilityState("loading");
     setIsLoadingSlots(true);
     setSlotsError(null);
     setSelectedTime("");
-    setSlotsData(null); // Clear previous date's slots immediately to avoid stale state
+    setSlotsData(null); // Clear previous results immediately to avoid stale state
 
     try {
-      const data = await fetchCalendarSlots(dateStr, duration);
+      const data = await fetchCalendarSlots(dateStr, duration, isOnlineConsult, controller.signal);
       if (reqIdRef.current !== currentReqId) return;
 
-      setSlotsData(data);
+      if (!data || !data.googleCalendarSynced || data.status === "sync_error") {
+        setAvailabilityState("error");
+        setSlotsError(data?.reason || data?.error || "Nie udało się zweryfikować dostępności w Kalendarzu Google gabinetu. Kliknij, aby ponowić próbę.");
+        setSlotsData(null);
+        setSelectedTime("");
+        return;
+      }
 
-      // Auto-select first available slot if present
-      if (data && data.googleCalendarSynced === true && !data.isClosed && !data.isFullyBooked && data.slots.length > 0) {
+      setAvailabilityState("ready");
+      setSlotsData(data);
+      setSlotsError(null);
+
+      // Auto-select first available slot if present and not fully booked
+      if (data && !data.isClosed && !data.isFullyBooked && data.availableSlotsCount > 0 && data.slots.length > 0) {
         const firstAvailable = data.slots.find(s => s.isAvailable);
         if (firstAvailable) {
           setSelectedTime(firstAvailable.time);
@@ -146,7 +166,11 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
       }
     } catch (e: any) {
       if (reqIdRef.current !== currentReqId) return;
-      setSlotsError(e?.message || "Nie udało się połączyć z Kalendarzem Google. Kliknij ponów.");
+      if (e?.name === "AbortError") return; // Suppress cancelled requests
+      setAvailabilityState("error");
+      setSlotsError(e?.message || "Nie udało się zweryfikować dostępności w Kalendarzu Google. Kliknij ponów.");
+      setSlotsData(null);
+      setSelectedTime("");
     } finally {
       if (reqIdRef.current === currentReqId) {
         setIsLoadingSlots(false);
@@ -164,10 +188,16 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
 
   const handleManualSyncGoogle = async () => {
     setIsSyncingGoogle(true);
-    setSyncSuccessMessage(null);
     setSyncError(null);
-    try { await loadSlots(selectedDate, durationMin); }
-    finally { setIsSyncingGoogle(false); }
+    setSyncSuccessMessage(null);
+    try {
+      await loadSlots(selectedDate, durationMin, isOnline);
+      setSyncSuccessMessage(`Dostępność dla ${selectedDate} została odświeżona z Kalendarza Google.`);
+    } catch (e: any) {
+      setSyncError(e?.message || "Nie udało się zweryfikować Kalendarza Google.");
+    } finally {
+      setIsSyncingGoogle(false);
+    }
   };
 
   useEffect(() => {
@@ -191,9 +221,9 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
 
   useEffect(() => {
     if (selectedDate && durationMin) {
-      loadSlots(selectedDate, durationMin);
+      loadSlots(selectedDate, durationMin, isOnline);
     }
-  }, [selectedDate, durationMin]);
+  }, [selectedDate, durationMin, isOnline]);
 
   if (!treatment) return null;
 
@@ -364,13 +394,29 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
         {/* Header Ribbon */}
         <div className="bg-luxury-dark text-white px-6 py-4 flex items-center justify-between border-b border-luxury-gold/30">
           <div className="flex items-center gap-2.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-luxury-gold animate-pulse" />
+            <span
+              className={`w-2.5 h-2.5 rounded-full ${
+                slotsData?.googleCalendarSynced
+                  ? "bg-emerald-500 animate-pulse"
+                  : slotsError
+                  ? "bg-red-500"
+                  : isLoadingSlots
+                  ? "bg-amber-400 animate-pulse"
+                  : "bg-amber-500"
+              }`}
+            />
             <div>
               <span className="font-mono text-[9.5px] uppercase tracking-[0.25em] text-luxury-gold font-bold block">
                 Kalendarz Rezerwacji Wizyt
               </span>
               <span className="font-mono text-[8.5px] text-luxury-sand/70 block">
-                Zsynchronizowany z {SLOW_SKIN_GOOGLE_ACCOUNT}
+                {slotsData?.googleCalendarSynced
+                  ? `Zsynchronizowany z ${SLOW_SKIN_GOOGLE_ACCOUNT}`
+                  : slotsError
+                  ? "Błąd połączenia z Kalendarzem Google"
+                  : isLoadingSlots
+                  ? "Weryfikacja dostępności w toku..."
+                  : "Kalendarz gabinetu"}
               </span>
             </div>
           </div>
@@ -413,9 +459,11 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                     <Sparkles className="w-3 h-3 text-luxury-gold" />
                     Czas zabiegu: <strong>{durationMin} min</strong> + 15 min sanityzacji stanowiska
                   </span>
-                  <span className="text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 border border-emerald-200/60 rounded-xs">
-                    Rezerwacja bez kolizji
-                  </span>
+                  {availabilityState === "ready" && slotsData?.googleCalendarSynced && (
+                    <span className="text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 border border-emerald-200/60 rounded-xs">
+                      Rezerwacja bez kolizji
+                    </span>
+                  )}
                 </div>
               </div>
 
@@ -599,7 +647,17 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                     </div>
                   </div>
 
-                  {slotsError ? (
+                  {availabilityState === "loading" || isLoadingSlots ? (
+                    <div className="p-6 bg-luxury-sand/10 border border-luxury-sand/40 text-luxury-dark rounded-xs text-xs font-sans space-y-2 text-center">
+                      <RefreshCw className="w-5 h-5 text-luxury-gold animate-spin mx-auto" />
+                      <div className="font-mono text-xs uppercase tracking-wider font-semibold text-luxury-dark">
+                        Weryfikacja dostępności w Kalendarzu Google...
+                      </div>
+                      <p className="text-[11px] text-luxury-dark/70 font-light">
+                        Pobieram potwierdzony grafik gabinetu dla {selectedDate}. Godziny są weryfikowane pod kątem braku kolizji.
+                      </p>
+                    </div>
+                  ) : availabilityState === "error" || slotsError ? (
                     <div className="p-4 bg-red-50/90 border border-red-200 text-red-950 rounded-xs text-xs font-sans space-y-2">
                       <div className="flex items-center gap-2 font-mono font-semibold text-[10px] uppercase text-red-800">
                         <AlertCircle className="w-4 h-4 text-red-600" />
@@ -610,7 +668,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                       </p>
                       <button
                         type="button"
-                        onClick={() => loadSlots(selectedDate, durationMin)}
+                        onClick={() => loadSlots(selectedDate, durationMin, isOnline)}
                         className="py-1 px-3 bg-red-700 hover:bg-red-800 text-white font-mono text-[9px] uppercase tracking-wider rounded-xs cursor-pointer inline-flex items-center gap-1"
                       >
                         <RefreshCw className="w-2.5 h-2.5" /> Spróbuj ponownie
@@ -654,7 +712,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                             </button>
                             <button
                               type="button"
-                              onClick={() => loadSlots(selectedDate, durationMin)}
+                              onClick={() => loadSlots(selectedDate, durationMin, isOnline)}
                               className="py-1 px-3 bg-white hover:bg-amber-100 border border-amber-300 text-amber-900 font-mono text-[9px] uppercase tracking-wider rounded-xs cursor-pointer inline-flex items-center gap-1"
                             >
                               <RefreshCw className="w-2.5 h-2.5" /> Odśwież dostępność
@@ -718,8 +776,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                         })}
                       </div>
 
-                      {/* Selected Slot Confirmation Summary */}
-                      {selectedTime && slotsData && slotsData.availableSlotsCount > 0 && (
+                      {/* Selected Slot Confirmation Summary: ONLY in ready state with confirmed sync */}
+                      {selectedTime && availabilityState === "ready" && slotsData?.googleCalendarSynced && slotsData.availableSlotsCount > 0 && (
                         <div className="mt-3 p-3 bg-white border border-luxury-gold/40 rounded-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
                           <div className="space-y-0.5">
                             <span className="font-mono text-[9px] uppercase tracking-wider text-luxury-gold font-bold block">
@@ -890,7 +948,13 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
 
               {/* Action Buttons: Unified direct booking with real-time calendar sync */}
               <div className="space-y-3 pt-2 border-t border-luxury-sand/40">
-                {slotsData && (slotsData.availableSlotsCount === 0 || slotsData.isClosed || slotsData.isFullyBooked) && (
+                {availabilityState === "error" && (
+                  <div className="p-2.5 bg-red-50 border border-red-300 text-red-900 text-[10px] font-mono text-center rounded-xs flex items-center justify-center gap-1.5 font-semibold">
+                    <AlertCircle className="w-3.5 h-3.5 text-red-800 shrink-0" />
+                    <span>Dostępność kalendarza nie została potwierdzona. Rezerwacja jest zablokowana do czasu pomyślnej weryfikacji.</span>
+                  </div>
+                )}
+                {availabilityState === "ready" && slotsData && (slotsData.availableSlotsCount === 0 || slotsData.isClosed || slotsData.isFullyBooked) && (
                   <div className="p-2.5 bg-amber-50 border border-amber-300 text-amber-900 text-[10px] font-mono text-center rounded-xs flex items-center justify-center gap-1.5 font-semibold">
                     <Lock className="w-3.5 h-3.5 text-amber-800 shrink-0" />
                     <span>Dzień {slotsData.date} jest niedostępny do rezerwacji. Wybierz inną datę z kalendarza powyżej.</span>
@@ -900,7 +964,17 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                   <button
                     type="button"
                     onClick={handleBookAppointment}
-                    disabled={isLoadingSlots || !!slotsError || !slotsData?.googleCalendarSynced || isSubmittingBooking || !clientName || !clientPhone || !selectedTime || slotsData?.isClosed || slotsData?.isFullyBooked || slotsData?.availableSlotsCount === 0}
+                    disabled={
+                      availabilityState !== "ready" ||
+                      isSubmittingBooking ||
+                      !clientName ||
+                      !clientPhone ||
+                      !selectedTime ||
+                      !slotsData?.googleCalendarSynced ||
+                      slotsData?.isClosed ||
+                      slotsData?.isFullyBooked ||
+                      slotsData?.availableSlotsCount === 0
+                    }
                     className="w-full bg-luxury-dark text-luxury-cream hover:bg-luxury-gold hover:text-white p-4 text-xs font-mono tracking-widest uppercase transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-md disabled:opacity-50 disabled:cursor-not-allowed rounded-xs font-bold"
                   >
                     {isSubmittingBooking ? (

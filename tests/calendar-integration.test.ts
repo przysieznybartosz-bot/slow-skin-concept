@@ -11,6 +11,7 @@
 
 import {
   calculateAvailabilitySlots,
+  getLiveAvailableSlots,
   verifyCalendarConnection,
   SALON_ACCOUNT_EMAIL,
   DEFAULT_SALON_CALENDAR_ID,
@@ -219,6 +220,100 @@ async function runTests() {
     passCount++;
   } catch (err: any) {
     console.error("✕ TEST 5 FAIL:", err.message);
+    failCount++;
+  }
+
+  // Test 6: Blocking "wyjazd" event on 19–23.10.2026 (07:15–20:00) blocks 100% of slots in BOTH forms
+  try {
+    const dates = ["2026-10-19", "2026-10-20", "2026-10-21", "2026-10-22", "2026-10-23"];
+    const wyjazdInterval = {
+      start: new Date("2026-10-19T05:15:00Z"), // 07:15 CEST
+      end: new Date("2026-10-19T18:00:00Z"),   // 20:00 CEST
+    };
+
+    for (const d of dates) {
+      // Formularz zabiegowy (np. Fotoepilacja LPL - 75 min)
+      const treatSlots = calculateAvailabilitySlots({
+        dateStr: d,
+        durationMinutes: 75,
+        busyIntervals: [wyjazdInterval],
+        googleCalendarSynced: true,
+        lastSuccessfulSyncAt: new Date().toISOString(),
+        calendarId: DEFAULT_SALON_CALENDAR_ID,
+      });
+      assert(treatSlots.availableSlotsCount === 0, `Fotoepilacja LPL na dzień ${d} musi mieć 0 wolnych slotów`);
+      assert(treatSlots.isFullyBooked === true, `Dzień ${d} musi mieć status isFullyBooked=true dla zabiegów`);
+
+      // Formularz konsultacji (np. Videokonsultacja - 60 min)
+      const consultSlots = calculateAvailabilitySlots({
+        dateStr: d,
+        durationMinutes: 60,
+        busyIntervals: [wyjazdInterval],
+        googleCalendarSynced: true,
+        lastSuccessfulSyncAt: new Date().toISOString(),
+        calendarId: DEFAULT_SALON_CALENDAR_ID,
+      });
+      assert(consultSlots.availableSlotsCount === 0, `Videokonsultacja na dzień ${d} musi mieć 0 wolnych slotów`);
+      assert(consultSlots.isFullyBooked === true, `Dzień ${d} musi mieć status isFullyBooked=true dla konsultacji`);
+    }
+
+    console.log("✓ TEST 6 PASS: Wydarzenie 'wyjazd' 19–23.10.2026 całkowicie blokuje oba formularze (0 wolnych slotów).");
+    passCount++;
+  } catch (err: any) {
+    console.error("✕ TEST 6 FAIL:", err.message);
+    failCount++;
+  }
+
+  // Test 7: Wolny dzień roboczy zwraca prawidłowe, wybieralne sloty (10:00–18:00)
+  try {
+    const freeDay = calculateAvailabilitySlots({
+      dateStr: "2026-10-26", // Poniedziałek po wyjeździe
+      durationMinutes: 75,
+      bufferMinutes: 15,
+      busyIntervals: [],
+      googleCalendarSynced: true,
+      lastSuccessfulSyncAt: new Date().toISOString(),
+      calendarId: DEFAULT_SALON_CALENDAR_ID,
+    });
+    assert(freeDay.availableSlotsCount > 0, "Wolny dzień musi mieć dostępne sloty");
+    assert(freeDay.isFullyBooked === false, "Wolny dzień nie może być isFullyBooked");
+    assert(freeDay.slots[0].time === "10:00", "Pierwszy slot musi zaczynać się o 10:00");
+    assert(freeDay.slots[freeDay.slots.length - 1].time === "18:00", "Ostatni slot na 75 min musi zaczynać się o 18:00 (koniec o 19:15 <= 19:30)");
+
+    console.log("✓ TEST 7 PASS: Prawdziwie wolny dzień zwraca poprawne sloty w godzinach 10:00–18:00.");
+    passCount++;
+  } catch (err: any) {
+    console.error("✕ TEST 7 FAIL:", err.message);
+    failCount++;
+  }
+
+  // Test 8: Brak autoryzacji / błąd Google Calendar NIE generuje pozornych wolnych godzin
+  try {
+    const unverifiedSlots = await getLiveAvailableSlots("2026-10-19", 75);
+    // Ponieważ serwer nie ma aktywnego tokenu, getLiveAvailableSlots MUSI zwrócić status sync_error i 0 slotów
+    assert(unverifiedSlots.googleCalendarSynced === false, "googleCalendarSynced musi być false przy braku autoryzacji");
+    assert(unverifiedSlots.status === "sync_error", "status musi być sync_error");
+    assert(unverifiedSlots.availableSlotsCount === 0, "availableSlotsCount musi wynosić 0 (brak pozornych godzin)");
+    assert(unverifiedSlots.slots.length === 0, "Lista slotów musi być pusta");
+
+    console.log("✓ TEST 8 PASS: Brak autoryzacji/błąd Google ściśle blokuje generowanie pozornych wolnych godzin (0 slotów, sync_error).");
+    passCount++;
+  } catch (err: any) {
+    console.error("✕ TEST 8 FAIL:", err.message);
+    failCount++;
+  }
+
+  // Test 9: Dostępność konsultacji uwzględnia kalendarz Katarzyny (slowskinconcept@gmail.com)
+  try {
+    const { getAvailabilityCalendarIds } = await import("../src/server/googleCalendarBackend");
+    const consultCals = getAvailabilityCalendarIds("consultation");
+    assert(consultCals.includes("slowskinconcept@gmail.com"), "Konsultacje muszą weryfikować kalendarz Katarzyny slowskinconcept@gmail.com");
+    assert(consultCals.length >= 2, "Konsultacje muszą odpytywać zarówno kalendarz konsultacji, jak i zabiegowy");
+
+    console.log("✓ TEST 9 PASS: Dostępność konsultacji weryfikuje oba kalendarze, uniemożliwiając kolizję z zajętością Katarzyny.");
+    passCount++;
+  } catch (err: any) {
+    console.error("✕ TEST 9 FAIL:", err.message);
     failCount++;
   }
 

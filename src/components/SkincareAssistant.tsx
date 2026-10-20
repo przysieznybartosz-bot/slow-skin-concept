@@ -26,18 +26,16 @@ export default function SkincareAssistant({
   const [tempKey, setTempKey] = useState("");
   const [clickCount, setClickCount] = useState(0);
 
-  // Fetch OpenAI API Key from the server on mount to automatically prepopulate it across devices/browsers!
+  // Check if OpenAI API Key is configured on the server
   useEffect(() => {
     fetch("/api/settings/openai")
       .then(res => res.json())
       .then(data => {
-        if (data.key) {
-          const fetchedKey = data.key.trim();
-          setOpenaiKey(fetchedKey);
-          safeStorage.setItem("openai_api_key", fetchedKey);
+        if (data.configured) {
+          // Server-side OpenAI engine is active
         }
       })
-      .catch(err => console.error("Could not fetch server-side OpenAI API Key:", err));
+      .catch(err => console.error("Could not fetch server-side OpenAI API status:", err));
   }, []);
 
   // Initialize tempKey when opening settings

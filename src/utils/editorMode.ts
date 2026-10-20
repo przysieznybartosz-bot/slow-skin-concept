@@ -20,8 +20,17 @@ export const isGoogleAIStudio = (): boolean => {
     return false;
   }
 
-  // In development / preview, always enable editor controls
-  return true;
+  // Only allow AI Studio dev environments (localhost, 127.0.0.1, or google cloud run preview domains)
+  if (
+    hostname === "localhost" ||
+    hostname === "127.0.0.1" ||
+    hostname.endsWith(".run.app") ||
+    hostname.includes("aistudio")
+  ) {
+    return true;
+  }
+
+  return false;
 };
 
 export const isEditorMode = (): boolean => {

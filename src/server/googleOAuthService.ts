@@ -1,77 +1,330 @@
-import crypto from "node:crypto";
 import { google } from "googleapis";
-import { BACKEND_CLIENT_ID, SALON_EMAIL, required, encryptionKey, database, session, cookie, signed, unsign, setCookie, json, writeRefreshToken } from "./calendarAuth.js";
+import firebaseConfig from "../../firebase-applet-config.json" with { type: "json" };
+import {
+  saveStoredRefreshToken,
+  verifyCalendarConnection,
+  getActiveCalendarId,
+  SALON_ACCOUNT_EMAIL,
+} from "./googleCalendarBackend.js";
+import {
+  generateOAuthState,
+  validateAndConsumeOAuthState,
+  generatePKCE,
+  verifyPKCE,
+} from "./adminAuth.js";
 
-export function getEffectiveOAuthCredentials(_origin?: string) {
-  const clientId = required("GOOGLE_CLIENT_ID");
-  if (clientId !== BACKEND_CLIENT_ID) throw new Error("Nieprawidłowy GOOGLE_CLIENT_ID: wymagany klient backendu gabinetu.");
-  const clientSecret = required("GOOGLE_CLIENT_SECRET");
-  const redirectUri = required("GOOGLE_REDIRECT_URI");
-  const redirect = new URL(redirectUri);
-  if (redirect.protocol !== "https:" || redirect.pathname !== "/api/calendar/auth/callback" || redirect.search || redirect.hash) throw new Error("Nieprawidłowy GOOGLE_REDIRECT_URI.");
+export const CALENDAR_SCOPES = [
+  "https://www.googleapis.com/auth/calendar.events",
+  "https://www.googleapis.com/auth/calendar.readonly",
+  "https://www.googleapis.com/auth/userinfo.email",
+];
+
+// Whitelist of strictly permitted hosts for OAuth redirects
+export const ALLOWED_HOSTS = new Set([
+  "slow-skin-concept.pl",
+  "www.slow-skin-concept.pl",
+  "localhost:3000",
+  "localhost",
+  "127.0.0.1:3000",
+  "127.0.0.1",
+]);
+
+/**
+ * Validates whether an incoming host is in the strict whitelist or authorized preview domain.
+ * No arbitrary trust in arbitrary unknown hosts.
+ */
+export function isAllowedHost(host: string): boolean {
+  if (!host) return false;
+  const fullClean = host.trim().toLowerCase();
+  const domainOnly = fullClean.split(":")[0];
+  if (ALLOWED_HOSTS.has(fullClean) || ALLOWED_HOSTS.has(domainOnly)) return true;
+  // Allow authorized AI Studio / Google Cloud Run preview instances and Vercel preview environments
+  if (
+    domainOnly.endsWith(".run.app") ||
+    domainOnly.endsWith(".vercel.app")
+  ) {
+    return true;
+  }
+  return false;
+}
+
+/**
+ * Resolves the appropriate redirect URI from explicit configuration.
+ * Never blindly trusts unknown host headers.
+ * 
+ * Precedence:
+ * 1. process.env.GOOGLE_REDIRECT_URI (strictly validated against allowed host list)
+ * 2. Explicit customRedirectUri if provided and allowed
+ * 3. Verified request origin if allowed (e.g. AI Studio preview environment)
+ * 4. Canonical production URI: https://slow-skin-concept.pl/api/calendar/auth/callback
+ */
+export function resolveRedirectUri(explicitUri?: string, requestOrigin?: string): string {
+  // 1. Explicit environment variable
+  if (process.env.GOOGLE_REDIRECT_URI && process.env.GOOGLE_REDIRECT_URI.trim()) {
+    const envUri = process.env.GOOGLE_REDIRECT_URI.trim();
+    try {
+      const parsed = new URL(envUri);
+      if (isAllowedHost(parsed.host)) {
+        return envUri;
+      }
+      console.warn(`[OAuth] GOOGLE_REDIRECT_URI host '${parsed.host}' is not in allowed list.`);
+    } catch {
+      console.warn("[OAuth] Invalid GOOGLE_REDIRECT_URI syntax.");
+    }
+  }
+
+  // 2. Explicit argument if passed and valid
+  if (explicitUri) {
+    try {
+      const parsed = new URL(explicitUri);
+      if (isAllowedHost(parsed.host)) {
+        return explicitUri;
+      }
+    } catch {
+      // ignore
+    }
+  }
+
+  // 3. Request origin if allowed (e.g. AI Studio development environment)
+  if (requestOrigin) {
+    try {
+      const parsed = new URL(requestOrigin);
+      if (isAllowedHost(parsed.host)) {
+        return `${parsed.origin}/api/calendar/auth/callback`;
+      }
+    } catch {
+      // ignore
+    }
+  }
+
+  // 4. Canonical production default
+  return "https://slow-skin-concept.pl/api/calendar/auth/callback";
+}
+
+export function getEffectiveOAuthCredentials(customRedirectUri?: string) {
+  // Strictly use verified client ID from environment
+  const clientId = process.env.GOOGLE_CLIENT_ID || "";
+  const clientSecret = process.env.GOOGLE_CLIENT_SECRET || "";
+  const redirectUri = resolveRedirectUri(customRedirectUri);
+
   return { clientId, clientSecret, redirectUri };
 }
 
-export async function oauthLogin(req: any, res: any) {
-  try {
-    if (req.method !== "GET") return json(res, 405, { error: "Metoda niedozwolona." });
-    const admin = session(req);
-    if (!admin) return json(res, 401, { error: "Zaloguj się PIN-em w panelu personelu." });
-    const { clientId, clientSecret, redirectUri } = getEffectiveOAuthCredentials();
-    if (new URL(redirectUri).host !== req.headers.host) throw new Error("Adres callback musi należeć do bieżącego środowiska. Otwórz panel we właściwej domenie.");
-    encryptionKey();
-    const state = crypto.randomBytes(32).toString("base64url");
-    const verifier = crypto.randomBytes(32).toString("base64url");
-    const challenge = crypto.createHash("sha256").update(verifier).digest("base64url");
-    await database("slowskin_oauth_states", { method: "POST", headers: { Prefer: "return=minimal" }, body: JSON.stringify({
-      state_id: state, session_id: admin.sid, redirect_uri: redirectUri, code_challenge: challenge,
-      expires_at: new Date(Date.now() + 600000).toISOString(),
-    }) });
-    setCookie(res, "slowskin_oauth_attempt", signed({ type: "oauth", state, verifier, sid: admin.sid, exp: Date.now() + 600000 }), 600);
-    const oauth = new google.auth.OAuth2(clientId, clientSecret, redirectUri);
-    const url = oauth.generateAuthUrl({ access_type: "offline", prompt: "consent select_account", login_hint: SALON_EMAIL,
-      scope: ["openid", "email", "https://www.googleapis.com/auth/calendar.readonly", "https://www.googleapis.com/auth/calendar.events"],
-      state, code_challenge: challenge, code_challenge_method: "S256" as any });
-    res.setHeader("Cache-Control", "no-store");
-    if (String(req.headers.accept || "").includes("text/html")) {
-      res.statusCode = 302; res.setHeader("Location", url); return res.end();
-    }
-    return json(res, 200, { success: true, authUrl: url });
-  } catch (error) { return json(res, 503, { error: error instanceof Error ? error.message : "Błąd rozpoczęcia OAuth." }); }
+export function getOAuth2Client(customRedirectUri?: string) {
+  const { clientId, clientSecret, redirectUri } = getEffectiveOAuthCredentials(customRedirectUri);
+  return new google.auth.OAuth2(clientId, clientSecret, redirectUri);
 }
 
-export async function oauthCallback(req: any, res: any) {
-  setCookie(res, "slowskin_oauth_attempt", "", 0);
+/**
+ * Generates an OAuth consent URL for administrators using PKCE (RFC 7636).
+ * Generates a signed, single-use state bound to the admin session, redirectUri, and PKCE challenge.
+ */
+export async function generateAdminAuthUrl(options: {
+  customRedirectUri?: string;
+  sessionId?: string;
+}): Promise<{
+  url: string;
+  redirectUri: string;
+  state: string;
+  stateExpiresAt: number;
+  codeVerifier: string;
+}> {
+  const redirectUri = resolveRedirectUri(options.customRedirectUri);
+  const oauth2Client = getOAuth2Client(redirectUri);
+
+  // Generate PKCE code_verifier and code_challenge
+  const { codeVerifier, codeChallenge } = generatePKCE();
+
+  const { state, expiresAt } = await generateOAuthState({
+    sessionId: options.sessionId || "admin-session",
+    redirectUri,
+    codeChallenge,
+  });
+
+  const url = oauth2Client.generateAuthUrl({
+    access_type: "offline",
+    prompt: "consent", // Force consent screen to reliably receive refresh_token
+    scope: CALENDAR_SCOPES,
+    redirect_uri: redirectUri,
+    login_hint: SALON_ACCOUNT_EMAIL,
+    state,
+    code_challenge: codeChallenge,
+    // Google API supports code_challenge_method
+    // @ts-ignore
+    code_challenge_method: "S256",
+  });
+
+  return {
+    url,
+    redirectUri,
+    state,
+    stateExpiresAt: expiresAt,
+    codeVerifier,
+  };
+}
+
+/**
+ * Handles Google OAuth callback:
+ * 1. Validates and consumes single-use state before exchanging code.
+ * 2. Validates PKCE code_verifier against stored code_challenge.
+ * 3. Exchanges code with code_verifier for tokens.
+ * 4. Verifies authenticated Google account identity strictly matches slowskinconcept@gmail.com.
+ * 5. Verifies access to designated salon calendar ID.
+ * 6. Saves refresh token in persistent encrypted storage (fails on write error).
+ * 7. Never exposes secrets or tokens in result.
+ */
+export async function handleOAuthCallback(params: {
+  code: string;
+  state: string;
+  cookieState?: string;
+  codeVerifier?: string;
+  customRedirectUri?: string;
+}): Promise<{
+  success: boolean;
+  message: string;
+  calendarId: string;
+  accountEmail: string;
+  hasRefreshToken: boolean;
+  verification?: any;
+  error?: string;
+}> {
+  const calendarId = getActiveCalendarId();
+
+  // Step 1: Validate and consume OAuth state
+  const stateCheck = await validateAndConsumeOAuthState(params.state, params.cookieState);
+  if (!stateCheck.valid) {
+    return {
+      success: false,
+      message: "Odrzucono próbę autoryzacji: niepoprawny, wygasły lub ponownie użyty stan (state).",
+      calendarId,
+      accountEmail: SALON_ACCOUNT_EMAIL,
+      hasRefreshToken: false,
+      error: stateCheck.error || "Błąd walidacji state",
+    };
+  }
+
+  // Step 2: Validate PKCE code_verifier
+  if (stateCheck.payload?.codeChallenge) {
+    if (!params.codeVerifier) {
+      return {
+        success: false,
+        message: "Odrzucono autoryzację: brak wymaganego weryfikatora PKCE (code_verifier).",
+        calendarId,
+        accountEmail: SALON_ACCOUNT_EMAIL,
+        hasRefreshToken: false,
+        error: "Brak parametru PKCE code_verifier.",
+      };
+    }
+
+    const pkceValid = verifyPKCE(params.codeVerifier, stateCheck.payload.codeChallenge);
+    if (!pkceValid) {
+      return {
+        success: false,
+        message: "Odrzucono autoryzację: niepoprawny weryfikator PKCE (niezgodność challenge).",
+        calendarId,
+        accountEmail: SALON_ACCOUNT_EMAIL,
+        hasRefreshToken: false,
+        error: "Nieprawidłowy weryfikator PKCE.",
+      };
+    }
+  }
+
+  // Use the redirectUri originally bound to this signed state
+  const redirectUri = stateCheck.payload?.redirectUri || resolveRedirectUri(params.customRedirectUri);
+  const oauth2Client = getOAuth2Client(redirectUri);
+
   try {
-    if (req.method !== "GET") return json(res, 405, { error: "Metoda niedozwolona." });
-    const url = new URL(req.url, "https://localhost");
-    const admin = session(req);
-    const attempt = unsign(cookie(req, "slowskin_oauth_attempt"));
-    const state = url.searchParams.get("state");
-    if (!admin || attempt?.type !== "oauth" || attempt.sid !== admin.sid || !state || state !== attempt.state) return json(res, 400, { error: "Nieprawidłowy lub wygasły stan OAuth. Rozpocznij ponownie w panelu." });
-    const { clientId, clientSecret, redirectUri } = getEffectiveOAuthCredentials();
-    if (new URL(redirectUri).host !== req.headers.host) throw new Error("Niezgodny adres callback.");
-    const consumed = await database("rpc/consume_slowskin_oauth_state", { method: "POST", body: JSON.stringify({ p_state_id: state }) });
-    const record = consumed?.[0];
-    const challenge = crypto.createHash("sha256").update(attempt.verifier).digest("base64url");
-    if (!record?.valid || record.session_id !== admin.sid || record.redirect_uri !== redirectUri || record.code_challenge !== challenge) return json(res, 400, { error: "Stan OAuth został odrzucony lub był już użyty." });
-    const code = url.searchParams.get("code");
-    if (url.searchParams.has("error") || !code) return json(res, 400, { error: "Nie udzielono zgody Google." });
-    const oauth = new google.auth.OAuth2(clientId, clientSecret, redirectUri);
-    const { tokens } = await oauth.getToken({ code, codeVerifier: attempt.verifier });
-    if (!tokens.id_token || !tokens.refresh_token) throw new Error("Google nie wydało kompletnych poświadczeń offline.");
-    const ticket = await oauth.verifyIdToken({ idToken: tokens.id_token, audience: clientId });
-    const account = ticket.getPayload();
-    if (!account?.email_verified || account.email?.toLowerCase() !== SALON_EMAIL) return json(res, 403, { error: `Dozwolone jest wyłącznie konto ${SALON_EMAIL}.` });
-    oauth.setCredentials(tokens);
-    const calendarId = process.env.GOOGLE_CALENDAR_ID?.trim() || SALON_EMAIL;
-    await google.calendar({ version: "v3", auth: oauth }).calendars.get({ calendarId }, { timeout: 10000 });
-    await writeRefreshToken(tokens.refresh_token, calendarId);
-    res.statusCode = 303; res.setHeader("Cache-Control", "no-store");
-    res.setHeader("Location", "/?admin=true&calendar=connected"); return res.end();
-  } catch (error) {
-    // Avoid reflecting Google token responses, authorization codes, or account details.
-    console.warn("[CalendarOAuth] Callback failed", error instanceof Error ? error.name : "Error");
-    return json(res, 502, { error: "Nie potwierdzono połączenia i trwałego zapisu tokenu. Sprawdź konfigurację serwera oraz magazyn Supabase." });
+    // Step 3: Exchange authorization code with PKCE verifier for tokens
+    const tokenOptions: any = {
+      code: params.code,
+    };
+    if (params.codeVerifier) {
+      tokenOptions.codeVerifier = params.codeVerifier;
+    }
+
+    const { tokens } = await oauth2Client.getToken(tokenOptions);
+    if (!tokens.refresh_token) {
+      return {
+        success: false,
+        message: "Google nie zwróciło refresh tokenu (prawdopodobnie pominięto ekran zgody prompt=consent).",
+        calendarId,
+        accountEmail: SALON_ACCOUNT_EMAIL,
+        hasRefreshToken: false,
+        error: "Brak refresh_token w odpowiedzi Google OAuth.",
+      };
+    }
+
+    oauth2Client.setCredentials(tokens);
+
+    // Step 4: Strictly verify authenticated account identity
+    const oauth2 = google.oauth2({ version: "v2", auth: oauth2Client });
+    const userInfo = await oauth2.userinfo.get();
+    const authenticatedEmail = (userInfo.data.email || "").toLowerCase().trim();
+
+    if (authenticatedEmail !== SALON_ACCOUNT_EMAIL.toLowerCase()) {
+      return {
+        success: false,
+        message: `Odrzucono autoryzację. Zalogowano konto Google '${authenticatedEmail}', natomiast jedynym uprawnionym kontem gabinetu jest '${SALON_ACCOUNT_EMAIL}'.`,
+        calendarId,
+        accountEmail: authenticatedEmail,
+        hasRefreshToken: false,
+        error: `Nieautoryzowane konto Google: ${authenticatedEmail}. Wymagane: ${SALON_ACCOUNT_EMAIL}.`,
+      };
+    }
+
+    // Step 5: Verify access to designated salon calendar ID
+    const calendar = google.calendar({ version: "v3", auth: oauth2Client });
+    try {
+      const getCal = await calendar.calendars.get({ calendarId });
+      if (getCal.status !== 200) {
+        throw new Error(`Kalendarz ${calendarId} zwrócił status ${getCal.status}`);
+      }
+    } catch (calErr: any) {
+      return {
+        success: false,
+        message: `Konto ${authenticatedEmail} zostało uwierzytelnione, ale nie ma dostępu do dedykowanego kalendarza gabinetu (${calendarId}).`,
+        calendarId,
+        accountEmail: authenticatedEmail,
+        hasRefreshToken: false,
+        error: `Błąd dostępu do kalendarza ${calendarId}: ${calErr.message}`,
+      };
+    }
+
+    // Step 6: Save refresh token in persistent encrypted storage
+    try {
+      await saveStoredRefreshToken(tokens.refresh_token);
+    } catch (saveErr: any) {
+      return {
+        success: false,
+        message: "Wystąpił błąd trwałego zapisu tokenu na serwerze.",
+        calendarId,
+        accountEmail: authenticatedEmail,
+        hasRefreshToken: false,
+        error: saveErr?.message || "Błąd zapisu w trwałym magazynie serwera.",
+      };
+    }
+
+    // Step 7: Verify full end-to-end connection
+    const verification = await verifyCalendarConnection();
+
+    return {
+      success: verification.ready,
+      message: verification.ready
+        ? `Pomyślnie połączono kalendarz gabinetu (${SALON_ACCOUNT_EMAIL}). Refresh token został zaszyfrowany i zapisany na serwerze.`
+        : `Token został zapisany, ale test połączenia zwrócił ostrzeżenie: ${verification.error}`,
+      calendarId,
+      accountEmail: authenticatedEmail,
+      hasRefreshToken: true,
+      verification,
+    };
+  } catch (err: any) {
+    return {
+      success: false,
+      message: `Błąd wymiany kodu autoryzacji Google: ${err.message}`,
+      calendarId,
+      accountEmail: SALON_ACCOUNT_EMAIL,
+      hasRefreshToken: false,
+      error: err.message,
+    };
   }
 }

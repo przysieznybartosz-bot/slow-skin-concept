@@ -2,7 +2,6 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 import { verifyCalendarConnection, SALON_ACCOUNT_EMAIL, getActiveCalendarId } from "../../src/server/googleCalendarBackend.js";
 
 function sendJson(res: ServerResponse | any, status: number, data: any) {
-  res.setHeader("Cache-Control", "no-store");
   res.setHeader("Content-Type", "application/json; charset=utf-8");
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, DELETE");
@@ -21,8 +20,7 @@ export default async function handler(req: IncomingMessage | any, res: ServerRes
 
   try {
     const status = await verifyCalendarConnection();
-    return sendJson(res, status.error ? 503 : 200, {
-      authRequired: status.authRequired === true,
+    return sendJson(res, 200, {
       googleAccount: SALON_ACCOUNT_EMAIL,
       calendarId: getActiveCalendarId(),
       connected: status.ready,

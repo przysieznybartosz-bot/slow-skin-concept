@@ -14,13 +14,18 @@
  */
 
 import { google } from "googleapis";
-import { readRefreshToken, writeRefreshToken, BACKEND_CLIENT_ID } from "./calendarAuth.js";
+import fs from "node:fs";
+import path from "node:path";
+import firebaseConfig from "../../firebase-applet-config.json" with { type: "json" };
 
 export const SALON_ACCOUNT_EMAIL = "slowskinconcept@gmail.com";
+export const SALON_TREATMENTS_CALENDAR_ID = "slowskinconcept@gmail.com";
+export const SALON_CONSULTATIONS_CALENDAR_ID =
+  process.env.GOOGLE_CONSULTATION_CALENDAR_ID ||
+  "ec7711f8f95afc5d0e88dd4a404e2b15d3503323b86963b41d25747356d8b0d7@group.calendar.google.com";
+
 export const DEFAULT_SALON_CALENDAR_ID =
-  process.env.GOOGLE_CALENDAR_ID ||
-  SALON_ACCOUNT_EMAIL;
-export const CONSULTATIONS_CALENDAR_ID = "ec7711f8f95afc5d0e88dd4a404e2b15d3503323b86963b41d25747356d8b0d7@group.calendar.google.com";
+  process.env.GOOGLE_CALENDAR_ID || SALON_TREATMENTS_CALENDAR_ID;
 
 export const SALON_TIMEZONE = "Europe/Warsaw";
 export const SALON_OPEN_HOUR = 10; // 10:00
@@ -28,6 +33,15 @@ export const SALON_OPEN_MINUTE = 0;
 export const SALON_CLOSE_HOUR = 19; // 19:30
 export const SALON_CLOSE_MINUTE = 30;
 export const DEFAULT_BUFFER_MINUTES = 15;
+
+const TOKEN_STORAGE_FILE = path.join(process.cwd(), ".calendar_token.json");
+
+export interface StoredCalendarAuth {
+  refreshToken?: string;
+  accessToken?: string;
+  expiryDate?: number;
+  updatedAt?: string;
+}
 
 export interface BusyInterval {
   start: Date;
@@ -64,6 +78,7 @@ export interface SlotsCalculationResult {
   calendarId: string;
   slots: GeneratedSlot[];
   error?: string;
+  discrepancies?: string[];
 }
 
 // In-memory record of last successful Google sync
@@ -75,25 +90,71 @@ export function setTestCalendarId(calId: string | null) {
   activeCalendarIdOverride = calId;
 }
 
-export function getActiveCalendarId(): string {
-  return activeCalendarIdOverride || process.env.GOOGLE_CALENDAR_ID || DEFAULT_SALON_CALENDAR_ID;
+export function getActiveCalendarId(serviceType?: "treatment" | "consultation"): string {
+  if (activeCalendarIdOverride) return activeCalendarIdOverride;
+  if (serviceType === "consultation") {
+    return SALON_CONSULTATIONS_CALENDAR_ID;
+  }
+  return process.env.GOOGLE_CALENDAR_ID || SALON_TREATMENTS_CALENDAR_ID;
 }
 
-export const getStoredRefreshToken = readRefreshToken;
-export async function saveStoredRefreshToken(token: string) {
-  await writeRefreshToken(token, getActiveCalendarId());
+export function getAvailabilityCalendarIds(serviceType?: "treatment" | "consultation"): string[] {
+  if (activeCalendarIdOverride) return [activeCalendarIdOverride];
+  const treatmentCal = process.env.GOOGLE_CALENDAR_ID || SALON_TREATMENTS_CALENDAR_ID;
+  const consultCal = SALON_CONSULTATIONS_CALENDAR_ID;
+  return Array.from(new Set([treatmentCal, consultCal]));
 }
 
-export function availabilityCalendarIds() {
-  return [...new Set([getActiveCalendarId(), CONSULTATIONS_CALENDAR_ID])];
+import {
+  getStoredRefreshToken,
+  getStoredRefreshTokenAsync,
+  saveStoredRefreshToken,
+  removeStoredRefreshToken,
+} from "./tokenStorage.js";
+
+export {
+  getStoredRefreshToken,
+  getStoredRefreshTokenAsync,
+  saveStoredRefreshToken,
+  removeStoredRefreshToken,
+};
+
+/**
+ * Calculates the exact UTC offset string for Europe/Warsaw on a given UTC date.
+ * Returns "+01:00" in winter (CET) or "+02:00" in summer (CEST).
+ */
+export function getWarsawOffset(date: Date): string {
+  const utcDate = new Date(date.toLocaleString("en-US", { timeZone: "UTC" }));
+  const warsawDate = new Date(date.toLocaleString("en-US", { timeZone: SALON_TIMEZONE }));
+  const diffMinutes = Math.round((warsawDate.getTime() - utcDate.getTime()) / 60000);
+  const sign = diffMinutes >= 0 ? "+" : "-";
+  const absDiff = Math.abs(diffMinutes);
+  const hours = String(Math.floor(absDiff / 60)).padStart(2, "0");
+  const mins = String(absDiff % 60).padStart(2, "0");
+  return `${sign}${hours}:${mins}`;
 }
 
-export function warsawInstant(dateStr: string, time = "00:00") {
-  const target = new Date(`${dateStr}T${time}:00Z`);
-  if (isNaN(target.getTime()) || target.toISOString().slice(0, 10) !== dateStr) throw new Error("Nieprawidłowa data.");
-  const parts = new Intl.DateTimeFormat("en-GB", { timeZone: SALON_TIMEZONE, timeZoneName: "longOffset" }).formatToParts(target);
-  const offset = parts.find(p => p.type === "timeZoneName")!.value.replace("GMT", "") || "+00:00";
-  return new Date(`${dateStr}T${time}:00${offset}`);
+/**
+ * Parses dateStr (YYYY-MM-DD) and timeStr (HH:MM) interpreted in Europe/Warsaw timezone,
+ * returning the exact UTC Date object.
+ */
+export function parseWarsawDateTime(dateStr: string, timeStr: string): Date {
+  const approx = new Date(`${dateStr}T12:00:00Z`);
+  const offset = getWarsawOffset(approx);
+  return new Date(`${dateStr}T${timeStr}:00${offset}`);
+}
+
+/**
+ * Returns timeMin and timeMax ISO strings for a full 24-hour day in Europe/Warsaw
+ * taking into account daylight saving time (+01:00 in winter, +02:00 in summer).
+ */
+export function getWarsawDayIsoRange(dateStr: string): { timeMin: string; timeMax: string } {
+  const approx = new Date(`${dateStr}T12:00:00Z`);
+  const offset = getWarsawOffset(approx);
+  return {
+    timeMin: `${dateStr}T00:00:00${offset}`,
+    timeMax: `${dateStr}T23:59:59${offset}`,
+  };
 }
 
 /**
@@ -104,20 +165,18 @@ export async function getAuthenticatedCalendarClient(): Promise<{
   calendar: ReturnType<typeof google.calendar> | null;
   authMethod: "oauth_refresh_token" | "service_account" | "none";
   error?: string;
-  authRequired?: boolean;
 }> {
   // Strategy 1: OAuth2 with Refresh Token (preferred for salon owner slowskinconcept@gmail.com)
   const clientId = process.env.GOOGLE_CLIENT_ID;
   const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
-  if (clientId !== BACKEND_CLIENT_ID || !clientSecret) return { calendar: null, authMethod: "none", error: "Brak poprawnej konfiguracji Google OAuth backendu." };
-  let refreshToken: string | null;
-  try { refreshToken = await getStoredRefreshToken(); }
-  catch (e) { return { calendar: null, authMethod: "none", error: e instanceof Error ? e.message : "Błąd magazynu tokenów." }; }
-  if (!refreshToken) return { calendar: null, authMethod: "none", authRequired: true };
+  let refreshToken = getStoredRefreshToken();
+  if (!refreshToken) {
+    refreshToken = await getStoredRefreshTokenAsync();
+  }
 
   if (clientId && clientSecret && refreshToken) {
     try {
-      const oauth2Client = new google.auth.OAuth2({ clientId, clientSecret, transporterOptions: { timeout: 10000 } });
+      const oauth2Client = new google.auth.OAuth2(clientId, clientSecret);
       oauth2Client.setCredentials({
         refresh_token: refreshToken,
       });
@@ -128,7 +187,46 @@ export async function getAuthenticatedCalendarClient(): Promise<{
     }
   }
 
-  return { calendar: null, authMethod: "none", error: "Nie potwierdzono połączenia Google Calendar." };
+  // Strategy 2: Service Account (GOOGLE_SERVICE_ACCOUNT_KEY or private key in env)
+  if (process.env.GOOGLE_SERVICE_ACCOUNT_KEY) {
+    try {
+      let keyData: any;
+      if (fs.existsSync(process.env.GOOGLE_SERVICE_ACCOUNT_KEY)) {
+        keyData = JSON.parse(fs.readFileSync(process.env.GOOGLE_SERVICE_ACCOUNT_KEY, "utf-8"));
+      } else {
+        keyData = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY);
+      }
+      const jwtClient = new google.auth.JWT({
+        email: keyData.client_email,
+        key: keyData.private_key,
+        scopes: ["https://www.googleapis.com/auth/calendar"],
+      });
+      const calendar = google.calendar({ version: "v3", auth: jwtClient });
+      return { calendar, authMethod: "service_account" };
+    } catch (e: any) {
+      return { calendar: null, authMethod: "none", error: `Błąd inicjalizacji Service Account: ${e.message}` };
+    }
+  }
+
+  // Detailed description of what is missing
+  const missing: string[] = [];
+  if (!clientId) missing.push("GOOGLE_CLIENT_ID");
+  if (!clientSecret) missing.push("GOOGLE_CLIENT_SECRET");
+
+  if (missing.length > 0) {
+    return {
+      calendar: null,
+      authMethod: "none",
+      error: `Brak konfiguracji uwierzytelnienia serwerowego kalendarza gabinetu. Wymagane zmienne: ${missing.join(", ")} (lub GOOGLE_SERVICE_ACCOUNT_KEY).`,
+    };
+  }
+
+  // If clientId and clientSecret are configured, but no token is in storage yet:
+  return {
+    calendar: null,
+    authMethod: "none",
+    error: "Oczekiwanie na autoryzację OAuth konta gabinetu (slowskinconcept@gmail.com). Zaloguj się w panelu personelu i kliknij 'Połącz z Google', aby zapisać token w bazie.",
+  };
 }
 
 /**
@@ -141,20 +239,26 @@ export async function verifyCalendarConnection(): Promise<{
   accountEmail: string;
   error?: string;
   instructions?: string;
-  authRequired?: boolean;
 }> {
-  const { calendar, authMethod, error, authRequired } = await getAuthenticatedCalendarClient();
+  const { calendar, authMethod, error } = await getAuthenticatedCalendarClient();
   const calendarId = getActiveCalendarId();
 
   if (!calendar) {
+    const isAwaitingOAuth = error?.includes("Oczekiwanie na autoryzację OAuth");
     return {
       ready: false,
-      authRequired,
       authMethod,
       calendarId,
       accountEmail: SALON_ACCOUNT_EMAIL,
       error,
-      instructions: authRequired ? "Zaloguj się PIN-em w panelu personelu i połącz Google Calendar." : "Sprawdź serwerową konfigurację Vercel i magazyn Supabase.",
+      instructions: isAwaitingOAuth
+        ? "Poświadczenia Google Cloud i magazyn bazy danych są skonfigurowane.\n" +
+          "Zaloguj się do panelu administratora gabinetu i kliknij 'Połącz z Google', aby autoryzować konto slowskinconcept@gmail.com.\n" +
+          "Refresh token zostanie automatycznie zaszyfrowany i trwale zapisany w bazie Supabase."
+        : "Aby połączyć Kalendarz Google gabinetu na serwerze:\n" +
+          "1. Ustaw w zmiennych środowiskowych GOOGLE_CLIENT_ID oraz GOOGLE_CLIENT_SECRET (z Google Cloud Console projektu Slow Skin).\n" +
+          "2. Przeprowadź autoryzację OAuth przez właściciela slowskinconcept@gmail.com w panelu personelu.\n" +
+          "3. Upewnij się, że w Google Cloud Console włączona jest Google Calendar API dla projektu.",
     };
   }
 
@@ -169,15 +273,11 @@ export async function verifyCalendarConnection(): Promise<{
         timeMin,
         timeMax,
         timeZone: SALON_TIMEZONE,
-        items: availabilityCalendarIds().map(id => ({ id })),
+        items: [{ id: calendarId }],
       },
-    }, { timeout: 10000 });
+    });
 
     if (fbRes.status === 200) {
-      for (const id of availabilityCalendarIds()) {
-        const entry = fbRes.data.calendars?.[id];
-        if (!entry || entry.errors?.length || !Array.isArray(entry.busy)) throw new Error("Niepotwierdzony odczyt zajętości kalendarza.");
-      }
       lastSuccessfulSyncTimestamp = new Date().toISOString();
       return {
         ready: true,
@@ -206,48 +306,137 @@ export async function verifyCalendarConnection(): Promise<{
 }
 
 /**
- * Queries Google Calendar freebusy.query for the specified date and calendarId.
- * Returns ONLY busy time ranges without private event details.
+ * Queries Google Calendar for busy intervals across one or more calendars for the specified date.
+ * Combines freebusy.query with events.list (with singleEvents=true for recurrence expansion,
+ * all-day/multi-day events detection, and transparency/discrepancy checking).
  */
 export async function fetchGoogleBusyIntervals(
   dateStr: string,
-  calendarId: string = getActiveCalendarId()
-): Promise<{ busy: BusyInterval[]; syncedAt: string }> {
+  calendarIdsOrSingle: string | string[] = getAvailabilityCalendarIds()
+): Promise<{ busy: BusyInterval[]; syncedAt: string; discrepancies?: string[] }> {
   const { calendar, error } = await getAuthenticatedCalendarClient();
   if (!calendar) {
     throw new Error(error || "Serwer nie jest uwierzytelniony w Google Calendar.");
   }
 
-  // Define full day range in Europe/Warsaw
-  // 00:00:00 to 23:59:59
-  const timeMin = warsawInstant(dateStr).toISOString();
-  const next = new Date(`${dateStr}T12:00:00Z`); next.setUTCDate(next.getUTCDate() + 1);
-  const timeMax = warsawInstant(next.toISOString().slice(0, 10)).toISOString();
+  const calendarIds = Array.isArray(calendarIdsOrSingle)
+    ? Array.from(new Set(calendarIdsOrSingle.filter(Boolean)))
+    : [calendarIdsOrSingle];
 
-  const response = await calendar.freebusy.query({
-    requestBody: {
-      timeMin,
-      timeMax,
-      timeZone: SALON_TIMEZONE,
-      items: availabilityCalendarIds().map(id => ({ id })),
-    },
-  }, { timeout: 10000 });
+  // Define full day range in Europe/Warsaw with dynamic DST offset
+  const { timeMin, timeMax } = getWarsawDayIsoRange(dateStr);
 
-  const parsedBusy: BusyInterval[] = [];
-  for (const id of availabilityCalendarIds()) {
-    const calData = response.data.calendars?.[id];
-    if (response.status !== 200 || !calData || calData.errors?.length || !Array.isArray(calData.busy)) throw new Error("Nie potwierdzono zajętości wszystkich kalendarzy.");
-    for (const item of calData.busy) {
-      const start = new Date(item.start!); const end = new Date(item.end!);
-      if (isNaN(start.getTime()) || isNaN(end.getTime()) || end <= start) throw new Error("Nieprawidłowy przedział zajętości Google.");
-      parsedBusy.push({ start, end });
+  const busyIntervalsMap = new Map<string, BusyInterval>();
+  const addInterval = (start: Date, end: Date) => {
+    if (isNaN(start.getTime()) || isNaN(end.getTime()) || end.getTime() <= start.getTime()) return;
+    const key = `${start.toISOString()}_${end.toISOString()}`;
+    busyIntervalsMap.set(key, { start, end });
+  };
+
+  const discrepancies: string[] = [];
+
+  // 1. Primary FreeBusy Query
+  try {
+    const response = await calendar.freebusy.query({
+      requestBody: {
+        timeMin,
+        timeMax,
+        timeZone: SALON_TIMEZONE,
+        items: calendarIds.map((id) => ({ id })),
+      },
+    });
+
+    for (const calId of calendarIds) {
+      const calData = response.data.calendars?.[calId];
+      if (!calData) {
+        console.warn(`[GoogleCalendarBackend] Kalendarz ${calId} nie został zwrócony w FreeBusy.`);
+        continue;
+      }
+      if (calData.errors && calData.errors.length > 0) {
+        const errMsg = calData.errors.map((e) => e.reason).join(", ");
+        console.warn(`[GoogleCalendarBackend] Błąd kalendarza ${calId} w FreeBusy: ${errMsg}`);
+        // If the primary treatment calendar fails with error, report it
+        if (calId === (process.env.GOOGLE_CALENDAR_ID || SALON_TREATMENTS_CALENDAR_ID)) {
+          throw new Error(`Błąd kalendarza zabiegowego (${calId}): ${errMsg}`);
+        }
+      }
+
+      const busyList = calData?.busy || [];
+      for (const b of busyList) {
+        if (b.start && b.end) {
+          addInterval(new Date(b.start), new Date(b.end));
+        }
+      }
     }
+  } catch (fbErr: any) {
+    console.error(`[GoogleCalendarBackend] Błąd zapytania FreeBusy:`, fbErr.message);
+    throw fbErr;
   }
 
+  // 2. Events.list Query (singleEvents=true expands recurring events, inspects all-day/multi-day & transparency)
+  try {
+    for (const calId of calendarIds) {
+      let pageToken: string | undefined = undefined;
+      do {
+        const evListRes = await calendar.events.list({
+          calendarId: calId,
+          timeMin,
+          timeMax,
+          singleEvents: true,
+          maxResults: 250,
+          pageToken,
+        });
+
+        const items = evListRes.data.items || [];
+        for (const evt of items) {
+          if (evt.status === "cancelled") continue;
+
+          const summary = evt.summary || "(brak tytułu)";
+          const isTransparent = evt.transparency === "transparent";
+
+          // If event is marked "transparent" (Free / Wolny in Google UI)
+          if (isTransparent) {
+            const notice = `Wydarzenie "${summary}" (${dateStr}) w kalendarzu ${calId} ma status 'Wolny' (transparency=transparent).`;
+            console.warn(`[GoogleCalendarBackend] ${notice}`);
+            discrepancies.push(notice);
+          }
+
+          // Handle all-day / multi-day events
+          if (evt.start?.date && evt.end?.date) {
+            // All-day event: e.g. start: "2026-10-19", end: "2026-10-24"
+            if (dateStr >= evt.start.date && dateStr < evt.end.date) {
+              if (!isTransparent) {
+                const dayStart = parseWarsawDateTime(dateStr, "00:00");
+                const dayEnd = parseWarsawDateTime(dateStr, "23:59");
+                addInterval(dayStart, dayEnd);
+              }
+              continue;
+            }
+          }
+
+          // Handle timed events (if opaque / not transparent)
+          if (evt.start?.dateTime && evt.end?.dateTime) {
+            const startD = new Date(evt.start.dateTime);
+            const endD = new Date(evt.end.dateTime);
+            if (!isTransparent) {
+              addInterval(startD, endD);
+            }
+          }
+        }
+
+        pageToken = evListRes.data.nextPageToken || undefined;
+      } while (pageToken);
+    }
+  } catch (evErr: any) {
+    console.warn(`[GoogleCalendarBackend] Ostrzeżenie events.list dla ${dateStr}:`, evErr.message);
+    // Non-fatal if FreeBusy already succeeded, but log it
+  }
+
+  const parsedBusy = Array.from(busyIntervalsMap.values());
   const nowIso = new Date().toISOString();
   lastSuccessfulSyncTimestamp = nowIso;
 
-  return { busy: parsedBusy, syncedAt: nowIso };
+  return { busy: parsedBusy, syncedAt: nowIso, discrepancies: discrepancies.length > 0 ? discrepancies : undefined };
 }
 
 /**
@@ -355,8 +544,6 @@ export function calculateAvailabilitySlots(params: {
   busyIntervals.forEach((interval) => {
     const startStr = getWarsawDateStr(interval.start);
     const endStr = getWarsawDateStr(interval.end);
-
-    if (endStr < dateStr || startStr > dateStr) return;
 
     // If starts before this day and ends after this day: blocks entire day
     if (startStr < dateStr && endStr > dateStr) {
@@ -483,14 +670,15 @@ export function calculateAvailabilitySlots(params: {
 export async function getLiveAvailableSlots(
   dateStr: string,
   durationMinutes: number,
-  existingBookings: Array<{ timeStr: string; durationMinutes: number }> = []
+  existingBookings: Array<{ timeStr: string; durationMinutes: number }> = [],
+  serviceType?: "treatment" | "consultation"
 ): Promise<SlotsCalculationResult> {
   const [year, month, day] = dateStr.split("-").map(Number);
   const reqDate = new Date(year, month - 1, day, 12, 0, 0);
   const dayOfWeek = reqDate.getDay();
   const dayNames = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
   const dayName = dayNames[dayOfWeek];
-  const calendarId = getActiveCalendarId();
+  const calendarId = getActiveCalendarId(serviceType);
 
   // Weekend check: closed
   if (dayOfWeek === 0 || dayOfWeek === 6) {
@@ -506,8 +694,9 @@ export async function getLiveAvailableSlots(
   }
 
   try {
-    const { busy, syncedAt } = await fetchGoogleBusyIntervals(dateStr, calendarId);
-    return calculateAvailabilitySlots({
+    const calendarIds = getAvailabilityCalendarIds(serviceType);
+    const { busy, syncedAt, discrepancies } = await fetchGoogleBusyIntervals(dateStr, calendarIds);
+    const result = calculateAvailabilitySlots({
       dateStr,
       durationMinutes,
       busyIntervals: busy,
@@ -516,8 +705,17 @@ export async function getLiveAvailableSlots(
       lastSuccessfulSyncAt: syncedAt,
       calendarId,
     });
+
+    if (discrepancies && discrepancies.length > 0) {
+      result.discrepancies = discrepancies;
+    }
+
+    return result;
   } catch (err: any) {
-    console.error(`[GoogleCalendarBackend] Failed to fetch freebusy for ${dateStr}:`, err.message);
+    console.error(`[GoogleCalendarBackend] Błąd weryfikacji dostępności dla ${dateStr}:`, err.message);
+
+    // CRITICAL: NEVER return synthetic/mock free slots when Google Calendar fails!
+    // Returning 0 slots with status "sync_error" ensures no collisions or unconfirmed bookings can be made.
     return {
       success: false,
       date: dateStr,
@@ -525,7 +723,8 @@ export async function getLiveAvailableSlots(
       isClosed: false,
       isFullyBooked: false,
       status: "sync_error",
-      reason: "Nie możemy teraz sprawdzić dostępności w Kalendarzu Google. Kliknij, aby ponowić próbę.",
+      reason: `Nie udało się zweryfikować dostępności w Kalendarzu Google gabinetu (${err.message}). Prosimy kliknąć 'Spróbuj ponownie' lub skontaktować się z gabinetem.`,
+      error: err.message,
       durationMinutes,
       bufferMinutes: DEFAULT_BUFFER_MINUTES,
       salonHours: "10:00 — 19:30 (Pon–Pt)",
@@ -537,7 +736,6 @@ export async function getLiveAvailableSlots(
       googleAccount: SALON_ACCOUNT_EMAIL,
       calendarId,
       slots: [],
-      error: err.message || "Błąd pobierania dostępności z Kalendarza Google.",
     };
   }
 }
@@ -566,7 +764,7 @@ export async function insertBookingIntoSalonCalendar(booking: {
   error?: string;
 }> {
   const { calendar, error } = await getAuthenticatedCalendarClient();
-  const calendarId = booking.isOnlineConsultation ? CONSULTATIONS_CALENDAR_ID : getActiveCalendarId();
+  const calendarId = getActiveCalendarId(booking.isOnlineConsultation ? "consultation" : "treatment");
 
   if (!calendar) {
     return {
@@ -576,15 +774,10 @@ export async function insertBookingIntoSalonCalendar(booking: {
   }
 
   try {
-    const [year, month, day] = booking.dateStr.split("-").map(Number);
-    const [hours, minutes] = (booking.timeStr || "10:00").split(":").map(Number);
-
-    // Construct start and end Date
-    const startDate = warsawInstant(booking.dateStr, booking.timeStr);
+    // Construct exact start and end Date interpreted strictly in Europe/Warsaw
+    const startDate = parseWarsawDateTime(booking.dateStr, booking.timeStr || "10:00");
     const endDate = new Date(startDate.getTime() + booking.durationMinutes * 60 * 1000);
 
-    const availability = await getLiveAvailableSlots(booking.dateStr, booking.durationMinutes);
-    if (!availability.success || !availability.slots.some(slot => slot.time === booking.timeStr && slot.isAvailable)) throw new Error("Termin zajęty lub niepotwierdzona dostępność.");
     const locationText = booking.isOnlineConsultation
       ? "Google Meet (Wideorozmowa Online 1:1) — Instytut Slow Skin Concept"
       : "Instytut Zdrowej Skóry Slow Skin Concept, ul. Szkolna 5, 55-220 Jelcz-Laskowice";

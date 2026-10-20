@@ -3,6 +3,14 @@
   "framework": "vite",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
+  "functions": {
+    "api/**/*.ts": {
+      "includeFiles": [
+        "src/server/**",
+        "firebase-applet-config.json"
+      ]
+    }
+  },
   "rewrites": [
     {
       "source": "/((?!api/|.*\\.(?:xml|txt|png|jpg|jpeg|svg|webp|ico|mp4|json|html|js|css)(?:\\?.*)?$).*)",
