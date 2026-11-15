@@ -362,7 +362,7 @@ export function updateSeoTags(
 
   let pageTitle = "Instytut Zdrowej Skóry Slow Skin Concept — Biologiczna Terapia Skóry Jelcz-Laskowice";
   let pageDesc = "Instytut Zdrowej Skóry Slow Skin Concept w Jelczu-Laskowicach (k. Wrocławia). Biologiczna terapia skóry, odbudowa bariery hydrolipidowej i autorski Neurolifting.";
-  let ogImage = "https://slow-skin-concept.pl/hero-main.png";
+  let ogImage = "https://slow-skin-concept.pl/og-termolifting-rf-1200x630.jpg";
   const canonicalUrl = `https://slow-skin-concept.pl${getPathForRoute(state)}`;
 
   // Set robots meta tag - ensure admin is NEVER indexed
@@ -488,4 +488,6 @@ export function updateSeoTags(
   setMeta("og:description", pageDesc);
   setMeta("og:url", canonicalUrl);
   setMeta("og:image", ogImage);
+  setMeta("og:image:secure_url", ogImage);
+  setMeta("twitter:image", ogImage);
 }
