@@ -68,7 +68,7 @@ export const TREATMENTS: Treatment[] = [
     price: "400 PLN — 600 PLN",
     description: "Pierwsza wizyta zaczyna się od poznania Twojej skóry. Rozmawiamy o jej potrzebach, codziennej pielęgnacji i wcześniejszych zabiegach. Oceniam jej aktualną kondycję, nawilżenie, reaktywność oraz stan bariery naskórkowej.\n\nNa tej podstawie dobieram odpowiednie postępowanie gabinetowe. Jeśli kondycja skóry na to pozwala, wizyta obejmuje również delikatny zabieg oczyszczający i przygotowujący do dalszej pracy.\n\nOtrzymujesz indywidualne zalecenia pielęgnacyjne i plan kolejnych kroków, dopasowany do potrzeb oraz tolerancji Twojej skóry.",
     focus: "Diagnoza biologiczna, fizjologiczne oczyszczenie, regeneracja bariery naskórkowej, określenie biologicznego punktu wyjścia",
-    image: "/skin-readiness.png",
+    image: "/assets/aistudio/Kobiety_z_kosmetykami_na_jasnym_tle_-_lekkie_d742efcc.webp",
     indications: [
       "Rozpoczynanie terapii w Slow Skin Concept",
       "Brak pewności, jakiego zabiegu aktualnie potrzebuje skóra",

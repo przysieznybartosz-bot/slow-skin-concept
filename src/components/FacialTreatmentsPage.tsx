@@ -409,7 +409,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <div className="lg:col-span-5 relative group overflow-hidden rounded-none border border-luxury-sand shadow-sm self-start">
             <img 
-              src="/skin-readiness.png" 
+              src="/assets/aistudio/Kobiety_z_kosmetykami_na_jasnym_tle_-_lekkie_d742efcc.webp" 
               alt="Diagnoza biologiczna i konsultacja Skin Readiness"
               className="w-full h-auto max-h-[380px] object-cover object-center group-hover:scale-102 transition-transform duration-700"
             />

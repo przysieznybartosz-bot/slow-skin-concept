@@ -603,7 +603,7 @@ export default function App() {
     }
     // Automatyczna synchronizacja ze zdjęciami z sekcji "Jak możemy Ci pomóc":
     if (treatment.id === "skin-readiness") {
-      return customTreatmentImages["skin-readiness"] || customTreatmentImages["how_help_first_visit"] || "/skin-readiness.png" || treatment.image;
+      return customTreatmentImages["skin-readiness"] || customTreatmentImages["how_help_first_visit"] || "/assets/aistudio/Kobiety_z_kosmetykami_na_jasnym_tle_-_lekkie_d742efcc.webp" || treatment.image;
     }
     if (treatment.id === "videokonsultacja") {
       return customTreatmentImages["videokonsultacja"] || "/videokonsultacja.png" || treatment.image;
