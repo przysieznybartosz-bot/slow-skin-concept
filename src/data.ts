@@ -397,7 +397,7 @@ export const TREATMENTS: Treatment[] = [
     price: "500 PLN — 750 PLN, zależnie od dobranej metody i zakresu zabiegu",
     description: "Skin Remodeling Therapy to wielopoziomowa terapia dla skóry, która traci jędrność, elastyczność i wyraźny kontur. Nie opiera się na jednej technologii ani gotowym protokole. Jej przebieg projektowany jest na podstawie diagnozy biologicznej, aktualnej kondycji tkanek oraz gotowości skóry do określonego rodzaju stymulacji. W zależności od potrzeb dobierane są metody oddziałujące na różne poziomy — od pracy manualnej i neuromięśniowej, przez technologie nieinwazyjne, aż po intensywniejsze procedury przebudowujące. Znaczenie ma nie liczba zastosowanych metod, lecz ich właściwa kolejność, intensywność i czas potrzebny skórze na regenerację. Skin Remodeling Therapy nie oznacza zastosowania najsilniejszej technologii — oznacza wybór takiego bodźca, który skóra jest gotowa prawidłowo wykorzystać.",
     focus: "Kierunek działania: JĘDRNOŚĆ • GĘSTOŚĆ • OWAL • REGENERACJA • Przebudowa tkanek na odpowiednim poziomie biologicznym",
-    image: "/how_help_meso_remodeling.png",
+    image: "/skin-remodeling-therapy.png",
     indications: [
       "Utrata jędrności, elastyczności i gęstości skóry",
       "Zmiana owalu twarzy i opadanie tkanek",
@@ -702,7 +702,7 @@ export const TREATMENTS: Treatment[] = [
     price: "180 zł — 350 zł (Pakiety 6 zabiegów od 900 zł)",
     description: "Sonaris Pro Therapy jest komfortowym, nieinwazyjnym zabiegiem wykorzystującym impulsy elektromagnetyczne aplikowane za pomocą specjalnie zaprojektowanych głowic. Procedura nie narusza ciągłości naskórka i nie wymaga okresu rekonwalescencji. Zabieg przeznaczony jest dla skóry z pierwszymi oznakami starzenia, utratą elastyczności, drobnymi zmarszczkami oraz zmęczonym, nierównym kolorytem. Może być wykonywany na twarz, szyję, dekolt oraz delikatną okolicę oczu. W Slow Skin Concept technologia nie jest wykorzystywana według jednego, gotowego protokołu. Obszar pracy, rodzaj głowicy, intensywność oraz czas działania są dobierane indywidualnie do kondycji, wrażliwości i aktualnej gotowości biologicznej skóry.",
     focus: "Impulsy elektromagnetyczne, napięcie, gładkość i witalność skóry, delikatna okolica oka, brak naruszania naskórka",
-    image: "/sonaris_pro.png",
+    image: "/sonaris-pro-therapy.png",
     indications: [
       "Pierwsze oznaki starzenia",
       "Utrata napięcia i elastyczności",

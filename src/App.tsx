@@ -593,7 +593,7 @@ export default function App() {
       return customTreatmentImages["ceragem"] || "/ceragem_bed.png" || treatment.image;
     }
     if (treatment.id === "sonaris-pro-therapy") {
-      return customTreatmentImages["sonaris-pro"] || "/sonaris_pro.png" || treatment.image;
+      return customTreatmentImages["sonaris-pro-therapy"] || customTreatmentImages["sonaris-pro"] || "/sonaris-pro-therapy.png" || treatment.image;
     }
     if (treatment.id === "stymulatory-tkankowe") {
       return customTreatmentImages["stymulatory"] || "/stymulatory_tkankowe.png" || treatment.image;
@@ -617,8 +617,11 @@ export default function App() {
     if (treatment.id === "neurolifting-nogier" || treatment.id === "neurolifting-face") {
       return customTreatmentImages["how_help_neurolifting"] || "/how_help_neurolifting.png" || treatment.image;
     }
-    if (treatment.id === "epigenetic-aging" || treatment.id === "skin-remodeling-therapy") {
-      return customTreatmentImages["how_help_meso_remodeling"] || "/how_help_meso_remodeling.png" || treatment.image;
+    if (treatment.id === "skin-remodeling-therapy") {
+      return customTreatmentImages["skin-remodeling-therapy"] || customTreatmentImages["how_help_meso_remodeling"] || "/skin-remodeling-therapy.png" || treatment.image;
+    }
+    if (treatment.id === "epigenetic-aging") {
+      return customTreatmentImages["epigenetic-aging"] || customTreatmentImages["how_help_meso_remodeling"] || "/how_help_meso_remodeling.png" || treatment.image;
     }
     return customTreatmentImages[treatment.id] || treatment.image;
   }, [customTreatmentImages]);

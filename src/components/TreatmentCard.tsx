@@ -77,9 +77,9 @@ const TreatmentCard = React.memo(function TreatmentCard({
         "neurolifting-nogier": ["how_help_neurolifting", "neurolifting-nogier"],
         "neurolifting-face": ["how_help_neurolifting", "neurolifting-face"],
         "epigenetic-aging": ["how_help_meso_remodeling", "epigenetic-aging"],
-        "skin-remodeling-therapy": ["how_help_meso_remodeling", "skin-remodeling-therapy"],
+        "skin-remodeling-therapy": ["skin-remodeling-therapy", "how_help_meso_remodeling"],
         "ceragem-thermal-massage": ["ceragem", "ceragem-thermal-massage"],
-        "sonaris-pro-therapy": ["sonaris-pro", "sonaris-pro-therapy"],
+        "sonaris-pro-therapy": ["sonaris-pro-therapy", "sonaris-pro"],
         "stymulatory-tkankowe": ["stymulatory", "stymulatory-tkankowe"],
         "pst-signal-therapy": ["pst-couch", "pst-signal-therapy"],
       };

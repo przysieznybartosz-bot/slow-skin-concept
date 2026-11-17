@@ -79,7 +79,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       time: "około 90 minut",
       price: "500–750 zł",
       desc: "Wielopoziomowa przebudowa dla skóry tracącej jędrność i wyraźny kontur. Dobór metod oddziałujących na różne poziomy tkanek ze stałą kontrolą regeneracji.",
-      image: "/lift-firm-therapy.png"
+      image: "/skin-remodeling-therapy.png"
     },
     {
       id: "healthy-glow-therapy",

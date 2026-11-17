@@ -72,8 +72,8 @@ export const PRIMARY_SLOTS: OriginalImageSlot[] = [
     name: "Sonaris Pro Therapy",
     category: "key_tech",
     treatmentName: "Sonaris Pro (Twarz & Okolica Oka)",
-    suggestedFilename: "sonaris pro.png",
-    currentUrl: "/sonaris_pro.png",
+    suggestedFilename: "sonaris-pro-therapy.png",
+    currentUrl: "/sonaris-pro-therapy.png",
     description: "Komfortowa głowica Sonaris Pro aplikowana na twarz — poprawa napięcia i gładkości bez nakłuwania."
   },
   {
