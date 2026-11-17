@@ -70,7 +70,7 @@ const TreatmentCard = React.memo(function TreatmentCard({
     if (customImage) return customImage;
     if (typeof window !== "undefined") {
       const keyMap: Record<string, string[]> = {
-        "skin-readiness": ["how_help_first_visit", "skin-readiness"],
+        "skin-readiness": ["skin-readiness", "how_help_first_visit"],
         "videokonsultacja": ["videokonsultacja"],
         "rosacea-calm-therapy": ["how_help_sensitive_skin", "rosacea-calm-therapy"],
         "couperose-therapy": ["couperose-therapy"],

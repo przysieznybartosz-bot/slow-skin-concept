@@ -216,7 +216,16 @@ async function startServer() {
         fs.writeFileSync(path.join(distSrcImagesDir, filename), buffer);
       }
 
-      console.log(`[Upload] Zapisano oryginalne zdjęcie dla ${treatmentKey}: ${filename} (${buffer.length} bajtów)`);
+      // Preserve a unique timestamped copy so AI Studio workspace sync does not revert modified existing files back to snapshot versions
+      const uploadedDir = path.join(publicDir, "uploaded-photos");
+      if (!fs.existsSync(uploadedDir)) {
+        fs.mkdirSync(uploadedDir, { recursive: true });
+      }
+      const safeKey = String(treatmentKey).replace(/[^a-zA-Z0-9_-]/g, "_");
+      const uniqueCopyName = `${safeKey}-${Date.now()}.png`;
+      fs.writeFileSync(path.join(uploadedDir, uniqueCopyName), buffer);
+
+      console.log(`[Upload] Zapisano oryginalne zdjęcie dla ${treatmentKey}: ${filename} + ${uniqueCopyName} (${buffer.length} bajtów)`);
       return res.json({ success: true, url: `/${filename}?v=${Date.now()}` });
     } catch (err: any) {
       console.error("[Upload] Błąd podczas zapisywania zdjęcia zabiegu:", err);

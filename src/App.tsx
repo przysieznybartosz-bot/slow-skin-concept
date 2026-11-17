@@ -603,7 +603,7 @@ export default function App() {
     }
     // Automatyczna synchronizacja ze zdjęciami z sekcji "Jak możemy Ci pomóc":
     if (treatment.id === "skin-readiness") {
-      return customTreatmentImages["how_help_first_visit"] || "/skin-readiness.png" || treatment.image;
+      return customTreatmentImages["skin-readiness"] || customTreatmentImages["how_help_first_visit"] || "/skin-readiness.png" || treatment.image;
     }
     if (treatment.id === "videokonsultacja") {
       return customTreatmentImages["videokonsultacja"] || "/videokonsultacja.png" || treatment.image;
