@@ -1547,7 +1547,7 @@ export default function App() {
     { label: "Terapia Światłem LPL / Fotoodmładzanie (45 min • 290 PLN)", title: "Terapia Światłem LPL / Fotoodmładzanie", duration: "45 minut", price: "290 PLN", cosmetics: "Żel foto-przewodzący bionomiczny, serum z beta-glukanem" },
     { label: "Karboksyterapia CarboRegen (45 min • 250 PLN)", title: "Karboksyterapia CarboRegen", duration: "45 minut", price: "250 PLN", cosmetics: "Medyczny CO2 o czystości 99.5%, emulsja łagodząca" },
     { label: "Sonaris Pro — Fala Dźwiękowa i Drenaż (60 min • 320 PLN)", title: "Sonaris Pro — Fala Dźwiękowa i Drenaż", duration: "60 minut", price: "320 PLN", cosmetics: "Żel sonoforyczny, ampułka ujędrniająca, krem drenujący" },
-    { label: "Slow Neuro-Modeling (Lifting Manualny) (60 min • 280 PLN)", title: "Slow Neuro-Modeling (Lifting Manualny)", duration: "60 minut", price: "280 PLN", cosmetics: "Olej z ogórecznika, ceramidy NP, kompres lawendowy" },
+    { label: "Neurolifting — Elektroakupunktura twarzy (60 min • 500 PLN)", title: "Neurolifting — Elektroakupunktura twarzy", duration: "60 minut", price: "500 PLN", cosmetics: "Ultracienkie igły, fale Nogiera (1–99 Hz), światło LED, koktajl regeneracyjny" },
     { label: "Stymulatory Tkankowe / Mezoterapia (90 min • 550 PLN)", title: "Stymulatory Tkankowe / Mezoterapia", duration: "90 minut", price: "550 PLN", cosmetics: "Polinukleotydy, kwas hialuronowy, maska regenerująca" },
     { label: "Inny zabieg / Procedura Spersonalizowana", title: "Inny zabieg", duration: "60 minut", price: "300 PLN", cosmetics: "" }
   ];
@@ -3506,8 +3506,8 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         onClick={() => handleLinkClick("/neurolifting-nogier/")}
                         className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
                       >
-                        <span>Neurolifting — Rytuał Nogiera</span>
-                        <span className="text-[9px] font-mono text-luxury-gold/60">350 zł</span>
+                        <span>Neurolifting — Elektroakupunktura twarzy</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">500 zł</span>
                       </button>
                     </li>
                     <li>
@@ -3515,8 +3515,8 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         onClick={() => handleLinkClick("/neurolifting-face/")}
                         className="hover:text-luxury-gold text-luxury-dark transition-colors duration-200 text-left block w-full flex justify-between items-center"
                       >
-                        <span>Neurolifting Powięziowy Twarzy</span>
-                        <span className="text-[9px] font-mono text-luxury-gold/60">od 350 zł</span>
+                        <span>Neurolifting — Fale Nogiera i Powięź</span>
+                        <span className="text-[9px] font-mono text-luxury-gold/60">500 zł</span>
                       </button>
                     </li>
                     <li>
@@ -4040,10 +4040,10 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     </div>
                     <div className="group cursor-pointer" onClick={() => handleLinkClick("/neurolifting-nogier/")}>
                       <p className="text-xs font-serif font-semibold text-luxury-dark group-hover:text-luxury-gold transition-colors flex items-center justify-between">
-                        <span>Neurolifting — Fale Nogiera</span>
+                        <span>Neurolifting — Fale Nogiera + LED</span>
                         <ArrowRight className="w-3 h-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-luxury-gold" />
                       </p>
-                      <p className="text-[10px] text-luxury-dark/90 mt-0.5 font-mono leading-tight">Fotobiomodulacja neurokomórkowa i stymulacja powięzi</p>
+                      <p className="text-[10px] text-luxury-dark/90 mt-0.5 font-mono leading-tight">Elektroakupunktura twarzy (1–99 Hz) w połączeniu ze światłem LED — 500 zł</p>
                     </div>
                     <div className="group cursor-pointer" onClick={() => handleLinkClick("/hifu-lifting/")}>
                       <p className="text-xs font-serif font-semibold text-luxury-dark group-hover:text-luxury-gold transition-colors flex items-center justify-between">
@@ -4559,8 +4559,8 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           <button onClick={() => handleLinkClick("/rf-microneedling/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">RF Mikroigłowa (Termolifting)</button>
                           <button onClick={() => handleLinkClick("/lift-firm-therapy/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Skin Remodeling (Lift & Firm)</button>
                           <button onClick={() => handleLinkClick("/skin-remodeling-therapy/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Skin Remodeling Therapy</button>
-                          <button onClick={() => handleLinkClick("/neurolifting-nogier/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Neurolifting — Fale Nogiera</button>
-                          <button onClick={() => handleLinkClick("/neurolifting-face/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Neurolifting Powięziowy Twarzy</button>
+                          <button onClick={() => handleLinkClick("/neurolifting-nogier/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Neurolifting — Elektroakupunktura twarzy (500 zł)</button>
+                          <button onClick={() => handleLinkClick("/neurolifting-face/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1">Neurolifting — Fale Nogiera i Powięź (500 zł)</button>
                           <button onClick={() => handleLinkClick("/sonaris-pro-therapy/")} className="text-left text-luxury-dark hover:text-luxury-gold block w-full pl-1 font-medium flex justify-between items-center">
                             <span className="flex items-center gap-1.5">
                               <span className="w-1.5 h-1.5 rounded-full bg-luxury-gold"></span>
@@ -5479,12 +5479,12 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           </div>
                           <div className="space-y-3 leading-relaxed">
                             <p className="text-xs md:text-sm text-luxury-dark/95 font-light"><strong className="text-luxury-dark font-semibold">Biologiczna przyczyna:</strong> Nadreaktywność receptorów czuciowych naskórka połączona z osłabieniem ścian naczyń krwionośnych pod wpływem stresu, zmian temperatur i emocji, co stymuluje gwałtowne zaczerwienienie i uczucie ciepła.</p>
-                            <p className="text-xs md:text-sm text-luxury-dark/95 font-light"><strong className="text-luxury-gold font-semibold">Nasze rozwiązanie:</strong> Wygaszamy ogniska podrażnień bez inwazyjnego złuszczania. Zastosowanie rezonansowych mikroczęstotliwości dr. Nogiera ucisza nadreaktywność naskórka i wspiera naturalną regenerację naczynek.</p>
+                            <p className="text-xs md:text-sm text-luxury-dark/95 font-light"><strong className="text-luxury-gold font-semibold">Nasze rozwiązanie:</strong> Wspieramy ukojenie skóry wrażliwej i naczyniowej bez agresywnej stymulacji. Fale częstotliwościowe dr. Paula Nogiera w połączeniu ze światłem LED wspomagają równowagę komunikacji nerwowo-skórnej i naturalną regenerację tkanek.</p>
                           </div>
                           <div className="pt-3.5 border-t border-luxury-sand flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                             <div>
                               <span className="font-mono text-[8.5px] text-luxury-dark/60 uppercase tracking-wider block">Rekomendowana terapia</span>
-                              <span className="font-serif text-sm text-luxury-dark font-medium">Neurolifting — Fale Nogiera</span>
+                              <span className="font-serif text-sm text-luxury-dark font-medium">Neurolifting — Fale Nogiera i Światło LED</span>
                             </div>
                             <button
                               onClick={() => {
@@ -5850,7 +5850,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       {
                         id: "how_help_neurolifting",
                         title: "Neurolifting",
-                        desc: "Naturalny lifting i rozluźnienie głębokich napięć mięśniowych twarzy. Daje natychmiastową poprawę owalu, wygładzenie zmarszczek oraz młody, wypoczęty wygląd.",
+                        desc: "Elektroakupunktura twarzy łącząca fale Nogiera (1–99 Hz) ze światłem LED. Przywraca rytm komunikacji nerwowo-skórnej, rozluźnia napięcia mięśniowe i wspiera naturalną regenerację.",
                         image: "/how_help_neurolifting.png",
                         actionUrl: "/neurolifting/",
                         cta: "Dowiedz się więcej"
@@ -6728,11 +6728,11 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                   reason: "Z uwagi na zarejestrowaną skłonność do podrażnień i naruszoną stabilność barierową (pod wpływem czynników zewnętrznych), Twoja skóra bezwzględnie wymaga najpierw bezpiecznego wyciszenia stanu mikrozapalnego. Unikamy agresywnych pilingów. Najlepiej sprawdzi się nasza pełna diagnoza z rytuałem otwierającym, który przygotuje naskórek do precyzyjnej i bezbolesnej terapii."
                                 };
                               }
-                              if (quizConcern === "aging" || quizGoal === "lift") {
+                                if (quizConcern === "aging" || quizGoal === "lift") {
                                 return {
                                   treatment: TREATMENTS.find(t => t.id === "neurolifting-nogier") || TREATMENTS[0],
-                                  badge: "STYMULACJA STRUKTURALNA POWIĘZIOWA",
-                                  reason: "Twoja skóra wykazuje stabilność barierową i jest idealnym pretendentem do głębokiej stymulacji kolagenu oraz liftingu powięziowego. Masaż Neuroliftingu Nogiera w unikalnej synergii manualnej pozwoli nam uwolnić blokady napięciowe karku i mięśni mimicznych, widocznie korygując owal twarzy i dając naturalny, młodzieńczy wygląd."
+                                  badge: "FALE NOGIERA & ŚWIATŁO LED",
+                                  reason: "Twoja skóra dobrze odpowie na zabieg Neuroliftingu oparty na częstotliwościach Nogiera (1–99 Hz) w połączeniu z terapią światłem LED. Delikatne impulsy przewodzone przez ultracienkie igły wspierają rozluźnienie napiętych mięśni, pobudzenie osłabionych partii oraz odzyskanie naturalnej sprężystości i wypoczętego wyglądu."
                                 };
                               }
                               if (quizConcern === "congestion" || quizGoal === "purify") {
@@ -9311,243 +9311,240 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     </div>
                   )}
 
-                  {/* Rozszerz opis terapii dla Neurolifting — Kosmetologia Neurorehabilitacyjna */}
+                  {/* Rozszerzona monografia dla Neurolifting — Elektroakupunktura twarzy (slow-skin.pl/neurolifting/) */}
                   {selectedTreatment.id === "neurolifting-nogier" && (
                     <div className="space-y-16 pt-8 pb-4 border-t border-luxury-sand/30" id="neurolifting-detailed-monograph">
                       
-                      {/* Główny panel wprowadzający & Filozofia Neurorehabilitacji */}
+                      {/* Główny panel wprowadzający */}
                       <div className="space-y-8">
                         <div className="text-center max-w-3xl mx-auto space-y-3">
                           <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-luxury-gold/10 border border-luxury-gold/30 rounded-full mb-1">
                             <Sparkles className="w-3.5 h-3.5 text-luxury-gold" />
                             <span className="font-mono text-[9px] tracking-[0.2em] text-luxury-gold uppercase font-bold">
-                              Kosmetologia Neurorehabilitacyjna & Bio-Inżynieria Tkankowa
+                              Elektroakupunktura twarzy • Fale Nogiera w połączeniu ze światłem LED
                             </span>
                           </div>
                           <h2 className="font-serif text-3xl md:text-4xl font-light text-luxury-dark">
-                            Czym Jest Neurolifting?
+                            Fale Nogiera w połączeniu ze światłem LED
                           </h2>
                           <div className="w-16 h-[1px] bg-luxury-gold/60 mx-auto" />
-                          <p className="text-xs md:text-sm text-luxury-dark font-serif italic max-w-2xl mx-auto leading-relaxed">
-                            Neurolifting to nowoczesna, wysoce zaawansowana metoda pracy z tkankami i powięzią twarzy w nurcie Kosmetologii Neurorehabilitacyjnej. Jej nadrzędnym celem jest stymulacja fizjologicznych mechanizmów samoregulacji i homeostazy – przywracając biologiczną równowagę na poziomie układu nerwowego, powięziowego i komórkowego.
-                          </p>
-                        </div>
-
-                        {/* Zasada Działania u Źródła */}
-                        <div className="bg-luxury-gold/10 border border-luxury-gold/40 p-6 md:p-8 rounded-sm max-w-4xl mx-auto text-left flex flex-col md:flex-row items-center gap-6 shadow-xs">
-                          <div className="w-16 h-16 rounded-full bg-luxury-gold text-white flex items-center justify-center shrink-0 shadow-md">
-                            <ShieldCheck className="w-8 h-8" />
-                          </div>
-                          <div className="space-y-1.5 flex-1">
-                            <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
-                              Filozofia Slow Skin Concept • Praca u Źródła Przyczyny
-                            </span>
-                            <h4 className="font-serif text-base md:text-lg font-medium text-luxury-dark">
-                              Odmłodzenie Poprzez Fizjologiczną Samoregulację
-                            </h4>
-                            <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
-                              Zamiast maskować oznaki upływu czasu czy poddawać tkanki agresywnym bodźcom termicznym, zabieg aktywuje naturalne procesy naprawcze organizmu. Łączy precyzyjną neuromodulację mikroimpulsami z bionomicznymi czynnikami wzrostu, działając bezpośrednio na mięśnie mimiczne, powięź i macierz zewnątrzkomórkową.
+                          <div className="space-y-4 text-xs md:text-sm text-luxury-dark font-serif italic max-w-2xl mx-auto leading-relaxed">
+                            <p>
+                              Skóra nie starzeje się wyłącznie dlatego, że traci kolagen. Traci kolagen dlatego, że stopniowo zaburza się jej rytm komunikacji – pomiędzy komórkami, układem nerwowym, tkanką łączną i emocjami. Gdy ten subtelny dialog słabnie, komórki skóry przestają prawidłowo odbierać i interpretować sygnały regeneracyjne.
+                            </p>
+                            <p className="not-italic font-sans font-light text-luxury-dark/90">
+                              <strong className="font-medium text-luxury-dark">Neurolifting</strong> oparty na częstotliwościach Nogiera w połączeniu z terapią światłem LED przywraca fizjologiczny rytm komunikacji nerwowo-skórnej. Zabieg nie działa „przeciw starzeniu” w sposób agresywny, lecz oddziałuje na jego przyczynę – wspierając odbudowę utraconego przepływu informacji pomiędzy komórkami, nerwami i tkankami. To podejście jest w pełni spójne z filozofią Slow Skin Concept, która zakłada regenerację skóry w zgodzie z jej naturalnym rytmem biologicznym.
                             </p>
                           </div>
                         </div>
 
-                        {/* Jak to działa? - 3 Filary Fizjologiczne */}
-                        <div className="space-y-4 pt-4">
-                          <div className="text-center max-w-xl mx-auto space-y-1">
-                            <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase block font-bold">
-                              Fizjologiczne Mechanizmy Odnowy
-                            </span>
-                            <h3 className="font-serif text-2xl font-light text-luxury-dark">Jak Działa Neurolifting?</h3>
+                        {/* Na czym polega zabieg Neurolifting? */}
+                        <div className="bg-luxury-gold/10 border border-luxury-gold/40 p-6 md:p-8 rounded-sm max-w-4xl mx-auto text-left space-y-4 shadow-xs">
+                          <div className="flex items-center gap-3">
+                            <div className="w-11 h-11 rounded-full bg-luxury-gold text-white flex items-center justify-center shrink-0 shadow-xs">
+                              <ShieldCheck className="w-5 h-5" />
+                            </div>
+                            <div>
+                              <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
+                                Mechanizm Zabiegu
+                              </span>
+                              <h3 className="font-serif text-xl font-medium text-luxury-dark">
+                                Na czym polega zabieg Neurolifting?
+                              </h3>
+                            </div>
                           </div>
-
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
-                            <div className="border border-luxury-sand p-6 bg-white space-y-3 rounded-sm text-left shadow-xs hover:border-luxury-gold/60 transition-all">
-                              <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
-                                Filar 1 • Komunikacja Nerwowa
-                              </span>
-                              <h4 className="font-serif text-sm font-medium text-luxury-dark">Neuromodulacja Receptywna</h4>
-                              <p className="text-[11px] text-luxury-dark/95 font-light leading-relaxed">
-                                Subtelne mikroimpulsy elektryczne (transmitowane przez sterylne mikroigły lub naskórkowe elektrody TENS) oddziałują na receptory nerwowe, harmonizując napięcie mięśniowo-powięziowe. Rozluźniają chronicznie spięte żwacze i czoło, jednocześnie tonizując osłabione partie owalu.
-                              </p>
-                            </div>
-
-                            <div className="border border-luxury-sand p-6 bg-white space-y-3 rounded-sm text-left shadow-xs hover:border-luxury-gold/60 transition-all">
-                              <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
-                                Filar 2 • Macierz Zewnątrzkomórkowa
-                              </span>
-                              <h4 className="font-serif text-sm font-medium text-luxury-dark">Hydratacja & Aparat Proteoglikanowy</h4>
-                              <p className="text-[11px] text-luxury-dark/95 font-light leading-relaxed">
-                                Pobudzenie syntezy glikozaminoglikanów (GAGs) i kwasu hialuronowego w macierzy zewnątrzkomórkowej przywraca prawidłowe uwodnienie powięzi powierzchownej. Umożliwia to swobodną dyfuzję składników odżywczych i przywraca sprężystość tkankom.
-                              </p>
-                            </div>
-
-                            <div className="border border-luxury-sand p-6 bg-white space-y-3 rounded-sm text-left shadow-xs hover:border-luxury-gold/60 transition-all">
-                              <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
-                                Filar 3 • Drenaż & Dotlenienie
-                              </span>
-                              <h4 className="font-serif text-sm font-medium text-luxury-dark">Neurodrenaż & Cyrkulacja Płynów</h4>
-                              <p className="text-[11px] text-luxury-dark/95 font-light leading-relaxed">
-                                Uruchomienie fizjologicznego odpływu chłonki i usprawnienie mikrokrążenia poszerza przestrzenie międzykomórkowe. Likwiduje obrzęki, worki pod oczami oraz daje natychmiastowy efekt wypoczętej cery (Glow Face).
-                              </p>
-                            </div>
+                          <div className="space-y-3 text-xs text-luxury-dark/95 font-light leading-relaxed">
+                            <p>
+                              Neurolifting to zaawansowana, nowoczesna forma elektroakupunktury twarzy, w której bardzo delikatne impulsy elektryczne przewodzone są przez ultracienkie igły umieszczane w biologicznie aktywnych punktach skóry. Zabieg integruje wiedzę z zakresu neurobiologii, medycyny chińskiej oraz nowoczesnej fototerapii LED.
+                            </p>
+                            <p>
+                              Mikroprądy o precyzyjnie dobranych częstotliwościach dr. Paula Nogiera oddziałują na zakończenia nerwowe, powięź oraz mięśnie twarzy. W efekcie dochodzi do normalizacji przewodnictwa nerwowego, rozluźnienia nadmiernych napięć mięśniowych oraz aktywacji naturalnych procesów regeneracyjnych skóry. Zabieg działa nie tylko na poziomie estetycznym, ale również regulacyjnym i relaksacyjnym.
+                            </p>
+                            <p>
+                              Delikatne impulsy elektryczne wpływają na receptory nerwowe, wspierając prawidłową komunikację komórkową oraz równowagę napięcia mięśniowo-powięziowego. W praktyce oznacza to jednoczesne rozluźnienie zbyt napiętych struktur oraz pobudzenie tych, które pozostają osłabione lub nieaktywne.
+                            </p>
                           </div>
                         </div>
 
-                        {/* Czym różni się od klasycznego liftingu */}
-                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch pt-4">
-                          <div className="lg:col-span-7 bg-white/60 border border-luxury-sand p-8 rounded-sm space-y-4 text-left">
-                            <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
-                              Paradygmat Przyczyny i Skutku
+                        {/* Dla kogo przeznaczony jest Neurolifting? */}
+                        <div className="max-w-4xl mx-auto space-y-4">
+                          <div className="text-center space-y-1">
+                            <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase block font-bold">
+                              Wskazania
                             </span>
-                            <h3 className="font-serif text-xl font-light text-luxury-dark">
-                              Czym Neurolifting Różni się od Klasycznego Liftingu?
+                            <h3 className="font-serif text-2xl font-light text-luxury-dark">
+                              Dla kogo przeznaczony jest Neurolifting?
                             </h3>
-                            <div className="space-y-3 text-xs text-luxury-dark font-light leading-relaxed">
-                              <p>
-                                Zamiast skupiać się wyłącznie na powierzchownym naciąganiu powłok skórnych lub wywoływaniu bolesnych mikrouszkodzeń, neurolifting pracuje w synergii z <strong>układem nerwowym, więzadłami twarzowymi i strukturą powięziową</strong>.
-                              </p>
-                              <p>
-                                To podejście <strong>„od przyczyny do efektu”</strong>. Dzięki stymulacji biologicznych mechanizmów samonaprawczych rezultaty są w pełni naturalne, rysy twarzy zachowują pełną ekspresję i harmonię, a skóra odzyskuje głęboki, fizjologiczny turgor.
-                              </p>
-                            </div>
+                            <p className="text-xs text-luxury-dark/80 font-light">
+                              Neurolifting jest szczególnie polecany osobom, które poszukują naturalnej, nieinwazyjnej terapii regeneracyjnej, w szczególności w przypadku:
+                            </p>
                           </div>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {[
+                              "Skóry wiotkiej, pozbawionej napięcia i elastyczności",
+                              "Utraty owalu twarzy oraz widocznych zmarszczek",
+                              "Skłonności do obrzęków i zastoju limfatycznego",
+                              "Zmarszczek mimicznych i nadmiernej pracy mięśni twarzy",
+                              "Przewlekłego stresu, napięcia mięśniowego i zmęczonego wyglądu skóry",
+                              "Cery reaktywnej, wrażliwej lub naczyniowej"
+                            ].map((item, idx) => (
+                              <div key={idx} className="border border-luxury-sand bg-white p-4 rounded-sm text-left flex items-start gap-2.5 shadow-2xs">
+                                <span className="text-luxury-gold font-mono text-xs font-bold mt-0.5">0{idx + 1}</span>
+                                <span className="text-xs text-luxury-dark/95 font-light leading-relaxed">{item}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
 
-                          <div className="lg:col-span-5 flex flex-col justify-between border border-luxury-gold/30 bg-luxury-sand/15 p-6 rounded-sm text-left space-y-4">
+                        {/* Jak wygląda Neurolifting? + Światło LED */}
+                        <div className="space-y-6 pt-2 max-w-4xl mx-auto">
+                          <div className="text-center space-y-2">
                             <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase block font-bold">
-                              Komfort i Przebieg Sesji
+                              Przebieg Sesji • Częstotliwości 1–99 Hz &amp; Fotobiomodulacja
                             </span>
-                            <div className="space-y-2 text-xs text-luxury-dark/95 font-light leading-relaxed">
-                              <p>• Parametry i częstotliwości mikroprądów dobierane są indywidualnie do stopnia napięcia tkanek.</p>
-                              <p>• Do wyboru: <strong>najcieńsze mikroigły akupunkturowe</strong> lub – dla osób o szczególnej wrażliwości – <strong>bezinwazyjne elektrody naskórkowe (TENS)</strong>.</p>
-                              <p>• Odczucia to delikatne mrowienie, kojące ciepło i głęboki relaks parasympatyczny.</p>
-                            </div>
-                            <div className="p-3 bg-white/70 border border-luxury-sand/50 rounded-sm">
-                              <span className="font-serif text-[11px] italic text-luxury-gold block">
-                                „Świadoma praca z powięzią i nerwami uruchamia najgłębsze rezerwy regeneracyjne organizmu.”
+                            <h3 className="font-serif text-2xl font-light text-luxury-dark">
+                              Jak wygląda Neurolifting?
+                            </h3>
+                            <p className="text-xs text-luxury-dark/90 font-light max-w-2xl mx-auto leading-relaxed">
+                              Neurolifting to terapia, w której biologia spotyka się z częstotliwością, a światło staje się językiem komunikacji komórkowej. Impulsy elektryczne o częstotliwościach Nogiera (1–99 Hz) przenikają przez sieć nerwowo-skórną, wspierając przywrócenie fizjologicznych rytmów i zdolności adaptacyjnych komórek. Uzupełnieniem neurostymulacji jest terapia światłem LED pobudzająca mitochondria do produkcji energii komórkowej (ATP).
+                            </p>
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div className="border border-luxury-sand p-6 bg-white space-y-2.5 rounded-sm text-left shadow-xs">
+                              <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
+                                630–660 nm
                               </span>
+                              <h4 className="font-serif text-base font-medium text-luxury-dark">Światło Czerwone</h4>
+                              <p className="text-xs text-luxury-dark/90 font-light leading-relaxed">
+                                Stymuluje fibroblasty do produkcji kolagenu i elastyny, wspierając jędrność i sprężystość skóry.
+                              </p>
+                            </div>
+
+                            <div className="border border-luxury-sand p-6 bg-white space-y-2.5 rounded-sm text-left shadow-xs">
+                              <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
+                                590 nm
+                              </span>
+                              <h4 className="font-serif text-base font-medium text-luxury-dark">Światło Bursztynowe</h4>
+                              <p className="text-xs text-luxury-dark/90 font-light leading-relaxed">
+                                Poprawia koloryt skóry, działa regenerująco i rozświetlająco, przywracając cerze wypoczęty blask.
+                              </p>
+                            </div>
+
+                            <div className="border border-luxury-sand p-6 bg-white space-y-2.5 rounded-sm text-left shadow-xs">
+                              <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
+                                830–850 nm
+                              </span>
+                              <h4 className="font-serif text-base font-medium text-luxury-dark">Bliska Podczerwień</h4>
+                              <p className="text-xs text-luxury-dark/90 font-light leading-relaxed">
+                                Dociera do głębszych warstw tkanek, wspierając regenerację mitochondrialną oraz wyciszenie stanów zapalnych.
+                              </p>
                             </div>
                           </div>
-                        </div>
-                      </div>
 
-                      {/* Cztery filary zabiegowe w Świadomej Kosmetologii */}
-                      <div className="space-y-6 pt-4">
-                        <div className="text-center max-w-xl mx-auto space-y-2">
-                          <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase flex items-center justify-center gap-1.5 font-bold">
-                            <Activity className="w-4 h-4 text-luxury-gold" /> Paradygmat Świadomej Kosmetologii
-                          </span>
-                          <h3 className="font-serif text-2xl font-light text-luxury-dark">
-                            Cztery Filary Zabiegowe Rytuału
-                          </h3>
-                          <p className="text-xs text-luxury-dark/95 font-light">
-                            Sprawdzony schemat zabiegowy dbający o skuteczność, komfort i bezpieczeństwo skóry:
-                          </p>
-                        </div>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                          {[
-                            {
-                              num: "01",
-                              title: "Krok Łagodzący",
-                              desc: "Łagodzi zaczerwienienia, wycisza nadwrażliwość i przygotowuje skórę do regeneracji."
-                            },
-                            {
-                              num: "02",
-                              title: "Drenaż i Dotlenienie",
-                              desc: "Usprawnia odpływ chłonki, pobudza mikrokrążenie i pomaga zmniejszyć zastoje oraz opuchnięcia."
-                            },
-                            {
-                              num: "03",
-                              title: "Modelowanie Owalu",
-                              desc: "Modeluje owal twarzy, rozluźnia spięte mięśnie i wspiera naturalną sprężystość skóry."
-                            },
-                            {
-                              num: "04",
-                              title: "Pielęgnacja Okolicy Oka",
-                              desc: "Subtelna, delikatna praca na cienkiej skórze wokół oczu pomagająca zmniejszyć cienie i oznaki zmęczenia."
-                            }
-                          ].map((filar, idx) => (
-                            <div key={idx} className="border border-luxury-sand p-5 bg-white space-y-2 rounded-sm text-left shadow-xs hover:border-luxury-gold/50 transition-all">
-                              <span className="font-mono text-xs text-luxury-gold font-bold block">{filar.num}</span>
-                              <h4 className="font-serif text-xs font-semibold text-luxury-dark leading-snug">{filar.title}</h4>
-                              <p className="text-[11px] text-luxury-dark/95 font-light leading-relaxed">{filar.desc}</p>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Cennik i Warianty Zabiegu (Podstawowy vs Rozszerzony) */}
-                      <div className="space-y-6 pt-4">
-                        <div className="text-center max-w-xl mx-auto space-y-2">
-                          <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase block font-bold">
-                            Transparentny Wybór Terapii
-                          </span>
-                          <h3 className="font-serif text-2xl font-light text-luxury-dark">
-                            Warianty Zabiegu i Cennik
-                          </h3>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-                          {/* Wariant Podstawowy */}
-                          <div className="border border-luxury-sand bg-white p-6 md:p-8 rounded-sm space-y-5 text-left flex flex-col justify-between shadow-sm hover:border-luxury-gold/50 transition-all">
-                            <div className="space-y-3">
-                              <div className="flex justify-between items-start">
-                                <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold">
-                                  Wariant Podstawowy
-                                </span>
-                                <span className="font-mono text-[10px] bg-luxury-sand/20 px-2 py-0.5 text-luxury-dark/95 rounded-xs">
-                                  40–50 min
-                                </span>
-                              </div>
-                              <h4 className="font-serif text-xl font-medium text-luxury-dark">
-                                Neurolifting Elektroterapeutyczny
-                              </h4>
-                              <div className="text-2xl font-serif text-luxury-gold font-light">
-                                600 PLN
-                              </div>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="bg-white/70 border border-luxury-sand p-6 rounded-sm text-left space-y-2">
+                              <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
+                                Odczucia i Efekt Neuroplastyczności
+                              </span>
                               <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
-                                Obejmuje pełną procedurę neuroliftingu z elektroakupunkturą lub bezinwazyjnymi elektrodami TENS, regulację napięć mięśniowo-powięziowych oraz neurodrenaż limfatyczny.
+                                Podczas zabiegu mogą pojawić się odczucia delikatnego mrowienia, ciepła oraz głębokiego rozluźnienia. Po zakończeniu elektrostymulacji i fototerapii na skórę aplikowane są indywidualnie dobrane koktajle regeneracyjne. Efektem terapii jest odzyskanie przez skórę <strong>neuroplastyczności</strong> – zdolności do adaptacji, samoregulacji i skutecznej regeneracji.
                               </p>
                             </div>
-                            <ul className="space-y-1.5 text-[11px] text-luxury-dark/95 border-t border-luxury-sand/30 pt-4">
-                              <li>✓ Indywidualna diagnostyka wektorów napięciowych</li>
-                              <li>✓ Neuromodulacja częstotliwościami dr. Nogiera</li>
-                              <li>✓ Natychmiastowe uniesienie owalu i efekt Glow Face</li>
-                            </ul>
+                            <div className="bg-white/70 border border-luxury-sand p-6 rounded-sm text-left space-y-2">
+                              <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
+                                Jakie składniki wykorzystuję w zabiegu?
+                              </span>
+                              <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
+                                W zabiegu wykorzystywane są indywidualnie dobrane preparaty o działaniu regenerującym, nawilżającym i wspierającym barierę skórną, każdorazowo dopasowane do aktualnych potrzeb skóry oraz jej reaktywności.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Jakie efekty daje Neurolifting? */}
+                        <div className="space-y-6 pt-2 max-w-4xl mx-auto">
+                          <div className="text-center space-y-1">
+                            <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase block font-bold">
+                              Rezultaty Terapii
+                            </span>
+                            <h3 className="font-serif text-2xl font-light text-luxury-dark">
+                              Jakie efekty daje Neurolifting?
+                            </h3>
+                            <p className="text-xs text-luxury-dark/80 font-light">
+                              Dzięki zastosowaniu neurostymulacji zabieg aktywuje fizjologiczne procesy regeneracyjne organizmu – bez przeciążania, w pełnej zgodzie z jego naturalnym rytmem:
+                            </p>
                           </div>
 
-                          {/* Wariant Rozszerzony */}
-                          <div className="border-2 border-luxury-gold bg-luxury-gold/5 p-6 md:p-8 rounded-sm space-y-5 text-left flex flex-col justify-between shadow-md relative">
-                            <div className="absolute top-0 right-0 bg-luxury-gold text-white font-mono text-[8px] tracking-widest uppercase px-3 py-1 font-bold">
-                              Wariant Rozszerzony
-                            </div>
-                            <div className="space-y-3">
-                              <div className="flex justify-between items-start">
-                                <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold">
-                                  Wariant Pełny + Pielęgnacja Domowa
-                                </span>
-                                <span className="font-mono text-[10px] bg-luxury-gold/20 px-2 py-0.5 text-luxury-dark rounded-xs font-semibold">
-                                  ok. 75 min
-                                </span>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {[
+                              {
+                                title: "Poprawa mikrokrążenia i dotlenienia tkanek",
+                                desc: "Impulsy elektryczne rozszerzają naczynia krwionośne, zwiększając przepływ krwi i limfy. Skóra staje się lepiej odżywiona, bardziej elastyczna i promienna."
+                              },
+                              {
+                                title: "Stymulacja fibroblastów",
+                                desc: "Dochodzi do zwiększenia syntezy kolagenu i elastyny poprzez przywrócenie prawidłowej komunikacji międzykomórkowej. To naturalna, biologiczna aktywacja procesów odmładzania."
+                              },
+                              {
+                                title: "Regulacja napięcia mięśni twarzy",
+                                desc: "Zabieg równoważy przewodnictwo nerwowe i rozluźnia nadaktywne mięśnie mimiczne, wygładzając rysy, unosząc owal i przywracając harmonię twarzy."
+                              },
+                              {
+                                title: "Redukcja stanów zapalnych i obrzęków",
+                                desc: "Usprawnienie drenażu limfatycznego wspiera procesy detoksykacji i przeciwdziała tzw. inflammagingowi – starzeniu zapalnemu."
+                              },
+                              {
+                                title: "Neuroregulacja, relaks i reset skóry",
+                                desc: "Zwiększona aktywność neuroprzekaźników (endorfin, serotoniny, dopaminy) wpływa na poprawę samopoczucia, redukcję stresu, rozluźnienie ciała i uwolnienie napięcia zapisanego w tkankach."
+                              }
+                            ].map((effect, idx) => (
+                              <div key={idx} className={`border border-luxury-sand bg-white p-5 rounded-sm text-left space-y-1.5 ${idx === 4 ? "md:col-span-2" : ""}`}>
+                                <h4 className="font-serif text-base font-medium text-luxury-dark">{effect.title}</h4>
+                                <p className="text-xs text-luxury-dark/90 font-light leading-relaxed">{effect.desc}</p>
                               </div>
-                              <h4 className="font-serif text-xl font-medium text-luxury-dark">
-                                Neurolifting + Bionomiczna Bio-Inżynieria + Home Care
-                              </h4>
-                              <div className="text-2xl font-serif text-luxury-gold font-bold">
-                                900 PLN
-                              </div>
-                              <p className="text-xs text-luxury-dark font-light leading-relaxed">
-                                Rozszerzona ceremonia obejmująca pełny zabieg neuroliftingu, infuzję skoncentrowanych preparatów bionomicznej inżynierii tkankowej oraz okluzję kompresyjną.
-                              </p>
+                            ))}
+                          </div>
+
+                          {/* Widoczne rezultaty */}
+                          <div className="bg-luxury-cream/50 border border-luxury-sand p-6 rounded-sm text-left space-y-3">
+                            <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
+                              Widoczne rezultaty obejmują:
+                            </span>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-luxury-dark font-light">
+                              {[
+                                "Efekt liftingu i poprawę owalu twarzy",
+                                "Wygładzenie zmarszczek mimicznych",
+                                "Poprawę napięcia, elastyczności i sprężystości skóry",
+                                "Redukcję obrzęków i złagodzenie stanów zapalnych",
+                                "Usprawnienie mikrokrążenia i dotlenienie tkanek",
+                                "Rozświetlenie i wypoczęty wygląd twarzy"
+                              ].map((res, i) => (
+                                <div key={i} className="flex items-center gap-2">
+                                  <span className="text-luxury-gold font-bold">✓</span>
+                                  <span>{res}</span>
+                                </div>
+                              ))}
                             </div>
-                            <div className="bg-white/80 border border-luxury-gold/40 p-3 rounded-xs space-y-1">
-                              <span className="font-mono text-[9px] text-luxury-gold font-bold uppercase block">
-                                W cenie wariantu rozszerzonego:
-                              </span>
-                              <p className="text-[11px] text-luxury-dark italic font-serif">
-                                Dedykowany zestaw bionomicznych miniproduktów do pielęgnacji domowej (Home Care na 3–5 dni) utrwalający i potęgujący rezultaty przebudowy tkankowej.
-                              </p>
-                            </div>
+                          </div>
+                        </div>
+
+                        {/* Czas, Częstotliwość i Cena */}
+                        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+                          <div className="border border-luxury-sand bg-white p-6 rounded-sm text-left space-y-2">
+                            <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">Czas trwania</span>
+                            <div className="font-serif text-2xl font-light text-luxury-dark">Około 60 minut</div>
+                            <p className="text-xs text-luxury-dark/80 font-light">Komfortowa sesja elektroakupunktury falami Nogiera i fototerapii LED.</p>
+                          </div>
+                          <div className="border border-luxury-sand bg-white p-6 rounded-sm text-left space-y-2">
+                            <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">Zalecana seria</span>
+                            <div className="font-serif text-xl font-light text-luxury-dark">5–7 zabiegów co 3–4 tygodnie</div>
+                            <p className="text-xs text-luxury-dark/80 font-light">Zabiegi przypominające co 3–6 miesięcy utrwalają efekty i równowagę komunikacji komórkowej.</p>
+                          </div>
+                          <div className="border-2 border-luxury-gold bg-luxury-gold/5 p-6 rounded-sm text-left space-y-2">
+                            <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">Cena zabiegu</span>
+                            <div className="font-serif text-3xl font-light text-luxury-gold">500 zł</div>
+                            <p className="text-xs text-luxury-dark/85 font-light">Pełna procedura z falami Nogiera, światłem LED i indywidualnym koktajlem regeneracyjnym.</p>
                           </div>
                         </div>
                       </div>
@@ -12669,7 +12666,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     </div>
                   )}
 
-                  {/* Rozszerzona monografia: Neurolifting — Elektrostymulacja Mięśniowo-Powięziowa Twarzy */}
+                  {/* Rozszerzona monografia: Neurolifting — Fale Nogiera i Praca Powięziowa Twarzy */}
                   {selectedTreatment.id === "neurolifting-face" && (
                     <div className="space-y-16 pt-8 pb-4 border-t border-luxury-sand/30" id="neurolifting-face-detailed-monograph">
                       <div className="space-y-8">
@@ -12677,15 +12674,15 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-luxury-gold/10 border border-luxury-gold/30 rounded-full mb-1">
                             <Sparkles className="w-3.5 h-3.5 text-luxury-gold" />
                             <span className="font-mono text-[9px] tracking-[0.2em] text-luxury-gold uppercase font-bold">
-                              Lifting i Praca z Napięciem Mięśniowym • Częstotliwości Nogiera
+                              Elektroakupunktura Twarzy • Fale Nogiera (1–99 Hz) &amp; Światło LED
                             </span>
                           </div>
                           <h2 className="font-serif text-3xl md:text-4xl font-light text-luxury-dark">
-                            Neurolifting — Elektrostymulacja Mięśniowo-Powięziowa Twarzy
+                            Neurolifting — Fale Nogiera i Praca Powięziowa Twarzy
                           </h2>
                           <div className="w-16 h-[1px] bg-luxury-gold/60 mx-auto" />
                           <p className="text-xs md:text-sm text-luxury-dark font-serif italic max-w-2xl mx-auto leading-relaxed">
-                            Specjalistyczny zabieg kosmetologiczny łączący precyzyjną elektrostymulację za pomocą cienkich, jednorazowych igieł z pracą nad układem mięśniowo-powięziowym twarzy. Podczas zabiegu wykorzystywane są programy impulsowe oparte na częstotliwościach Nogiera.
+                            Nowoczesna forma elektroakupunktury twarzy łącząca delikatne mikroimpulsy o częstotliwościach dr. Paula Nogiera (1–99 Hz) przewodzone przez ultracienkie igły z terapią światłem LED oraz indywidualnie dobranymi koktajlami regeneracyjnymi.
                           </p>
                         </div>
 
@@ -12702,36 +12699,36 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                               Poprawa równowagi pomiędzy obszarami osłabionymi i nadmiernie napiętymi
                             </h4>
                             <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
-                              Celem zabiegu nie jest jednakowe pobudzenie wszystkich mięśni, lecz poprawa równowagi pomiędzy obszarami osłabionymi i nadmiernie napiętymi. Pozwala to wspierać naturalne ułożenie tkanek, wyrazistość owalu oraz bardziej harmonijny i wypoczęty wygląd twarzy bez zamrażania mimiki.
+                              Zabieg wspiera przywrócenie fizjologicznego rytmu komunikacji nerwowo-skórnej: jednocześnie rozluźnia zbyt napięte struktury oraz pobudza obszary osłabione, przywracając twarzy harmonię, sprężystość i wypoczęty wygląd bez ingerencji w naturalną mimikę.
                             </p>
                           </div>
                         </div>
 
-                        {/* Częstotliwości Nogiera & Układ Mięśniowo-Powięziowy */}
+                        {/* Częstotliwości Nogiera & Światło LED */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
                           <div className="border border-luxury-sand bg-white p-6 rounded-sm text-left space-y-3 shadow-xs">
                             <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
-                              Podstawa Fizyczna
+                              Fale Nogiera (1–99 Hz)
                             </span>
-                            <h3 className="font-serif text-xl font-light text-luxury-dark">Częstotliwości Nogiera</h3>
+                            <h3 className="font-serif text-xl font-light text-luxury-dark">Elektroakupunktura Twarzy</h3>
                             <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
-                              W neuroliftingu wykorzystywane są programy impulsowe oparte na częstotliwościach opisanych przez francuskiego lekarza Paula Nogiera. Pozwalają one różnicować charakter elektrostymulacji i dopasowywać ją do celu pracy w danym obszarze.
+                              Mikroprądy o częstotliwościach dr. Paula Nogiera (1–99 Hz) przewodzone przez ultracienkie igły umieszczane w biologicznie aktywnych punktach skóry wspierają równowagę mięśniowo-powięziową, mikrokrążenie i drenaż limfatyczny.
                             </p>
                             <p className="text-[11px] text-luxury-dark/80 italic font-serif">
-                              Częstotliwość, intensywność i czas działania dobierane są indywidualnie. Nie oznacza to leczenia układu nerwowego ani regenerowania nerwów — częstotliwości Nogiera stanowią element technicznego sposobu prowadzenia elektrostymulacji.
+                              Zalecana seria: 5–7 zabiegów co 3–4 tygodnie oraz zabiegi przypominające co 3–6 miesięcy.
                             </p>
                           </div>
 
                           <div className="border border-luxury-sand bg-white p-6 rounded-sm text-left space-y-3 shadow-xs">
                             <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
-                              Architektura Napięć
+                              Fotobiomodulacja
                             </span>
-                            <h3 className="font-serif text-xl font-light text-luxury-dark">Układ Mięśniowo-Powięziowy</h3>
+                            <h3 className="font-serif text-xl font-light text-luxury-dark">Terapia Światłem LED</h3>
                             <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
-                              Mięśnie twarzy nie działają oddzielnie. Współpracują z powięzią, więzadłami i tkanką podskórną, tworząc układ wzajemnie zależnych napięć. Nadmierne napięcie w jednej okolicy może wpływać na mimikę, symetrię oraz ułożenie tkanek w innych częściach twarzy.
+                              Światło czerwone (630–660 nm), bursztynowe (590 nm) lub bliska podczerwień (830–850 nm) pobudzają mitochondria do produkcji energii komórkowej (ATP) i wspierają naturalną regenerację skóry.
                             </p>
                             <p className="text-[11px] text-luxury-dark/80 italic font-serif">
-                              Zależnie od potrzeb elektrostymulacja może zostać uzupełniona odpowiednio dobranymi technikami manualnymi.
+                              Na zakończenie nakładane są indywidualnie dobrane koktajle regeneracyjne wspierające barierę skórną.
                             </p>
                           </div>
                         </div>
@@ -12739,37 +12736,37 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         {/* Co wyróżnia neurolifting */}
                         <div className="bg-white border border-luxury-sand p-6 md:p-8 rounded-sm max-w-4xl mx-auto text-left shadow-xs space-y-4">
                           <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
-                            Wyróżniki Metody
+                            Wyróżniki Zabiegu
                           </span>
                           <h3 className="font-serif text-xl font-light text-luxury-dark">Co Wyróżnia Neurolifting?</h3>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-luxury-dark font-light">
                             <div className="flex items-center gap-2 p-2.5 bg-luxury-sand/15 rounded-xs">
                               <span className="text-luxury-gold font-bold">✓</span>
-                              <span>Indywidualna analiza mimiki i napięcia tkanek</span>
+                              <span>Poprawa mikrokrążenia i dotlenienia tkanek</span>
                             </div>
                             <div className="flex items-center gap-2 p-2.5 bg-luxury-sand/15 rounded-xs">
                               <span className="text-luxury-gold font-bold">✓</span>
-                              <span>Praca z twarzą jako układem mięśniowo-powięziowym</span>
+                              <span>Wsparcie syntezy kolagenu i elastyny przez fibroblasty</span>
                             </div>
                             <div className="flex items-center gap-2 p-2.5 bg-luxury-sand/15 rounded-xs">
                               <span className="text-luxury-gold font-bold">✓</span>
-                              <span>Precyzyjne zastosowanie cienkich, jednorazowych igieł</span>
+                              <span>Precyzyjne fale Nogiera (1–99 Hz) i ultracienkie igły</span>
                             </div>
                             <div className="flex items-center gap-2 p-2.5 bg-luxury-sand/15 rounded-xs">
                               <span className="text-luxury-gold font-bold">✓</span>
-                              <span>Wykorzystanie programów opartych na częstotliwościach Nogiera</span>
+                              <span>Fototerapia LED (630–660 nm / 590 nm / 830–850 nm)</span>
                             </div>
                             <div className="flex items-center gap-2 p-2.5 bg-luxury-sand/15 rounded-xs">
                               <span className="text-luxury-gold font-bold">✓</span>
-                              <span>Różnicowanie pracy pomiędzy obszarami osłabionymi i spiętymi</span>
+                              <span>Regulacja napięcia mięśni i redukcja obrzęków</span>
                             </div>
                             <div className="flex items-center gap-2 p-2.5 bg-luxury-sand/15 rounded-xs">
                               <span className="text-luxury-gold font-bold">✓</span>
-                              <span>Możliwość połączenia elektrostymulacji z technikami manualnymi</span>
+                              <span>Głęboki relaks, neuroregulacja i reset skóry</span>
                             </div>
                           </div>
                           <div className="pt-2 text-xs text-luxury-dark/90 font-mono">
-                            Czas trwania: <strong>około 45–60 minut</strong> • Podstawa: <strong>analiza mięśniowo-powięziowa i indywidualny dobór parametrów</strong>
+                            Czas trwania: <strong>około 60 minut</strong> • Cena zabiegu: <strong>500 zł</strong>
                           </div>
                         </div>
 

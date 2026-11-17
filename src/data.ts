@@ -544,47 +544,66 @@ export const TREATMENTS: Treatment[] = [
   },
   {
     id: "neurolifting-nogier",
-    title: "Neurolifting — Rytuał Odprężający dla Twarzy",
-    subtitle: "Masaż powięziowy, delikatne mikroprądy i głębokie rozluźnienie napięć",
-    duration: "40–50 min (Podstawowy) / 75 min (Rozszerzony)",
-    price: "600 PLN / 900 PLN (Wariant rozszerzony z pielęgnacją domową)",
-    description: "Głęboko relaksujący, autorski rytuał pracy z mięśniami i tkankami twarzy. Łączy techniki masażu rozluźniającego spięte mięśnie mimiczne z delikatnymi, bezpiecznymi mikroimpulsami. Pomaga zmniejszyć obrzęki, wygładzić rysy twarzy zmęczone stresem i przywrócić cerze wypoczęty, promienny wygląd.",
-    focus: "Rozluźnienie napięć mięśni mimicznych, redukcja obrzęków i zastojów, ukojenie i naturalny lifting",
+    title: "Neurolifting — Elektroakupunktura twarzy",
+    subtitle: "Fale Nogiera w połączeniu ze światłem LED",
+    duration: "ok. 60 minut",
+    price: "500 PLN",
+    description: "Skóra nie starzeje się wyłącznie dlatego, że traci kolagen. Traci kolagen dlatego, że stopniowo zaburza się jej rytm komunikacji – pomiędzy komórkami, układem nerwowym, tkanką łączną i emocjami. Gdy ten subtelny dialog słabnie, komórki skóry przestają prawidłowo odbierać i interpretować sygnały regeneracyjne.\n\nNeurolifting to zaawansowana, nowoczesna forma elektroakupunktury twarzy, w której bardzo delikatne impulsy elektryczne przewodzone są przez ultracienkie igły umieszczane w biologicznie aktywnych punktach skóry. Zabieg integruje wiedzę z zakresu neurobiologii, medycyny chińskiej oraz nowoczesnej fototerapii LED.\n\nMikroprądy o precyzyjnie dobranych częstotliwościach dr. Paula Nogiera (1–99 Hz) oddziałują na zakończenia nerwowe, powięź oraz mięśnie twarzy. W połączeniu ze światłem LED (czerwone 630–660 nm, bursztynowe 590 nm, bliska podczerwień 830–850 nm) oraz indywidualnie dobranymi koktajlami regeneracyjnymi wspierają naturalną równowagę napięcia mięśniowo-powięziowego i odzyskanie przez skórę neuroplastyczności – zdolności do adaptacji, samoregulacji i skutecznej regeneracji.",
+    focus: "Fale Nogiera (1–99 Hz), elektroakupunktura twarzy, fototerapia LED (630–660 nm / 590 nm / 830–850 nm) i neuroplastyczność skóry",
     image: "/how_help_neurolifting.png",
     indications: [
-      "Osoby poszukujące w pełni naturalnych metod poprawy owalu i zagęszczenia tkanek",
-      "Skłonność do obrzęków, zastojów limfatycznych i worków pod oczami",
-      "Narażenie na chroniczny stres, bruksizm i wielogodzinną pracę przed ekranami",
-      "Utrata elastyczności, szary koloryt i zaburzona hydratacja macierzy powięziowej"
+      "Skóra wiotka, pozbawiona napięcia i elastyczności",
+      "Utrata owalu twarzy oraz widoczne zmarszczki",
+      "Skłonność do obrzęków i zastoju limfatycznego",
+      "Zmarszczki mimiczne i nadmierna praca mięśni twarzy",
+      "Przewlekły stres, napięcie mięśniowe i zmęczony wygląd skóry",
+      "Cera reaktywna, wrażliwa lub naczyniowa"
     ],
     contraindications: [
-      "Rozrusznik serca lub aktywne implanty elektroniczne",
-      "Ciąża oraz okres karmienia piersią",
-      "Epilepsja i aktywne zaburzenia neurologiczne napadowe",
-      "Aktywna choroba nowotworowa"
+      "Ciąża",
+      "Rozrusznik serca",
+      "Aktywne infekcje i stany zapalne skóry",
+      "Przerwana ciągłość naskórka",
+      "Ciężkie choroby neurologiczne o charakterze napadowym",
+      "Aktywne leczenie onkologiczne",
+      "Metalowe implanty w obszarze zabiegowym (względnie)"
     ],
     postTreatmentCare: [
-      "W wariancie rozszerzonym: aplikacja zestawu delikatnych miniproduktów do pielęgnacji domowej na 3–5 dni",
-      "Dbałość o optymalne nawodnienie organizmu (min. 2 litry wody dziennie)",
-      "Unikanie sauny, basenu i intensywnego wysiłku przez 48 godzin"
+      "Zalecana seria: 5–7 zabiegów w odstępach co 3–4 tygodnie, aby umożliwić skórze integrację procesu neuroregeneracji",
+      "Zabiegi przypominające co 3–6 miesięcy dla utrwalenia efektów i równowagi komunikacji komórkowej",
+      "Łagodna pielęgnacja wspierająca barierę skórną oraz optymalne nawodnienie organizmu w dniach po zabiegu"
     ],
     activeSubstances: [
-      "Peptydy i składniki wspierające regenerację skóry",
-      "Kwas hialuronowy o działaniu głęboko nawilżającym",
-      "Czysta ektoina i aminokwasy łagodzące",
-      "Ceramidy wspierające barierę ochronną"
+      "Impulsy elektryczne o częstotliwościach dr. Paula Nogiera (1–99 Hz) przewodzone przez ultracienkie igły",
+      "Fototerapia LED: światło czerwone (630–660 nm), bursztynowe (590 nm) i bliska podczerwień (830–850 nm)",
+      "Indywidualnie dobrane koktajle regeneracyjne o działaniu nawilżającym i wspierającym barierę skórną"
     ],
     protocolSteps: [
-      { phase: "I — Przygotowanie i Oczyszczenie", description: "Delikatny demakijaż i przygotowanie skóry do masażu." },
-      { phase: "II — Drenaż i Relaksacja", description: "Usprawnienie krążenia limfy i redukcja porannych obrzęków." },
-      { phase: "III — Masaż Neuroliftingujący", description: "Autorska praca manualna z mięśniami twarzy i delikatnymi mikroprądami." },
-      { phase: "IV — Pielęgnacja Okolicy Oka & Kompres", description: "Troskliwa opieka nad wrażliwą skórą wokół oczu i krem ochronny." }
+      { phase: "I — Kwalifikacja i Dobór Punktów Aktywnych", description: "Ocena potrzeb skóry, jej reaktywności oraz wyznaczenie biologicznie aktywnych punktów zabiegowych." },
+      { phase: "II — Elektroakupunktura Falami Nogiera (1–99 Hz)", description: "Delikatne impulsy elektryczne przewodzone przez ultracienkie igły przywracają fizjologiczny rytm komunikacji nerwowo-skórnej i równoważą napięcie mięśniowo-powięziowe." },
+      { phase: "III — Terapia Światłem LED", description: "Dobór odpowiedniej długości fali LED (czerwone 630–660 nm, bursztynowe 590 nm lub bliska podczerwień 830–850 nm) wspierającej produkcję ATP i fotobiomodulację." },
+      { phase: "IV — Koktajle Regeneracyjne", description: "Aplikacja indywidualnie dobranych preparatów regenerujących, nawilżających i wspierających barierę skórną." }
     ],
     faq: [
       {
-        question: "Czym jest Neurolifting?",
-        answer: "To łagodna metoda pracy z mięśniami twarzy, która łączy relaksujący masaż z delikatnymi mikroimpulsami. Pomaga rozluźnić napięcia powstałe ze stresu, zmniejszyć obrzęki i przywrócić wypoczęty wygląd.",
+        question: "Na czym polega zabieg Neurolifting?",
+        answer: "Neurolifting to zaawansowana, nowoczesna forma elektroakupunktury twarzy, w której bardzo delikatne impulsy elektryczne przewodzone są przez ultracienkie igły umieszczane w biologicznie aktywnych punktach skóry. Mikroprądy o częstotliwościach dr. Paula Nogiera (1–99 Hz) w połączeniu z terapią światłem LED rozluźniają nadmiernie napięte struktury, pobudzają osłabione partie i przywracają fizjologiczny rytm komunikacji nerwowo-skórnej.",
         category: "Koncepcja"
+      },
+      {
+        question: "Jak wygląda zabieg i jakie są odczucia?",
+        answer: "Podczas zabiegu impulsy o częstotliwościach Nogiera (1–99 Hz) łączone są z fototerapią LED (światło czerwone 630–660 nm, bursztynowe 590 nm lub bliska podczerwień 830–850 nm). Mogą pojawić się odczucia delikatnego mrowienia, ciepła oraz głębokiego rozluźnienia. Na zakończenie aplikowane są indywidualnie dobrane koktajle regeneracyjne.",
+        category: "Przebieg"
+      },
+      {
+        question: "Jak długo trwa i jak często powtarzać Neurolifting?",
+        answer: "Zabieg trwa około 60 minut. Zalecana seria to 5–7 zabiegów w odstępach co 3–4 tygodnie, aby umożliwić skórze integrację procesu neuroregeneracji. Zabiegi przypominające co 3–6 miesięcy pozwalają utrwalić efekty i zachować równowagę komunikacji komórkowej.",
+        category: "Plan terapii"
+      },
+      {
+        question: "Jakie efekty daje Neurolifting?",
+        answer: "Zabieg wspiera poprawę mikrokrążenia i dotlenienia tkanek, stymuluje fibroblasty do syntezy kolagenu i elastyny, reguluje napięcie mięśni twarzy (unosząc owal i wygładzając zmarszczki mimiczne), usprawnia drenaż limfatyczny i redukcję obrzęków oraz przynosi głęboki relaks i reset skóry.",
+        category: "Efekty"
       }
     ]
   },
@@ -1558,73 +1577,67 @@ export const TREATMENTS: Treatment[] = [
   },
   {
     id: "neurolifting-face",
-    title: "Neurolifting — Elektrostymulacja Mięśniowo-Powięziowa Twarzy",
-    subtitle: "Częstotliwości Nogiera • Precyzyjna elektrostymulacja • Praca z mięśniami i powięzią",
-    duration: "około 45–60 minut",
-    price: "Cena ustalana podczas kwalifikacji mięśniowo-powięziowej",
-    description: "Specjalistyczny zabieg kosmetologiczny łączący precyzyjną elektrostymulację za pomocą cienkich, jednorazowych igieł z pracą nad układem mięśniowo-powięziowym twarzy. Podczas zabiegu wykorzystywane są programy impulsowe oparte na częstotliwościach Nogiera. Rozmieszczenie igieł, rodzaj częstotliwości, intensywność impulsów oraz czas stymulacji dobierane są indywidualnie po ocenie mimiki, symetrii i napięcia tkanek. Celem jest przywrócenie równowagi pomiędzy obszarami osłabionymi i nadmiernie spiętymi.",
-    focus: "Elektrostymulacja igłowa, częstotliwości Nogiera, tonizacja powięziowa, modelowanie owalu i uniesienie tkanek bez zamrażania mimiki",
+    title: "Neurolifting — Fale Nogiera i Praca Powięziowa Twarzy",
+    subtitle: "Elektroakupunktura twarzy • Częstotliwości Nogiera (1–99 Hz) • Światło LED",
+    duration: "ok. 60 minut",
+    price: "500 PLN",
+    description: "Nowoczesna forma elektroakupunktury twarzy łącząca precyzyjne mikroimpulsy o częstotliwościach dr. Paula Nogiera (1–99 Hz), przewodzone przez ultracienkie, jednorazowe igły, z pracą nad układem mięśniowo-powięziowym twarzy oraz fototerapią LED.\n\nRozmieszczenie igieł, rodzaj częstotliwości oraz długość fali światła LED dobierane są indywidualnie do potrzeb i reaktywności skóry. Zabieg wspiera jednocześnie rozluźnienie nadmiernie spiętych struktur oraz pobudzenie obszarów osłabionych, bez ingerencji w naturalną mimikę.",
+    focus: "Fale Nogiera (1–99 Hz), elektroakupunktura twarzy, fototerapia LED i równowaga mięśniowo-powięziowa",
     image: "/how_help_neurolifting.png",
     indications: [
-      "Utrata napięcia i wyrazistości owalu twarzy",
-      "Opadanie tkanek policzków lub kącików ust",
-      "Widoczna asymetria napięcia mięśniowego twarzy",
-      "Utrwalone napięcia mimiczne (czoło, lwia zmarszczka, żwacze, żuchwa)",
-      "Napięty, zmęczony wyraz twarzy",
-      "Chęć naturalnej poprawy ułożenia tkanek bez sztucznego zwiększania ich objętości (wolumetrii)",
-      "Element całościowego programu modelowania struktury twarzy"
+      "Skóra wiotka, pozbawiona napięcia i elastyczności",
+      "Utrata owalu twarzy oraz widoczne zmarszczki",
+      "Skłonność do obrzęków i zastoju limfatycznego",
+      "Zmarszczki mimiczne i nadmierna praca mięśni twarzy",
+      "Przewlekły stres, napięcie mięśniowe i zmęczony wygląd skóry",
+      "Cera reaktywna, wrażliwa lub naczyniowa"
     ],
     contraindications: [
-      "Ciąża i okres karmienia piersią",
-      "Wszczepiony rozrusznik serca i inne aktywne implanty elektroniczne",
-      "Padaczka (epilepsja)",
-      "Aktywna choroba nowotworowa",
-      "Zaburzenia krzepnięcia lub stosowanie określonych leków przeciwzakrzepowych",
-      "Aktywne infekcje bakteryjne, wirusowe i stany zapalne skóry",
-      "Przerwanie ciągłości naskórka w obszarze zabiegowym",
-      "Zaburzenia czucia w obrębie twarzy",
-      "Niektóre choroby neurologiczne i ogólnoustrojowe"
+      "Ciąża",
+      "Rozrusznik serca",
+      "Aktywne infekcje i stany zapalne skóry",
+      "Przerwana ciągłość naskórka",
+      "Ciężkie choroby neurologiczne o charakterze napadowym",
+      "Aktywne leczenie onkologiczne",
+      "Metalowe implanty w obszarze zabiegowym (względnie)"
     ],
     postTreatmentCare: [
-      "Zachowanie łagodnej pielęgnacji barierowej w dniu zabiegu",
-      "Unikanie dotykania miejsc wkłucia nieumytymi rękami",
-      "Rezygnacja z intensywnego masażu i innych procedur aparaturowych w tym samym dniu",
-      "Unikanie sauny, basenu i intensywnego wysiłku fizycznego przez wskazany okres",
-      "Codzienna fotoprotekcja mineralna"
+      "Łagodna pielęgnacja nawilżająca i wspierająca barierę skórną w dniu zabiegu",
+      "Zalecana seria 5–7 zabiegów co 3–4 tygodnie oraz zabiegi przypominające co 3–6 miesięcy",
+      "Dbałość o odpowiednie nawodnienie organizmu i codzienną ochronę przeciwsłoneczną"
     ],
     activeSubstances: [
-      "Precyzyjne impulsy mikroprądowe oparte na biologicznych częstotliwościach Paula Nogiera",
-      "Sterylne jednorazowe mikroigły akupunkturowe",
-      "Preparaty bionomiczne wspierające komfort i barierę naskórkową"
+      "Impulsy mikroprądowe o częstotliwościach dr. Paula Nogiera (1–99 Hz)",
+      "Ultracienkie, jednorazowe igły w biologicznie aktywnych punktach skóry",
+      "Światło LED: czerwone (630–660 nm), bursztynowe (590 nm), bliska podczerwień (830–850 nm)",
+      "Indywidualnie dobrane koktajle regeneracyjne wspierające barierę skórną"
     ],
     protocolSteps: [
-      { phase: "I — Analiza Mięśniowo-Powięziowa", description: "Szczegółowa ocena mimiki, symetrii, zarysowania owalu oraz identyfikacja stref osłabienia i nadmiernego napięcia mięśniowego." },
-      { phase: "II — Przygotowanie Skóry", description: "Dokładne oczyszczenie i antyseptyka obszaru twarzy zgodnie z rygorystyczną procedurą pracy z igłami." },
-      { phase: "III — Indywidualne Rozmieszczenie Igieł", description: "Cienkie, jednorazowe igły umieszczane są w precyzyjnych punktach anatomicznych dobranych do indywidualnego układu napięć." },
-      { phase: "IV — Elektrostymulacja Częstotliwościami Nogiera", description: "Przekazanie do igieł impulsów o spersonalizowanej częstotliwości i intensywności, dostosowywanych do reakcji tkanek i odczuć klientki." },
-      { phase: "V — Integracja Mięśniowo-Powięziowa", description: "Zależnie od potrzeb uzupełnienie zabiegu technikami manualnymi wspierającymi rozluźnienie spięć i harmonijną współpracę tkanek." },
-      { phase: "VI — Wyciszenie i Pielęgnacja Skóry", description: "Bezpieczne usunięcie igieł, ocena reakcji tkanek i zastosowanie pielęgnacji kojącej barierę naskórkową." }
+      { phase: "I — Kwalifikacja i Dobór Punktów Aktywnych", description: "Ocena mimiki, napięć oraz aktualnych potrzeb skóry w celu wyznaczenia biologicznie aktywnych punktów zabiegowych." },
+      { phase: "II — Elektroakupunktura Falami Nogiera (1–99 Hz)", description: "Precyzyjne przewodzenie delikatnych impulsów przez ultracienkie igły w celu zharmonizowania napięcia mięśniowo-powięziowego." },
+      { phase: "III — Fotobiomodulacja Światłem LED", description: "Naświetlanie dobraną długością fali LED (630–660 nm, 590 nm lub 830–850 nm) wspierające produkcję ATP i regenerację." },
+      { phase: "IV — Koktajl Regeneracyjny", description: "Aplikacja indywidualnie dobranych preparatów regenerujących, nawilżających i kojących barierę skórną." }
     ],
     faq: [
       {
-        question: "Czym są częstotliwości Nogiera w neuroliftingu?",
-        answer: "To programy impulsowe oparte na zakresach częstotliwości opisanych przez francuskiego lekarza Paula Nogiera. Pozwalają one różnicować charakter elektrostymulacji i dopasowywać ją do pracy z mięśniami lub powięzią. Nie oznacza to leczenia układu nerwowego ani regeneracji nerwów — częstotliwości stanowią zaawansowane narzędzie techniczne prowadzenia bezpiecznej elektrostymulacji kosmetologicznej.",
+        question: "Czym są częstotliwości Nogiera i jak działają z LED?",
+        answer: "To precyzyjnie dobrane mikroprądy o częstotliwościach 1–99 Hz opisanych przez dr. Paula Nogiera, które oddziałują na receptory i układ mięśniowo-powięziowy. W połączeniu z fototerapią LED (światło czerwone, bursztynowe lub bliska podczerwień) wspierają produkcję ATP oraz fizjologiczną regenerację skóry.",
         category: "Technologia"
       },
       {
-        question: "Czy neurolifting zamraża mimikę jak botoks?",
-        answer: "Absolutnie nie. Neurolifting nie poraża mięśni ani nie odbiera naturalnej ekspresji. Jego celem jest przywrócenie balansu pomiędzy mięśniami nadmiernie spiętymi a osłabionymi, co daje efekt wypoczętej, naturalnie uniesionej twarzy o pełnej, żywej mimice.",
+        question: "Czy neurolifting zmienia lub zamraża mimikę?",
+        answer: "Nie. Zabieg wspiera naturalną równowagę pomiędzy mięśniami nadmiernie spiętymi a osłabionymi, dzięki czemu twarz zachowuje pełną, naturalną ekspresję oraz wypoczęty wygląd.",
         category: "Efekty"
       },
       {
-        question: "Czy zabieg jest bolesny i czy zostawia ślady?",
-        answer: "Stosowane są ultra cienkie, jednorazowe igły akupunkturowe. Ich wprowadzenie jest zazwyczaj niemal nieodczuwalne, a impulsy elektryczne dają uczucie delikatnego mrowienia lub rytmicznego pulsowania. W miejscach wkłucia może pojawić się chwilowe zaczerwienienie lub sporadycznie małe zasinienie, które szybko ustępują.",
+        question: "Jakie są odczucia i jak długo trwa zabieg?",
+        answer: "Zabieg trwa około 60 minut. Podczas sesji mogą pojawić się odczucia delikatnego mrowienia, ciepła oraz głębokiego rozluźnienia.",
         category: "Komfort"
       },
       {
-        question: "Czy neurolifting zastępuje lifting chirurgiczny lub wypełniacze?",
-        answer: "Neurolifting nie zastępuje chirurgii plastycznej ani wolumetrii tkankowej. Koncentruje się na fizjologicznej pracy z napięciem mięśniowo-powięziowym i naturalną dynamiką twarzy, dając naturalną poprawę konturu i wypoczęty wygląd.",
-        category: "Uczciwe fakty"
+        question: "Jak często warto wykonywać zabieg?",
+        answer: "Zalecana seria to 5–7 zabiegów w odstępach co 3–4 tygodnie, a następnie zabiegi przypominające co 3–6 miesięcy dla utrwalenia efektów.",
+        category: "Plan terapii"
       }
     ]
   },
@@ -2491,7 +2504,7 @@ export const ARTICLES: MagazineArticle[] = [
     content: [
       "Większość kobiet zgłaszających się do naszego instytutu w Jelczu-Laskowicach nie kojarzy swoich problemów skórnych ze stanem układu nerwowego. Zmiany trądzikowe na linii żuchwy, nagłe pieczenie policzków, poszarzały odcień cery czy nawracający rumień bywają błędnie diagnozowane jako proste defekty kosmetyczne. Wnikliwy wywiad kosmetologiczny pokazuje jednak, że u podłoża niemal każdej przewlekłej dermatozy leży nadaktywność współczulnego układu nerwowego i przeciążenie osi stresowej HPA.",
       "Skóra nie jest bierną powłoką. Jest gęsto unerwionym, autonomicznym narządem neuroendokrynnym, który potrafi samodzielnie syntetyzować hormony stresu oraz reagować na każdy impuls nerwowy. Kiedy organizm znajduje się w stanie chronicznej czujności, krew i składniki odżywcze są priorytetowo kierowane do serca i mięśni, a mikrokrążenie skórne ulega wazokonstrukcji (zwężeniu naczyń). W efekcie komórki skóry ulegają chronicznemu niedotlenieniu, a procesy naprawcze zostają wyhamowane.",
-      "Odpowiedzią na te wyzwania w Slow Skin Concept są procedury neurokosmetyczne oraz autorskie techniki manualne: <a href=\"/neurolifting-nogier/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Neurolifting — Rytuał Odprężający dla Twarzy</a> oraz terapia <a href=\"/adult-acne-therapy/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Adult Acne Therapy</a>. Łączymy w nich stymulację włókien C-tactile z biozgodnymi substancjami uciszającymi receptory nerwowe.",
+      "Odpowiedzią na te wyzwania w Slow Skin Concept są procedury neurokosmetyczne i neuroregulacyjne: <a href=\"/neurolifting-nogier/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Neurolifting — Elektroakupunktura twarzy (Fale Nogiera i światło LED)</a> oraz terapia <a href=\"/adult-acne-therapy/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Adult Acne Therapy</a>. Łączymy w nich przywracanie fizjologicznego rytmu komunikacji nerwowo-skórnej z biozgodną regeneracją.",
       "Zapraszamy do sprawdzenia reaktywności swojej cery za pomocą kwestionariusza <a href=\"ai-analiza\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Analiza Skóry Online</a> lub bezpośredniego umówienia wizyty w naszym kameralnym gabinecie przez <a href=\"rezerwacja-online\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Formularz Rezerwacji Wizyty</a>."
     ],
     sections: [
@@ -3356,9 +3369,9 @@ export const REVIEWS: Review[] = [
     id: "rev-3",
     author: "Aleksandra Wiśniewska",
     title: "Prawdziwy azyl spokoju",
-    text: "Prawdziwy azyl spokoju i relaksu! Zabieg Neuroliftingu z masażem twarzy to czysta przyjemność — całe napięcie i zmęczenie zeszły ze mnie momentalnie. Kosmetyki są delikatne i bezzapachowe, idealne dla mojej wrażliwej cery.",
+    text: "Prawdziwy azyl spokoju i relaksu! Zabieg Neuroliftingu przyniósł mi ogromne odprężenie — całe napięcie i zmęczenie zeszły ze mnie momentalnie, a skóra wyglądała na wypoczętą i rozświetloną. Kosmetyki są delikatne i bezzapachowe, idealne dla mojej wrażliwej cery.",
     rating: 5,
-    service: "Neurolifting — Rytuał Odprężający dla Twarzy",
+    service: "Neurolifting — Elektroakupunktura twarzy",
     platform: "Google",
     verified: true
   },

@@ -298,10 +298,10 @@ export const MethodPage: React.FC<MethodPageProps> = ({ onLinkClick, onOpenBooki
       cta: "Zapytaj, czy Neurolifting jest odpowiedni dla Ciebie",
       url: "/neurolifting/",
       bullets: [
-        "Praca manualno-neuromięśniowa i powięziowa",
-        "Poprawa napięcia tkanek i modelowanie owalu twarzy",
-        "Wyciszenie wzorców napięciowych w mięśniach mimicznych",
-        "Aplikowany wyłącznie na skórze stabilnej biologicznie"
+        "Elektroakupunktura twarzy — fale Nogiera (1–99 Hz) przez ultracienkie igły",
+        "Terapia światłem LED (630–660 nm, 590 nm, 830–850 nm) wspierająca ATP",
+        "Regulacja napięcia mięśniowo-powięziowego i poprawa mikrokrążenia",
+        "Aplikowany wyłącznie po kwalifikacji i ocenie gotowości skóry"
       ]
     }
   ];

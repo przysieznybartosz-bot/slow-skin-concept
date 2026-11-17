@@ -139,12 +139,12 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
     {
       id: "neurolifting-nogier",
       url: "/neurolifting/",
-      title: "Neurolifting — Rytuał Odprężający dla Twarzy",
-      subtitle: "Masaż powięziowy, delikatne mikroprądy i biologiczne rozluźnienie napięć",
-      tag: "RELAKSACJA • DRENAŻ • MIKROKRĄŻENIE",
-      time: "40–75 minut",
-      price: "250–350 zł",
-      desc: "Nieinwazyjna stymulacja częstotliwościami Nogiera i technikami manualnymi uwalniająca spiętą powięź, wspomagająca drenaż chłonki i przynosząca głęboki relaks.",
+      title: "Neurolifting — Elektroakupunktura twarzy",
+      subtitle: "Fale Nogiera (1–99 Hz) w połączeniu ze światłem LED",
+      tag: "FALE NOGIERA • ŚWIATŁO LED • NEUROREGULACJA",
+      time: "ok. 60 minut",
+      price: "500 zł",
+      desc: "Nowoczesna elektroakupunktura twarzy: ultracienkie igły przewodzące mikroimpulsy o częstotliwościach dr. Paula Nogiera (1–99 Hz) połączone z fototerapią LED (630–660 nm, 590 nm, 830–850 nm) oraz koktajlami regeneracyjnymi.",
       image: "/how_help_neurolifting.png"
     }
   ];
@@ -153,8 +153,8 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
   const technologiesList = [
     {
       name: "Neurolifting",
-      role: "Fale częstotliwościowe Nogiera i mikroprądy",
-      desc: "Biologiczne wyciszenie receptorów czuciowych, drenaż limfatyczny i głębokie rozluźnienie spiętych struktur powięziowych."
+      role: "Elektroakupunktura twarzy: Fale Nogiera (1–99 Hz) i światło LED",
+      desc: "Delikatne impulsy o częstotliwościach Nogiera przewodzone przez ultracienkie igły w połączeniu z fototerapią LED — przywraca komunikację nerwowo-skórną, reguluje napięcie mięśni i pobudza produkcję ATP."
     },
     {
       name: "Mezoterapia bezigłowa",

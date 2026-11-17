@@ -55,9 +55,9 @@ export const KNOWLEDGE_BASE_DATA: KnowledgeBase = {
     philosophy: "Quiet luxury, bionomiczna pielęgnacja, neurokosmetyka, regeneracja komórkowa naskórka zamiast agresywnej, kwasowej lub laserowej stymulacji. Nasz gabinet to oaza ciszy i głębokiego relaksu przywracająca absolutną homeostazę tkankową i wyciszająca neuro-wrażliwość i inflammaging.",
     pillars: [
       "Bionomiczna ochrona skóry (kosmetyki wolne od konserwantów, silikonów, substancji zapachowych i barwników)",
-      "Neuroedukacja i redukcja chronicznego kortyzolu niszczącego kolagen",
-      "Neuromiostymulacja i powięziowa praca manualna (Slow Neuro-Modeling)",
-      "Zero-inwazyjność i poszanowanie dla płaszcza hydrolipidowego"
+      "Neuroedukacja i przywracanie fizjologicznego rytmu komunikacji nerwowo-skórnej",
+      "Neurolifting — elektroakupunktura twarzy falami Nogiera (1–99 Hz) w połączeniu ze światłem LED",
+      "Poszanowanie dla biologii skóry i płaszcza hydrolipidowego"
     ]
   },
   method: {
