@@ -67,7 +67,10 @@ import {
   Percent,
   Gift,
   CheckCircle,
-  RefreshCw
+  RefreshCw,
+  Link2,
+  Share2,
+  Copy
 } from "lucide-react";
 import { 
   requestGoogleCalendarAccess, 
@@ -88,7 +91,7 @@ import WcagWidget from "./components/WcagWidget";
 import CookieBot from "./components/CookieBot";
 import { OriginalImageManagerModal } from "./components/OriginalImageManagerModal";
 import { TreatmentCardImageModal } from "./components/TreatmentCardImageModal";
-import { parseCurrentRoute, syncRoute } from "./utils/router";
+import { parseCurrentRoute, syncRoute, getArticlePath, getArticleFullUrl } from "./utils/router";
 import { EditableImage } from "./components/EditableImage";
 import { isEditorMode, toggleEditorMode, setEditorMode, isGoogleAIStudio } from "./utils/editorMode";
 import { optimizeImageForStorage, saveTreatmentCustomImage } from "./utils/imageOptimizer";
@@ -707,8 +710,64 @@ export default function App() {
   const [globalSearchQuery, setGlobalSearchQuery] = useState("");
   const [isSearchPopupOpen, setIsSearchPopupOpen] = useState(false);
   const [isAllArticlesModalOpen, setIsAllArticlesModalOpen] = useState(false);
+  const [copiedArticleId, setCopiedArticleId] = useState<string | null>(null);
   const [userSelectedIndications, setUserSelectedIndications] = useState<Record<string, boolean>>({});
   const [userCheckedContraindications, setUserCheckedContraindications] = useState<Record<string, boolean>>({});
+
+  const copyArticleLink = useCallback((article: MagazineArticle, showBottomNotice = false) => {
+    const shareUrl = getArticleFullUrl(article.id);
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(shareUrl).catch(() => {});
+    }
+    setCopiedArticleId(article.id);
+    if (showBottomNotice) {
+      setSharedNotification(true);
+      setTimeout(() => setSharedNotification(false), 3000);
+    }
+    setTimeout(() => {
+      setCopiedArticleId((prev) => (prev === article.id ? null : prev));
+    }, 3000);
+    triggerToast(`Skopiowano link do artykułu: ${shareUrl}`);
+  }, []);
+
+  const shareArticleNative = useCallback(async (article: MagazineArticle) => {
+    const shareUrl = getArticleFullUrl(article.id);
+    if (typeof navigator !== "undefined" && typeof navigator.share === "function") {
+      try {
+        await navigator.share({
+          title: article.title,
+          text: article.lead,
+          url: shareUrl
+        });
+        return;
+      } catch (err: any) {
+        if (err?.name === "AbortError") return;
+      }
+    }
+    copyArticleLink(article, true);
+  }, [copyArticleLink]);
+
+  const openArticleInJournal = useCallback((article: MagazineArticle, options?: { scrollToReader?: boolean; closeMenus?: boolean }) => {
+    if (options?.closeMenus) {
+      setIsMegaMenuOpen(false);
+      setIsMobileMenuOpen(false);
+    }
+    setSelectedArticle(article);
+    setSelectedCategory("ALL");
+    setActiveTab("journal");
+    if (options?.scrollToReader) {
+      setTimeout(() => {
+        const el = document.getElementById("article-reader-pane");
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }, 60);
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, []);
 
   // Demo account constant (for testing sample filled card)
   const DEMO_ACCOUNT_EMAIL = "klientka@slow-skin-concept.pl";
@@ -2748,7 +2807,10 @@ export default function App() {
     }
 
     // Dynamic Article URL Matcher (by id or slug)
-    const cleanArticleSlug = url.replace(/^\/+|\/+$/g, "").replace("baza-wiedzy/", "").replace("artykul/", "").replace("article:", "");
+    const cleanArticleSlug = url
+      .replace(/^\/+|\/+$/g, "")
+      .replace(/^(baza-wiedzy|artykuly|artykul|magazyn)\//, "")
+      .replace("article:", "");
     const foundArticle = ARTICLES.find(item => 
       item.id === cleanArticleSlug || 
       item.id.replace(/^art-/, "") === cleanArticleSlug.replace(/^art-/, "")
@@ -3708,16 +3770,16 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
 
                     <div className="max-h-[175px] overflow-y-auto pr-1 space-y-1 scrollbar-thin">
                       {ARTICLES.map((art) => (
-                        <button
+                        <a
                           key={art.id}
-                          onClick={() => {
-                            setIsMegaMenuOpen(false);
-                            setSelectedArticle(art);
-                            setSelectedCategory("ALL");
-                            setActiveTab("journal");
-                            window.scrollTo({ top: 0, behavior: "smooth" });
+                          href={getArticlePath(art.id)}
+                          onClick={(e) => {
+                            if (!e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey && e.button === 0) {
+                              e.preventDefault();
+                              openArticleInJournal(art, { closeMenus: true });
+                            }
                           }}
-                          className="w-full text-left p-1.5 hover:bg-white/80 border border-transparent hover:border-luxury-sand/50 transition-all group block"
+                          className="w-full text-left p-1.5 hover:bg-white/80 border border-transparent hover:border-luxury-sand/50 transition-all group block no-underline"
                         >
                           <div className="flex items-center justify-between text-[8px] font-mono text-luxury-gold tracking-wider">
                             <span className="uppercase font-semibold truncate max-w-[150px]">{art.category}</span>
@@ -3726,7 +3788,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           <p className="font-serif text-[11px] leading-snug text-luxury-dark group-hover:text-luxury-gold transition-colors line-clamp-1 mt-0.5">
                             {art.title}
                           </p>
-                        </button>
+                        </a>
                       ))}
                     </div>
                   </div>
@@ -4682,23 +4744,23 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             Artykuły Eksperckie (Katarzyna Brzezińska):
                           </p>
                           {ARTICLES.map((art) => (
-                            <button
+                            <a
                               key={art.id}
-                              onClick={() => {
-                                setIsMobileMenuOpen(false);
-                                setSelectedArticle(art);
-                                setSelectedCategory("ALL");
-                                setActiveTab("journal");
-                                window.scrollTo({ top: 0, behavior: "smooth" });
+                              href={getArticlePath(art.id)}
+                              onClick={(e) => {
+                                if (!e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey && e.button === 0) {
+                                  e.preventDefault();
+                                  openArticleInJournal(art, { closeMenus: true });
+                                }
                               }}
-                              className="text-left text-luxury-dark hover:text-luxury-gold block w-full py-1 border-b border-luxury-sand/15 last:border-0"
+                              className="text-left text-luxury-dark hover:text-luxury-gold block w-full py-1 border-b border-luxury-sand/15 last:border-0 no-underline"
                             >
                               <div className="flex items-center justify-between text-[8px] font-mono text-luxury-gold tracking-wider">
                                 <span className="uppercase font-semibold">{art.category}</span>
                                 <span className="text-luxury-dark/50">{art.readingTime}</span>
                               </div>
                               <span className="font-serif text-[11px] leading-tight block mt-0.5">{art.title}</span>
-                            </button>
+                            </a>
                           ))}
                         </div>
                       </div>
@@ -7117,17 +7179,19 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             category: "FIZJOLOGIA"
                           }
                         ].map((item) => (
-                          <div
+                          <a
                             key={item.id}
-                            onClick={() => {
-                              const article = ARTICLES.find(a => a.id === item.id);
-                              if (article) {
-                                setSelectedArticle(article);
-                                setActiveTab("journal");
-                                window.scrollTo({ top: 0, behavior: "smooth" });
+                            href={getArticlePath(item.id)}
+                            onClick={(e) => {
+                              if (!e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey && e.button === 0) {
+                                e.preventDefault();
+                                const article = ARTICLES.find(a => a.id === item.id);
+                                if (article) {
+                                  openArticleInJournal(article);
+                                }
                               }
                             }}
-                            className="perspective-1000 h-[175px] cursor-pointer group w-full"
+                            className="perspective-1000 h-[175px] cursor-pointer group w-full block no-underline"
                           >
                             <div className="relative w-full h-full transition-transform duration-700 preserve-3d group-hover:rotate-y-180">
                               {/* FRONT SIDE */}
@@ -7157,7 +7221,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                 </div>
                               </div>
                             </div>
-                          </div>
+                          </a>
                         ))}
                       </div>
                     </div>
@@ -8099,7 +8163,10 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
                 
                 {/* Article List Left Pane */}
-                <div className="lg:col-span-5 space-y-8">
+                <div
+                  id="journal-article-list"
+                  className={`lg:col-span-5 space-y-8 scroll-mt-28 ${selectedArticle ? "order-2 lg:order-1" : "order-1"}`}
+                >
                   {(() => {
                     const filtered = ARTICLES.filter(art => {
                       const matchesCategory = selectedCategory === "ALL" || art.category === selectedCategory;
@@ -8129,34 +8196,79 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       );
                     }
                     
-                    return filtered.map((article) => (
-                      <div 
-                        key={article.id}
-                        onClick={() => setSelectedArticle(article)}
-                        className={`p-6 border transition-all cursor-pointer text-left ${selectedArticle?.id === article.id ? "bg-white border-luxury-gold/50 shadow-sm" : "border-luxury-sand hover:bg-white/40"}`}
-                      >
-                        {article.image && (
-                          <div className="aspect-[16/9] w-full overflow-hidden mb-4 border border-luxury-sand/50 bg-luxury-cream/40">
-                            <img 
-                              src={article.image} 
-                              alt={article.title} 
-                              className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" 
-                              referrerPolicy="no-referrer"
-                            />
+                    return filtered.map((article) => {
+                      const articlePath = getArticlePath(article.id);
+                      const articleFullUrl = getArticleFullUrl(article.id);
+                      const isCopied = copiedArticleId === article.id;
+                      return (
+                        <article
+                          key={article.id}
+                          className={`p-6 border transition-all text-left ${selectedArticle?.id === article.id ? "bg-white border-luxury-gold/50 shadow-sm" : "border-luxury-sand hover:bg-white/40"}`}
+                        >
+                          <a
+                            href={articlePath}
+                            onClick={(e) => {
+                              if (!e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey && e.button === 0) {
+                                e.preventDefault();
+                                openArticleInJournal(article, { scrollToReader: window.innerWidth < 1024 });
+                              }
+                            }}
+                            className="block group no-underline text-inherit cursor-pointer"
+                          >
+                            {article.image && (
+                              <div className="aspect-[16/9] w-full overflow-hidden mb-4 border border-luxury-sand/50 bg-luxury-cream/40">
+                                <img 
+                                  src={article.image} 
+                                  alt={article.title} 
+                                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                                  referrerPolicy="no-referrer"
+                                />
+                              </div>
+                            )}
+                            <div className="flex justify-between items-center font-mono text-[9px] tracking-wider text-luxury-gold mb-3">
+                              <span className="uppercase font-semibold">{article.category}</span>
+                              <span>{article.readingTime}</span>
+                            </div>
+                            <h3 className="font-serif text-xl font-light mb-2 group-hover:text-luxury-gold transition-colors text-luxury-dark">{article.title}</h3>
+                            <p className="text-xs text-luxury-dark/95 font-light leading-relaxed line-clamp-3 mb-4">{article.lead}</p>
+                          </a>
+
+                          <div className="pt-3 border-t border-luxury-sand/40 flex flex-wrap items-center justify-between gap-2">
+                            <a
+                              href={articlePath}
+                              onClick={(e) => {
+                                if (!e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey && e.button === 0) {
+                                  e.preventDefault();
+                                  openArticleInJournal(article, { scrollToReader: window.innerWidth < 1024 });
+                                }
+                              }}
+                              className="inline-flex items-center gap-1.5 text-xs font-mono text-luxury-dark hover:text-luxury-gold font-medium group no-underline"
+                            >
+                              <span>Czytaj artykuł</span>
+                              <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1 text-luxury-gold" />
+                            </a>
+
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                copyArticleLink(article);
+                              }}
+                              className={`inline-flex items-center gap-1.5 px-2.5 py-1 border text-[9px] font-mono uppercase tracking-wider transition-all cursor-pointer ${
+                                isCopied
+                                  ? "border-emerald-300 bg-emerald-50 text-emerald-700"
+                                  : "border-luxury-sand/70 bg-white/80 text-luxury-dark/80 hover:border-luxury-gold hover:text-luxury-dark"
+                              }`}
+                              title={`Kopiuj link: ${articleFullUrl}`}
+                            >
+                              {isCopied ? <Check className="w-3 h-3" /> : <Link2 className="w-3 h-3 text-luxury-gold" />}
+                              <span>{isCopied ? "Skopiowano link" : "Kopiuj link"}</span>
+                            </button>
                           </div>
-                        )}
-                        <div className="flex justify-between items-center font-mono text-[9px] tracking-wider text-luxury-gold mb-3">
-                          <span className="uppercase font-semibold">{article.category}</span>
-                          <span>{article.readingTime}</span>
-                        </div>
-                        <h3 className="font-serif text-xl font-light mb-2 hover:text-luxury-gold transition-colors">{article.title}</h3>
-                        <p className="text-xs text-luxury-dark/95 font-light leading-relaxed line-clamp-3 mb-4">{article.lead}</p>
-                        <div className="flex items-center gap-2 text-xs font-mono text-luxury-dark font-medium group">
-                          Czytaj artykuł 
-                          <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1 text-luxury-gold" />
-                        </div>
-                      </div>
-                    ));
+                        </article>
+                      );
+                    });
                   })()}
                   
                   {/* Decorative Botanicals Banner */}
@@ -8179,9 +8291,29 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                 </div>
 
                 {/* Article Reader Right Pane */}
-                <div className="lg:col-span-7 bg-white border border-luxury-sand p-8 md:p-12 min-h-[500px] flex flex-col justify-between">
+                <div
+                  id="article-reader-pane"
+                  className={`lg:col-span-7 bg-white border border-luxury-sand p-6 sm:p-8 md:p-12 min-h-[500px] flex flex-col justify-between scroll-mt-28 ${selectedArticle ? "order-1 lg:order-2" : "order-2"}`}
+                >
                   {selectedArticle ? (
                     <div className="space-y-6">
+                      {/* Mobile back-to-list button */}
+                      <div className="flex lg:hidden items-center justify-between pb-2 border-b border-luxury-sand/40">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const listEl = document.getElementById("journal-article-list");
+                            if (listEl) {
+                              listEl.scrollIntoView({ behavior: "smooth", block: "start" });
+                            }
+                          }}
+                          className="inline-flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-widest text-luxury-gold hover:text-luxury-dark transition-colors cursor-pointer"
+                        >
+                          <ChevronLeft className="w-3.5 h-3.5" />
+                          <span>Wszystkie artykuły ({ARTICLES.length})</span>
+                        </button>
+                      </div>
+
                       <div className="border-b border-luxury-sand pb-4 flex flex-wrap justify-between items-center text-xs font-mono tracking-widest text-luxury-dark/90 uppercase gap-2">
                         <div className="flex flex-wrap items-center gap-2">
                           <span>Autorka: {selectedArticle.author}</span>
@@ -8194,6 +8326,50 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       </div>
                       
                       <h2 className="font-serif text-3xl md:text-4xl font-light leading-snug">{selectedArticle.title}</h2>
+
+                      {/* Direct Shareable Article URL Bar */}
+                      <div className="bg-luxury-cream/35 border border-luxury-sand/60 p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div className="min-w-0 flex-1 space-y-0.5 text-left">
+                          <span className="font-mono text-[8.5px] uppercase tracking-[0.2em] text-luxury-gold font-semibold flex items-center gap-1.5">
+                            <Link2 className="w-3 h-3" /> Bezpośredni adres artykułu do udostępniania
+                          </span>
+                          <a
+                            href={getArticlePath(selectedArticle.id)}
+                            onClick={(e) => e.preventDefault()}
+                            className="block font-mono text-[11px] text-luxury-dark/85 hover:text-luxury-gold truncate underline-offset-2 hover:underline"
+                            title={getArticleFullUrl(selectedArticle.id)}
+                          >
+                            {getArticleFullUrl(selectedArticle.id)}
+                          </a>
+                        </div>
+                        <div className="flex items-center gap-2 shrink-0">
+                          <button
+                            type="button"
+                            onClick={() => copyArticleLink(selectedArticle, true)}
+                            className={`px-3 py-2 border text-[10px] font-mono uppercase tracking-widest transition-all flex items-center gap-1.5 cursor-pointer ${
+                              copiedArticleId === selectedArticle.id
+                                ? "bg-emerald-50 border-emerald-300 text-emerald-700"
+                                : "bg-white hover:bg-luxury-dark hover:text-white text-luxury-dark border-luxury-sand/80"
+                            }`}
+                          >
+                            {copiedArticleId === selectedArticle.id ? (
+                              <Check className="w-3.5 h-3.5" />
+                            ) : (
+                              <Copy className="w-3.5 h-3.5 text-luxury-gold" />
+                            )}
+                            <span>{copiedArticleId === selectedArticle.id ? "Skopiowano" : "Kopiuj link"}</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => shareArticleNative(selectedArticle)}
+                            className="px-3 py-2 bg-luxury-dark hover:bg-luxury-gold text-white text-[10px] font-mono uppercase tracking-widest transition-all flex items-center gap-1.5 cursor-pointer"
+                            title="Udostępnij link przez telefon lub komunikator"
+                          >
+                            <Share2 className="w-3.5 h-3.5" />
+                            <span>Udostępnij</span>
+                          </button>
+                        </div>
+                      </div>
 
                       {/* Editorial Illustration / Photography */}
                       {selectedArticle.image && (
@@ -8486,15 +8662,45 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
 
                       {/* Active Social Share Panel */}
                       <div className="bg-luxury-cream/30 border border-luxury-sand/50 p-5 space-y-3.5 my-8">
-                        <div className="flex items-center justify-between">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
                           <span className="font-mono text-[9px] tracking-[0.2em] text-luxury-dark/90 uppercase">Udostępnij ten artykuł ekspercki</span>
                           <span className="text-[10px] font-mono text-luxury-gold">{selectedArticle.readingTime}</span>
                         </div>
+                        <div className="text-[11px] font-mono text-luxury-dark/80 bg-white/80 border border-luxury-sand/50 px-3 py-2 truncate select-all">
+                          {getArticleFullUrl(selectedArticle.id)}
+                        </div>
                         <div className="flex flex-wrap items-center gap-2.5">
+                          {/* Copy canonical link button */}
+                          <button
+                            type="button"
+                            onClick={() => copyArticleLink(selectedArticle, true)}
+                            className={`border px-4 py-2 text-[10px] font-mono uppercase tracking-widest transition-all duration-300 flex items-center gap-2 cursor-pointer focus:outline-none focus:ring-1 focus:ring-luxury-gold ${
+                              copiedArticleId === selectedArticle.id
+                                ? "bg-emerald-50 border-emerald-300 text-emerald-700"
+                                : "bg-luxury-dark text-white border-luxury-dark hover:bg-luxury-gold hover:border-luxury-gold"
+                            }`}
+                            title="Skopiuj bezpośredni link do artykułu"
+                          >
+                            {copiedArticleId === selectedArticle.id ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                            <span>{copiedArticleId === selectedArticle.id ? "Skopiowano link" : "Kopiuj link"}</span>
+                          </button>
+
+                          {/* Native Share / WhatsApp */}
+                          <button
+                            type="button"
+                            onClick={() => shareArticleNative(selectedArticle)}
+                            className="bg-white hover:bg-luxury-cream text-luxury-dark border border-luxury-sand/70 hover:border-luxury-gold px-4 py-2 text-[10px] font-mono uppercase tracking-widest transition-all duration-300 flex items-center gap-2 cursor-pointer focus:outline-none focus:ring-1 focus:ring-luxury-gold"
+                            title="Udostępnij artykuł"
+                          >
+                            <Share2 className="w-3.5 h-3.5" /> Udostępnij
+                          </button>
+
                           {/* FB button */}
                           <button
+                            type="button"
                             onClick={() => {
-                              const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`;
+                              const articleUrl = getArticleFullUrl(selectedArticle.id);
+                              const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(articleUrl)}`;
                               window.open(shareUrl, "_blank", "width=600,height=400");
                             }}
                             className="bg-white hover:bg-luxury-cream text-luxury-dark border border-luxury-sand/70 hover:border-luxury-gold px-4 py-2 text-[10px] font-mono uppercase tracking-widest transition-all duration-300 flex items-center gap-2 cursor-pointer focus:outline-none focus:ring-1 focus:ring-luxury-gold"
@@ -8505,8 +8711,10 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
 
                           {/* X button */}
                           <button
+                            type="button"
                             onClick={() => {
-                              const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(selectedArticle.title)}&url=${encodeURIComponent(window.location.href)}`;
+                              const articleUrl = getArticleFullUrl(selectedArticle.id);
+                              const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(selectedArticle.title)}&url=${encodeURIComponent(articleUrl)}`;
                               window.open(shareUrl, "_blank", "width=600,height=300");
                             }}
                             className="bg-white hover:bg-luxury-cream text-luxury-dark border border-luxury-sand/70 hover:border-luxury-gold px-4 py-2 text-[10px] font-mono uppercase tracking-widest transition-all duration-300 flex items-center gap-2 cursor-pointer focus:outline-none focus:ring-1 focus:ring-luxury-gold"
@@ -8515,15 +8723,12 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             <Twitter className="w-3.5 h-3.5" /> X
                           </button>
 
-                          {/* Instagram button with copy-link feature for Instagram bio/share */}
+                          {/* Instagram button with clean canonical copy-link */}
                           <button
-                            onClick={() => {
-                              navigator.clipboard.writeText(`${window.location.origin}${window.location.pathname}#/journal/${selectedArticle.id}`);
-                              setSharedNotification(true);
-                              setTimeout(() => setSharedNotification(false), 3000);
-                            }}
+                            type="button"
+                            onClick={() => copyArticleLink(selectedArticle, true)}
                             className="bg-white hover:bg-luxury-cream text-luxury-dark border border-luxury-sand/70 hover:border-luxury-gold px-4 py-2 text-[10px] font-mono uppercase tracking-widest transition-all duration-300 flex items-center gap-2 cursor-pointer focus:outline-none focus:ring-1 focus:ring-luxury-gold"
-                            title="Skopiuj link i przejdź do Instagrama"
+                            title="Skopiuj bezpośredni link do wklejenia na Instagramie"
                           >
                             <Instagram className="w-3.5 h-3.5" /> Instagram
                           </button>
@@ -8538,7 +8743,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                               exit={{ opacity: 0, height: 0 }}
                               className="text-[10px] font-mono text-green-700 bg-green-50 border border-green-100 p-2.5 rounded-none text-left leading-relaxed mt-2"
                             >
-                              ✦ Link do artykułu skopiowano do schowka! Możesz teraz wkleić go w bio lub wiadomości na Instagramie.
+                              ✦ Link do artykułu ({getArticleFullUrl(selectedArticle.id)}) skopiowano do schowka! Możesz go teraz udostępnić w wiadomości, na WhatsAppie lub w social mediach.
                             </motion.div>
                           )}
                         </AnimatePresence>

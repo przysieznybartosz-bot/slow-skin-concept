@@ -9,6 +9,27 @@ import { Treatment, MagazineArticle } from "../types";
 
 export type LegalDocType = "privacy" | "rodo" | "terms" | "cookies";
 
+export const SITE_ORIGIN = "https://slow-skin-concept.pl";
+
+/**
+ * Returns the canonical URL path for a given article or article ID.
+ */
+export function getArticlePath(articleOrId: string | { id: string }): string {
+  const rawId = typeof articleOrId === "string" ? articleOrId : articleOrId.id;
+  const cleanId = rawId.replace(/^\/+|\/+$/g, "");
+  const matched = ARTICLES.find(
+    (a) => a.id === cleanId || a.id.replace(/^art-/, "") === cleanId.replace(/^art-/, "")
+  );
+  return `/artykuly/${matched ? matched.id : cleanId}`;
+}
+
+/**
+ * Returns the full canonical HTTPS URL for sharing a specific article.
+ */
+export function getArticleFullUrl(articleOrId: string | { id: string }): string {
+  return `${SITE_ORIGIN}${getArticlePath(articleOrId)}`;
+}
+
 export interface RouteState {
   tab: "cover" | "journal" | "method" | "clinic" | "diagnose" | "account" | "shop" | "training" | "admin" | "legal";
   legalDoc?: LegalDocType;
@@ -19,7 +40,7 @@ export interface RouteState {
 }
 
 /**
- * Parses the current window.location.pathname and returns the corresponding state.
+ * Parses the current window.location.pathname (and legacy #/journal/ hashes) and returns the corresponding state.
  */
 export function parseCurrentRoute(): RouteState {
   if (typeof window === "undefined") {
@@ -78,6 +99,23 @@ export function parseCurrentRoute(): RouteState {
     path === "/cookie-policy"
   ) {
     return { tab: "legal", legalDoc: "cookies" };
+  }
+
+  // 0.2 Legacy hash article links (e.g. #/journal/art-slow-skin-philosophy)
+  const rawHash = (window.location.hash || "").toLowerCase();
+  if (
+    rawHash.startsWith("#/journal/") ||
+    rawHash.startsWith("#/artykuly/") ||
+    rawHash.startsWith("#/artykul/")
+  ) {
+    const hashSlug = rawHash.replace(/^#\/(journal|artykuly|artykul)\//, "").replace(/\/+$/, "").trim();
+    const matchedFromHash = ARTICLES.find(
+      (a) => a.id === hashSlug || a.id.replace(/^art-/, "") === hashSlug.replace(/^art-/, "")
+    );
+    if (matchedFromHash) {
+      return { tab: "journal", articleSlug: matchedFromHash.id };
+    }
+    return { tab: "journal" };
   }
 
   // 1. Root / Cover
@@ -337,10 +375,13 @@ export function syncRoute(
 
   const targetPath = getPathForRoute(state);
   const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
+  const hasLegacyJournalHash =
+    window.location.hash.toLowerCase().startsWith("#/journal") ||
+    window.location.hash.toLowerCase().startsWith("#/artykul");
 
-  // Only push or replace if path is different (normalized)
-  if (targetPath !== currentPath) {
-    if (options?.replace) {
+  // Only push or replace if path is different (normalized) or stale hash needs removal
+  if (targetPath !== currentPath || hasLegacyJournalHash) {
+    if (options?.replace || hasLegacyJournalHash) {
       window.history.replaceState({ ...state }, "", targetPath);
     } else {
       window.history.pushState({ ...state }, "", targetPath);
@@ -362,8 +403,10 @@ export function updateSeoTags(
 
   let pageTitle = "Instytut Zdrowej Skóry Slow Skin Concept — Biologiczna Terapia Skóry Jelcz-Laskowice";
   let pageDesc = "Instytut Zdrowej Skóry Slow Skin Concept w Jelczu-Laskowicach (k. Wrocławia). Biologiczna terapia skóry, odbudowa bariery hydrolipidowej i autorski Neurolifting.";
-  let ogImage = "https://slow-skin-concept.pl/og-termolifting-rf-1200x630.jpg";
-  const canonicalUrl = `https://slow-skin-concept.pl${getPathForRoute(state)}`;
+  let ogImage = `${SITE_ORIGIN}/og-termolifting-rf-1200x630.jpg`;
+  let ogType = "website";
+  let ogImageAlt = "Termolifting mikroigłowy RF — Instytut Zdrowej Skóry Slow Skin Concept";
+  const canonicalUrl = `${SITE_ORIGIN}${getPathForRoute(state)}`;
 
   // Set robots meta tag - ensure admin is NEVER indexed
   let robotsMeta = document.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
@@ -380,17 +423,20 @@ export function updateSeoTags(
     if (t) {
       pageTitle = `${t.title} — Monografia Zabiegu | Slow Skin Concept Jelcz-Laskowice`;
       pageDesc = `${t.title} (${t.subtitle || "Terapia Bionomiczna"}). ${t.focus || t.description.slice(0, 150)}... Czas: ${t.duration}, Cena: ${t.price}.`;
+      ogImageAlt = `${t.title} — Instytut Zdrowej Skóry Slow Skin Concept`;
       if (t.image) {
-        ogImage = t.image.startsWith("http") ? t.image : `https://slow-skin-concept.pl${t.image}`;
+        ogImage = t.image.startsWith("http") ? t.image : `${SITE_ORIGIN}${t.image}`;
       }
     }
   } else if (state.articleSlug) {
     const a = ARTICLES.find((item) => item.id === state.articleSlug);
     if (a) {
+      ogType = "article";
       pageTitle = `${a.title} | Magazyn Wiedzy Bionomicznej Slow Skin Concept`;
       pageDesc = `${a.lead || a.title}. Artykuł naukowy autorstwa ${a.author}.`;
+      ogImageAlt = a.title;
       if (a.image) {
-        ogImage = a.image.startsWith("http") ? a.image : `https://slow-skin-concept.pl${a.image}`;
+        ogImage = a.image.startsWith("http") ? a.image : `${SITE_ORIGIN}${a.image}`;
       }
     }
   } else {
@@ -473,7 +519,7 @@ export function updateSeoTags(
   }
   canonical.setAttribute("href", canonicalUrl);
 
-  // Set OpenGraph tags
+  // Set OpenGraph & Twitter tags
   const setMeta = (property: string, content: string) => {
     let el = document.querySelector(`meta[property="${property}"]`);
     if (!el) {
@@ -484,10 +530,15 @@ export function updateSeoTags(
     el.setAttribute("content", content);
   };
 
+  setMeta("og:type", ogType);
   setMeta("og:title", pageTitle);
   setMeta("og:description", pageDesc);
   setMeta("og:url", canonicalUrl);
   setMeta("og:image", ogImage);
   setMeta("og:image:secure_url", ogImage);
+  setMeta("og:image:alt", ogImageAlt);
+  setMeta("twitter:url", canonicalUrl);
+  setMeta("twitter:title", pageTitle);
+  setMeta("twitter:description", pageDesc);
   setMeta("twitter:image", ogImage);
 }

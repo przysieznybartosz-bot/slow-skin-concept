@@ -1,8 +1,9 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { BookOpen, Search, X, ChevronRight, Clock, Sparkles, Filter, ArrowUpRight } from "lucide-react";
+import { BookOpen, Search, X, ChevronRight, Clock, Sparkles, Filter, ArrowUpRight, Link2, Check } from "lucide-react";
 import { ARTICLES } from "../data";
 import { MagazineArticle } from "../types";
+import { getArticlePath, getArticleFullUrl } from "../utils/router";
 
 interface AllArticlesModalProps {
   isOpen: boolean;
@@ -31,6 +32,20 @@ export const AllArticlesModal: React.FC<AllArticlesModalProps> = ({
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCat, setSelectedCat] = useState("ALL");
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  const handleCopyArticleUrl = (e: React.MouseEvent, articleId: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const url = getArticleFullUrl(articleId);
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(url).catch(() => {});
+    }
+    setCopiedId(articleId);
+    setTimeout(() => {
+      setCopiedId((prev) => (prev === articleId ? null : prev));
+    }, 2500);
+  };
 
   // Reset state when opened
   useEffect(() => {
@@ -199,47 +214,67 @@ export const AllArticlesModal: React.FC<AllArticlesModalProps> = ({
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {filteredArticles.map((article) => (
-                  <div
-                    key={article.id}
-                    onClick={() => onSelectArticle(article)}
-                    className="p-5 bg-white border border-luxury-sand/50 hover:border-luxury-gold transition-all duration-300 shadow-2xs hover:shadow-md cursor-pointer flex flex-col justify-between group text-left"
-                  >
-                    <div className="space-y-2.5">
-                      {/* Meta: Category & Reading Time */}
-                      <div className="flex items-center justify-between text-[9px] font-mono text-luxury-gold tracking-widest">
-                        <span className="uppercase font-semibold px-1.5 py-0.5 bg-luxury-sand/20 border border-luxury-sand/40">
-                          {article.category}
-                        </span>
-                        <span className="flex items-center gap-1 text-luxury-dark/70">
-                          <Clock className="w-3 h-3 text-luxury-gold" />
-                          {article.readingTime}
-                        </span>
+                {filteredArticles.map((article) => {
+                  const articleHref = getArticlePath(article.id);
+                  const isCopied = copiedId === article.id;
+                  return (
+                    <a
+                      key={article.id}
+                      href={articleHref}
+                      onClick={(e) => {
+                        if (!e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey && e.button === 0) {
+                          e.preventDefault();
+                          onSelectArticle(article);
+                        }
+                      }}
+                      className="p-5 bg-white border border-luxury-sand/50 hover:border-luxury-gold transition-all duration-300 shadow-2xs hover:shadow-md cursor-pointer flex flex-col justify-between group text-left no-underline"
+                    >
+                      <div className="space-y-2.5">
+                        {/* Meta: Category & Reading Time */}
+                        <div className="flex items-center justify-between text-[9px] font-mono text-luxury-gold tracking-widest">
+                          <span className="uppercase font-semibold px-1.5 py-0.5 bg-luxury-sand/20 border border-luxury-sand/40">
+                            {article.category}
+                          </span>
+                          <span className="flex items-center gap-1 text-luxury-dark/70">
+                            <Clock className="w-3 h-3 text-luxury-gold" />
+                            {article.readingTime}
+                          </span>
+                        </div>
+
+                        {/* Title */}
+                        <h3 className="font-serif text-lg font-normal text-luxury-dark group-hover:text-luxury-gold transition-colors leading-snug">
+                          {article.title}
+                        </h3>
+
+                        {/* Lead */}
+                        <p className="text-xs text-luxury-dark/80 font-light leading-relaxed line-clamp-2">
+                          {article.lead}
+                        </p>
                       </div>
 
-                      {/* Title */}
-                      <h3 className="font-serif text-lg font-normal text-luxury-dark group-hover:text-luxury-gold transition-colors leading-snug">
-                        {article.title}
-                      </h3>
-
-                      {/* Lead */}
-                      <p className="text-xs text-luxury-dark/80 font-light leading-relaxed line-clamp-2">
-                        {article.lead}
-                      </p>
-                    </div>
-
-                    {/* Bottom CTA */}
-                    <div className="pt-3 mt-4 border-t border-luxury-sand/30 flex items-center justify-between">
-                      <span className="text-[9px] font-mono text-luxury-dark/60 italic">
-                        {article.author}
-                      </span>
-                      <span className="text-[10px] font-mono uppercase tracking-wider text-luxury-gold group-hover:text-luxury-dark font-semibold flex items-center gap-1 transition-colors">
-                        Czytaj publikację
-                        <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
-                      </span>
-                    </div>
-                  </div>
-                ))}
+                      {/* Bottom CTA */}
+                      <div className="pt-3 mt-4 border-t border-luxury-sand/30 flex items-center justify-between gap-2">
+                        <button
+                          type="button"
+                          onClick={(e) => handleCopyArticleUrl(e, article.id)}
+                          className={`inline-flex items-center gap-1 px-2 py-1 border text-[9px] font-mono uppercase tracking-wider transition-colors cursor-pointer ${
+                            isCopied
+                              ? "border-emerald-300 bg-emerald-50 text-emerald-700"
+                              : "border-luxury-sand/60 bg-luxury-cream/40 text-luxury-dark/75 hover:border-luxury-gold hover:text-luxury-dark"
+                          }`}
+                          title={`Kopiuj bezpośredni link: ${getArticleFullUrl(article.id)}`}
+                        >
+                          {isCopied ? <Check className="w-3 h-3" /> : <Link2 className="w-3 h-3 text-luxury-gold" />}
+                          <span>{isCopied ? "Skopiowano" : "Kopiuj link"}</span>
+                        </button>
+                        <span className="text-[10px] font-mono uppercase tracking-wider text-luxury-gold group-hover:text-luxury-dark font-semibold flex items-center gap-1 transition-colors">
+                          Czytaj publikację
+                          <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                        </span>
+                      </div>
+                    </a>
+                  );
+                })}
               </div>
             )}
           </div>

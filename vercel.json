@@ -46,6 +46,70 @@
       "destination": "/index.html"
     },
     {
+      "source": "/artykuly/art-slow-skin-philosophy",
+      "destination": "/artykuly/art-slow-skin-philosophy.html"
+    },
+    {
+      "source": "/artykuly/slow-skin-philosophy",
+      "destination": "/artykuly/art-slow-skin-philosophy.html"
+    },
+    {
+      "source": "/artykuly/art-neurobiology-skin",
+      "destination": "/artykuly/art-neurobiology-skin.html"
+    },
+    {
+      "source": "/artykuly/neurobiology-skin",
+      "destination": "/artykuly/art-neurobiology-skin.html"
+    },
+    {
+      "source": "/artykuly/art-hydrolipid-barrier",
+      "destination": "/artykuly/art-hydrolipid-barrier.html"
+    },
+    {
+      "source": "/artykuly/hydrolipid-barrier",
+      "destination": "/artykuly/art-hydrolipid-barrier.html"
+    },
+    {
+      "source": "/artykuly/art-dryness-deep-hydration",
+      "destination": "/artykuly/art-dryness-deep-hydration.html"
+    },
+    {
+      "source": "/artykuly/dryness-deep-hydration",
+      "destination": "/artykuly/art-dryness-deep-hydration.html"
+    },
+    {
+      "source": "/artykuly/art-wrinkles-slow-aging",
+      "destination": "/artykuly/art-wrinkles-slow-aging.html"
+    },
+    {
+      "source": "/artykuly/wrinkles-slow-aging",
+      "destination": "/artykuly/art-wrinkles-slow-aging.html"
+    },
+    {
+      "source": "/artykuly/art-acne-microbiome",
+      "destination": "/artykuly/art-acne-microbiome.html"
+    },
+    {
+      "source": "/artykuly/acne-microbiome",
+      "destination": "/artykuly/art-acne-microbiome.html"
+    },
+    {
+      "source": "/artykuly/art-couperose-rosacea",
+      "destination": "/artykuly/art-couperose-rosacea.html"
+    },
+    {
+      "source": "/artykuly/couperose-rosacea",
+      "destination": "/artykuly/art-couperose-rosacea.html"
+    },
+    {
+      "source": "/artykuly/art-hyperpigmentation-melasma",
+      "destination": "/artykuly/art-hyperpigmentation-melasma.html"
+    },
+    {
+      "source": "/artykuly/hyperpigmentation-melasma",
+      "destination": "/artykuly/art-hyperpigmentation-melasma.html"
+    },
+    {
       "source": "/((?!api/|.*\\.(?:xml|txt|png|jpg|jpeg|svg|webp|ico|mp4|json|html|js|css)(?:\\?.*)?$).*)",
       "destination": "/index.html"
     }

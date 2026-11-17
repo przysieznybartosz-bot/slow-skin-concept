@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { TREATMENTS, ARTICLES } from "../data";
 import { Treatment, MagazineArticle } from "../types";
+import { getArticlePath } from "../utils/router";
 
 export interface ClinicalProblem {
   name: string;
@@ -668,10 +669,16 @@ export const SkinSearchPopupModal: React.FC<SkinSearchPopupModalProps> = ({
               {matchedArticles.length > 0 ? (
                 <div className="space-y-3.5">
                   {matchedArticles.map((art) => (
-                    <div
+                    <a
                       key={art.id}
-                      onClick={() => onSelectArticle(art)}
-                      className="group cursor-pointer p-4 bg-white hover:bg-[#FAF8F5] border border-luxury-sand/70 hover:border-luxury-gold transition-all duration-200 shadow-xs hover:shadow-md flex items-start gap-3.5"
+                      href={getArticlePath(art.id)}
+                      onClick={(e) => {
+                        if (!e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey && e.button === 0) {
+                          e.preventDefault();
+                          onSelectArticle(art);
+                        }
+                      }}
+                      className="group cursor-pointer p-4 bg-white hover:bg-[#FAF8F5] border border-luxury-sand/70 hover:border-luxury-gold transition-all duration-200 shadow-xs hover:shadow-md flex items-start gap-3.5 no-underline"
                     >
                       {/* Thumbnail if available */}
                       {art.image && (
@@ -707,7 +714,7 @@ export const SkinSearchPopupModal: React.FC<SkinSearchPopupModalProps> = ({
                           <span>&rarr;</span>
                         </div>
                       </div>
-                    </div>
+                    </a>
                   ))}
                 </div>
               ) : (
