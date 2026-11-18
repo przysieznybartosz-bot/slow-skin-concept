@@ -16698,10 +16698,10 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
             
             {/* Social Media icons in Quiet Luxury style */}
             <div className="pt-2 flex items-center gap-4 text-luxury-dark/90">
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-luxury-gold transition-colors duration-300" aria-label="Instagram">
+              <a href="https://www.instagram.com/slow.skin.concept/" target="_blank" rel="noopener noreferrer" className="hover:text-luxury-gold transition-colors duration-300" aria-label="Instagram" title="Instagram — Slow Skin Concept">
                 <Instagram className="w-4 h-4" />
               </a>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-luxury-gold transition-colors duration-300" aria-label="Facebook">
+              <a href="https://www.facebook.com/profile.php?id=61595322460871" target="_blank" rel="noopener noreferrer" className="hover:text-luxury-gold transition-colors duration-300" aria-label="Facebook" title="Facebook — Slow Skin Concept">
                 <Facebook className="w-4 h-4" />
               </a>
               <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="hover:text-luxury-gold transition-colors duration-300 flex items-center justify-center" aria-label="TikTok">
