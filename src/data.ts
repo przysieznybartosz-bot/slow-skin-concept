@@ -9,7 +9,7 @@ export const TREATMENTS: Treatment[] = [
     price: "250 PLN",
     description: "Dedykowana videokonsultacja online prowadzona w standardzie Slow Skin Concept przez mgr Katarzynę Brzezińską. Idealne rozwiązanie dla osób z całej Polski i zza granicy, które nie mogą dotrzeć do gabinetu w Jelczu-Laskowicach, a pragną skonsultować trądzik dorosłych, trądzik różowaty, nadwrażliwość barierową, przewlekły rumień lub ułożyć bezpieczną, bionomiczną pielęgnację domową. Podczas 60-minutowego spotkania wideo przez Google Meet dokładnie analizujemy historię skóry, dotychczasowe kosmetyki, nawyki i dietę, a po spotkaniu otrzymujesz szczegółowy, spersonalizowany Beauty Plan (PDF) z dokładnymi zaleceniami rano/wieczór oraz wskazówkami regeneracyjnymi.",
     focus: "Diagnoza barierowa online, analiza nawyków i składów kosmetyków, ułożenie autorskiego planu pielęgnacji (PDF), bezpieczne połączenie wideo przez Google Meet",
-    image: "/videokonsultacja.png",
+    image: "/assets/aistudio/Blondynka_pisz_ca_w_notatniku_-_lekkie_c8f36364.webp",
     indications: [
       "Osoby spoza Wrocławia / z zagranicy poszukujące rzetelnej diagnozy kosmetologicznej i wsparcia pielęgnacyjnego",
       "Nawracający trądzik dorosłych, trądzik różowaty, skóra naczyniowa, przewlekły rumień i nadreaktywność",

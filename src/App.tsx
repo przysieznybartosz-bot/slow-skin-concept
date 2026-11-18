@@ -606,7 +606,7 @@ export default function App() {
       return customTreatmentImages["skin-readiness"] || customTreatmentImages["how_help_first_visit"] || "/assets/aistudio/Kobiety_z_kosmetykami_na_jasnym_tle_-_lekkie_d742efcc.webp" || treatment.image;
     }
     if (treatment.id === "videokonsultacja") {
-      return customTreatmentImages["videokonsultacja"] || "/videokonsultacja.png" || treatment.image;
+      return customTreatmentImages["videokonsultacja"] || "/assets/aistudio/Blondynka_pisz_ca_w_notatniku_-_lekkie_c8f36364.webp" || treatment.image;
     }
     if (treatment.id === "rosacea-calm-therapy") {
       return customTreatmentImages["how_help_sensitive_skin"] || "/how_help_sensitive_skin.png" || treatment.image;
