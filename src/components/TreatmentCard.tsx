@@ -120,6 +120,8 @@ const TreatmentCard = React.memo(function TreatmentCard({
           <img 
             src={cardImage} 
             alt={treatment.title} 
+            loading="lazy"
+            decoding="async"
             onError={(e) => {
               if (treatment.image && e.currentTarget.src !== treatment.image && !e.currentTarget.src.endsWith(treatment.image)) {
                 e.currentTarget.src = treatment.image;
@@ -231,6 +233,7 @@ const TreatmentCard = React.memo(function TreatmentCard({
               Monografia Expert
             </a>
             <button 
+              type="button"
               onClick={() => onOpenBooking(treatment)}
               className={`text-xs font-mono tracking-widest px-4 py-2 transition-all duration-300 uppercase cursor-pointer ${
                 isPremiumHighlight 

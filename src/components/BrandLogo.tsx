@@ -29,6 +29,9 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
     <img
       src="/slow-skin-logo.svg"
       alt="Instytut Zdrowej Skóry SLOW SKIN CONCEPT"
+      width={180}
+      height={44}
+      decoding="async"
       className={`object-contain object-left transition-all duration-300 ${className}`}
       onError={() => setHasError(true)}
       referrerPolicy="no-referrer"

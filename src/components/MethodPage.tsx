@@ -704,6 +704,8 @@ export const MethodPage: React.FC<MethodPageProps> = ({ onLinkClick, onOpenBooki
                   <img 
                     src="https://slow-skin.pl/wp-content/uploads/2025/10/doktor_2.jpg"
                     alt="Katarzyna Brzezińska — Twórczyni Slow Skin Concept"
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     referrerPolicy="no-referrer"
                   />

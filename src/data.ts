@@ -125,7 +125,7 @@ export const TREATMENTS: Treatment[] = [
     price: "350 PLN — 450 PLN, zależnie od zakresu zabiegu",
     description: "Acne Balance Therapy to indywidualnie komponowany zabieg dla skóry skłonnej do zaskórników, grudek, krostek, nadmiernego wydzielania sebum i nawracających niedoskonałości. Terapia nie opiera się na intensywnym przesuszaniu ani jednym protokole oczyszczającym. Jej przebieg wynika z diagnozy biologicznej obejmującej stan bariery, sposób rogowacenia, charakter zmian, poziom reaktywności oraz tolerancję dotychczasowej pielęgnacji. Celem zabiegu jest łagodne oczyszczenie, wsparcie prawidłowego procesu rogowacenia, pielęgnacja skóry łojotokowej oraz stworzenie warunków sprzyjających równowadze bariery i mikrobiomu. W przypadku zdiagnozowanego trądziku zabieg może stanowić element wspierającej pielęgnacji kosmetologicznej, prowadzonej z uwzględnieniem zaleceń dermatologa.",
     focus: "Kierunek działania: OCZYSZCZENIE • SEBUM • ROGOWACENIE • MIKROBIOM • Poszanowanie bariery ochronnej",
-    image: "/acne-balance-therapy.png",
+    image: "/acne-balance-therapy.webp",
     indications: [
       "Tendencja do zaskórników otwartych i zamkniętych",
       "Nadmierne przetłuszczanie się skóry (łojotok)",
@@ -179,7 +179,7 @@ export const TREATMENTS: Treatment[] = [
     price: "380 PLN — 480 PLN, zależnie od zakresu zabiegu",
     description: "Acne Balance 25+ Therapy została stworzona dla skóry dorosłej, w której zaskórniki, grudki, krostki i nadmierne wydzielanie sebum mogą współistnieć z odwodnieniem, reaktywnością, przebarwieniami oraz pierwszymi oznakami starzenia. Skóra po 25. roku życia wymaga innego podejścia niż skóra nastoletnia — intensywne przesuszanie osłabia barierę oraz zmniejsza tolerancję pielęgnacji. Dlatego terapia łączy działania ukierunkowane na niedoskonałości z jednoczesnym wsparciem nawodnienia, bariery i procesów regeneracyjnych. Przebieg zabiegu wynika z diagnozy biologicznej i uwzględnia stres, zmiany hormonalne, styl życia i dotychczasową pielęgnację.",
     focus: "Kierunek działania: NIEDOSKONAŁOŚCI • BARIERA • SEBUM • PRZEBARWIENIA • Terapia skóry dorosłej 25+",
-    image: "/adult-acne-therapy.png",
+    image: "/adult-acne-therapy.webp",
     indications: [
       "Niedoskonałości pojawiające się lub utrzymujące po 25. roku życia",
       "Grudki, krostki i zaskórniki, szczególnie w dolnej części twarzy (strefa żuchwy i brody)",
@@ -234,7 +234,7 @@ export const TREATMENTS: Treatment[] = [
     price: "380 PLN — 480 PLN",
     description: "Rosacea Calm Therapy to indywidualnie komponowany zabieg przeznaczony dla skóry skłonnej do zaczerwienienia, pieczenia, uczucia gorąca i nadmiernej reaktywności. Dwie skóry z podobnym rumieniem mogą potrzebować innego rodzaju wsparcia, ponieważ różnią się stanem bariery, poziomem nawodnienia, reaktywnością i tolerancją składników aktywnych.\n\nŁączę delikatne postępowanie z zastosowaniem biozgodnych substancji aktywnych dobranych do aktualnego stanu naskórka, kondycji naczyń i tolerancji skóry.\n\nCelem zabiegu jest wyciszenie rumienia, poprawa komfortu, zwiększenie nawodnienia oraz pielęgnacja i wzmocnienie bariery ochronnej skóry wrażliwej.",
     focus: "Kierunek działania: UKOJENIE • BARIERA • NAWODNIENIE • Wyciszenie rumienia i pieczenia, wsparcie mikrośrodowiska",
-    image: "/how_help_sensitive_skin.png",
+    image: "/how_help_sensitive_skin.webp",
     indications: [
       "Skóra łatwo i często się czerwieni",
       "Reaguje na zmiany temperatury, stres, emocje lub pielęgnację",
@@ -287,7 +287,7 @@ export const TREATMENTS: Treatment[] = [
     price: "350 PLN — 500 PLN, zależnie od zakresu zabiegu",
     description: "Couperose Therapy to indywidualnie komponowany zabieg dla skóry z widocznymi naczynkami, okresowym lub utrwalonym zaczerwienieniem oraz tendencją do nadmiernej reaktywności. Terapia łączy delikatne postępowanie z zastosowaniem substancji biologicznie aktywnych dobranych do aktualnej kondycji skóry. Jej celem jest poprawa komfortu, ochrona antyoksydacyjna, wsparcie bariery naskórkowej oraz pielęgnacja skóry naczyniowej bez jej nadmiernego rozgrzewania i przeciążania. Widoczne zaczerwienienie może współistnieć z odwodnieniem i osłabioną barierą, dlatego przebieg zabiegu wynika z diagnozy biologicznej i aktualnej tolerancji cery.",
     focus: "Kierunek działania: NACZYNKA • RUMIEŃ • BARIERA • KOMFORT • Pielęgnacja bez przegrzewania tkanki",
-    image: "/couperose-therapy.png",
+    image: "/couperose-therapy.webp",
     indications: [
       "Widoczne, rozszerzone naczynka krwionośne (teleangiektazje)",
       "Okresowe lub utrwalone zaczerwienienie skóry",
@@ -341,7 +341,7 @@ export const TREATMENTS: Treatment[] = [
     price: "400 PLN — 550 PLN, zależnie od zakresu zabiegu",
     description: "Pigment Balance Therapy to indywidualnie projektowana terapia dla skóry z przebarwieniami posłonecznymi, pozapalnymi, melasmą oraz nierównomiernym kolorytem. Przebarwienie nie jest wyłącznie zmianą widoczną na powierzchni — na jego powstawanie i utrwalanie wpływają promieniowanie UV, stan zapalny, reaktywność skóry, hormony, temperatura, urazy oraz niewłaściwie dobrana pielęgnacja.\n\nDlatego terapia rozpoczyna się od rozpoznania rodzaju przebarwienia, kondycji bariery i czynników mogących podtrzymywać problem. Dopiero na tej podstawie dobierane są substancje biologicznie aktywne, technologia, intensywność i kolejność działań.\n\nCelem jest bezpieczne rozjaśnienie zmian barwnikowych, wyrównanie kolorytu i przywrócenie skórze świeżości bez wywoływania stanu zapalnego.",
     focus: "Kierunek działania: PRZEBARWIENIA • KOLORYT • ODNOWA • OCHRONA • Bezpieczna terapia bez stanu zapalnego",
-    image: "/pigment-balance-therapy.png",
+    image: "/pigment-balance-therapy.webp",
     indications: [
       "Przebarwienia posłoneczne",
       "Przebarwienia pozapalne po niedoskonałościach (PIH)",
@@ -397,7 +397,7 @@ export const TREATMENTS: Treatment[] = [
     price: "500 PLN — 750 PLN, zależnie od dobranej metody i zakresu zabiegu",
     description: "Skin Remodeling Therapy to wielopoziomowa terapia dla skóry, która traci jędrność, elastyczność i wyraźny kontur. Nie opiera się na jednej technologii ani gotowym protokole. Jej przebieg projektowany jest na podstawie diagnozy biologicznej, aktualnej kondycji tkanek oraz gotowości skóry do określonego rodzaju stymulacji. W zależności od potrzeb dobierane są metody oddziałujące na różne poziomy — od pracy manualnej i neuromięśniowej, przez technologie nieinwazyjne, aż po intensywniejsze procedury przebudowujące. Znaczenie ma nie liczba zastosowanych metod, lecz ich właściwa kolejność, intensywność i czas potrzebny skórze na regenerację. Skin Remodeling Therapy nie oznacza zastosowania najsilniejszej technologii — oznacza wybór takiego bodźca, który skóra jest gotowa prawidłowo wykorzystać.",
     focus: "Kierunek działania: JĘDRNOŚĆ • GĘSTOŚĆ • OWAL • REGENERACJA • Przebudowa tkanek na odpowiednim poziomie biologicznym",
-    image: "/skin-remodeling-therapy.png",
+    image: "/skin-remodeling-therapy.webp",
     indications: [
       "Utrata jędrności, elastyczności i gęstości skóry",
       "Zmiana owalu twarzy i opadanie tkanek",
@@ -452,7 +452,7 @@ export const TREATMENTS: Treatment[] = [
     price: "500 PLN — 750 PLN, zależnie od dobranej metody i zakresu zabiegu",
     description: "Skin Remodeling Therapy to wielopoziomowa terapia dla skóry, która traci jędrność, elastyczność i wyraźny kontur. Nie opiera się na jednej technologii ani gotowym protokole. Jej przebieg projektowany jest na podstawie diagnozy biologicznej, aktualnej kondycji tkanek oraz gotowości skóry do określonego rodzaju stymulacji. Znaczenie ma nie liczba zastosowanych metod, lecz ich właściwa kolejność, intensywność i czas potrzebny skórze na regenerację.",
     focus: "Kierunek działania: JĘDRNOŚĆ • GĘSTOŚĆ • OWAL • REGENERACJA • Przebudowa tkanek na odpowiednim poziomie biologicznym",
-    image: "/lift-firm-therapy.png",
+    image: "/lift-firm-therapy.webp",
     indications: [
       "Utrata jędrności, elastyczności i gęstości skóry",
       "Zmiana owalu twarzy i opadanie tkanek",
@@ -498,7 +498,7 @@ export const TREATMENTS: Treatment[] = [
     price: "400 PLN — 500 PLN, zależnie od zakresu zabiegu",
     description: "Healthy Glow Therapy to indywidualnie komponowany zabieg dla skóry, która utraciła świeżość, równomierny koloryt i naturalny blask. Łączy delikatne odświeżenie powierzchni naskórka z intensywnym nawilżeniem, ochroną antyoksydacyjną i zastosowaniem substancji biologicznie aktywnych dobranych do aktualnej kondycji skóry. To nie jest jeden zabieg bankietowy wykonywany według gotowego schematu. Innego wsparcia może potrzebować skóra odwodniona i przeciążona pielęgnacją, a innego skóra z nierównym kolorytem, oznakami stresu oksydacyjnego lub spowolnioną odnową naskórka. Healthy Glow Therapy nie maskuje skóry efektem powierzchownego rozświetlenia — łączy biologicznie uzasadnione składniki i indywidualnie dobraną technologię, aby wspierać jej nawodnienie, odnowę i naturalny blask.",
     focus: "Kierunek działania: NAWODNIENIE • ROZŚWIETLENIE • ANTYOKSYDACJA • REWITALIZACJA",
-    image: "/healthy-glow-therapy.png",
+    image: "/healthy-glow-therapy.webp",
     indications: [
       "Skóra wygląda na szarą, zmęczoną i pozbawioną blasku",
       "Jest odwodniona, szorstka lub ma nierówną powierzchnię",
@@ -550,7 +550,7 @@ export const TREATMENTS: Treatment[] = [
     price: "500 PLN",
     description: "Skóra nie starzeje się wyłącznie dlatego, że traci kolagen. Traci kolagen dlatego, że stopniowo zaburza się jej rytm komunikacji – pomiędzy komórkami, układem nerwowym, tkanką łączną i emocjami. Gdy ten subtelny dialog słabnie, komórki skóry przestają prawidłowo odbierać i interpretować sygnały regeneracyjne.\n\nNeurolifting to zaawansowana, nowoczesna forma elektroakupunktury twarzy, w której bardzo delikatne impulsy elektryczne przewodzone są przez ultracienkie igły umieszczane w biologicznie aktywnych punktach skóry. Zabieg integruje wiedzę z zakresu neurobiologii, medycyny chińskiej oraz nowoczesnej fototerapii LED.\n\nMikroprądy o precyzyjnie dobranych częstotliwościach dr. Paula Nogiera (1–99 Hz) oddziałują na zakończenia nerwowe, powięź oraz mięśnie twarzy. W połączeniu ze światłem LED (czerwone 630–660 nm, bursztynowe 590 nm, bliska podczerwień 830–850 nm) oraz indywidualnie dobranymi koktajlami regeneracyjnymi wspierają naturalną równowagę napięcia mięśniowo-powięziowego i odzyskanie przez skórę neuroplastyczności – zdolności do adaptacji, samoregulacji i skutecznej regeneracji.",
     focus: "Fale Nogiera (1–99 Hz), elektroakupunktura twarzy, fototerapia LED (630–660 nm / 590 nm / 830–850 nm) i neuroplastyczność skóry",
-    image: "/how_help_neurolifting.png",
+    image: "/how_help_neurolifting.webp",
     indications: [
       "Skóra wiotka, pozbawiona napięcia i elastyczności",
       "Utrata owalu twarzy oraz widoczne zmarszczki",
@@ -615,7 +615,7 @@ export const TREATMENTS: Treatment[] = [
     price: "450 PLN",
     description: "Autorski rytuał rewitalizacji skóry, łączący łagodne wygładzenie naskórka, odżywczy kwas bursztynowy, relaksujący masaż modelujący oraz kojącą maskę pod światłem LED. Pomaga przywrócić cerze energię, promienny blask i aksamitną gładkość.",
     focus: "Rewitalizacja cery, wygładzenie, naturalny blask i odprężenie",
-    image: "/amber-regeneration.png",
+    image: "/amber-regeneration.webp",
     indications: [
       "Skóra zmęczona, szara, pozbawiona blasku",
       "Pierwsze oznaki utraty jędrności i elastyczności",
@@ -661,7 +661,7 @@ export const TREATMENTS: Treatment[] = [
     price: "600 PLN — 800 PLN",
     description: "Nowoczesna, bezinwazyjna metoda poprawy jędrności skóry. Technologia HIFU skupia fale ultradźwiękowe w głębszych warstwach skóry, stymulując naturalną produkcję kolagenu. Pomaga unieść kontury twarzy, poprawić elastyczność cery i wygładzić wiotką skórę na linii żuchwy i szyi.",
     focus: "Wsparcie jędrności, poprawa owalu twarzy i elastyczności skóry",
-    image: "/hifu-lifting.png",
+    image: "/hifu-lifting.webp",
     indications: [
       "Utrata wyrazistości owalu twarzy i spadek elastyczności skóry",
       "Wiotkość skóry szyi i dekoltu",
@@ -702,7 +702,7 @@ export const TREATMENTS: Treatment[] = [
     price: "180 zł — 350 zł (Pakiety 6 zabiegów od 900 zł)",
     description: "Sonaris Pro Therapy jest komfortowym, nieinwazyjnym zabiegiem wykorzystującym impulsy elektromagnetyczne aplikowane za pomocą specjalnie zaprojektowanych głowic. Procedura nie narusza ciągłości naskórka i nie wymaga okresu rekonwalescencji. Zabieg przeznaczony jest dla skóry z pierwszymi oznakami starzenia, utratą elastyczności, drobnymi zmarszczkami oraz zmęczonym, nierównym kolorytem. Może być wykonywany na twarz, szyję, dekolt oraz delikatną okolicę oczu. W Slow Skin Concept technologia nie jest wykorzystywana według jednego, gotowego protokołu. Obszar pracy, rodzaj głowicy, intensywność oraz czas działania są dobierane indywidualnie do kondycji, wrażliwości i aktualnej gotowości biologicznej skóry.",
     focus: "Impulsy elektromagnetyczne, napięcie, gładkość i witalność skóry, delikatna okolica oka, brak naruszania naskórka",
-    image: "/sonaris-pro-therapy.png",
+    image: "/sonaris-pro-therapy.webp",
     indications: [
       "Pierwsze oznaki starzenia",
       "Utrata napięcia i elastyczności",
@@ -797,7 +797,7 @@ export const TREATMENTS: Treatment[] = [
     price: "250 PLN — 450 PLN (Pakiety 5 zabiegów: 1100 — 2000 PLN)",
     description: "Karboksyterapia jest zabiegiem iniekcyjnym polegającym na kontrolowanym podaniu medycznego dwutlenku węgla do wybranych warstw skóry. CO₂ stanowi precyzyjny bodziec fizjologiczny, który powoduje miejscowe rozszerzenie naczyń i przejściowe zwiększenie przepływu krwi. Sprzyja to lepszemu dotlenieniu oraz odżywieniu tkanek i tworzy warunki wspierające ich naturalną regenerację. W Slow Skin Concept nie jest stosowany jeden protokół dla każdej skóry. Obszar podania, głębokość iniekcji, przepływ oraz ilość gazu są dobierane indywidualnie — na podstawie kondycji skóry, jakości mikrokrążenia, wrażliwości tkanek i celu zabiegu.",
     focus: "Medyczny CO₂, stymulacja mikrokrążenia, dotlenienie tkanek (efekt Bohra), okolica oczu, redukcja cieni i blizn",
-    image: "/carboksyterapia-carboregen.png",
+    image: "/carboksyterapia-carboregen.webp",
     indications: [
       "Zmęczony, ziemisty lub nierówny koloryt",
       "Utrata jędrności i elastyczności skóry",
@@ -876,7 +876,7 @@ export const TREATMENTS: Treatment[] = [
     price: "od 800 zł",
     description: "Stymulatory tkankowe to preparaty podawane techniką iniekcyjną, których zadaniem jest wspieranie naturalnych procesów regeneracji i przebudowy skóry. W przeciwieństwie do klasycznych wypełniaczy ich głównym celem nie jest dodawanie objętości ani zmiana rysów twarzy. Odpowiednio dobrany preparat może wspierać poprawę gęstości, jędrności, elastyczności i nawodnienia skóry. Efekt rozwija się stopniowo wraz z zachodzącymi w tkankach procesami regeneracyjnymi, dlatego rezultat wygląda naturalnie i nie pojawia się wyłącznie bezpośrednio po zabiegu. Nie istnieje jeden stymulator odpowiedni dla każdej skóry. Rodzaj preparatu, technika podania i plan terapii dobierane są indywidualnie – na podstawie kondycji skóry, jej biologicznej gotowości, obszaru zabiegowego oraz oczekiwanego kierunku przebudowy.",
     focus: "Indywidualna biostymulacja iniekcyjna, polinukleotydy, kwas hialuronowy, kompleksy aminokwasowe, induktory kolagenu, fototerapia LED",
-    image: "/stymulatory_tkankowe.png",
+    image: "/stymulatory_tkankowe.webp",
     indications: [
       "Utrata jędrności, elastyczności i napięcia",
       "Zmniejszenie gęstości skóry",
@@ -982,7 +982,7 @@ export const TREATMENTS: Treatment[] = [
     price: "350 PLN — 450 PLN (Pakiety 4 zabiegów od 1260 PLN)",
     description: "Dwuetapowy, bezpieczny zabieg łączący delikatne mikrozłuszczanie naskórka z zaawansowaną aplikacją składników aktywnych pod ciśnieniem czystego tlenu. W pierwszym etapie chłodny strumień tlenu i soli fizjologicznej bezdotykowo usuwa martwe komórki naskórka, odświeża i koi skórę. W drugim etapie spersonalizowany koktajl odżywczy (nawilżający, kojący barierę, wyrównujący koloryt lub regenerujący) jest wprowadzany infuzją tlenową. Zabieg w 100% nieinwazyjny, idealny przed ważnym wydarzeniem oraz dla cer wrażliwych i naczyniowych.",
     focus: "Tlenowo-solna mikrodermabrazja, czysty tlen pod ciśnieniem, NMF, ectoina, peptydy, brak rekonwalescencji, efekt 'red carpet'",
-    image: "/oksybrazja-infuzja-tlenowa.png",
+    image: "/oksybrazja-infuzja-tlenowa.webp",
     indications: [
       "Skóra sucha, odwodniona, ściągnięta i szorstka w dotyku",
       "Cera poszarzała, matowa, zmęczona i pozbawiona naturalnego blasku",
@@ -1058,7 +1058,7 @@ export const TREATMENTS: Treatment[] = [
     price: "320 PLN — 420 PLN (Twarz, Szyja, Dekolt)",
     description: "Łagodny, wieloetapowy zabieg hydropeelingu przeznaczony dla cery zanieczyszczonej, matowej, łojotokowej lub narażonej na stres miejski i smog. Łączy przepływ aktywnej wody nasyconej cząsteczkowym wodorem z kontrolowanym podciśnieniem, dzięki czemu skutecznie usuwa nadmiar utlenionego sebum, zrogowaciałe komórki i zanieczyszczenia z ujść mieszków włosowych bez naruszania bariery lipidowej naskórka. W Slow Skin Concept zabieg ma odciążyć skórę, a nie agresywnie ją wyjaławiać – procedurę uzupełnia spersonalizowany koncentrat pielęgnacyjny, sonoforeza i kompres wyciszający.",
     focus: "Woda nasycona wodorem, kontrolowane podciśnienie, odciążenie porów, brak przesuszenia, ochrona bariery lipidowej",
-    image: "/oczyszczanie-wodorowe.png",
+    image: "/oczyszczanie-wodorowe.webp",
     indications: [
       "Skóra zanieczyszczona, z tendencją do powstawania zaskórników i rozszerzonych porów",
       "Cera przetłuszczająca się, łojotokowa z widocznym nadmiarem utlenionego sebum",
@@ -1134,7 +1134,7 @@ export const TREATMENTS: Treatment[] = [
     price: "350 PLN — 450 PLN (Pakiety 3 zabiegów od 945 PLN)",
     description: "Łagodny, nowoczesny zabieg łączący kontrolowane mikrozłuszczanie warstwy rogowej naskórka za pomocą sterylnego nanodysku, kojący masaż wibracyjny oraz precyzyjne stemplowanie wprowadzające preparaty aktywne. W odróżnieniu od klasycznej mezoterapii mikroigłowej, nanodyski nie nakłuwają żywych warstw skóry właściwej i nie powodują krwawienia ani konieczności rekonwalescencji. Procedura usuwa zrogowaciałe komórki, wygładza naskórek i tworzy optymalne warunki do biodostępności dobranych substancji odżywczych.",
     focus: "Jednorazowy kartridż z nanodyskiem, mikrozłuszczanie frakcyjne, stemplowanie, brak nakłuwania, zero rekonwalescencji",
-    image: "/nanobrazja-nanopen.png",
+    image: "/nanobrazja-nanopen.webp",
     indications: [
       "Skóra szorstka, nierówna w strukturze lub nadmiernie zrogowaciała",
       "Cera sucha, odwodniona, pozbawiona komfortu i elastyczności",
@@ -1211,7 +1211,7 @@ export const TREATMENTS: Treatment[] = [
     price: "400 PLN — 500 PLN (Pakiety 3 zabiegów od 1080 PLN)",
     description: "Nieinwazyjna metoda wspomagająca przenikanie odpowiednio dobranych substancji aktywnych bez naruszania ciągłości naskórka. Wykorzystuje kontrolowane impulsy elektryczne (elektroporację), które czasowo zwiększają przepuszczalność powierzchownych struktur skóry i ułatwiają transport składników. Podczas wizyty dobierana jest unikalna baza oraz koncentraty aktywne dermaviduals® tworzone bezpośrednio przy klientce po rzetelnej analizie bariery, nawodnienia i reaktywności.",
     focus: "Elektroporacja bezigłowa, koncentraty dermaviduals®, brak nakłuwania, zero rekonwalescencji, odbudowa bariery",
-    image: "/mezoterapia-beziglowa.png",
+    image: "/mezoterapia-beziglowa.webp",
     indications: [
       "Odwodnienie i uczucie ściągnięcia, szorstkości lub dyskomfortu naskórka",
       "Utrata świeżości, szary koloryt i brak naturalnego blasku",
@@ -1291,7 +1291,7 @@ export const TREATMENTS: Treatment[] = [
     price: "500 PLN — 700 PLN (Pakiety 3 zabiegów od 1350 PLN)",
     description: "Precyzyjny zabieg kontrolowanego mikronakłuwania sterylnym kartridżem, który uruchamia naturalne procesy naprawcze, kaskadę gojenia i biologiczną przebudowę macierzy zewnątrzkomórkowej. Wspiera syntezę kolagenu i elastyny, poprawia gęstość i jędrność oraz zmniejsza widoczność rozszerzonych porów, drobnych zmarszczek i blizn potrądzikowych. Głębokość wkłuć i skład jałowego preparatu są dobierane indywidualnie po uprzedniej ocenie gotowości biologicznej skóry.",
     focus: "Fizjologiczna indukcja kolagenu, sterylny kartridż jednorazowy, spersonalizowany preparat, przebudowa strukturalna",
-    image: "/mezoterapia-mikroiglowa.png",
+    image: "/mezoterapia-mikroiglowa.webp",
     indications: [
       "Utrata jędrności, gęstości, elastyczności i napięcia skóry",
       "Drobne zmarszczki mimiczne i utrwalone linie",
@@ -1369,7 +1369,7 @@ export const TREATMENTS: Treatment[] = [
     price: "450 PLN — 550 PLN (Pakiety 4 i 6 zabiegów z rabatem do 15%)",
     description: "Innowacyjna, bezinwazyjna terapia łącząca dwa komplementarne etapy podczas jednej wizyty: przygotowanie i stymulację mikrokrążenia za pomocą luksusowej złotej głowicy ESM oraz bezigłową aplikację wyselekcjonowanych substancji aktywnych głowicą MESO PORO. Czasowe zwiększenie przepuszczalności naskórka pozwala na dogłębne nasycenie tkanek kwasem hialuronowym, peptydami, ektoiną i składnikami barierowymi bez naruszania ciągłości skóry i bez okresu rekonwalescencji.",
     focus: "Złota głowica rolkowa ESM, impulsy MESO PORO, bezbolesny elektroporacyjny transport składników, natychmiastowe napięcie i nawodnienie",
-    image: "/mesoporacja-dwufazowa-mesoporo.png",
+    image: "/mesoporacja-dwufazowa-mesoporo.webp",
     indications: [
       "Skóra odwodniona, sucha, szorstka lub pozbawiona komfortu",
       "Cera zmęczona, ziemista, matowa i pozbawiona świeżości",
@@ -1447,7 +1447,7 @@ export const TREATMENTS: Treatment[] = [
     price: "600 PLN — 800 PLN",
     description: "HIFU wykorzystuje skoncentrowane fale ultradźwiękowe, które dostarczają energię na określoną głębokość tkanek bez naruszania powierzchni skóry. Kontrolowane punkty termiczne uruchamiają procesy przebudowy, których rezultaty rozwijają się stopniowo w kolejnych tygodniach. Zabieg poprzedza kwalifikacja obejmująca ocenę kondycji skóry, grubości tkanki, anatomii obszaru oraz przeciwwskazań. Parametry i głębokość działania dobierane są indywidualnie — HIFU nie wykonuje się według jednego schematu u każdej osoby.",
     focus: "Skoncentrowana fala ultradźwiękowa, punkty koagulacji termicznej, lifting i poprawa konturu żuchwy bez naruszania naskórka",
-    image: "/hifu-ultrasound.png",
+    image: "/hifu-ultrasound.webp",
     indications: [
       "Utrata napięcia skóry twarzy i szyi",
       "Mniej wyraźny owal twarzy i opadanie tkanek w okolicy policzków",
@@ -1511,7 +1511,7 @@ export const TREATMENTS: Treatment[] = [
     price: "500 PLN — 700 PLN",
     description: "Zaawansowana technologia łącząca kontrolowane mikronakłuwanie z działaniem energii fali radiowej. Sterylne mikroigły docierają na indywidualnie dobraną głębokość, a następnie przekazują energię RF bezpośrednio do wybranej warstwy tkanki. Mikronakłucia inicjują naturalną odpowiedź naprawczą, natomiast energia radiowa powoduje kontrolowane ogrzanie tkanki. Połączenie tych dwóch bodźców wspiera procesy związane z produkcją kolagenu i elastyny oraz stopniową przebudowę skóry.",
     focus: "Frakcyjna stymulacja kolagenu, termolifting falami RF, redukcja rozszerzonych porów, spłycenie drobnych zmarszczek i blizn",
-    image: "/rf-microneedling.png",
+    image: "/rf-microneedling.webp",
     indications: [
       "Utrata jędrności, gęstości i napięcia skóry twarzy, szyi lub dekoltu",
       "Drobne zmarszczki i utrata elastyczności",
@@ -1583,7 +1583,7 @@ export const TREATMENTS: Treatment[] = [
     price: "500 PLN",
     description: "Nowoczesna forma elektroakupunktury twarzy łącząca precyzyjne mikroimpulsy o częstotliwościach dr. Paula Nogiera (1–99 Hz), przewodzone przez ultracienkie, jednorazowe igły, z pracą nad układem mięśniowo-powięziowym twarzy oraz fototerapią LED.\n\nRozmieszczenie igieł, rodzaj częstotliwości oraz długość fali światła LED dobierane są indywidualnie do potrzeb i reaktywności skóry. Zabieg wspiera jednocześnie rozluźnienie nadmiernie spiętych struktur oraz pobudzenie obszarów osłabionych, bez ingerencji w naturalną mimikę.",
     focus: "Fale Nogiera (1–99 Hz), elektroakupunktura twarzy, fototerapia LED i równowaga mięśniowo-powięziowa",
-    image: "/how_help_neurolifting.png",
+    image: "/how_help_neurolifting.webp",
     indications: [
       "Skóra wiotka, pozbawiona napięcia i elastyczności",
       "Utrata owalu twarzy oraz widoczne zmarszczki",
@@ -1649,7 +1649,7 @@ export const TREATMENTS: Treatment[] = [
     price: "480 PLN — 600 PLN",
     description: "Troskliwy zabieg rewitalizujący, który dostarcza skórze składników odżywczych, peptydów i antyoksydantów. Wspomaga naturalną zdolność cery do regeneracji, poprawia nawilżenie i elastyczność oraz chroni przed oznakami przedwczesnego starzenia spowodowanego stresem i zanieczyszczeniami.",
     focus: "Ochrona antyoksydacyjna, wygładzenie drobnych zmarszczek, głęboka regeneracja",
-    image: "/how_help_meso_remodeling.png",
+    image: "/how_help_meso_remodeling.webp",
     indications: [
       "Widoczne oznaki starzenia chronologicznego i fotostarzenia",
       "Utrata blasku, suchość głęboka, drobne i głębokie zmarszczki",
@@ -1691,7 +1691,7 @@ export const TREATMENTS: Treatment[] = [
     price: "350 PLN",
     description: "Zabieg łączący działanie specjalistycznej emulsji węglowej z krótkimi impulsami lasera Q-Switch Nd:YAG. Emulsja pokrywa powierzchnię skóry i osadza się w ujściach mieszków włosowych. Węgiel pełni funkcję chromoforu — pochłania energię światła laserowego, a następnie ulega rozdrobnieniu i usunięciu wraz z nadmiarem sebum, powierzchniowymi zanieczyszczeniami i komórkami warstwy rogowej. Pomaga dokładnie oczyścić i odświeżyć skórę, wygładzić jej strukturę, ograniczyć nadmierne przetłuszczanie oraz zmniejszyć widoczność rozszerzonych porów.",
     focus: "Fotoakustyczne oczyszczenie porów, regulacja wydzielania sebum, wygładzenie struktury naskórka, odświeżenie kolorytu",
-    image: "/laser-carbon.png",
+    image: "/laser-carbon.webp",
     indications: [
       "Nadmierne wydzielanie sebum (łojotok)",
       "Rozszerzone i widoczne ujścia mieszków włosowych",
@@ -1761,7 +1761,7 @@ export const TREATMENTS: Treatment[] = [
     price: "od 150 PLN (Cała twarz: 400 PLN | Pakiety 3 zabiegów od 1080 PLN)",
     description: "Terapie LPL wykorzystują intensywne impulsy szerokopasmowego światła, których parametry dobierane są ściśle do problemu, fototypu oraz aktualnej kondycji skóry. Zależnie od wybranego programu światło oddziałuje na melaninę w przebarwieniach, hemoglobinę w naczynkach krwionośnych albo wspiera wyciszanie zmian trądzikowych i regulację sebum. Zabieg obejmuje pełną procedurę przygotowania, doboru parametrów oraz wyciszenia barierowego.",
     focus: "Selektywna fototermoliza, fotoodmładzanie, redukcja rumienia i naczynek, rozjaśnianie przebarwień słonecznych, wsparcie skóry trądzikowej",
-    image: "/terapie-swiatlem-lpl.png",
+    image: "/terapie-swiatlem-lpl.webp",
     indications: [
       "Oznaki fotostarzenia, utrata świeżości, drobne linie i szary koloryt",
       "Nierównomierny koloryt cery i powierzchowne przebarwienia posłoneczne / plamy soczewicowate",
@@ -1832,7 +1832,7 @@ export const TREATMENTS: Treatment[] = [
     price: "od 100 PLN (Pakiety łączone od 330 PLN)",
     description: "Metoda stopniowego ograniczania niechcianego owłosienia za pomocą kontrolowanych impulsów światła LPL. Energia pochłaniana jest przez melaninę obecną w łodydze i opuszce włosa, a następnie przekształcana w ciepło oddziałujące na struktury odpowiedzialne za jego wzrost. Zabieg jest doskonałą alternatywą dla wosku i maszynki, szczególnie przy problemie bolesnego wrastania włosków i zapalenia mieszków.",
     focus: "Stopniowa redukcja owłosienia, redukcja podrażnień po goleniu, eliminacja wrastających włosków, gładkość ciała",
-    image: "/fotoepilacja-lpl.png",
+    image: "/fotoepilacja-lpl.webp",
     indications: [
       "Chęć długotrwałego ograniczenia niechcianego owłosienia twarzy lub ciała",
       "Ciemne i wyraźnie widoczne włosy w fazie anagenu",
@@ -1902,7 +1902,7 @@ export const TREATMENTS: Treatment[] = [
     price: "320 PLN — 420 PLN",
     description: "Wielofunkcyjna procedura oczyszczająca wykorzystująca mikroskopijne cząsteczki aktywnego wodoru. Wodór jako najmniejszy pierwiastek przenika w głąb porów, neutralizując reaktywne formy tlenu (wolne rodniki) i dogłębnie wypłukując zanieczyszczenia, sebum i martwy naskórek pod ciśnieniem sterylnej wody.",
     focus: "Głęboki detoks wodorowy, oczyszczenie porów, neutralizacja wolnych rodników",
-    image: "/hydrogen-purification.png",
+    image: "/hydrogen-purification.webp",
     indications: [
       "Zanieczyszczona cera, zaskórniki, szary odcień skóry miejskiej",
       "Zmęczenie stresem oksydacyjnym i smogiem",
@@ -1941,7 +1941,7 @@ export const TREATMENTS: Treatment[] = [
     price: "300 PLN — 380 PLN",
     description: "Wyjątkowo bezpieczna odmiana mikrodermabrazji, w której czynnikiem złuszczającym jest strumień rozproszonych kropelek soli fizjologicznej podawany pod ciśnieniem sprężonego tlenu. Bezinwazyjnie usuwa zrogowaciały naskórek, dotlenia komórki, obniża temperaturę tkanek i koi stany zapalne.",
     focus: "Dotlenienie naskórka, bezdotykowe złuszczanie, ukojenie rumienia",
-    image: "/oxybrasion.png",
+    image: "/oxybrasion.webp",
     indications: [
       "Skóra wrażliwa, naczynkowa, skłonna do podrażnień i rumienia",
       "Skóra szara, niedotleniona, potrzebująca świeżości",
@@ -1979,7 +1979,7 @@ export const TREATMENTS: Treatment[] = [
     price: "350 PLN — 450 PLN",
     description: "Zaawansowana technologia mikrozłuszczania frakcyjnego przy pomocy sterylnych nanodysków krzemowych. Otwiera tysiące mikrokanalików w warstwie rogowej naskórka, zwiększając wchłanianie substancji biomimetycznych o kilkaset procent bez krwawienia i bez naruszenia skóry właściwej.",
     focus: "Frakcyjne mikrozłuszczanie, transport substancji aktywnych, wygładzenie porów",
-    image: "/nanobrasion.png",
+    image: "/nanobrasion.webp",
     indications: [
       "Nierówna tekstura skóry, drobne zmarszczki, rozszerzone pory",
       "Przebarwienia naskórkowe i brak blasku",
@@ -2018,7 +2018,7 @@ export const TREATMENTS: Treatment[] = [
     price: "420 PLN",
     description: "Sezonowa autorska ceremonia regeneracyjna opracowana z myślą o skórze po okresie intensywnego nasłonecznienia. Przywraca utraconą równowagę barierową, uzupełnia lipidy wypłukane przez promieniowanie UV, rozjaśnia posłoneczne plamy pigmentacyjne i głęboko nasyca tkanki antyoksydantami.",
     focus: "Naprawa uszkodzeń posłonecznych, antyoksydacyjny reset komórkowy",
-    image: "/autumn-reset.png",
+    image: "/autumn-reset.webp",
     indications: [
       "Skóra przesuszona, zgrubiała i szorstka po wakacjach i kąpielach słonecznych",
       "Widoczne przebarwienia posłoneczne i nierówny koloryt",
@@ -2058,7 +2058,7 @@ export const TREATMENTS: Treatment[] = [
     price: "450 PLN — 700 PLN",
     description: "Indywidualna sesja pielęgnacyjna komponowana na bieżąco przez kosmetologa na podstawie aktualnego stanu Twojej skóry, samopoczucia i potrzeb. Może łączyć delikatne technologie aparaturowe z autorskimi technikami masażu modelującego i odżywczymi, bezpiecznymi składnikami łagodzącymi.",
     focus: "Pełna personalizacja, holistyczne podejście, troskliwy dotyk i nowoczesna pielęgnacja",
-    image: "/bespoke-ceremony.png",
+    image: "/bespoke-ceremony.webp",
     indications: [
       "Osoby poszukujące w pełni zindywidualizowanego, serdecznego podejścia",
       "Cery o złożonych potrzebach (wrażliwość, suchość, potrzeba odświeżenia)",
@@ -2095,7 +2095,7 @@ export const TREATMENTS: Treatment[] = [
     price: "50 PLN",
     description: "Plecy towarzyszą Ci przez cały dzień — podczas pracy, ruchu i odpoczynku. Kiedy pojawia się napięcie lub sztywność, warto dać im chwilę uwagi. Masaż termiczny Ceragem łączy pracę ogrzewanych elementów masujących z czasem na spokojny, wygodny odpoczynek. W gabinecie korzystam z urządzenia Ceragem VE, model CGM MB-1101. To automatyczne łóżko do masażu termicznego. Przed rozpoczęciem programu urządzenie rozpoznaje długość pleców, a następnie dopasowuje do niej ruch elementów masujących. Ich intensywność oraz temperaturę można regulować zgodnie z Twoimi odczuciami.",
     focus: "Ciepło i masaż dopasowane do Twoich pleców, rozluźnienie napięcia mięśniowego, łagodna ulga przy sztywności, relaks i aromaterapia",
-    image: "/ceragem_bed.png",
+    image: "/ceragem_bed.webp",
     indications: [
       "Napięcie pleców po pracy, ruchu i codziennych obowiązkach",
       "Sztywność mięśni po długotrwałym siedzeniu lub pracy przy biurku",
@@ -2177,7 +2177,7 @@ export const TREATMENTS: Treatment[] = [
     price: "110 PLN (seria 9 zabiegów: 990 PLN / seria 12 zabiegów: 1320 PLN)",
     description: "Kiedy bolą stawy lub kręgosłup, zaczynasz zwracać uwagę na ruchy, które wcześniej były naturalne: wchodzenie po schodach, spacer, schylanie się czy powrót do ulubionej aktywności. Terapia Sygnałem Pulsacyjnym PST jest nieinwazyjną metodą, którą można włączyć jako wsparcie przy wybranych dolegliwościach układu ruchu. Pracujemy z myślą o tym, co ma dla Ciebie praktyczne znaczenie: mniejszym bólu, swobodniejszym ruchu i większym komforcie w codziennym życiu. PST wykorzystuje pulsujące pole elektromagnetyczne przekazywane do wybranego obszaru ciała przez aplikator urządzenia — bez naruszania skóry i bez igieł.",
     focus: "Więcej swobody w ruchu, regeneracja stawów i kręgosłupa, pulsujące pole elektromagnetyczne PST, redukcja bólu i sztywności, urządzenia PST H-200 i PST H-300",
-    image: "/pst_couch.png",
+    image: "/pst_couch.webp",
     indications: [
       "Ból lub sztywność stawów ograniczające aktywność i swobodę codziennego ruchu",
       "Dolegliwości powracające przy codziennym obciążeniu, chodzeniu czy schylaniu się",
@@ -2276,10 +2276,10 @@ export const ARTICLES: MagazineArticle[] = [
     category: "FILOZOFIA",
     readingTime: "11 min czytania",
     author: "Katarzyna Brzezińska",
-    image: "/src/assets/images/slow_skin_philosophy_1788718994361.jpg",
+    image: "/src/assets/images/slow_skin_philosophy_1788718994361.webp",
     imageCaption: "Autorska filozofia bionomiczna w Slow Skin Concept: poszanowanie fizjologii komórkowej, biologiczna biozgodność i ochrona przed mikrozapaleniem.",
     inArticleGraphic: {
-      image: "/src/assets/images/skin_cells_1788720444145.jpg",
+      image: "/src/assets/images/skin_cells_1788720444145.webp",
       imageCaption: "Fot. Badawcza 1: Mikroskopowa architektura naskórka i fizjologiczny cykl odnowy korneocytów w badaniu bionomicznym (Slow Skin Concept).",
       chartTitle: "Wykres Kliniczny: Agresywne Złuszczanie vs. Bionomiczny Rytm Slow Skin",
       chartSubtitle: "Porównanie dynamiki regeneracji, poziomu stanu zapalnego (IL-1α) oraz integralności bariery w okresie 40 dni.",
@@ -2448,10 +2448,10 @@ export const ARTICLES: MagazineArticle[] = [
     category: "NEUROBIOLOGIA",
     readingTime: "12 min czytania",
     author: "Katarzyna Brzezińska",
-    image: "/src/assets/images/neuro_stress_skin_1788719008025.jpg",
+    image: "/src/assets/images/neuro_stress_skin_1788719008025.webp",
     imageCaption: "Wyciszenie układu autonomicznego i rozluźnienie powięzi twarzowej podczas autorskich procedur pielęgnacyjnych w Jelczu-Laskowicach.",
     inArticleGraphic: {
-      image: "/src/assets/images/neuro_skin_care_1788720457257.jpg",
+      image: "/src/assets/images/neuro_skin_care_1788720457257.webp",
       imageCaption: "Fot. Badawcza 2: Wyciszenie osi stresowej mózg–skóra poprzez stymulację włókien czuciowych C-tactile i manualną relaksację powięzi.",
       chartTitle: "Wykres Neuro-Biologiczny: Reakcja Stresowa vs. Terapia Wyciszająca",
       chartSubtitle: "Wpływ procedur relaksacyjnych Slow Skin na poziom hormonów stresu i neuropeptydów zapalnych w skórze.",
@@ -2590,10 +2590,10 @@ export const ARTICLES: MagazineArticle[] = [
     category: "FIZJOLOGIA",
     readingTime: "10 min czytania",
     author: "Katarzyna Brzezińska",
-    image: "/src/assets/images/hydrolipid_barrier_1788719020707.jpg",
+    image: "/src/assets/images/hydrolipid_barrier_1788719020707.webp",
     imageCaption: "Fizjologiczna matryca lipidowa naskórka: trójkąt ceramidów, cholesterolu i wolnych kwasów tłuszczowych chroniący przed ucieczką wody.",
     inArticleGraphic: {
-      image: "/src/assets/images/barrier_hydration_1788720471893.jpg",
+      image: "/src/assets/images/barrier_hydration_1788720471893.webp",
       imageCaption: "Fot. Badawcza 3: Mikroskopowa struktura ciekłokrystalicznej tarczy lipidowej oraz uszczelnienie przestrzeni międzykomórkowych (DMS).",
       chartTitle: "Wykres Regeneracji Bariery: Wskaźnik TEWL i Poziom Nawodnienia Tkankowego",
       chartSubtitle: "Dynamika odbudowy cementu międzykomórkowego (stratum corneum) w 28-dniowym protokole bionomicznym.",
@@ -2732,10 +2732,10 @@ export const ARTICLES: MagazineArticle[] = [
     category: "SUCHOŚĆ & BARIERA",
     readingTime: "9 min czytania",
     author: "Katarzyna Brzezińska",
-    image: "/src/assets/images/barrier_hydration_1788720471893.jpg",
+    image: "/src/assets/images/barrier_hydration_1788720471893.webp",
     imageCaption: "Badanie poziomu TEWL, rezerw NMF i nawilżenia głębokiego w instytucie Slow Skin Concept w Jelczu-Laskowicach.",
     inArticleGraphic: {
-      image: "/src/assets/images/skin_cells_1788720444145.jpg",
+      image: "/src/assets/images/skin_cells_1788720444145.webp",
       imageCaption: "Fot. Badawcza 4: Mikroskopowe nawodnienie korneocytów i uszczelnienie cementu międzykomórkowego (Slow Skin Concept).",
       chartTitle: "Wykres Retencji Wilgoci: Konwencjonalne Nawilżanie vs. Odbudowa Bionomiczna DMS",
       chartSubtitle: "Trwałość nawilżenia tkankowego oraz redukcja objawów ściągnięcia w okresie 30 dni.",
@@ -2834,10 +2834,10 @@ export const ARTICLES: MagazineArticle[] = [
     category: "SLOW AGING",
     readingTime: "11 min czytania",
     author: "Katarzyna Brzezińska",
-    image: "/src/assets/images/tissue_biostimulators_1790245238936.jpg",
+    image: "/src/assets/images/tissue_biostimulators_1790245238936.webp",
     imageCaption: "Biostymulacja tkankowa i wsparcie naturalnej neokolagenezy w gabinecie Slow Skin Concept.",
     inArticleGraphic: {
-      image: "/src/assets/images/remodeling_therapy_1790249327484.jpg",
+      image: "/src/assets/images/remodeling_therapy_1790249327484.webp",
       imageCaption: "Fot. Badawcza 5: Przebudowa siatki kolagenowej i uniesienie owalu twarzy w procedurze remodelingu bionomicznego.",
       chartTitle: "Dynamika Syntezy Kolagenu: Bionomiczny Slow-Aging vs. Agresywna Termoliza",
       chartSubtitle: "Jakość włókien kolagenowych (Typ I/III) oraz poziom markerów starzenia komórkowego.",
@@ -2931,10 +2931,10 @@ export const ARTICLES: MagazineArticle[] = [
     category: "TRĄDZIK & MIKROBIOM",
     readingTime: "10 min czytania",
     author: "Katarzyna Brzezińska",
-    image: "/src/assets/images/skin_readiness_diag_1790249295522.jpg",
+    image: "/src/assets/images/skin_readiness_diag_1790249295522.webp",
     imageCaption: "Badanie wielospektralne porów, wydzielania sebum i flory bakteryjnej w instytucie w Jelczu-Laskowicach.",
     inArticleGraphic: {
-      image: "/src/assets/images/hydrogen_facial_1790245625108.jpg",
+      image: "/src/assets/images/hydrogen_facial_1790245625108.webp",
       imageCaption: "Fot. Badawcza 6: Łagodne oczyszczanie wodorowe i normalizacja flory bakteryjnej bez naruszania płaszcza lipidowego.",
       chartTitle: "Wyciszenie Trądziku Dorosłych: Bionomiczny Balans vs. Agresywne Antybiotyki",
       chartSubtitle: "Redukcja wykwintów zapalnych, poziom nawilżenia naskórka i wskaźnik nawrotów w ciągu 12 tygodni.",
@@ -3028,10 +3028,10 @@ export const ARTICLES: MagazineArticle[] = [
     category: "NACZYNKA & RUMIEŃ",
     readingTime: "11 min czytania",
     author: "Katarzyna Brzezińska",
-    image: "/src/assets/images/rosacea_calm_1790249310213.jpg",
+    image: "/src/assets/images/rosacea_calm_1790249310213.webp",
     imageCaption: "Precyzyjna fototerapia i kojące protokoły naczyniowe w instytucie Slow Skin Concept.",
     inArticleGraphic: {
-      image: "/src/assets/images/lpl_skin_therapy_1790246512828.jpg",
+      image: "/src/assets/images/lpl_skin_therapy_1790246512828.webp",
       imageCaption: "Fot. Badawcza 7: Selektywne obkurczenie powierzchownego splotu naczyniowego i wygaszenie rumienia napadowego.",
       chartTitle: "Terapia Gry Naczyniowej: Protokół Łagodny Slow Skin vs. Agresywna Koagulacja",
       chartSubtitle: "Trwałość wygaszenia rumienia, komfort termiczny i odporność na wahania temperatur.",
@@ -3125,10 +3125,10 @@ export const ARTICLES: MagazineArticle[] = [
     category: "PRZEBARWIENIA",
     readingTime: "10 min czytania",
     author: "Katarzyna Brzezińska",
-    image: "/src/assets/images/pigment_balance_1790249364420.jpg",
+    image: "/src/assets/images/pigment_balance_1790249364420.webp",
     imageCaption: "Ocena głębokości depozytów melaniny w świetle Wooda i terapia rozjaśniająca w instytucie w Jelczu-Laskowicach.",
     inArticleGraphic: {
-      image: "/src/assets/images/hero_bright_luxury_skin_1790504632611.jpg",
+      image: "/src/assets/images/hero_bright_luxury_skin_1790504632611.webp",
       imageCaption: "Fot. Badawcza 8: Jednolity koloryt, rozproszenie depozytów melaniny i świetlistość cery po kuracji bionomicznej.",
       chartTitle: "Skuteczność Rozjaśniania Przebarwień: Metoda Bionomiczna vs. Agresywny Resurfacing",
       chartSubtitle: "Rozjaśnienie melasmy (skala MASI), wskaźnik przebarwień pozapalnych PIH i trwałość rezultatów.",

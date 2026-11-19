@@ -266,6 +266,8 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
           <img
             src={currentBefore}
             alt={altBefore}
+            loading="lazy"
+            decoding="async"
             className="absolute inset-0 w-full h-full object-cover object-center z-0"
             referrerPolicy="no-referrer"
           />
@@ -282,6 +284,8 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
           <img
             src={currentAfter}
             alt={altAfter}
+            loading="lazy"
+            decoding="async"
             className="absolute inset-0 w-full h-full object-cover object-center z-10"
             style={{
               clipPath: `inset(0 ${100 - sliderPosition}% 0 0)`,
@@ -305,8 +309,25 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
           <div className="absolute top-0 bottom-0 -left-[1px] w-[2px] bg-luxury-gold shadow-[0_0_12px_rgba(212,175,55,0.9)]" />
 
           {/* Circular handle */}
-          <div className="absolute top-1/2 -left-5 -translate-y-1/2 w-10 h-10 rounded-full bg-luxury-dark border-2 border-luxury-gold text-luxury-gold flex items-center justify-center shadow-[0_0_20px_rgba(0,0,0,0.7)] group-hover:scale-110 transition-transform duration-200">
-            <MoveHorizontal className="w-5 h-5 text-luxury-gold" />
+          <div
+            role="slider"
+            tabIndex={0}
+            aria-label="Suwak porównania efektów przed i po terapii"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={Math.round(sliderPosition)}
+            onKeyDown={(e) => {
+              if (e.key === "ArrowLeft") {
+                e.preventDefault();
+                setSliderPosition((prev) => Math.max(0, prev - 5));
+              } else if (e.key === "ArrowRight") {
+                e.preventDefault();
+                setSliderPosition((prev) => Math.min(100, prev + 5));
+              }
+            }}
+            className="pointer-events-auto absolute top-1/2 -left-5 -translate-y-1/2 w-10 h-10 rounded-full bg-luxury-dark border-2 border-luxury-gold text-luxury-gold flex items-center justify-center shadow-[0_0_20px_rgba(0,0,0,0.7)] group-hover:scale-110 transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-luxury-gold"
+          >
+            <MoveHorizontal className="w-5 h-5 text-luxury-gold" aria-hidden="true" />
           </div>
         </div>
 

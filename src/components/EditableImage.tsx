@@ -13,6 +13,7 @@ export interface EditableImageProps {
   children?: React.ReactNode;
   onImageChange?: (id: string, newUrl: string) => void;
   aspectRatioClass?: string;
+  loading?: "lazy" | "eager";
 }
 
 export const EditableImage: React.FC<EditableImageProps> = ({
@@ -25,7 +26,8 @@ export const EditableImage: React.FC<EditableImageProps> = ({
   containerClassName = "relative overflow-hidden group",
   children,
   onImageChange,
-  aspectRatioClass = "aspect-[16/10]"
+  aspectRatioClass = "aspect-[16/10]",
+  loading = "lazy"
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [currentSrc, setCurrentSrc] = useState<string>(() => {
@@ -155,6 +157,8 @@ export const EditableImage: React.FC<EditableImageProps> = ({
         <img
           src={currentSrc}
           alt={alt}
+          loading={loading}
+          decoding="async"
           className={className}
           onError={(e) => {
             if (fallbackSrc && e.currentTarget.src !== fallbackSrc) {
@@ -167,6 +171,8 @@ export const EditableImage: React.FC<EditableImageProps> = ({
         <img
           src={fallbackSrc}
           alt={alt}
+          loading={loading}
+          decoding="async"
           className={className}
           referrerPolicy="no-referrer"
         />

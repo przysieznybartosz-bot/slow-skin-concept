@@ -67,7 +67,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       time: "75–90 minut",
       price: "380–480 zł",
       desc: "Indywidualnie komponowany zabieg dla skóry skłonnej do zaczerwienienia, pieczenia i uczucia gorąca. Poprawia komfort, zwiększa nawodnienie i wspiera architekturę lipidową.",
-      image: "/how_help_sensitive_skin.png"
+      image: "/how_help_sensitive_skin.webp"
     },
     {
       id: "skin-remodeling-therapy",
@@ -79,7 +79,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       time: "około 90 minut",
       price: "500–750 zł",
       desc: "Wielopoziomowa przebudowa dla skóry tracącej jędrność i wyraźny kontur. Dobór metod oddziałujących na różne poziomy tkanek ze stałą kontrolą regeneracji.",
-      image: "/skin-remodeling-therapy.png"
+      image: "/skin-remodeling-therapy.webp"
     },
     {
       id: "healthy-glow-therapy",
@@ -90,7 +90,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       time: "75–90 minut",
       price: "400–500 zł",
       desc: "Delikatne odświeżenie powierzchni naskórka z intensywnym nawilżeniem i ochroną antyoksydacyjną. Przywraca autentyczny, świeży blask bez powierzchownego maskowania.",
-      image: "/healthy-glow-therapy.png"
+      image: "/healthy-glow-therapy.webp"
     },
     {
       id: "acne-balance-therapy",
@@ -101,7 +101,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       time: "75–90 minut",
       price: "350–450 zł",
       desc: "Fizjologiczna regulacja pracy gruczołów łojowych i wsparcie mikrobiomu bez przesuszania naskórka i bez niszczenia spoiwa ceramidowego.",
-      image: "/acne-balance-therapy.png"
+      image: "/acne-balance-therapy.webp"
     },
     {
       id: "adult-acne-therapy",
@@ -112,7 +112,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       time: "80–90 minut",
       price: "380–480 zł",
       desc: "Dedykowana skórze dorosłej (strefa U, żuchwa), w której niedoskonałości współistnieją z odwodnieniem, reaktywnością, plamami pozapalnymi i pierwszymi oznakami starzenia.",
-      image: "/adult-acne-therapy.png"
+      image: "/adult-acne-therapy.webp"
     },
     {
       id: "couperose-therapy",
@@ -123,7 +123,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       time: "60–75 minut",
       price: "350–500 zł",
       desc: "Pielęgnacja skóry z widocznymi teleangiektazjami i napadowym rumieniem. Ochrona antyoksydacyjna, wzmocnienie śródbłonka i ukojenie bez przegrzewania tkanek.",
-      image: "/couperose-therapy.png"
+      image: "/couperose-therapy.webp"
     },
     {
       id: "pigment-balance-therapy",
@@ -134,7 +134,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       time: "80–90 minut",
       price: "400–550 zł",
       desc: "Terapia plam posłonecznych, melasmy i przebarwień pozapalnych PIH. Działa enzymatycznie i antyoksydacyjnie, wyciszając stan zapalny będący motorem melanogenezy.",
-      image: "/pigment-balance-therapy.png"
+      image: "/pigment-balance-therapy.webp"
     },
     {
       id: "neurolifting-nogier",
@@ -145,7 +145,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       time: "ok. 60 minut",
       price: "500 zł",
       desc: "Nowoczesna elektroakupunktura twarzy: ultracienkie igły przewodzące mikroimpulsy o częstotliwościach dr. Paula Nogiera (1–99 Hz) połączone z fototerapią LED (630–660 nm, 590 nm, 830–850 nm) oraz koktajlami regeneracyjnymi.",
-      image: "/how_help_neurolifting.png"
+      image: "/how_help_neurolifting.webp"
     }
   ];
 
@@ -411,6 +411,8 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
             <img 
               src="/assets/aistudio/Kobiety_z_kosmetykami_na_jasnym_tle_-_lekkie_d742efcc.webp" 
               alt="Diagnoza biologiczna i konsultacja Skin Readiness"
+              loading="lazy"
+              decoding="async"
               className="w-full h-auto max-h-[380px] object-cover object-center group-hover:scale-102 transition-transform duration-700"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
@@ -850,8 +852,10 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
             <div className="lg:col-span-4 flex flex-col gap-3">
               <div className="w-full h-36 rounded-xs overflow-hidden border border-luxury-gold/40 shadow-xs relative">
                 <img
-                  src="/ceragem_bed.png"
+                  src="/ceragem_bed.webp"
                   alt="Łóżko do masażu termicznego Ceragem VE"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"
                 />
@@ -915,8 +919,10 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
                   className="p-2 bg-white/95 border border-luxury-sand/70 rounded-xs flex items-center gap-2.5 cursor-pointer hover:border-luxury-gold transition-colors group"
                 >
                   <img 
-                    src="/pst_couch.png" 
+                    src="/pst_couch.webp" 
                     alt="PST H-300 w gabinecie — leżanka zabiegowa do kręgosłupa i bioder" 
+                    loading="lazy"
+                    decoding="async"
                     className="w-12 h-10 object-cover rounded-xs shrink-0" 
                     referrerPolicy="no-referrer"
                   />
@@ -931,8 +937,10 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
                   className="p-2 bg-white/95 border border-luxury-sand/70 rounded-xs flex items-center gap-2.5 cursor-pointer hover:border-luxury-gold transition-colors group"
                 >
                   <img 
-                    src="/pst_chair.png" 
+                    src="/pst_chair.webp" 
                     alt="PST H-200 w gabinecie — fotel zabiegowy do stawów i kolan" 
+                    loading="lazy"
+                    decoding="async"
                     className="w-12 h-10 object-cover rounded-xs shrink-0" 
                     referrerPolicy="no-referrer"
                   />

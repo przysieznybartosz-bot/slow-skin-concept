@@ -336,6 +336,8 @@ export const ShopPage: React.FC<ShopPageProps> = ({ onLinkClick, onOpenBooking }
                   <img 
                     src={product.image}
                     alt={product.title}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-500"
                     referrerPolicy="no-referrer"
                   />

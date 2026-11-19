@@ -576,6 +576,8 @@ export const SkinSearchPopupModal: React.FC<SkinSearchPopupModalProps> = ({
                           <img 
                             src={treatment.image} 
                             alt={treatment.title} 
+                            loading="lazy"
+                            decoding="async"
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                             onError={(e) => {
                               (e.target as HTMLElement).style.display = "none";
@@ -686,6 +688,8 @@ export const SkinSearchPopupModal: React.FC<SkinSearchPopupModalProps> = ({
                           <img 
                             src={art.image} 
                             alt={art.title} 
+                            loading="lazy"
+                            decoding="async"
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                           />
                         </div>

@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import React, { useState, useEffect, useRef, useMemo, useCallback, lazy, Suspense } from "react";
+import { motion, AnimatePresence, MotionConfig } from "motion/react";
 import { 
   Sparkles, 
   Clock, 
@@ -85,38 +85,58 @@ import { TREATMENTS, ARTICLES, REVIEWS } from "./data";
 import { VideoPlayerSection } from "./components/VideoPlayerSection";
 import TreatmentCard from "./components/TreatmentCard";
 import PillarTooltip from "./components/PillarTooltip";
-import TreatmentFAQ from "./components/TreatmentFAQ";
-import SkincareAssistant from "./components/SkincareAssistant";
 import WcagWidget from "./components/WcagWidget";
 import CookieBot from "./components/CookieBot";
-import { OriginalImageManagerModal } from "./components/OriginalImageManagerModal";
-import { TreatmentCardImageModal } from "./components/TreatmentCardImageModal";
 import { parseCurrentRoute, syncRoute, getArticlePath, getArticleFullUrl } from "./utils/router";
 import { EditableImage } from "./components/EditableImage";
 import { isEditorMode, toggleEditorMode, setEditorMode, isGoogleAIStudio } from "./utils/editorMode";
 import { optimizeImageForStorage, saveTreatmentCustomImage } from "./utils/imageOptimizer";
-import CookiesPolicyModal from "./components/CookiesPolicyModal";
 import { BeforeAfterSlider } from "./components/BeforeAfterSlider";
 import { DiscreetSection, DiscreetDiv, DiscreetCard } from "./components/DiscreetSection";
-import { FacialTreatmentsPage } from "./components/FacialTreatmentsPage";
-import { MethodPage } from "./components/MethodPage";
-import LegalPage, { LegalDocType } from "./components/LegalPage";
-import { BookingModal } from "./components/BookingModal";
+import type { LegalDocType } from "./components/LegalPage";
 import { BrandLogo } from "./components/BrandLogo";
-import { ShopPage } from "./components/ShopPage";
-import { TrainingPage } from "./components/TrainingPage";
 import { NewsletterSection } from "./components/NewsletterSection";
-import { SkinSearchPopupModal } from "./components/SkinSearchPopupModal";
-import { AllArticlesModal } from "./components/AllArticlesModal";
 import { DiagnosticAnswers, DiagnosticReport, Treatment, MagazineArticle, Review } from "./types";
 import { safeStorage } from "./utils/storage";
 
+const TreatmentFAQ = lazy(() => import("./components/TreatmentFAQ"));
+const SkincareAssistant = lazy(() => import("./components/SkincareAssistant"));
+const OriginalImageManagerModal = lazy(() =>
+  import("./components/OriginalImageManagerModal").then((m) => ({ default: m.OriginalImageManagerModal }))
+);
+const TreatmentCardImageModal = lazy(() =>
+  import("./components/TreatmentCardImageModal").then((m) => ({ default: m.TreatmentCardImageModal }))
+);
+const CookiesPolicyModal = lazy(() => import("./components/CookiesPolicyModal"));
+const FacialTreatmentsPage = lazy(() =>
+  import("./components/FacialTreatmentsPage").then((m) => ({ default: m.FacialTreatmentsPage }))
+);
+const MethodPage = lazy(() =>
+  import("./components/MethodPage").then((m) => ({ default: m.MethodPage }))
+);
+const LegalPage = lazy(() => import("./components/LegalPage"));
+const BookingModal = lazy(() =>
+  import("./components/BookingModal").then((m) => ({ default: m.BookingModal }))
+);
+const ShopPage = lazy(() =>
+  import("./components/ShopPage").then((m) => ({ default: m.ShopPage }))
+);
+const TrainingPage = lazy(() =>
+  import("./components/TrainingPage").then((m) => ({ default: m.TrainingPage }))
+);
+const SkinSearchPopupModal = lazy(() =>
+  import("./components/SkinSearchPopupModal").then((m) => ({ default: m.SkinSearchPopupModal }))
+);
+const AllArticlesModal = lazy(() =>
+  import("./components/AllArticlesModal").then((m) => ({ default: m.AllArticlesModal }))
+);
+
 const REVIEW_IMAGES: Record<string, string> = {
   "rev-1": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=600&h=800",
-  "rev-2": "/src/assets/images/mesoremodeling.jpg",
-  "rev-3": "/src/assets/images/facial_acupuncture_led_1785534009485.jpg",
+  "rev-2": "/how_help_meso_remodeling.webp",
+  "rev-3": "/src/assets/images/facial_acupuncture_led_1785534009485.webp",
   "rev-4": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=600&h=800",
-  "rev-5": "/src/assets/images/mesoremodeling.jpg"
+  "rev-5": "/how_help_meso_remodeling.webp"
 };
 
 const circadianRoutines = [
@@ -521,7 +541,7 @@ export default function App() {
   };
   const [isHeroLoaded, setIsHeroLoaded] = useState(false);
   const [heroCustomUrl, setHeroCustomUrl] = useState<string>(() => {
-    return safeStorage.getItem("custom_hero_image") || "/hero-main.png";
+    return safeStorage.getItem("custom_hero_image") || "/hero-main.webp";
   });
   const [isUploadingHero, setIsUploadingHero] = useState<boolean>(false);
   const [isHeroDragOver, setIsHeroDragOver] = useState<boolean>(false);
@@ -581,7 +601,7 @@ export default function App() {
         }
       } catch {}
       if (!map["how_help_sensitive_skin"]) {
-        map["how_help_sensitive_skin"] = "/how_help_sensitive_skin.png";
+        map["how_help_sensitive_skin"] = "/how_help_sensitive_skin.webp";
       }
     }
     return map;
@@ -590,16 +610,16 @@ export default function App() {
   const getEffectiveTreatmentImage = useCallback((treatment: Treatment | null | undefined): string => {
     if (!treatment) return "";
     if (treatment.id === "ceragem-thermal-massage") {
-      return customTreatmentImages["ceragem"] || "/ceragem_bed.png" || treatment.image;
+      return customTreatmentImages["ceragem"] || "/ceragem_bed.webp" || treatment.image;
     }
     if (treatment.id === "sonaris-pro-therapy") {
-      return customTreatmentImages["sonaris-pro-therapy"] || customTreatmentImages["sonaris-pro"] || "/sonaris-pro-therapy.png" || treatment.image;
+      return customTreatmentImages["sonaris-pro-therapy"] || customTreatmentImages["sonaris-pro"] || "/sonaris-pro-therapy.webp" || treatment.image;
     }
     if (treatment.id === "stymulatory-tkankowe") {
-      return customTreatmentImages["stymulatory"] || "/stymulatory_tkankowe.png" || treatment.image;
+      return customTreatmentImages["stymulatory"] || "/stymulatory_tkankowe.webp" || treatment.image;
     }
     if (treatment.id === "pst-signal-therapy") {
-      return customTreatmentImages["pst-couch"] || "/pst_couch.png" || treatment.image;
+      return customTreatmentImages["pst-couch"] || "/pst_couch.webp" || treatment.image;
     }
     // Automatyczna synchronizacja ze zdjęciami z sekcji "Jak możemy Ci pomóc":
     if (treatment.id === "skin-readiness") {
@@ -609,19 +629,19 @@ export default function App() {
       return customTreatmentImages["videokonsultacja"] || "/assets/aistudio/Blondynka_pisz_ca_w_notatniku_-_lekkie_c8f36364.webp" || treatment.image;
     }
     if (treatment.id === "rosacea-calm-therapy") {
-      return customTreatmentImages["how_help_sensitive_skin"] || "/how_help_sensitive_skin.png" || treatment.image;
+      return customTreatmentImages["how_help_sensitive_skin"] || "/how_help_sensitive_skin.webp" || treatment.image;
     }
     if (treatment.id === "couperose-therapy") {
-      return customTreatmentImages["couperose-therapy"] || "/couperose-therapy.png" || treatment.image;
+      return customTreatmentImages["couperose-therapy"] || "/couperose-therapy.webp" || treatment.image;
     }
     if (treatment.id === "neurolifting-nogier" || treatment.id === "neurolifting-face") {
-      return customTreatmentImages["how_help_neurolifting"] || "/how_help_neurolifting.png" || treatment.image;
+      return customTreatmentImages["how_help_neurolifting"] || "/how_help_neurolifting.webp" || treatment.image;
     }
     if (treatment.id === "skin-remodeling-therapy") {
-      return customTreatmentImages["skin-remodeling-therapy"] || customTreatmentImages["how_help_meso_remodeling"] || "/skin-remodeling-therapy.png" || treatment.image;
+      return customTreatmentImages["skin-remodeling-therapy"] || customTreatmentImages["how_help_meso_remodeling"] || "/skin-remodeling-therapy.webp" || treatment.image;
     }
     if (treatment.id === "epigenetic-aging") {
-      return customTreatmentImages["epigenetic-aging"] || customTreatmentImages["how_help_meso_remodeling"] || "/how_help_meso_remodeling.png" || treatment.image;
+      return customTreatmentImages["epigenetic-aging"] || customTreatmentImages["how_help_meso_remodeling"] || "/how_help_meso_remodeling.webp" || treatment.image;
     }
     return customTreatmentImages[treatment.id] || treatment.image;
   }, [customTreatmentImages]);
@@ -2312,15 +2332,15 @@ export default function App() {
   // PST Images Gallery State (Authentic Classic Clinical Model)
   const PST_IMAGES = useMemo(() => [
     {
-      url: customTreatmentImages["pst-couch"] || "/pst_couch.png",
-      fallback: "/src/assets/images/pst_couch_bed_therapy_1791109628792.jpg",
+      url: customTreatmentImages["pst-couch"] || "/pst_couch.webp",
+      fallback: "/src/assets/images/pst_couch_bed_therapy_1791109628792.webp",
       title: "Aparat PST H-300",
       subtitle: "Aplikator tunelowy do kręgosłupa i tułowia • Leżanka zabiegowa",
       tag: "PST H-300 • Kręgosłup & Biodra"
     },
     {
-      url: customTreatmentImages["pst-chair"] || "/pst_chair.png",
-      fallback: "/src/assets/images/pst_chair_therapy_1791109644424.jpg",
+      url: customTreatmentImages["pst-chair"] || "/pst_chair.webp",
+      fallback: "/src/assets/images/pst_chair_therapy_1791109644424.webp",
       title: "Aparat PST H-200",
       subtitle: "Aplikator pierścieniowy do stawów kończyn • Komfortowy fotel",
       tag: "PST H-200 • Stawy Kończyn & Kolana"
@@ -3102,6 +3122,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
   const currentYear = new Date().getFullYear();
 
   return (
+    <MotionConfig reducedMotion="user">
     <div id="app-root" className="min-h-screen bg-luxury-cream text-luxury-dark font-sans flex flex-col selection:bg-luxury-sand selection:text-luxury-gold w-full max-w-full relative">
       
       {/* Invisible placeholder container to initiate official Google Translate element */}
@@ -3177,7 +3198,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
           </a>
 
           {/* Minimalist Editorial Navigation with Mega Menu Hover Triggers - Perfectly Centered & Spaced */}
-          <nav className="hidden lg:flex items-center justify-center gap-6 xl:gap-9 2xl:gap-11 h-full mx-auto px-2">
+          <nav aria-label="Nawigacja główna" className="hidden lg:flex items-center justify-center gap-6 xl:gap-9 2xl:gap-11 h-full mx-auto px-2">
             {/* 1. Problemy skóry */}
             <div 
               className="relative h-full flex items-center"
@@ -3261,12 +3282,14 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
           <div className="flex items-center gap-2 sm:gap-2.5 xl:gap-3 shrink-0">
             {/* Moje Konto Button */}
             <button
+              type="button"
               onClick={() => { setActiveTab("account"); setSelectedArticle(null); setSelectedTreatment(null); setIsMobileMenuOpen(false); }}
               className={`w-9 h-9 sm:w-10 sm:h-10 border border-luxury-sand hover:border-luxury-gold transition-all duration-300 flex items-center justify-center font-medium shadow-2xs shrink-0 ${activeTab === "account" ? "bg-luxury-gold border-luxury-gold text-white" : "text-luxury-dark bg-transparent"}`}
               id="header-account-btn"
               title="Moje Konto — Slow Skin Pass"
+              aria-label="Moje Konto — Slow Skin Pass"
             >
-              <User className={`w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 ${activeTab === "account" ? "text-white" : "text-luxury-gold"}`} strokeWidth={1.5} />
+              <User className={`w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 ${activeTab === "account" ? "text-white" : "text-luxury-gold"}`} strokeWidth={1.5} aria-hidden="true" />
             </button>
 
             {/* Active Phone Call Button - Exact Matching height and baseline alignment */}
@@ -3839,6 +3862,8 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           {getEffectiveTreatmentImage(item) ? (
                             <img 
                               src={getEffectiveTreatmentImage(item)} 
+                              loading="lazy"
+                              decoding="async"
                               onError={(e) => {
                                 if (item.image && e.currentTarget.src !== item.image) {
                                   e.currentTarget.src = item.image;
@@ -4876,19 +4901,18 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                 <img 
                   src={heroCustomUrl}
                   onError={() => {
-                    if (heroCustomUrl !== "/src/assets/images/hero_skin_examination_lamp_1791109949357.jpg") {
-                      setHeroCustomUrl("/src/assets/images/hero_skin_examination_lamp_1791109949357.jpg");
+                    if (heroCustomUrl !== "/src/assets/images/hero_skin_examination_lamp_1791109949357.webp") {
+                      setHeroCustomUrl("/src/assets/images/hero_skin_examination_lamp_1791109949357.webp");
                     }
                   }}
                   alt="Profesjonalna ocena skóry pod lupą — Slow Skin Concept"
                   loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
+                  width={1536}
+                  height={1024}
                   onLoad={() => setIsHeroLoaded(true)}
-                  className="w-full h-full object-cover object-right md:object-center transition-all duration-[1500ms] ease-out hover:scale-[1.01]"
-                  style={{
-                    filter: isHeroLoaded ? "blur(0px)" : "blur(16px)",
-                    opacity: isHeroLoaded ? 0.94 : 0.1,
-                    transform: isHeroLoaded ? "scale(1)" : "scale(1.02)",
-                  }}
+                  className="w-full h-full object-cover object-right md:object-center transition-transform duration-700 ease-out hover:scale-[1.01] opacity-95"
                   referrerPolicy="no-referrer"
                   id="hero-img-element"
                 />
@@ -5164,7 +5188,10 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               <div className="relative w-28 h-28 sm:w-44 sm:h-44 md:w-64 md:h-64 lg:w-80 lg:h-80 drop-shadow-[0_14px_40px_rgba(197,138,42,0.25)] animate-spiral-slow">
                 <img 
                   src="/czysta-zlota-spirala.svg" 
-                  alt="Złota spirala — symbol Slow Skin Concept"
+                  alt=""
+                  width={320}
+                  height={320}
+                  decoding="async"
                   className="w-full h-full object-contain filter drop-shadow-[0_4px_16px_rgba(197,138,42,0.3)]"
                   referrerPolicy="no-referrer"
                 />
@@ -5292,8 +5319,8 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   <EditableImage
                     id="cover_magazine"
                     slotName="Okładka — Wydanie Specjalne No. I"
-                    src={customTreatmentImages["cover_magazine"] || "/cover_magazine.png"}
-                    fallbackSrc="/src/assets/images/regenerated_image_1781694292285.jpg"
+                    src={customTreatmentImages["cover_magazine"] || "/cover_magazine.webp"}
+                    fallbackSrc="/src/assets/images/regenerated_image_1781694292285.webp"
                     alt="Slow Skin Concept Luminous Skin Cover"
                     aspectRatioClass="aspect-[16/10]"
                     className="w-full h-full object-cover transition-transform duration-[4000ms] ease-out group-hover:scale-105"
@@ -5611,8 +5638,8 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         <EditableImage
                           id="bionomic_diagnosis"
                           slotName="Diagnoza Bionomiczna (Sondaż Barierowy)"
-                          src={customTreatmentImages["bionomic_diagnosis"] || "/bionomic_diagnosis.png"}
-                          fallbackSrc="/bionomic_diagnosis.png"
+                          src={customTreatmentImages["bionomic_diagnosis"] || "/bionomic_diagnosis.webp"}
+                          fallbackSrc="/bionomic_diagnosis.webp"
                           alt="Bionomiczna diagnostyka potrzeb skóry w Slow Skin Concept"
                           className="w-full h-full object-cover grayscale opacity-95 transition-all duration-[6000ms] group-hover:scale-105 group-hover:opacity-100"
                           aspectRatioClass="h-full w-full"
@@ -5781,8 +5808,8 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           <EditableImage
                             id="method_biological"
                             slotName="Metoda Autorska (Stymulacja Biologiczna)"
-                            src={customTreatmentImages["method_biological"] || "/method_biological.png"}
-                            fallbackSrc="/method_biological.png"
+                            src={customTreatmentImages["method_biological"] || "/method_biological.webp"}
+                            fallbackSrc="/method_biological.webp"
                             alt="Indywidualny plan dla Twojej skóry - kosmetolog tworzący notatki i plan terapii"
                             className="w-full h-full object-cover object-top grayscale opacity-95 transition-transform duration-[6000ms] group-hover:scale-102 group-hover:opacity-100"
                             aspectRatioClass="h-full w-full min-h-[480px] sm:min-h-[540px] md:min-h-[600px] lg:min-h-[640px]"
@@ -5838,7 +5865,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         id: "how_help_meso_remodeling",
                         title: "Meso Remodeling",
                         desc: "Komórkowa odbudowa mitochondrialna z ochroną telomerów i stymulacją głębokiej odnowy naskórka. Zaawansowana terapia bionomiczna.",
-                        image: "/how_help_meso_remodeling.png",
+                        image: "/how_help_meso_remodeling.webp",
                         actionUrl: "/meso-remodeling/",
                         cta: "Dowiedz się więcej"
                       },
@@ -5846,7 +5873,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         id: "how_help_first_visit",
                         title: "Pierwsza wizyta i diagnostyka skóry",
                         desc: "Szczegółowa konsultacja oraz zaawansowana analiza Thessia, dzięki której poznamy biologiczne potrzeby Twojej skóry i dobierzemy precyzyjny kierunek terapii.",
-                        image: "/how_help_first_visit.png",
+                        image: "/how_help_first_visit.webp",
                         actionUrl: "/pierwsza-wizyta-diagnostyka-skory/",
                         cta: "Dowiedz się więcej"
                       },
@@ -5854,7 +5881,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         id: "how_help_neurolifting",
                         title: "Neurolifting",
                         desc: "Elektroakupunktura twarzy łącząca fale Nogiera (1–99 Hz) ze światłem LED. Przywraca rytm komunikacji nerwowo-skórnej, rozluźnia napięcia mięśniowe i wspiera naturalną regenerację.",
-                        image: "/how_help_neurolifting.png",
+                        image: "/how_help_neurolifting.webp",
                         actionUrl: "/neurolifting/",
                         cta: "Dowiedz się więcej"
                       },
@@ -5862,7 +5889,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         id: "how_help_sensitive_skin",
                         title: "Terapia skóry wrażliwej",
                         desc: "Kojenie, intensywna regeneracja bariery hydrolipidowej i odbudowa immunologicznego komfortu skóry. Działamy łagodnie, lecz z maksymalną skutecznością bionomiczną.",
-                        image: "/how_help_sensitive_skin.png",
+                        image: "/how_help_sensitive_skin.webp",
                         actionUrl: "/terapia-skory-wrazliwej-i-reaktywnej/",
                         cta: "Dowiedz się więcej"
                       }
@@ -5893,7 +5920,9 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                   loop
                                   muted
                                   playsInline
+                                  preload="none"
                                   poster={card.image}
+                                  aria-hidden="true"
                                   onError={(e) => {
                                     (e.currentTarget as HTMLVideoElement).style.display = 'none';
                                   }}
@@ -6341,8 +6370,8 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           duration: "Efekt indywidualnej pielęgnacji",
                           idBefore: "case_0_before",
                           idAfter: "case_0_after",
-                          imageBefore: customTreatmentImages["case_0_before"] || "/forehead_before.jpg",
-                          imageAfter: customTreatmentImages["case_0_after"] || "/forehead_after.jpg",
+                          imageBefore: customTreatmentImages["case_0_before"] || "/forehead_before.webp",
+                          imageAfter: customTreatmentImages["case_0_after"] || "/forehead_after.webp",
                           anatomyLabel: "PUNKT WYJŚCIA",
                           anatomy: "Zaczerwienienie, pieczenie i nadmierna reakcja na kosmetyki wymagają uważnej oceny. Podczas konsultacji analizuję kondycję skóry, jej tolerancję oraz dotychczasową pielęgnację.",
                           remedyLabel: "PIELĘGNACJA W GABINECIE",
@@ -6365,8 +6394,8 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           duration: "Efekt indywidualnej terapii",
                           idBefore: "case_1_before",
                           idAfter: "case_1_after",
-                          imageBefore: customTreatmentImages["case_1_before"] || "/src/assets/images/malgorzata_before_1786129083321.jpg",
-                          imageAfter: customTreatmentImages["case_1_after"] || "/src/assets/images/regenerated_image_1781694290837.png",
+                          imageBefore: customTreatmentImages["case_1_before"] || "/src/assets/images/malgorzata_before_1786129083321.webp",
+                          imageAfter: customTreatmentImages["case_1_after"] || "/src/assets/images/regenerated_image_1781694290837.webp",
                           anatomyLabel: "PUNKT WYJŚCIA",
                           anatomy: "Spadek elastyczności, zmęczenie tkanek i wiotczenie owalu wymagają stymulacji biologicznej bez agresywnych ingerencji. Podczas diagnozy oceniamy stan skóry i jej gotowość regeneracyjną.",
                           remedyLabel: "PIELĘGNACJA W GABINECIE",
@@ -6389,8 +6418,8 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           duration: "Efekt indywidualnej terapii",
                           idBefore: "case_2_before",
                           idAfter: "case_2_after",
-                          imageBefore: customTreatmentImages["case_2_before"] || "/src/assets/images/aleksandra_before_1786129097233.jpg",
-                          imageAfter: customTreatmentImages["case_2_after"] || "/src/assets/images/aleksandra_after_1786129109685.jpg",
+                          imageBefore: customTreatmentImages["case_2_before"] || "/src/assets/images/aleksandra_before_1786129097233.webp",
+                          imageAfter: customTreatmentImages["case_2_after"] || "/src/assets/images/aleksandra_after_1786129109685.webp",
                           anatomyLabel: "PUNKT WYJŚCIA",
                           anatomy: "Zaburzenia w wydzielaniu sebum często współwystępują z naruszoną barierą naskórkową. Agresywne wysuszanie pogłębia problem, dlatego punktem wyjścia jest przywrócenie równowagi fizjologicznej.",
                           remedyLabel: "PIELĘGNACJA W GABINECIE",
@@ -6763,6 +6792,8 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                     <img
                                       src={rec.treatment.image}
                                       alt={rec.treatment.title}
+                                      loading="lazy"
+                                      decoding="async"
                                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-103"
                                       referrerPolicy="no-referrer"
                                     />
@@ -7370,7 +7401,9 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     </div>
 
                     <div className="border border-luxury-sand p-4 md:p-6 bg-white/40 rounded-none shadow-xs text-left">
-                      <TreatmentFAQ faqList={harvestedFaqs} />
+                      <Suspense fallback={<div className="py-8 text-center font-mono text-xs text-luxury-dark/70">Ładowanie pytań FAQ...</div>}>
+                        <TreatmentFAQ faqList={harvestedFaqs} />
+                      </Suspense>
                     </div>
                   </div>
                 </div>
@@ -8223,6 +8256,8 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                 <img 
                                   src={article.image} 
                                   alt={article.title} 
+                                  loading="lazy"
+                                  decoding="async"
                                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
                                   referrerPolicy="no-referrer"
                                 />
@@ -8278,8 +8313,10 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   <div className="border border-luxury-sand p-4 bg-white hidden lg:block">
                     <div className="aspect-[4/3] bg-luxury-sand overflow-hidden relative">
                       <img 
-                        src="/src/assets/images/regenerated_image_1781694292285.jpg" 
+                        src="/src/assets/images/regenerated_image_1781694292285.webp" 
                         alt="Restorative Apothecary Vials"
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover"
                         referrerPolicy="no-referrer"
                       />
@@ -8381,6 +8418,8 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             <img 
                               src={selectedArticle.image} 
                               alt={selectedArticle.title} 
+                              loading="lazy"
+                              decoding="async"
                               className="w-full h-full object-cover"
                               referrerPolicy="no-referrer"
                             />
@@ -8451,6 +8490,8 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                 <img
                                   src={selectedArticle.inArticleGraphic.image}
                                   alt={selectedArticle.inArticleGraphic.chartTitle}
+                                  loading="lazy"
+                                  decoding="async"
                                   className="w-full h-full object-cover"
                                   referrerPolicy="no-referrer"
                                 />
@@ -8786,10 +8827,12 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               transition={{ duration: 0.5 }}
               id="tab-method"
             >
-              <MethodPage 
-                onLinkClick={handleLinkClick} 
-                onOpenBooking={(treatment) => handleOpenBooking(treatment)} 
-              />
+              <Suspense fallback={<div className="py-16 text-center font-mono text-xs uppercase tracking-widest text-luxury-gold">Ładowanie metody autorskiej...</div>}>
+                <MethodPage 
+                  onLinkClick={handleLinkClick} 
+                  onOpenBooking={(treatment) => handleOpenBooking(treatment)} 
+                />
+              </Suspense>
             </motion.div>
           )}
 
@@ -8876,6 +8919,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           return (
                             <img 
                               src={detailImg} 
+                              decoding="async"
                               onError={(e) => {
                                 if (selectedTreatment.id === "pst-signal-therapy") {
                                   e.currentTarget.src = PST_IMAGES[selectedPstImageIndex]?.fallback || "";
@@ -8920,7 +8964,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                               onClick={() => setSelectedPstImageIndex(idx)}
                               className={`p-1.5 border text-left flex items-center gap-2 transition-all cursor-pointer ${selectedPstImageIndex === idx ? "border-luxury-gold bg-luxury-gold/10" : "border-luxury-sand/60 hover:border-luxury-gold/50 bg-white"}`}
                             >
-                              <img src={img.url} alt={img.title} className="w-9 h-7 object-cover rounded-xs shrink-0" referrerPolicy="no-referrer" />
+                              <img src={img.url} alt={img.title} loading="lazy" decoding="async" className="w-9 h-7 object-cover rounded-xs shrink-0" referrerPolicy="no-referrer" />
                               <div className="overflow-hidden min-w-0">
                                 <p className="font-mono text-[8px] uppercase font-bold text-luxury-dark truncate">{img.title}</p>
                                 <p className="text-[7px] font-mono text-luxury-gold/90 truncate">{img.tag.split("•")[1] || img.tag}</p>
@@ -12822,8 +12866,10 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         <div className="bg-luxury-gold/10 border border-luxury-gold/40 p-6 md:p-8 rounded-sm max-w-4xl mx-auto text-left shadow-xs space-y-6">
                           <div className="w-full h-64 sm:h-80 md:h-96 rounded-xs overflow-hidden border border-luxury-gold/30 shadow-md relative">
                             <img
-                              src={customTreatmentImages["ceragem"] || "/ceragem_bed.png"}
+                              src={customTreatmentImages["ceragem"] || "/ceragem_bed.webp"}
                               alt="Terapia masażu termicznego na łóżku Ceragem VE z projekcją ciepła jadeitowego"
+                              loading="lazy"
+                              decoding="async"
                               className="w-full h-full object-cover"
                               referrerPolicy="no-referrer"
                             />
@@ -13046,8 +13092,10 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                               <div className="space-y-3">
                                 <div className="aspect-[16/10] overflow-hidden bg-luxury-sand border border-luxury-sand/50 relative rounded-xs group">
                                   <img 
-                                    src={customTreatmentImages["pst-couch"] || "/pst_couch.png"}
+                                    src={customTreatmentImages["pst-couch"] || "/pst_couch.webp"}
                                     alt="Aparat PST H-300 — leżanka zabiegowa do regeneracji kręgosłupa i stawów biodrowych"
+                                    loading="lazy"
+                                    decoding="async"
                                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-102"
                                     referrerPolicy="no-referrer"
                                   />
@@ -13073,8 +13121,10 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                               <div className="space-y-3">
                                 <div className="aspect-[16/10] overflow-hidden bg-luxury-sand border border-luxury-sand/50 relative rounded-xs group">
                                   <img 
-                                    src={customTreatmentImages["pst-chair"] || "/pst_chair.png"}
+                                    src={customTreatmentImages["pst-chair"] || "/pst_chair.webp"}
                                     alt="Aparat PST H-200 — sesja w fotelu na stawy obwodowe (kolana, stopy, dłonie, łokcie)"
+                                    loading="lazy"
+                                    decoding="async"
                                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-102"
                                     referrerPolicy="no-referrer"
                                   />
@@ -13236,7 +13286,9 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   </div>
 
                   {/* Treatment FAQ Accordion Section */}
-                  <TreatmentFAQ faqList={selectedTreatment.faq || []} />
+                  <Suspense fallback={null}>
+                    <TreatmentFAQ faqList={selectedTreatment.faq || []} />
+                  </Suspense>
 
                   {/* Bottom booking CTA board */}
                   <div className="border-2 border-luxury-gold p-8 md:p-12 text-center bg-white space-y-6 max-w-2xl mx-auto shadow-sm">
@@ -13290,22 +13342,24 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                 </div>
               ) : (
                 /* MAIN CLINICAL TREATMENTS LIST PAGE (LIST OF ALL THERAPIES) */
-                <FacialTreatmentsPage
-                  treatments={TREATMENTS}
-                  selectedCategory={selectedTreatmentCategory}
-                  onSelectCategory={(cat) => setSelectedTreatmentCategory(cat as any)}
-                  searchQuery={treatmentSearchQuery}
-                  onSearchChange={setTreatmentSearchQuery}
-                  onSelectTreatment={setSelectedTreatment}
-                  onOpenBooking={handleOpenBooking}
-                  onLinkClick={handleLinkClick}
-                  getTreatmentCategory={getTreatmentCategory}
-                  getEffectiveTreatmentImage={getEffectiveTreatmentImage}
-                  onEditImage={isGoogleAIStudio() ? ((treatment) => {
-                    setTreatmentCardModalTarget(treatment);
-                    setIsTreatmentCardModalOpen(true);
-                  }) : undefined}
-                />
+                <Suspense fallback={<div className="py-16 text-center font-mono text-xs uppercase tracking-widest text-luxury-gold">Ładowanie katalogu zabiegów...</div>}>
+                  <FacialTreatmentsPage
+                    treatments={TREATMENTS}
+                    selectedCategory={selectedTreatmentCategory}
+                    onSelectCategory={(cat) => setSelectedTreatmentCategory(cat as any)}
+                    searchQuery={treatmentSearchQuery}
+                    onSearchChange={setTreatmentSearchQuery}
+                    onSelectTreatment={setSelectedTreatment}
+                    onOpenBooking={handleOpenBooking}
+                    onLinkClick={handleLinkClick}
+                    getTreatmentCategory={getTreatmentCategory}
+                    getEffectiveTreatmentImage={getEffectiveTreatmentImage}
+                    onEditImage={isGoogleAIStudio() ? ((treatment) => {
+                      setTreatmentCardModalTarget(treatment);
+                      setIsTreatmentCardModalOpen(true);
+                    }) : undefined}
+                  />
+                </Suspense>
               )}
               </motion.div>
             )}
@@ -15574,13 +15628,15 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               className="notranslate"
               id="tab-shop"
             >
-              <ShopPage 
-                onLinkClick={handleLinkClick}
-                onOpenBooking={(t) => {
-                  if (t) setBookingTreatment(t);
-                  else setBookingTreatment(TREATMENTS[0]);
-                }}
-              />
+              <Suspense fallback={<div className="py-16 text-center font-mono text-xs uppercase tracking-widest text-luxury-gold">Ładowanie sklepu...</div>}>
+                <ShopPage 
+                  onLinkClick={handleLinkClick}
+                  onOpenBooking={(t) => {
+                    if (t) setBookingTreatment(t);
+                    else setBookingTreatment(TREATMENTS[0]);
+                  }}
+                />
+              </Suspense>
             </motion.div>
           )}
 
@@ -15595,13 +15651,15 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               className="notranslate"
               id="tab-training"
             >
-              <TrainingPage 
-                onLinkClick={handleLinkClick}
-                onOpenBooking={(t) => {
-                  if (t) setBookingTreatment(t);
-                  else setBookingTreatment(TREATMENTS[0]);
-                }}
-              />
+              <Suspense fallback={<div className="py-16 text-center font-mono text-xs uppercase tracking-widest text-luxury-gold">Ładowanie oferty szkoleń...</div>}>
+                <TrainingPage 
+                  onLinkClick={handleLinkClick}
+                  onOpenBooking={(t) => {
+                    if (t) setBookingTreatment(t);
+                    else setBookingTreatment(TREATMENTS[0]);
+                  }}
+                />
+              </Suspense>
             </motion.div>
           )}
 
@@ -16650,23 +16708,25 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               className="notranslate w-full"
               id="tab-legal"
             >
-              <LegalPage
-                currentDoc={legalDoc}
-                onNavigate={(doc) => {
-                  setLegalDoc(doc);
-                  syncRoute({ tab: "legal", legalDoc: doc });
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
-                onGoHome={() => {
-                  setActiveTab("cover");
-                  syncRoute({ tab: "cover" });
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
-                onOpenBooking={() => setBookingTreatment(TREATMENTS[0])}
-                onOpenCookieSettings={() => {
-                  window.dispatchEvent(new CustomEvent("openCookieSettings"));
-                }}
-              />
+              <Suspense fallback={<div className="py-16 text-center font-mono text-xs uppercase tracking-widest text-luxury-gold">Ładowanie dokumentu...</div>}>
+                <LegalPage
+                  currentDoc={legalDoc}
+                  onNavigate={(doc) => {
+                    setLegalDoc(doc);
+                    syncRoute({ tab: "legal", legalDoc: doc });
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                  onGoHome={() => {
+                    setActiveTab("cover");
+                    syncRoute({ tab: "cover" });
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                  onOpenBooking={() => setBookingTreatment(TREATMENTS[0])}
+                  onOpenCookieSettings={() => {
+                    window.dispatchEvent(new CustomEvent("openCookieSettings"));
+                  }}
+                />
+              </Suspense>
             </motion.div>
           )}
 
@@ -17042,10 +17102,12 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
       {/* BOOKING INVITATION MODAL WITH GOOGLE CALENDAR */}
       <AnimatePresence>
         {bookingTreatment && (
-          <BookingModal 
-            treatment={bookingTreatment} 
-            onClose={() => setBookingTreatment(null)} 
-          />
+          <Suspense fallback={null}>
+            <BookingModal 
+              treatment={bookingTreatment} 
+              onClose={() => setBookingTreatment(null)} 
+            />
+          </Suspense>
         )}
       </AnimatePresence>
 
@@ -17481,35 +17543,37 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
         )}
       </AnimatePresence>
 
-      <SkincareAssistant 
-        onViewTreatment={(id) => {
-          const t = TREATMENTS.find((item) => item.id === id);
-          if (t) {
-            setSelectedTreatment(t);
-            setActiveTab("clinic");
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }
-        }}
-        onBookTreatment={(id) => {
-          const t = TREATMENTS.find((item) => item.id === id);
-          if (t) {
-            setBookingTreatment(t);
-            setBookingConfirmed(false);
-            setBookingName("");
-            setBookingEmail("");
-            setBookingPhone("");
-            setBookingDate("");
-          }
-        }}
-        onReadArticle={(id) => {
-          const a = ARTICLES.find((item) => item.id === id);
-          if (a) {
-            setSelectedArticle(a);
-            setActiveTab("journal");
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }
-        }}
-      />
+      <Suspense fallback={null}>
+        <SkincareAssistant 
+          onViewTreatment={(id) => {
+            const t = TREATMENTS.find((item) => item.id === id);
+            if (t) {
+              setSelectedTreatment(t);
+              setActiveTab("clinic");
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+          }}
+          onBookTreatment={(id) => {
+            const t = TREATMENTS.find((item) => item.id === id);
+            if (t) {
+              setBookingTreatment(t);
+              setBookingConfirmed(false);
+              setBookingName("");
+              setBookingEmail("");
+              setBookingPhone("");
+              setBookingDate("");
+            }
+          }}
+          onReadArticle={(id) => {
+            const a = ARTICLES.find((item) => item.id === id);
+            if (a) {
+              setSelectedArticle(a);
+              setActiveTab("journal");
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+          }}
+        />
+      </Suspense>
 
       {/* Floating WhatsApp Action Button - Compact Circular Icon Only */}
       <a
@@ -17556,28 +17620,36 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
         </div>
       )}
 
-      <OriginalImageManagerModal
-        isOpen={isImageManagerOpen}
-        onClose={() => setIsImageManagerOpen(false)}
-        onImageUpdated={(key, url) => {
-          setCustomTreatmentImages(prev => ({ ...prev, [key]: url }));
-          if (key === "hero") {
-            setHeroCustomUrl(url);
-          }
-        }}
-      />
+      {isImageManagerOpen && (
+        <Suspense fallback={null}>
+          <OriginalImageManagerModal
+            isOpen={isImageManagerOpen}
+            onClose={() => setIsImageManagerOpen(false)}
+            onImageUpdated={(key, url) => {
+              setCustomTreatmentImages(prev => ({ ...prev, [key]: url }));
+              if (key === "hero") {
+                setHeroCustomUrl(url);
+              }
+            }}
+          />
+        </Suspense>
+      )}
 
-      <TreatmentCardImageModal
-        isOpen={isTreatmentCardModalOpen}
-        treatment={treatmentCardModalTarget}
-        onClose={() => setIsTreatmentCardModalOpen(false)}
-        onImageSaved={(treatmentId, newUrl) => {
-          setCustomTreatmentImages(prev => ({ ...prev, [treatmentId]: newUrl }));
-        }}
-        onSelectAnotherTreatment={(t) => {
-          setTreatmentCardModalTarget(t);
-        }}
-      />
+      {isTreatmentCardModalOpen && (
+        <Suspense fallback={null}>
+          <TreatmentCardImageModal
+            isOpen={isTreatmentCardModalOpen}
+            treatment={treatmentCardModalTarget}
+            onClose={() => setIsTreatmentCardModalOpen(false)}
+            onImageSaved={(treatmentId, newUrl) => {
+              setCustomTreatmentImages(prev => ({ ...prev, [treatmentId]: newUrl }));
+            }}
+            onSelectAnotherTreatment={(t) => {
+              setTreatmentCardModalTarget(t);
+            }}
+          />
+        </Suspense>
+      )}
 
       <WcagWidget />
       <CookieBot onOpenPolicy={() => {
@@ -17586,72 +17658,85 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
         syncRoute({ tab: "legal", legalDoc: "cookies" });
         window.scrollTo({ top: 0, behavior: "smooth" });
       }} />
-      <CookiesPolicyModal 
-        isOpen={isCookiesPolicyOpen} 
-        onClose={() => setIsCookiesPolicyOpen(false)} 
-        onOpenSettings={() => {
-          window.dispatchEvent(new CustomEvent("openCookieSettings"));
-        }}
-      />
+      {isCookiesPolicyOpen && (
+        <Suspense fallback={null}>
+          <CookiesPolicyModal 
+            isOpen={isCookiesPolicyOpen} 
+            onClose={() => setIsCookiesPolicyOpen(false)} 
+            onOpenSettings={() => {
+              window.dispatchEvent(new CustomEvent("openCookieSettings"));
+            }}
+          />
+        </Suspense>
+      )}
 
       {/* Global Skin Recommendation & Diagnostic Search Popup Modal */}
-      <SkinSearchPopupModal
-        isOpen={isSearchPopupOpen && !!globalSearchQuery.trim()}
-        onClose={() => {
-          setIsSearchPopupOpen(false);
-          setGlobalSearchQuery("");
-        }}
-        onMinimize={() => {
-          setIsSearchPopupOpen(false);
-        }}
-        searchQuery={globalSearchQuery}
-        onSearchQueryChange={(q) => {
-          setGlobalSearchQuery(q);
-        }}
-        onSelectTreatment={(treatment) => {
-          setSelectedTreatment(treatment);
-          setActiveTab("clinic");
-          setIsSearchPopupOpen(false);
-        }}
-        onSelectArticle={(article) => {
-          setSelectedArticle(article);
-          setSelectedCategory("ALL");
-          setActiveTab("journal");
-          setIsSearchPopupOpen(false);
-        }}
-        onStartDiagnostics={() => {
-          setActiveTab("diagnose");
-          setDiagnosticStep(0);
-          setIsSearchPopupOpen(false);
-        }}
-        onViewAllTreatments={() => {
-          setActiveTab("clinic");
-          setSelectedTreatment(null);
-          setIsSearchPopupOpen(false);
-        }}
-      />
+      {isSearchPopupOpen && !!globalSearchQuery.trim() && (
+        <Suspense fallback={null}>
+          <SkinSearchPopupModal
+            isOpen={isSearchPopupOpen && !!globalSearchQuery.trim()}
+            onClose={() => {
+              setIsSearchPopupOpen(false);
+              setGlobalSearchQuery("");
+            }}
+            onMinimize={() => {
+              setIsSearchPopupOpen(false);
+            }}
+            searchQuery={globalSearchQuery}
+            onSearchQueryChange={(q) => {
+              setGlobalSearchQuery(q);
+            }}
+            onSelectTreatment={(treatment) => {
+              setSelectedTreatment(treatment);
+              setActiveTab("clinic");
+              setIsSearchPopupOpen(false);
+            }}
+            onSelectArticle={(article) => {
+              setSelectedArticle(article);
+              setSelectedCategory("ALL");
+              setActiveTab("journal");
+              setIsSearchPopupOpen(false);
+            }}
+            onStartDiagnostics={() => {
+              setActiveTab("diagnose");
+              setDiagnosticStep(0);
+              setIsSearchPopupOpen(false);
+            }}
+            onViewAllTreatments={() => {
+              setActiveTab("clinic");
+              setSelectedTreatment(null);
+              setIsSearchPopupOpen(false);
+            }}
+          />
+        </Suspense>
+      )}
 
       {/* Centrum Publikacji & Wszystkie Artykuły z sekcji Edukacja i Diagnoza Modal */}
-      <AllArticlesModal
-        isOpen={isAllArticlesModalOpen}
-        onClose={() => setIsAllArticlesModalOpen(false)}
-        onSelectArticle={(article) => {
-          setSelectedArticle(article);
-          setSelectedCategory("ALL");
-          setActiveTab("journal");
-          setIsAllArticlesModalOpen(false);
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }}
-        onOpenFullJournal={(category) => {
-          setSelectedArticle(null);
-          setSelectedCategory(category || "ALL");
-          setJournalSearch("");
-          setActiveTab("journal");
-          setIsAllArticlesModalOpen(false);
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }}
-      />
+      {isAllArticlesModalOpen && (
+        <Suspense fallback={null}>
+          <AllArticlesModal
+            isOpen={isAllArticlesModalOpen}
+            onClose={() => setIsAllArticlesModalOpen(false)}
+            onSelectArticle={(article) => {
+              setSelectedArticle(article);
+              setSelectedCategory("ALL");
+              setActiveTab("journal");
+              setIsAllArticlesModalOpen(false);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            onOpenFullJournal={(category) => {
+              setSelectedArticle(null);
+              setSelectedCategory(category || "ALL");
+              setJournalSearch("");
+              setActiveTab("journal");
+              setIsAllArticlesModalOpen(false);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          />
+        </Suspense>
+      )}
 
       </div>
+      </MotionConfig>
     );
   }

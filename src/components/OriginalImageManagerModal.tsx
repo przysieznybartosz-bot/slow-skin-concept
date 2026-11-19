@@ -28,7 +28,7 @@ export const PRIMARY_SLOTS: OriginalImageSlot[] = [
     category: "key_tech",
     treatmentName: "Strona Główna / Diagnoza pod lupą",
     suggestedFilename: "Profesjonalna ocena skóry pod lupą.png",
-    currentUrl: "/hero-main.png",
+    currentUrl: "/hero-main.webp",
     description: "Baner główny na samej górze strony — badanie skóry pod lupą-lampą z dłońmi kosmetologa."
   },
   {
@@ -37,7 +37,7 @@ export const PRIMARY_SLOTS: OriginalImageSlot[] = [
     category: "key_tech",
     treatmentName: "Wydanie Specjalne No. I",
     suggestedFilename: "okladka_magazynu.png",
-    currentUrl: "/cover_magazine.png",
+    currentUrl: "/cover_magazine.webp",
     description: "Główne zdjęcie w zakładce Okładka (Wydanie Specjalne No. I) — widoczne pod nagłówkiem SLOW SKIN CONCEPT / OKŁADKA."
   },
   {
@@ -46,7 +46,7 @@ export const PRIMARY_SLOTS: OriginalImageSlot[] = [
     category: "key_tech",
     treatmentName: "PST H-300 (Kręgosłup, Biodra, Tułów)",
     suggestedFilename: "PST łózko.png",
-    currentUrl: "/pst_couch.png",
+    currentUrl: "/pst_couch.webp",
     description: "Klientka leżąca w aplikatorze tunelowym na ergonomicznej leżance zabiegowej PST H-300."
   },
   {
@@ -55,7 +55,7 @@ export const PRIMARY_SLOTS: OriginalImageSlot[] = [
     category: "key_tech",
     treatmentName: "PST H-200 (Stawy & Kończyny)",
     suggestedFilename: "PST Fotel.png",
-    currentUrl: "/pst_chair.png",
+    currentUrl: "/pst_chair.webp",
     description: "Klientka siedząca w fotelu z aplikatorem pierścieniowym PST H-200 do stawów kolanowych/barkowych."
   },
   {
@@ -64,7 +64,7 @@ export const PRIMARY_SLOTS: OriginalImageSlot[] = [
     category: "key_tech",
     treatmentName: "Ceragem VE (model CGM MB-1101)",
     suggestedFilename: "łózko Ceragem.png",
-    currentUrl: "/ceragem_bed.png",
+    currentUrl: "/ceragem_bed.webp",
     description: "Automatyczne łóżko do masażu termicznego z jadeitowymi rolkami wzdłuż kręgosłupa."
   },
   {
@@ -73,7 +73,7 @@ export const PRIMARY_SLOTS: OriginalImageSlot[] = [
     category: "key_tech",
     treatmentName: "Sonaris Pro (Twarz & Okolica Oka)",
     suggestedFilename: "sonaris-pro-therapy.png",
-    currentUrl: "/sonaris-pro-therapy.png",
+    currentUrl: "/sonaris-pro-therapy.webp",
     description: "Komfortowa głowica Sonaris Pro aplikowana na twarz — poprawa napięcia i gładkości bez nakłuwania."
   },
   {
@@ -82,7 +82,7 @@ export const PRIMARY_SLOTS: OriginalImageSlot[] = [
     category: "key_tech",
     treatmentName: "Biostymulacja iniekcyjna",
     suggestedFilename: "stymulatory tkankowe.png",
-    currentUrl: "/stymulatory_tkankowe.png",
+    currentUrl: "/stymulatory_tkankowe.webp",
     description: "Naturalna biostymulacja iniekcyjna — polinukleotydy, kwas hialuronowy, aminokwasy."
   },
   {
@@ -91,7 +91,7 @@ export const PRIMARY_SLOTS: OriginalImageSlot[] = [
     category: "about",
     treatmentName: "Sekcja O Nas / Przestrzeń",
     suggestedFilename: "wnetrze_gabinetu.png",
-    currentUrl: "/src/assets/images/slow_skin_philosophy_1788718994361.jpg",
+    currentUrl: "/src/assets/images/slow_skin_philosophy_1788718994361.webp",
     description: "Główne zdjęcie sekcji O Instytucie — wnętrze, recepcja lub gabinet zabiegowy Slow Skin Concept."
   },
   {
@@ -100,7 +100,7 @@ export const PRIMARY_SLOTS: OriginalImageSlot[] = [
     category: "key_tech",
     treatmentName: "Kompleksowe Terapie Bionomiczne (Karta 1)",
     suggestedFilename: "meso_remodeling.png",
-    currentUrl: "/how_help_meso_remodeling.png",
+    currentUrl: "/how_help_meso_remodeling.webp",
     description: "Fotografia kafelka Meso Remodeling w sekcji 'Jak możemy Ci pomóc?' na stronie głównej."
   },
   {
@@ -109,7 +109,7 @@ export const PRIMARY_SLOTS: OriginalImageSlot[] = [
     category: "key_tech",
     treatmentName: "Kompleksowe Terapie Bionomiczne (Karta 2)",
     suggestedFilename: "pierwsza_wizyta_diagnostyka.png",
-    currentUrl: "/how_help_first_visit.png",
+    currentUrl: "/how_help_first_visit.webp",
     description: "Fotografia kafelka Pierwsza wizyta i diagnostyka skóry w sekcji 'Jak możemy Ci pomóc?' na stronie głównej."
   },
   {
@@ -118,7 +118,7 @@ export const PRIMARY_SLOTS: OriginalImageSlot[] = [
     category: "key_tech",
     treatmentName: "Kompleksowe Terapie Bionomiczne (Karta 3)",
     suggestedFilename: "neurolifting.png",
-    currentUrl: "/how_help_neurolifting.png",
+    currentUrl: "/how_help_neurolifting.webp",
     description: "Fotografia kafelka Neurolifting w sekcji 'Jak możemy Ci pomóc?' na stronie głównej."
   },
   {
@@ -127,7 +127,7 @@ export const PRIMARY_SLOTS: OriginalImageSlot[] = [
     category: "key_tech",
     treatmentName: "Kompleksowe Terapie Bionomiczne (Karta 4)",
     suggestedFilename: "terapia_skory_wrazliwej.png",
-    currentUrl: "/how_help_sensitive_skin.png",
+    currentUrl: "/how_help_sensitive_skin.webp",
     description: "Fotografia kafelka Terapia skóry wrażliwej w sekcji 'Jak możemy Ci pomóc?' na stronie głównej."
   }
 ];

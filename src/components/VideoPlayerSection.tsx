@@ -30,7 +30,7 @@ export const VideoPlayerSection: React.FC = () => {
         if (stored) return stored;
       } catch {}
     }
-    return "/video_thumbnail.png";
+    return "/video_thumbnail.webp";
   });
 
   const [duration, setDuration] = useState<number>(29);
@@ -333,6 +333,8 @@ export const VideoPlayerSection: React.FC = () => {
           ref={videoRef}
           src={videoSrc}
           poster={posterSrc}
+          preload="none"
+          aria-label="Film prezentujący Instytut Zdrowej Skóry Slow Skin Concept"
           className="w-full h-full object-cover"
           playsInline
           muted={isMuted}

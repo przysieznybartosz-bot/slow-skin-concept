@@ -96,7 +96,13 @@ function main() {
     const rawDesc = `${article.lead || article.title} — ${article.author}, Instytut Zdrowej Skóry Slow Skin Concept.`;
     const pageDesc = rawDesc.length > 260 ? `${rawDesc.slice(0, 257).trim()}...` : rawDesc;
 
-    const imageRel = article.image || "/og-termolifting-rf-1200x630.jpg";
+    let imageRel = article.image || "/og-termolifting-rf-1200x630.jpg";
+    if (imageRel.endsWith(".webp")) {
+      const jpgCandidate = imageRel.replace(/\.webp$/i, ".jpg");
+      if (fs.existsSync(path.join(process.cwd(), jpgCandidate.replace(/^\//, "")))) {
+        imageRel = jpgCandidate;
+      }
+    }
     const ogImage = imageRel.startsWith("http") ? imageRel : `${SITE_ORIGIN}${imageRel}`;
     const localImgPath = path.join(process.cwd(), imageRel.replace(/^\//, ""));
     const dims = getJpegDimensions(localImgPath);
@@ -128,10 +134,10 @@ function main() {
     html = replaceMetaProperty(html, "og:image:height", height);
     html = replaceMetaProperty(html, "og:image:alt", article.title);
 
-    html = replaceMetaProperty(html, "twitter:url", canonicalUrl);
-    html = replaceMetaProperty(html, "twitter:title", pageTitle);
-    html = replaceMetaProperty(html, "twitter:description", pageDesc);
-    html = replaceMetaProperty(html, "twitter:image", ogImage);
+    html = replaceMetaName(html, "twitter:url", canonicalUrl);
+    html = replaceMetaName(html, "twitter:title", pageTitle);
+    html = replaceMetaName(html, "twitter:description", pageDesc);
+    html = replaceMetaName(html, "twitter:image", ogImage);
 
     const outPath = path.join(outDir, `${article.id}.html`);
     fs.writeFileSync(outPath, html, "utf-8");
