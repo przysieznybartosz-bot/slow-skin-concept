@@ -432,8 +432,8 @@ export function updateSeoTags(
     const a = ARTICLES.find((item) => item.id === state.articleSlug);
     if (a) {
       ogType = "article";
-      pageTitle = `${a.title} | Magazyn Wiedzy Bionomicznej Slow Skin Concept`;
-      pageDesc = `${a.lead || a.title}. Artykuł naukowy autorstwa ${a.author}.`;
+      pageTitle = `${a.title} | Magazyn Wiedzy o Skórze Slow Skin Concept`;
+      pageDesc = `${a.lead || a.title}. Artykuł autorstwa ${a.author}.`;
       ogImageAlt = a.title;
       if (a.image) {
         ogImage = a.image.startsWith("http") ? a.image : `${SITE_ORIGIN}${a.image}`;
@@ -443,43 +443,43 @@ export function updateSeoTags(
     switch (state.tab) {
       case "admin":
         pageTitle = "Panel Administracyjny Gabinetu | Slow Skin Concept";
-        pageDesc = "System zarządzania kartoteką gabinetową Slow Skin Concept.";
+        pageDesc = "System zarządzania kartami klientów Slow Skin Concept.";
         break;
       case "clinic":
-        pageTitle = "Katalog Zabiegów i Terapii Bionomicznych | Slow Skin Concept Jelcz-Laskowice";
-        pageDesc = "Kompleksowe menu zabiegowe: Acne Balance, Meso Remodeling, Terapia PST, Ceragem, Neurolifting, Sonaris Pro, Karboksyterapia i Peelingi Węglowe.";
+        pageTitle = "Katalog Zabiegów i Pielęgnacji Skóry | Slow Skin Concept Jelcz-Laskowice";
+        pageDesc = "Kompleksowe menu zabiegowe: Acne Balance, Meso Remodeling, PST, Ceragem, Neurolifting, Sonaris Pro, Karboksyterapia i Peelingi Węglowe.";
         break;
       case "method":
-        pageTitle = "Metodologia Bionomiczna i Filozofia Slow Skin | Instytut Jelcz-Laskowice";
-        pageDesc = "Filozofia biologicznej odbudowy skóry bez agresywnych uszkodzeń. Pielęgnacja bionomiczna, fizjologia naskórka i równowaga neurobiologiczna.";
+        pageTitle = "Autorska Metoda Pracy i Filozofia Slow Skin | Instytut Jelcz-Laskowice";
+        pageDesc = "Filozofia łagodnej odbudowy skóry bez agresywnych uszkodzeń. Świadoma pielęgnacja, wsparcie bariery naskórkowej i równowaga.";
         break;
       case "journal":
-        pageTitle = "Magazyn Naukowy i Publikacje Eksperckie | Slow Skin Concept";
-        pageDesc = "Artykuły naukowe i monografie z zakresu fizjologii skóry, osi mózg-skóra, bariery hydrolipidowej i regeneracji komórkowej.";
+        pageTitle = "Magazyn Wiedzy i Artykuły o Skórze | Slow Skin Concept";
+        pageDesc = "Praktyczne artykuły i poradniki o pielęgnacji skóry, wpływie stresu na cerę, barierze hydrolipidowej i codziennych rytuałach.";
         break;
       case "diagnose":
-        pageTitle = "Diagnostyka Bionomiczna i Paszport Skóry | Slow Skin Concept";
-        pageDesc = "Interaktywny analizator potrzeb skóry, mapa kondycji bariery hydrolipidowej oraz indywidualny plan terapeutyczny.";
+        pageTitle = "Analiza Potrzeb Skóry i Paszport Skóry | Slow Skin Concept";
+        pageDesc = "Interaktywny analizator potrzeb skóry, mapa kondycji bariery hydrolipidowej oraz indywidualny plan pielęgnacji.";
         break;
       case "shop":
-        pageTitle = "Bionomiczny Sklep Kosmetologiczny | Slow Skin Concept";
-        pageDesc = "Wyselekcjonowane preparaty bionomiczne wolne od substancji drażniących, syntetycznych zapachów i parabenów.";
+        pageTitle = "Sklep Kosmetologiczny Slow Skin Concept";
+        pageDesc = "Wyselekcjonowane kosmetyki pielęgnacyjne wolne od substancji drażniących, syntetycznych zapachów i parabenów.";
         break;
       case "training":
-        pageTitle = "Akademia i Szkolenia Kosmetologii Bionomicznej | Slow Skin Concept";
-        pageDesc = "Eksperckie programy certyfikacyjne i warsztaty praktyczne dla kosmetologów oraz specjalistów pielęgnacji.";
+        pageTitle = "Akademia i Szkolenia Kosmetologiczne | Slow Skin Concept";
+        pageDesc = "Praktyczne programy i warsztaty dla kosmetologów oraz specjalistów pielęgnacji skóry.";
         break;
       case "account":
-        pageTitle = "Panel Pacjenta i Paszport Skóry | Slow Skin Concept";
+        pageTitle = "Panel Klienta i Paszport Skóry | Slow Skin Concept";
         pageDesc = "Zarządzaj swoimi wizytami, historią zabiegów i indywidualnym planem pielęgnacji domowej.";
         break;
       case "legal":
         if (state.legalDoc === "rodo") {
-          pageTitle = "Klauzula Informacyjna RODO i Prawa Pacjenta | Slow Skin Concept Jelcz-Laskowice";
-          pageDesc = "Szczegółowa klauzula informacyjna RODO (art. 13 i 14) dla pacjentów Instytutu Zdrowej Skóry Slow Skin Concept w Jelczu-Laskowicach.";
+          pageTitle = "Klauzula Informacyjna RODO i Prawa Klienta | Slow Skin Concept Jelcz-Laskowice";
+          pageDesc = "Szczegółowa klauzula informacyjna RODO (art. 13 i 14) dla klientów Slow Skin Concept w Jelczu-Laskowicach.";
         } else if (state.legalDoc === "terms") {
           pageTitle = "Regulamin Świadczenia Usług i Bezpieczeństwo | Slow Skin Concept";
-          pageDesc = "Regulamin rezerwacji terminów, kwalifikacji zabiegowej oraz standardy opieki Instytutu Slow Skin Concept.";
+          pageDesc = "Regulamin rezerwacji terminów, konsultacji przedzabiegowych oraz standardy opieki Slow Skin Concept.";
         } else if (state.legalDoc === "cookies") {
           pageTitle = "Polityka Plików Cookies i Podobnych Technologii | Slow Skin Concept";
           pageDesc = "Informacje o wykorzystaniu plików cookies oraz technologii analitycznych i reklamowych Meta Pixel w serwisie Slow Skin Concept.";

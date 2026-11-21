@@ -339,7 +339,7 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({ onLinkClick, onOpenB
             </div>
             <h4 className="font-serif text-lg font-medium text-luxury-dark">Wyższy Średni Paragon & Retencja 85%+</h4>
             <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
-              Holistyczne Beauty Plany łączące terapię manualną, diagnostykę i pielęgnację domową gwarantują powracalność klientów i wysokie marże na preparatach.
+              Holistyczne Beauty Plany łączące pracę manualną, ocenę skóry i pielęgnację domową gwarantują powracalność klientek i satysfakcję ze współpracy.
             </p>
           </div>
 

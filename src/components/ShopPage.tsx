@@ -66,7 +66,7 @@ export const ShopPage: React.FC<ShopPageProps> = ({ onLinkClick, onOpenBooking }
         { name: "Ekstrakt z Lucerny & Wąkroty (CICA)", desc: "Medicago Sativa oraz Centella Asiatica uzupełnione kompleksem witamin (B3, B5, C, E, B6)." }
       ],
       clinicalBenefits: [
-        "Szybkie wchłanianie i odczuwalne nawilżenie ocenione w badaniu użytkowym ORCIDEO RA-2026-03 (21 osób, 14 dni, samoocena)",
+        "Szybkie wchłanianie i odczuwalne nawilżenie ocenione w teście konsumenckim ORCIDEO RA-2026-03 (21 osób, 14 dni, samoocena)",
         "Jeden krem na dzień i na noc – bez konieczności dokładać osobnego kremu na noc",
         "Wieloskładnikowa część lipidowa zmiękcza i wygładza naskórek bez ciężkiego filmu",
         "Biozgodna kompozycja – 0% olejów mineralnych, 0% parabenów, 0% sztucznych wypełniaczy"
@@ -178,8 +178,8 @@ export const ShopPage: React.FC<ShopPageProps> = ({ onLinkClick, onOpenBooking }
       a: "Formuły SKIN INFUZION™ by Slow Skin Concept zostały opracowane z myślą o fizjologii i codziennym komforcie skóry. BALANCE CREAM łączy oleje roślinne (ryżowy, z herbaty, jojoba, bawełniany) i skwalan z humektantami, ektoiną i N-acetyloglukozaminą (NAG). Z kolei RESET FOAM łączy łagodne glukozydy z kompleksem NMF, gliceryną i fermentami, zapewniając czystość bez uczucia ściągnięcia."
     },
     {
-      q: "Czy właściwości kremu BALANCE CREAM zostały zbadane aplikacyjnie?",
-      a: "Tak. Gotowy krem BALANCE CREAM został poddany badaniu użytkowemu ORCIDEO RA-2026-03 (21 osób, 14 dni, samoocena). Uczestnicy badania ocenili między innymi natychmiastowe uczucie nawilżenia, szybkie wchłanianie oraz odczuwalny komfort po nałożeniu kremu."
+      q: "Czy działanie kremu BALANCE CREAM zostało sprawdzone w testach użytkowych?",
+      a: "Tak. Krem BALANCE CREAM został sprawdzony w teście konsumenckim ORCIDEO RA-2026-03 (21 osób, 14 dni, samoocena). Uczestnicy ocenili między innymi odczucie nawilżenia, szybkie wchłanianie oraz komfort skóry po nałożeniu kremu."
     },
     {
       q: "Jaki jest czas realizacji wysyłki i koszt dostawy w sklepie slow-skin.shop?",

@@ -277,7 +277,7 @@ export default function SkincareAssistant({
   };
 
   const SUGGESTS = [
-    { label: "Konsultacja z badaniem NatiV3", query: "Jak wygląda pierwsza wizyta i badanie diagnostyczne Nati V3?" },
+    { label: "Konsultacja z analizą NatiV3", query: "Jak wygląda pierwsza wizyta i komputerowa analiza skóry Nati V3?" },
     { label: "Cennik zabiegów", query: "Podaj mi pełny cennik wszystkich zabiegów" },
     { label: "Czy HIFU boli?", query: "Czy lifting ultradźwiękowy HIFU boli i jakie są przeciwwskazania?" },
     { label: "Odbudowa bariery skóry", query: "Mam podrażnioną i piekącą skórę, jak odbudować barierę hydrolipidową?" }
@@ -417,12 +417,12 @@ export default function SkincareAssistant({
                     </div>
                     <p className="text-[11px] text-luxury-sand/90 leading-relaxed font-sans">
                       Wpisany klucz OpenAI API jest zachowywany **w przeglądarce (localStorage)**.
-                      Podczas wysyłania pytań, klucz jest bezpiecznie przesyłany do zapytania API asystenta w celu natychmiastowego wywołania modelu **GPT-4o**, gwarantując genialny, głęboki i spersonalizowany kontekst medyczno-kosmetyczny.
+                      Podczas wysyłania pytań, klucz jest bezpiecznie przesyłany do zapytania API asystenta w celu natychmiastowego wywołania modelu **GPT-4o**, gwarantując spersonalizowany kontekst pielęgnacyjno-kosmetologiczny.
                     </p>
                     <div className="mt-3 pt-2 border-t border-white/10 space-y-1 text-left">
                       <span className="block text-[9.5px] uppercase font-mono tracking-wider text-luxury-gold font-semibold">★ Wskazówka dla stałego udostępniania:</span>
                       <p className="text-[10px] text-luxury-sand/80 leading-normal font-sans">
-                        Serwery w chmurze (Cloud Run) są bezstanowe i kasują pliki lokalne przy każdym restarcie lub zmianie instancji. Aby asystent działał z kluczem OpenAI na każdym urządzeniu (np. po wysłaniu linku mailem pacjentom), <strong>dodaj klucz jako zmienną środowiskową o nazwie <code className="bg-black/40 px-1 py-0.5 rounded text-luxury-gold font-mono text-[9px]">OPENAI_API_KEY</code> w ustawieniach Secrets (ikona koła zębatego w panelu AI Studio Build)</strong>. Dzięki temu klucz będzie bezpiecznie wbudowany w serwer dla każdego odwiedzającego!
+                        Serwery w chmurze (Cloud Run) są bezstanowe i kasują pliki lokalne przy każdym restarcie lub zmianie instancji. Aby asystent działał z kluczem OpenAI na każdym urządzeniu (np. po wysłaniu linku mailem klientkom), <strong>dodaj klucz jako zmienną środowiskową o nazwie <code className="bg-black/40 px-1 py-0.5 rounded text-luxury-gold font-mono text-[9px]">OPENAI_API_KEY</code> w ustawieniach Secrets (ikona koła zębatego w panelu AI Studio Build)</strong>. Dzięki temu klucz będzie bezpiecznie wbudowany w serwer dla każdego odwiedzającego!
                       </p>
                     </div>
                   </div>

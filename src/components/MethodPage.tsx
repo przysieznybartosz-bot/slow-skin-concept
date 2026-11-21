@@ -216,9 +216,9 @@ export const MethodPage: React.FC<MethodPageProps> = ({ onLinkClick, onOpenBooki
     },
     {
       id: "analiza",
-      badge: "BADANIE BIOFIZYCZNE",
-      title: "Biologiczna Analiza Funkcjonalna Skóry",
-      subtitle: "Rozszerzona ocena aktualnej kondycji skóry wspierająca projektowanie indywidualnej terapii.",
+      badge: "OCENA KONDYCJI SKÓRY",
+      title: "Kompleksowa Ocena Potrzeb Skóry",
+      subtitle: "Szczegółowe poznanie aktualnej kondycji cery wspierające dobór indywidualnej pielęgnacji.",
       description: "Analiza może obejmować m.in. stan bariery, nawilżenie, natłuszczenie, reaktywność, pigmentację oraz inne parametry biofizyczne istotne dla planowania bezpiecznej i skutecznej pielęgnacji kosmetologicznej.",
       cta: "Poznaj analizę skóry",
       url: "/pierwsza-wizyta-diagnostyka-skory/",
@@ -239,7 +239,7 @@ export const MethodPage: React.FC<MethodPageProps> = ({ onLinkClick, onOpenBooki
       url: "/zabiegi-na-twarz/",
       bullets: [
         "Projektowany w dniu wizyty na podstawie aktualnego stanu tkanki",
-        "Autorskie koktajle terapeutyczne (np. resetujący, biomimetyczny, slow-aging)",
+        "Autorskie kompozycje pielęgnacyjne (np. kojące, barierowe, slow-aging)",
         "Bezpieczna synergia manualna i technologiczna",
         "Płynna adaptacja zakresu i intensywności do tolerancji skóry"
       ]
@@ -390,7 +390,7 @@ export const MethodPage: React.FC<MethodPageProps> = ({ onLinkClick, onOpenBooki
             Sercem Slow Skin Concept jest <strong>Biologiczna Spirala Inteligencji Skóry</strong> – autorski model, który pomaga uporządkować biologiczne priorytety skóry i zdecydować, czego potrzebuje ona w danym momencie.
           </p>
           <p className="font-serif text-sm italic text-luxury-gold">
-            Nie jest to gotowy protokół wykonywany identycznie u każdej osoby. To dynamiczna mapa terapeutyczna.
+            Nie jest to gotowy schemat wykonywany identycznie u każdej osoby. To elastyczny plan pielęgnacji dopasowany na bieżąco do cery.
           </p>
         </div>
 
@@ -584,7 +584,7 @@ export const MethodPage: React.FC<MethodPageProps> = ({ onLinkClick, onOpenBooki
               Proces nie przebiega po prostej. Skóra to żywy, dynamicznie reagujący układ biologiczny, a nie mechaniczna powierzchnia.
             </p>
             <p>
-              <strong>Każda odpowiedź skóry jest nową informacją.</strong> Na jej podstawie oceniamy następny krok, modyfikujemy proporcje koktajli terapeutycznych i decydujemy o kolejności procedur.
+              <strong>Każda reakcja skóry jest cenną wskazówką.</strong> Na jej podstawie planujemy kolejny krok, dostosowujemy skład stosowanych preparatów i decydujemy o kolejności zabiegów.
             </p>
             <p>
               Dlatego po przejściu kolejnych etapów <strong>Spirala może rozpocząć następny obrót</strong> – już z uwzględnieniem nowej, silniejszej kondycji naskórka i wyższego potencjału adaptacyjnego.
@@ -658,7 +658,7 @@ export const MethodPage: React.FC<MethodPageProps> = ({ onLinkClick, onOpenBooki
                 <div className="p-3.5 bg-white/80 border border-luxury-sand/80 rounded-xs space-y-1 shadow-2xs">
                   <span className="font-mono text-[8.5px] uppercase tracking-wider text-luxury-gold font-bold block">01. Bez Schematów</span>
                   <p className="text-[11px] text-luxury-dark/95 leading-relaxed font-light">
-                    Terapie projektowane przy pacjencie, na podstawie diagnozy z danego dnia.
+                    Zabiegi dobierane na bieżąco przy Tobie, na podstawie oceny skóry z danego dnia.
                   </p>
                 </div>
                 <div className="p-3.5 bg-white/80 border border-luxury-sand/80 rounded-xs space-y-1 shadow-2xs">
@@ -850,7 +850,7 @@ export const MethodPage: React.FC<MethodPageProps> = ({ onLinkClick, onOpenBooki
             onClick={() => onLinkClick("/pierwsza-wizyta-diagnostyka-skory/")}
             className="px-8 py-3.5 bg-luxury-dark text-white text-[10px] font-mono tracking-widest uppercase hover:bg-luxury-gold transition-all cursor-pointer shadow-sm"
           >
-            Umów Konsultację Diagnostyczną
+            Umów Pierwszą Konsultację
           </button>
           <button
             onClick={() => onLinkClick("/zabiegi-na-twarz/")}

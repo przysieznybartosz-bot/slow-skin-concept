@@ -63,7 +63,7 @@ export const KNOWLEDGE_BASE_DATA: KnowledgeBase = {
   method: {
     name: "Slow Skin Concept",
     origins: "Stworzona autorsko przez Katarzynę Brzezińską w oparciu o bionomiczne standardy oraz biofizyczne podstawy częstotliwości dr. Paula Nogiera.",
-    coreMechanism: "Re-edukacja receptorów naskórka za pomocą precyzyjnych mikroczęstotliwości elektromagnetycznych (tzw. fale Nogiera) i synergiczne połączenie z chromoterapią LED oraz biomimetyczną okluzją ceramidowo-lipidową.",
+    coreMechanism: "Wyciszenie nadwrażliwości naskórka za pomocą delikatnych mikroczęstotliwości (tzw. fale Nogiera) i synergiczne połączenie ze światłem LED oraz odżywczą pielęgnacją lipidową.",
     principles: [
       "Brak wywoływania przewlekłego odczynu zapalnego naskórka",
       "Stymulacja przywspółczulna układu nerwowego w celu wygaszenia reaktywności",
@@ -94,7 +94,7 @@ export const KNOWLEDGE_BASE_DATA: KnowledgeBase = {
   })),
   booking: {
     policy: "Przesyłane zgłoszenie rezerwacji online ma status wstępnej rezerwacji terminu. Po otrzymaniu zgłoszenia, Katarzyna Brzezińska lub asystentka gabinetu podejmuje kontakt telefoniczny w ciągu 2 godzin w celu ustalenia dogodnej godziny i potwierdzenia rezerwacji.",
-    pricingSummary: "Ceny zabiegów wahają się od 400 PLN do 800 PLN w zależności od wybranego rytuału i stopnia zaawansowania (Standard vs Premium). Pierwsza wizyta z komputerową diagnozą skóry Nati V3 / Iomet i zabiegiem otwierającym kosztuje 400 - 600 PLN."
+    pricingSummary: "Ceny zabiegów wahają się od 400 PLN do 800 PLN w zależności od wybranego zabiegu i wariantu. Pierwsza wizyta z komputerową oceną skóry Nati V3 / Iomet i zabiegiem otwierającym kosztuje 400 - 600 PLN."
   }
 };
 

@@ -208,7 +208,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
       url: "/carboksyterapia-carboregen/",
       name: "Carboksyterapia CARBOregen",
       role: "Iniekcyjna stymulacja CO₂ & Efekt Bohra",
-      desc: "Kontrolowane podanie medycznego dwutlenku węgla wywołujące zjawisko efektu Bohra — gwałtowne rozszerzenie naczyń, dotlenienie tkanek, odżywienie komórkowe i syntezę kolagenu."
+      desc: "Kontrolowane podanie czystego dwutlenku węgla (CO₂) wspierające mikrokrążenie, dotlenienie i odżywienie tkanek oraz poprawę jędrności skóry."
     },
     {
       id: "sonaris-pro-therapy",
@@ -326,7 +326,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
           </p>
 
           <p className="text-xs md:text-sm text-luxury-dark font-light leading-relaxed">
-            Nie narzucamy gotowych, masowych schematów. Skóra jest dynamicznym ekosystemem biologicznym, w którym bariera, mikrobiom, układ nerwowy i naczynia krwionośne stale na siebie oddziałują. Poniżej przedstawiamy cztery czytelne filary naszej pracy gabinetowej: od pierwszej wizyty diagnostycznej, przez celowane terapie problemowe, po zaawansowane narzędzia technologiczne i długofalowe programy prowadzenia cery.
+            Nie narzucamy gotowych, masowych schematów. Skóra jest wrażliwym ekosystemem, w którym bariera ochronna, mikrobiom, układ nerwowy i naczynka stale na siebie oddziałują. Poniżej przedstawiamy cztery czytelne filary naszej pracy gabinetowej: od pierwszej konsultacji i oceny skóry, przez zabiegi dopasowane do konkretnych potrzeb, po nowoczesne technologie i długofalowe programy dbania o cerę.
           </p>
         </div>
 
@@ -418,7 +418,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
             <div className="absolute bottom-3 left-3 right-3 text-white space-y-0.5 pointer-events-none">
               <span className="font-mono text-[8px] uppercase tracking-widest text-luxury-gold bg-black/60 px-2 py-0.5">
-                Konsultacja i diagnoza
+                Konsultacja i ocena skóry
               </span>
               <p className="text-[11px] font-sans text-luxury-cream">
                 Poznanie potrzeb skóry i ocena stanu bariery naskórkowej
@@ -485,7 +485,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
                 },
                 {
                   num: "2",
-                  title: "Diagnoza biologiczna skóry",
+                  title: "Ocena potrzeb i kondycji skóry",
                   desc: "Oceniane są najważniejsze parametry i widoczne cechy skóry. Określany jest jej aktualny priorytet oraz gotowość do kolejnych działań."
                 },
                 {
@@ -569,7 +569,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
               </span>
             </div>
             <p className="text-[11px] text-luxury-dark/95 font-light">
-              Pakiet Standard (400 PLN) • Pakiet Premium z diagnostyką aparaturową Nati V3/Iomet i Beauty Planem (600 PLN)
+              Pakiet Standard (400 PLN) • Pakiet Premium z komputerową oceną skóry Nati V3/Iomet i Beauty Planem (600 PLN)
             </p>
           </div>
 
@@ -721,7 +721,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-luxury-gold/10 border border-luxury-gold/30 rounded-full">
             <Activity className="w-3.5 h-3.5 text-luxury-gold" />
             <span className="font-mono text-[9px] tracking-[0.2em] text-luxury-gold uppercase font-bold">
-              Obszar 4 • Długofalowa Opieka Terapeutyczna
+              Obszar 4 • Długofalowa Opieka Pielęgnacyjna
             </span>
           </div>
 
@@ -732,7 +732,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
           <div className="w-16 h-[1px] bg-luxury-gold" />
 
           <p className="text-xs md:text-sm text-luxury-dark font-serif italic leading-relaxed">
-            Dłuższe procesy obejmujące diagnozę, zabiegi gabinetowe, celowaną pielęgnację domową, bieżącą kontrolę reakcji skóry oraz modyfikowanie kolejnych etapów wraz ze zmianą jej kondycji.
+            Dłuższe procesy obejmujące konsultację, zabiegi gabinetowe, celowaną pielęgnację domową, bieżącą kontrolę reakcji skóry oraz modyfikowanie kolejnych etapów wraz ze zmianą jej kondycji.
           </p>
         </div>
 
@@ -788,7 +788,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
               </h3>
 
               <p className="text-xs text-luxury-dark/95 leading-relaxed">
-                Spotkanie wideo 1:1 z <strong>Katarzyną Brzezińską</strong>. Pogłębiona diagnoza barierowa, analiza kosmetyków i stylu życia oraz autorski <strong>Beauty Plan (PDF)</strong> wysyłany po konsultacji. Połączenie przez bezpieczny pokój <strong>Google Meet</strong>.
+                Spotkanie wideo 1:1 z <strong>Katarzyną Brzezińską</strong>. Pogłębiona ocena stanu bariery, analiza kosmetyków i stylu życia oraz autorski <strong>Beauty Plan (PDF)</strong> wysyłany po konsultacji. Połączenie przez bezpieczny pokój <strong>Google Meet</strong>.
               </p>
 
               <div className="flex flex-wrap items-center gap-4 text-[10px] font-mono text-emerald-900 pt-1">
@@ -990,7 +990,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
         <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-4 border-y border-luxury-sand/40 py-3 max-w-4xl mx-auto">
           {[
             { key: "wszystkie", label: "Wszystkie Terapie" },
-            { key: "diagnostyka", label: "Pierwsza Wizyta & Diagnoza" },
+            { key: "diagnostyka", label: "Pierwsza Wizyta & Ocena Skóry" },
             { key: "lifting", label: "Przebudowa & Stymulacja" },
             { key: "regeneracja", label: "Regeneracja & Bariera" },
             { key: "oczyszczanie", label: "Równowaga & Sebum" }

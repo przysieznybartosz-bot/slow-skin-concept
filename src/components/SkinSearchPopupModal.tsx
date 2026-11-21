@@ -288,7 +288,7 @@ export const SkinSearchPopupModal: React.FC<SkinSearchPopupModalProps> = ({
       id="skin-search-popup-overlay"
       role="dialog"
       aria-modal="true"
-      aria-label="Panel Rekomendacji Terapeutycznych Slow Skin Concept"
+      aria-label="Panel Podpowiedzi Pielęgnacyjnych Slow Skin Concept"
     >
       {/* Outer Click Backdrop */}
       <div 
@@ -423,11 +423,11 @@ export const SkinSearchPopupModal: React.FC<SkinSearchPopupModalProps> = ({
                 {matchedTreatments.length} {matchedTreatments.length === 1 ? "Rytuał" : matchedTreatments.length < 5 ? "Rytuały" : "Rytuałów"}
               </span>
               <span className="text-[10px] bg-luxury-dark/10 text-luxury-dark px-2.5 py-0.5 border border-luxury-sand/80">
-                {matchedArticles.length} {matchedArticles.length === 1 ? "Publikacja" : matchedArticles.length < 5 ? "Publikacje" : "Publikacji"}
+                {matchedArticles.length} {matchedArticles.length === 1 ? "Artykuł" : matchedArticles.length < 5 ? "Artykuły" : "Artykułów"}
               </span>
               {matchedProblems.length > 0 && (
                 <span className="text-[10px] bg-emerald-100 text-emerald-800 px-2.5 py-0.5 border border-emerald-200 hidden sm:inline-block">
-                  {matchedProblems.length} profile diagnozy
+                  {matchedProblems.length} profile skóry
                 </span>
               )}
             </div>
@@ -664,7 +664,7 @@ export const SkinSearchPopupModal: React.FC<SkinSearchPopupModalProps> = ({
                   <span>Wiedza & Magazyn ({matchedArticles.length})</span>
                 </div>
                 <span className="text-[10px] text-luxury-dark/60 font-sans normal-case">
-                  Publikacje naukowe
+                  Artykuły i poradniki
                 </span>
               </div>
 
@@ -714,7 +714,7 @@ export const SkinSearchPopupModal: React.FC<SkinSearchPopupModalProps> = ({
                         </p>
 
                         <div className="mt-2 text-[10px] font-mono text-luxury-gold uppercase tracking-wider font-bold flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-                          <span>Czytaj publikację w Magazynie</span>
+                          <span>Czytaj artykuł w Magazynie</span>
                           <span>&rarr;</span>
                         </div>
                       </div>
@@ -724,7 +724,7 @@ export const SkinSearchPopupModal: React.FC<SkinSearchPopupModalProps> = ({
               ) : (
                 <div className="p-6 bg-white/70 border border-luxury-sand/50 text-center">
                   <p className="text-xs italic text-luxury-dark/70 font-serif">
-                    Odkryj wszystkie publikacje w Magazynie Slow Skin.
+                    Odkryj wszystkie artykuły w Magazynie Slow Skin.
                   </p>
                 </div>
               )}

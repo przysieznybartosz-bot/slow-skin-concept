@@ -4,21 +4,21 @@ export const TREATMENTS: Treatment[] = [
   {
     id: "videokonsultacja",
     title: "Videokonsultacja Kosmetologiczna Online",
-    subtitle: "Konsultacja kosmetologiczna online 1:1 • Diagnoza barierowa, wywiad kosmetologiczny i autorski Beauty Plan",
+    subtitle: "Konsultacja kosmetologiczna online 1:1 • Ocena potrzeb bariery, rozmowa o pielęgnacji i autorski Beauty Plan",
     duration: "60 minut",
     price: "250 PLN",
-    description: "Dedykowana videokonsultacja online prowadzona w standardzie Slow Skin Concept przez Katarzynę Brzezińską. Idealne rozwiązanie dla osób z całej Polski i zza granicy, które nie mogą dotrzeć do gabinetu w Jelczu-Laskowicach, a pragną skonsultować trądzik dorosłych, trądzik różowaty, nadwrażliwość barierową, przewlekły rumień lub ułożyć bezpieczną, bionomiczną pielęgnację domową. Podczas 60-minutowego spotkania wideo przez Google Meet dokładnie analizujemy historię skóry, dotychczasowe kosmetyki, nawyki i dietę, a po spotkaniu otrzymujesz szczegółowy, spersonalizowany Beauty Plan (PDF) z dokładnymi zaleceniami rano/wieczór oraz wskazówkami regeneracyjnymi.",
-    focus: "Diagnoza barierowa online, analiza nawyków i składów kosmetyków, ułożenie autorskiego planu pielęgnacji (PDF), bezpieczne połączenie wideo przez Google Meet",
+    description: "Dedykowana videokonsultacja online prowadzona w standardzie Slow Skin Concept przez Katarzynę Brzezińską. Idealne rozwiązanie dla osób z całej Polski i zza granicy, które nie mogą dotrzeć do gabinetu w Jelczu-Laskowicach, a chcą skonsultować cerę problematyczną, nadwrażliwość barierową, skłonność do rumienia lub ułożyć bezpieczną pielęgnację domową. Podczas 60-minutowego spotkania wideo przez Google Meet dokładnie omawiamy historię skóry, dotychczasowe kosmetyki, nawyki i codzienną rutynę, a po spotkaniu otrzymujesz szczegółowy, spersonalizowany Beauty Plan (PDF) z zaleceniami rano/wieczór oraz wskazówkami pielęgnacyjnymi.",
+    focus: "Ocena potrzeb bariery online, przegląd nawyków i składów kosmetyków, ułożenie autorskiego planu pielęgnacji (PDF), bezpieczne połączenie wideo przez Google Meet",
     image: "/assets/aistudio/Blondynka_pisz_ca_w_notatniku_-_lekkie_c8f36364.webp",
     indications: [
-      "Osoby spoza Wrocławia / z zagranicy poszukujące rzetelnej diagnozy kosmetologicznej i wsparcia pielęgnacyjnego",
-      "Nawracający trądzik dorosłych, trądzik różowaty, skóra naczyniowa, przewlekły rumień i nadreaktywność",
-      "Uszkodzona bariera hydrolipidowa (ściągnięcie, pieczenie, reaktywność na kosmetyki)",
-      "Chaos pielęgnacyjny i potrzeba ułożenia minimalistycznego, fizjologicznego Beauty Planu opartego na biozgodnych składnikach",
-      "Przygotowanie skóry do planowanych zabiegów gabinetowych lub kontrola postępów dotychczasowej terapii domowej"
+      "Osoby spoza Wrocławia / z zagranicy poszukujące rzetelnej konsultacji kosmetologicznej i wsparcia pielęgnacyjnego",
+      "Skóra ze skłonnością do niedoskonałości, naczyniowa, wrażliwa, z przewlekłym rumieniem i nadreaktywnością",
+      "Osłabiona bariera hydrolipidowa (ściągnięcie, pieczenie, reaktywność na kosmetyki)",
+      "Chaos pielęgnacyjny i potrzeba ułożenia minimalistycznego, łagodnego Beauty Planu opartego na biozgodnych składnikach",
+      "Przygotowanie skóry do planowanych zabiegów gabinetowych lub omówienie postępów dotychczasowej pielęgnacji domowej"
     ],
     contraindications: [
-      "Brak przeciwwskazań — konsultacja ma charakter merytoryczno-diagnostyczny i odbywa się w bezpiecznej, komfortowej formule online"
+      "Brak przeciwwskazań — konsultacja ma charakter doradczo-pielęgnacyjny i odbywa się w bezpiecznej, komfortowej formule online"
     ],
     postTreatmentCare: [
       "Wdrożenie otrzymanego autorskiego Beauty Planu krok po kroku (faza wyciszenia i odbudowy płaszcza lipidowego)",
@@ -27,7 +27,7 @@ export const TREATMENTS: Treatment[] = [
     ],
     activeSubstances: [
       "Fizjologiczne lipidy biomimetyczne (ceramidy NP/AP/EOP, cholesterol, fitosfingozyna)",
-      "Ektoina farmaceutyczna 100% (ochrona osi nerwowo-skórnej i stabilizacja białek komórkowych)",
+      "Czysta ektoina 100% (kojąca ochronna cząsteczka wspierająca równowagę skóry)",
       "Prebiotyki i postbiotyki normalizujące mikrobiom naskórkowy",
       "Kwas bursztynowy, cynk PCA oraz antyoksydanty nowej generacji (C60, oryzanol)"
     ],
@@ -67,7 +67,7 @@ export const TREATMENTS: Treatment[] = [
     duration: "120 minut",
     price: "400 PLN — 600 PLN",
     description: "Pierwsza wizyta zaczyna się od poznania Twojej skóry. Rozmawiamy o jej potrzebach, codziennej pielęgnacji i wcześniejszych zabiegach. Oceniam jej aktualną kondycję, nawilżenie, reaktywność oraz stan bariery naskórkowej.\n\nNa tej podstawie dobieram odpowiednie postępowanie gabinetowe. Jeśli kondycja skóry na to pozwala, wizyta obejmuje również delikatny zabieg oczyszczający i przygotowujący do dalszej pracy.\n\nOtrzymujesz indywidualne zalecenia pielęgnacyjne i plan kolejnych kroków, dopasowany do potrzeb oraz tolerancji Twojej skóry.",
-    focus: "Diagnoza biologiczna, fizjologiczne oczyszczenie, regeneracja bariery naskórkowej, określenie biologicznego punktu wyjścia",
+    focus: "Ocena potrzeb skóry, łagodne oczyszczenie, wsparcie bariery naskórkowej, określenie punktu wyjścia do pielęgnacji",
     image: "/assets/aistudio/Kobiety_z_kosmetykami_na_jasnym_tle_-_lekkie_d742efcc.webp",
     indications: [
       "Rozpoczynanie terapii w Slow Skin Concept",
@@ -95,7 +95,7 @@ export const TREATMENTS: Treatment[] = [
     ],
     protocolSteps: [
       { phase: "1. Rozmowa i wywiad", description: "Analizowane są dotychczasowa pielęgnacja, wcześniejsze zabiegi, reakcje skóry, styl życia oraz czynniki, które mogą wpływać na jej aktualną kondycję." },
-      { phase: "2. Diagnoza biologiczna skóry", description: "Oceniane są najważniejsze parametry i widoczne cechy skóry. Określany jest jej aktualny priorytet oraz gotowość do kolejnych działań." },
+      { phase: "2. Ocena potrzeb i kondycji skóry", description: "Oceniane są najważniejsze parametry i widoczne cechy skóry. Określany jest jej aktualny priorytet oraz gotowość do kolejnych działań." },
       { phase: "3. Indywidualnie dobrany reset zabiegowy", description: "Sposób oczyszczania, intensywność działania i zastosowane metody dobierane są do kondycji skóry. Zabieg może obejmować łagodne oczyszczanie, fizjologiczne złuszczanie, wsparcie nawodnienia, ukojenie lub pielęgnację bariery." },
       { phase: "4. Kierunek dalszej terapii", description: "Na podstawie odpowiedzi skóry określany jest kolejny etap Biologicznej Spirali Inteligencji Skóry. Ustalane są również podstawowe zalecenia pielęgnacji domowej." }
     ],
@@ -123,7 +123,7 @@ export const TREATMENTS: Treatment[] = [
     subtitle: "Spersonalizowana terapia dla skóry z niedoskonałościami, zaskórnikami i zaburzoną równowagą sebum",
     duration: "75–90 minut",
     price: "350 PLN — 450 PLN, zależnie od zakresu zabiegu",
-    description: "Acne Balance Therapy to indywidualnie komponowany zabieg dla skóry skłonnej do zaskórników, grudek, krostek, nadmiernego wydzielania sebum i nawracających niedoskonałości. Terapia nie opiera się na intensywnym przesuszaniu ani jednym protokole oczyszczającym. Jej przebieg wynika z diagnozy biologicznej obejmującej stan bariery, sposób rogowacenia, charakter zmian, poziom reaktywności oraz tolerancję dotychczasowej pielęgnacji. Celem zabiegu jest łagodne oczyszczenie, wsparcie prawidłowego procesu rogowacenia, pielęgnacja skóry łojotokowej oraz stworzenie warunków sprzyjających równowadze bariery i mikrobiomu. W przypadku zdiagnozowanego trądziku zabieg może stanowić element wspierającej pielęgnacji kosmetologicznej, prowadzonej z uwzględnieniem zaleceń dermatologa.",
+    description: "Acne Balance Therapy to indywidualnie komponowany zabieg dla skóry skłonnej do zaskórników, grudek, nadmiernego wydzielania sebum i nawracających niedoskonałości. Zabieg nie opiera się na intensywnym przesuszaniu ani jednym sztywnym schemacie oczyszczania. Jego przebieg wynika z dokładnej oceny stanu bariery, sposobu rogowacenia, charakteru zmian, poziomu reaktywności oraz tolerancji dotychczasowej pielęgnacji. Celem zabiegu jest łagodne oczyszczenie, wsparcie prawidłowego procesu złuszczania, pielęgnacja skóry łojotokowej oraz stworzenie warunków sprzyjających równowadze bariery i mikrobiomu. W przypadku rozpoznanego przez lekarza trądziku zabieg może stanowić element wspierającej pielęgnacji kosmetologicznej, prowadzonej z uwzględnieniem zaleceń dermatologa.",
     focus: "Kierunek działania: OCZYSZCZENIE • SEBUM • ROGOWACENIE • MIKROBIOM • Poszanowanie bariery ochronnej",
     image: "/acne-balance-therapy.webp",
     indications: [
@@ -158,7 +158,7 @@ export const TREATMENTS: Treatment[] = [
       "Kompleksy wspierające równowagę mikrobiomu i ochronę antyoksydacyjną"
     ],
     protocolSteps: [
-      { phase: "1. Diagnoza biologiczna", description: "Oceniane są charakter zmian, wydzielanie sebum, sposób rogowacenia, nawodnienie, reaktywność i stan bariery. Analizowana jest również dotychczasowa pielęgnacja." },
+      { phase: "1. Ocena potrzeb i stanu skóry", description: "Oceniane są charakter zmian, wydzielanie sebum, sposób rogowacenia, nawodnienie, reaktywność i stan bariery. Analizowana jest również dotychczasowa pielęgnacja." },
       { phase: "2. Oczyszczanie i przygotowanie naskórka", description: "Rodzaj oczyszczania i złuszczania dobierany jest do kondycji skóry. Celem jest usunięcie nadmiaru sebum i zrogowaciałych komórek bez intensywnego odtłuszczania oraz naruszania bariery." },
       { phase: "3. Spersonalizowana faza aktywna", description: "Przy klientce komponowany jest koktajl z odpowiedniej bazy i koncentratów aktywnych dermaviduals®. W zależności od gotowości skóry dobierana jest także metoda jego zastosowania." },
       { phase: "4. Wyciszenie i ochrona", description: "Końcowy etap wspiera nawodnienie, komfort i barierę naskórkową. Zabieg może zostać uzupełniony metodą aparaturową dobraną do rodzaju zmian i reaktywności skóry." }
@@ -177,7 +177,7 @@ export const TREATMENTS: Treatment[] = [
     subtitle: "Spersonalizowana terapia niedoskonałości skóry dorosłej",
     duration: "80–90 minut",
     price: "380 PLN — 480 PLN, zależnie od zakresu zabiegu",
-    description: "Acne Balance 25+ Therapy została stworzona dla skóry dorosłej, w której zaskórniki, grudki, krostki i nadmierne wydzielanie sebum mogą współistnieć z odwodnieniem, reaktywnością, przebarwieniami oraz pierwszymi oznakami starzenia. Skóra po 25. roku życia wymaga innego podejścia niż skóra nastoletnia — intensywne przesuszanie osłabia barierę oraz zmniejsza tolerancję pielęgnacji. Dlatego terapia łączy działania ukierunkowane na niedoskonałości z jednoczesnym wsparciem nawodnienia, bariery i procesów regeneracyjnych. Przebieg zabiegu wynika z diagnozy biologicznej i uwzględnia stres, zmiany hormonalne, styl życia i dotychczasową pielęgnację.",
+    description: "Acne Balance 25+ Therapy została stworzona dla skóry dorosłej, w której zaskórniki, grudki i nadmierne wydzielanie sebum mogą współistnieć z odwodnieniem, reaktywnością, przebarwieniami oraz pierwszymi oznakami starzenia. Skóra po 25. roku życia wymaga innego podejścia niż skóra nastoletnia — intensywne przesuszanie osłabia barierę oraz zmniejsza tolerancję pielęgnacji. Dlatego zabieg łączy działania ukierunkowane na niedoskonałości z jednoczesnym wsparciem nawodnienia, bariery i procesów odnowy. Przebieg wizyty wynika z indywidualnej oceny skóry i uwzględnia stres, styl życia oraz dotychczasową pielęgnację.",
     focus: "Kierunek działania: NIEDOSKONAŁOŚCI • BARIERA • SEBUM • PRZEBARWIENIA • Terapia skóry dorosłej 25+",
     image: "/adult-acne-therapy.webp",
     indications: [
@@ -213,7 +213,7 @@ export const TREATMENTS: Treatment[] = [
       "Prekursory antyoksydacyjne zmniejszające widoczność przebarwień i wspierające odnowę"
     ],
     protocolSteps: [
-      { phase: "1. Diagnoza biologiczna", description: "Oceniane są rodzaj i umiejscowienie zmian, wydzielanie sebum, sposób rogowacenia, nawodnienie, reaktywność, stan bariery i obecność przebarwień. Uwzględniana jest dotychczasowa pielęgnacja oraz wpływ stresu i hormonów." },
+      { phase: "1. Ocena potrzeb i stanu skóry", description: "Oceniane są rodzaj i umiejscowienie zmian, wydzielanie sebum, sposób rogowacenia, nawodnienie, reaktywność, stan bariery i obecność przebarwień. Uwzględniana jest dotychczasowa pielęgnacja oraz wpływ stresu i codziennych nawyków." },
       { phase: "2. Oczyszczanie i przygotowanie skóry", description: "Sposób oczyszczania i ewentualnego złuszczania dobierany jest do aktualnej kondycji skóry bez nadmiernego odtłuszczania i osłabiania bariery." },
       { phase: "3. Spersonalizowany koktajl zabiegowy", description: "Przy klientce komponowany jest koktajl z odpowiedniej bazy i koncentratów aktywnych dermaviduals®, odpowiadający dominującym problemom oraz potrzebom regeneracyjnym." },
       { phase: "4. Indywidualnie dobrana metoda działania", description: "W zależności od biologicznej gotowości skóry zabieg może zostać uzupełniony odpowiednio dobraną technologią aparaturową o ściśle kontrolowanej głębokości i intensywności." }
@@ -273,8 +273,8 @@ export const TREATMENTS: Treatment[] = [
     ],
     faq: [
       {
-        question: "Czy Rosacea Calm Therapy może być stosowana przy zdiagnozowanym trądziku różowatym?",
-        answer: "Tak. W przypadku zdiagnozowanego trądziku różowatego zabieg może stanowić element pielęgnacji wspierającej, prowadzonej z uwzględnieniem zaleceń dermatologa. Działa wybitnie kojąco, wzmacnia barierę i zmniejsza uczucie pieczenia.",
+        question: "Czy Rosacea Calm Therapy może być stosowana przy rozpoznanym przez lekarza trądziku różowatym?",
+        answer: "Tak. W przypadku rozpoznanego przez lekarza trądziku różowatego zabieg może stanowić element pielęgnacji wspierającej, prowadzonej z uwzględnieniem zaleceń dermatologa. Działa wyjątkowo kojąco, wspiera barierę i pomaga zmniejszyć uczucie pieczenia.",
         category: "Kwalifikacja"
       }
     ]
@@ -285,7 +285,7 @@ export const TREATMENTS: Treatment[] = [
     subtitle: "Spersonalizowana terapia skóry naczyniowej, reaktywnej i skłonnej do zaczerwienienia",
     duration: "60–75 minut",
     price: "350 PLN — 500 PLN, zależnie od zakresu zabiegu",
-    description: "Couperose Therapy to indywidualnie komponowany zabieg dla skóry z widocznymi naczynkami, okresowym lub utrwalonym zaczerwienieniem oraz tendencją do nadmiernej reaktywności. Terapia łączy delikatne postępowanie z zastosowaniem substancji biologicznie aktywnych dobranych do aktualnej kondycji skóry. Jej celem jest poprawa komfortu, ochrona antyoksydacyjna, wsparcie bariery naskórkowej oraz pielęgnacja skóry naczyniowej bez jej nadmiernego rozgrzewania i przeciążania. Widoczne zaczerwienienie może współistnieć z odwodnieniem i osłabioną barierą, dlatego przebieg zabiegu wynika z diagnozy biologicznej i aktualnej tolerancji cery.",
+    description: "Couperose Therapy to indywidualnie komponowany zabieg dla skóry z widocznymi naczynkami, okresowym lub utrwalonym zaczerwienieniem oraz tendencją do nadmiernej reaktywności. Łączy delikatne postępowanie z zastosowaniem składników pielęgnacyjnych dobranych do aktualnej kondycji skóry. Jego celem jest poprawa komfortu, ochrona antyoksydacyjna, wsparcie bariery naskórkowej oraz pielęgnacja skóry naczyniowej bez jej nadmiernego rozgrzewania i przeciążania. Widoczne zaczerwienienie może współistnieć z odwodnieniem i osłabioną barierą, dlatego przebieg zabiegu wynika ze szczegółowej oceny cery i jej aktualnej tolerancji.",
     focus: "Kierunek działania: NACZYNKA • RUMIEŃ • BARIERA • KOMFORT • Pielęgnacja bez przegrzewania tkanki",
     image: "/couperose-therapy.webp",
     indications: [
@@ -320,7 +320,7 @@ export const TREATMENTS: Treatment[] = [
       "Lipidy odbudowujące architekturę ochronną naskórka"
     ],
     protocolSteps: [
-      { phase: "1. Diagnoza biologiczna", description: "Oceniane są charakter zaczerwienienia, widoczność naczynek, reaktywność, nawodnienie, komfort i stan bariery. Analizowane są również czynniki mogące nasilać rumień." },
+      { phase: "1. Ocena potrzeb i reaktywności", description: "Oceniane są charakter zaczerwienienia, widoczność naczynek, reaktywność, nawodnienie, komfort i stan bariery. Rozmawiamy również o czynnikach mogących nasilać rumień." },
       { phase: "2. Delikatne oczyszczanie", description: "Skóra zostaje przygotowana bez intensywnego tarcia, nadmiernego odtłuszczania i niepotrzebnego rozgrzewania." },
       { phase: "3. Spersonalizowany koktajl zabiegowy", description: "Bezpośrednio przy klientce komponowany jest koktajl z odpowiedniej bazy i koncentratów aktywnych dermaviduals®, odpowiadający aktualnym potrzebom i biologicznej gotowości skóry." },
       { phase: "4. Wyciszenie i ochrona", description: "Końcowy etap wspiera nawodnienie, komfort i barierę naskórkową. Jeżeli kondycja skóry na to pozwala, zabieg może zostać uzupełniony odpowiednio dobraną łagodną technologią." }
@@ -358,12 +358,12 @@ export const TREATMENTS: Treatment[] = [
       "Alergia na składniki planowanych preparatów",
       "Ciąża i karmienie piersią w przypadku wybranych substancji oraz technologii",
       "Stosowanie leków zwiększających wrażliwość skóry na światło",
-      "Podejrzane lub niezdiagnozowane dermatologicznie zmiany barwnikowe",
+      "Podejrzane lub nieocenione przez lekarza zmiany barwnikowe",
       "Przeciwwskazania właściwe dla wybranej metody"
     ],
     postTreatmentCare: [
       "Łagodne oczyszczanie i ochrona bariery naskórkowej",
-      "Indywidualnie dobrane substancje aktywne hamujące melanogenezę",
+      "Indywidualnie dobrane składniki pielęgnacyjne wspierające równomierny koloryt",
       "Codzienna ochrona przeciwsłoneczna o szerokim spektrum ponawiana w ciągu dnia",
       "Ograniczenie samodzielnego stosowania silnych peelingów i przypadkowego łączenia kwasów",
       "Obserwowanie reakcji skóry i modyfikowanie pielęgnacji wraz ze zmianą jej kondycji"
@@ -371,11 +371,11 @@ export const TREATMENTS: Treatment[] = [
     activeSubstances: [
       "Baza bionomiczna i koncentraty aktywne dermaviduals® komponowane przy klientce",
       "Odpowiednio dobrane formy witaminy C, niacynamid, składniki antyoksydacyjne",
-      "Substancje wspierające fizjologiczną odnowę naskórka bez stanu zapalnego",
+      "Substancje wspierające odnowę naskórka bez podrażniania",
       "Składniki odbudowujące barierę i ograniczające reaktywność podtrzymującą przebarwienia"
     ],
     protocolSteps: [
-      { phase: "1. Diagnoza biologiczna", description: "Oceniane są rodzaj, rozmieszczenie i charakter przebarwień, koloryt, reaktywność, sposób rogowacenia oraz stan bariery. Uwzględniane są czynniki nasilające pigmentację." },
+      { phase: "1. Ocena stanu skóry i przebarwień", description: "Oceniane są rodzaj, rozmieszczenie i charakter przebarwień, koloryt, reaktywność, sposób rogowacenia oraz stan bariery. Uwzględniane są czynniki nasilające pigmentację." },
       { phase: "2. Przygotowanie skóry", description: "Sposób oczyszczania i odnowy powierzchni naskórka dobierany jest do aktualnej tolerancji skóry. Przy osłabionej barierze pierwszym etapem może być jej odbudowa." },
       { phase: "3. Spersonalizowany koktajl zabiegowy", description: "Przy klientce komponowany jest koktajl z odpowiedniej bazy i koncentratów aktywnych dermaviduals®. Jego skład wynika z rodzaju przebarwień oraz biologicznego celu terapii." },
       { phase: "4. Indywidualnie dobrana technologia", description: "Metoda zastosowania składników (nanobrazja, mezoterapia bezigłowa, infuzja tlenowa, mikronakłuwanie) dopasowywana jest do gotowości skóry, pory roku i ryzyka nasilenia pigmentacji." },
@@ -395,7 +395,7 @@ export const TREATMENTS: Treatment[] = [
     subtitle: "Indywidualnie projektowana terapia jędrności, gęstości i owalu twarzy",
     duration: "około 90 minut",
     price: "500 PLN — 750 PLN, zależnie od dobranej metody i zakresu zabiegu",
-    description: "Skin Remodeling Therapy to wielopoziomowa terapia dla skóry, która traci jędrność, elastyczność i wyraźny kontur. Nie opiera się na jednej technologii ani gotowym protokole. Jej przebieg projektowany jest na podstawie diagnozy biologicznej, aktualnej kondycji tkanek oraz gotowości skóry do określonego rodzaju stymulacji. W zależności od potrzeb dobierane są metody oddziałujące na różne poziomy — od pracy manualnej i neuromięśniowej, przez technologie nieinwazyjne, aż po intensywniejsze procedury przebudowujące. Znaczenie ma nie liczba zastosowanych metod, lecz ich właściwa kolejność, intensywność i czas potrzebny skórze na regenerację. Skin Remodeling Therapy nie oznacza zastosowania najsilniejszej technologii — oznacza wybór takiego bodźca, który skóra jest gotowa prawidłowo wykorzystać.",
+    description: "Skin Remodeling Therapy to wieloetapowy program zabiegowy dla skóry, która traci jędrność, elastyczność i wyraźny kontur. Nie opiera się na jednej technologii ani gotowym schemacie. Jego przebieg projektowany jest na podstawie indywidualnej oceny kondycji tkanek oraz gotowości skóry do określonego rodzaju bodźców. W zależności od potrzeb dobierane są metody oddziałujące na różne poziomy — od pracy manualnej i neuromięśniowej, przez technologie nieinwazyjne, aż po intensywniejsze zabiegi ujędrniające. Znaczenie ma nie liczba zastosowanych metod, lecz ich właściwa kolejność, intensywność i czas potrzebny skórze na odpoczynek. Skin Remodeling Therapy nie oznacza zastosowania najsilniejszego urządzenia — oznacza wybór takiego wsparcia, na jakie skóra jest w danym momencie gotowa.",
     focus: "Kierunek działania: JĘDRNOŚĆ • GĘSTOŚĆ • OWAL • REGENERACJA • Przebudowa tkanek na odpowiednim poziomie biologicznym",
     image: "/skin-remodeling-therapy.webp",
     indications: [
@@ -431,7 +431,7 @@ export const TREATMENTS: Treatment[] = [
       "Składniki antyoksydacyjne i chroniące barierę naskórkową"
     ],
     protocolSteps: [
-      { phase: "1. Diagnoza i ocena gotowości", description: "Oceniane są jędrność, elastyczność, struktura skóry, owal twarzy, napięcia mięśniowe oraz zdolność skóry do regeneracji po bodźcu." },
+      { phase: "1. Ocena kondycji i gotowości skóry", description: "Oceniane są jędrność, elastyczność, struktura skóry, owal twarzy, napięcia mięśniowe oraz tolerancja skóry na bodźce." },
       { phase: "2. Wybór poziomu i metody działania", description: "Określany jest najważniejszy cel terapii oraz technologia odpowiadająca aktualnym potrzebom i możliwościom skóry." },
       { phase: "3. Indywidualnie zaprojektowany zabieg", description: "Zastosowane metody mogą obejmować techniki manualne, neurolifting, mezoterapię bezigłową/mikroigłową, radiofrekwencję lub HIFU. Intensywność i kolejność wynikają z analizy." },
       { phase: "4. Ochrona i plan dalszej regeneracji", description: "Końcowy etap dobierany jest do zastosowanej technologii. Ustalane są również pielęgnacja domowa, czas regeneracji oraz termin kolejnego działania." }
@@ -450,7 +450,7 @@ export const TREATMENTS: Treatment[] = [
     subtitle: "Indywidualnie projektowana terapia jędrności, gęstości i owalu twarzy",
     duration: "około 90 minut",
     price: "500 PLN — 750 PLN, zależnie od dobranej metody i zakresu zabiegu",
-    description: "Skin Remodeling Therapy to wielopoziomowa terapia dla skóry, która traci jędrność, elastyczność i wyraźny kontur. Nie opiera się na jednej technologii ani gotowym protokole. Jej przebieg projektowany jest na podstawie diagnozy biologicznej, aktualnej kondycji tkanek oraz gotowości skóry do określonego rodzaju stymulacji. Znaczenie ma nie liczba zastosowanych metod, lecz ich właściwa kolejność, intensywność i czas potrzebny skórze na regenerację.",
+    description: "Skin Remodeling Therapy to indywidualnie dopasowany zabieg dla skóry, która traci jędrność, elastyczność i wyraźny kontur. Nie opiera się na jednej technologii ani sztywnym schemacie. Jego przebieg dobierany jest na podstawie oceny aktualnej kondycji tkanek oraz gotowości skóry. Znaczenie ma nie liczba zastosowanych metod, lecz ich właściwa kolejność, intensywność i czas na spokojną regenerację.",
     focus: "Kierunek działania: JĘDRNOŚĆ • GĘSTOŚĆ • OWAL • REGENERACJA • Przebudowa tkanek na odpowiednim poziomie biologicznym",
     image: "/lift-firm-therapy.webp",
     indications: [
@@ -477,7 +477,7 @@ export const TREATMENTS: Treatment[] = [
       "Drobnocząsteczkowy kwas hialuronowy i krzemionka organiczna"
     ],
     protocolSteps: [
-      { phase: "1. Diagnoza i ocena gotowości", description: "Oceniane są jędrność, elastyczność, struktura skóry, owal twarzy i napięcia mięśniowe." },
+      { phase: "1. Ocena kondycji i gotowości skóry", description: "Oceniane są jędrność, elastyczność, struktura skóry, owal twarzy i napięcia mięśniowe." },
       { phase: "2. Wybór poziomu i metody działania", description: "Określany jest najważniejszy cel terapii oraz technologia odpowiadająca potrzebom skóry." },
       { phase: "3. Indywidualnie zaprojektowany zabieg", description: "Zastosowanie metod działających na wybranym poziomie tkanek ze stałą kontrolą reakcji." },
       { phase: "4. Ochrona i plan dalszej regeneracji", description: "Końcowy etap barierowy oraz zalecenia domowe i termin kolejnego spotkania." }
@@ -548,7 +548,7 @@ export const TREATMENTS: Treatment[] = [
     subtitle: "Fale Nogiera w połączeniu ze światłem LED",
     duration: "ok. 60 minut",
     price: "500 PLN",
-    description: "Skóra nie starzeje się wyłącznie dlatego, że traci kolagen. Traci kolagen dlatego, że stopniowo zaburza się jej rytm komunikacji – pomiędzy komórkami, układem nerwowym, tkanką łączną i emocjami. Gdy ten subtelny dialog słabnie, komórki skóry przestają prawidłowo odbierać i interpretować sygnały regeneracyjne.\n\nNeurolifting to zaawansowana, nowoczesna forma elektroakupunktury twarzy, w której bardzo delikatne impulsy elektryczne przewodzone są przez ultracienkie igły umieszczane w biologicznie aktywnych punktach skóry. Zabieg integruje wiedzę z zakresu neurobiologii, medycyny chińskiej oraz nowoczesnej fototerapii LED.\n\nMikroprądy o precyzyjnie dobranych częstotliwościach dr. Paula Nogiera (1–99 Hz) oddziałują na zakończenia nerwowe, powięź oraz mięśnie twarzy. W połączeniu ze światłem LED (czerwone 630–660 nm, bursztynowe 590 nm, bliska podczerwień 830–850 nm) oraz indywidualnie dobranymi koktajlami regeneracyjnymi wspierają naturalną równowagę napięcia mięśniowo-powięziowego i odzyskanie przez skórę neuroplastyczności – zdolności do adaptacji, samoregulacji i skutecznej regeneracji.",
+    description: "Skóra nie starzeje się wyłącznie dlatego, że traci kolagen. Traci kolagen dlatego, że stopniowo zaburza się jej rytm komunikacji – pomiędzy komórkami, układem nerwowym, tkanką łączną i emocjami. Gdy ten subtelny dialog słabnie, komórki skóry przestają prawidłowo odbierać i interpretować sygnały regeneracyjne.\n\nNeurolifting to zaawansowana, nowoczesna forma elektroakupunktury twarzy, w której bardzo delikatne impulsy elektryczne przewodzone są przez ultracienkie igły umieszczane w biologicznie aktywnych punktach skóry. Zabieg łączy elementy pracy nad napięciem mięśniowym, wschodnie techniki pracy punktowej oraz nowoczesną fototerapię LED.\n\nMikroprądy o precyzyjnie dobranych częstotliwościach dr. Paula Nogiera (1–99 Hz) oddziałują na zakończenia nerwowe, powięź oraz mięśnie twarzy. W połączeniu ze światłem LED (czerwone 630–660 nm, bursztynowe 590 nm, bliska podczerwień 830–850 nm) oraz indywidualnie dobranymi koktajlami regeneracyjnymi wspierają naturalną równowagę napięcia mięśniowo-powięziowego i odzyskanie przez skórę neuroplastyczności – zdolności do adaptacji, samoregulacji i skutecznej regeneracji.",
     focus: "Fale Nogiera (1–99 Hz), elektroakupunktura twarzy, fototerapia LED (630–660 nm / 590 nm / 830–850 nm) i neuroplastyczność skóry",
     image: "/how_help_neurolifting.webp",
     indications: [
@@ -741,7 +741,7 @@ export const TREATMENTS: Treatment[] = [
     ],
     protocolSteps: [
       { 
-        phase: "I. Diagnoza i kwalifikacja", 
+        phase: "I. Konsultacja i kwalifikacja do zabiegu", 
         description: "Oceniana jest kondycja, napięcie, reaktywność oraz aktualne potrzeby skóry. Wykluczane są również przeciwwskazania do zastosowania technologii elektromagnetycznej." 
       },
       { 
@@ -764,7 +764,7 @@ export const TREATMENTS: Treatment[] = [
     faq: [
       {
         question: "Czym jest i jak działa technologia Sonaris Pro?",
-        answer: "Sonaris Pro Therapy jest komfortowym, nieinwazyjnym zabiegiem wykorzystującym impulsy elektromagnetyczne aplikowane za pomocą specjalnie zaprojektowanych głowic. Fale oddziałują na opracowywany obszar bez uszkadzania powierzchni skóry. Technologia stanowi łagodny bodziec wspierający fizjologiczne procesy odpowiedzialne za kondycję, napięcie i regenerację tkanek. Sonaris Pro nie jest zabiegiem diagnostycznym ani klasycznym ultrasonograficznym „sonarem medycznym”.",
+        answer: "Sonaris Pro Therapy jest komfortowym, nieinwazyjnym zabiegiem wykorzystującym impulsy elektromagnetyczne aplikowane za pomocą specjalnie zaprojektowanych głowic. Fale oddziałują na opracowywany obszar bez uszkadzania powierzchni skóry. Technologia stanowi łagodny bodziec wspierający kondycję, napięcie i odświeżenie skóry. Sonaris Pro to zabieg kosmetologiczny i nie służy do diagnostyki obrazowej.",
         category: "Działanie"
       },
       {
@@ -795,8 +795,8 @@ export const TREATMENTS: Treatment[] = [
     subtitle: "Iniekcyjna stymulacja mikrokrążenia i naturalnych procesów przebudowy skóry",
     duration: "40 — 60 minut",
     price: "250 PLN — 450 PLN (Pakiety 5 zabiegów: 1100 — 2000 PLN)",
-    description: "Karboksyterapia jest zabiegiem iniekcyjnym polegającym na kontrolowanym podaniu medycznego dwutlenku węgla do wybranych warstw skóry. CO₂ stanowi precyzyjny bodziec fizjologiczny, który powoduje miejscowe rozszerzenie naczyń i przejściowe zwiększenie przepływu krwi. Sprzyja to lepszemu dotlenieniu oraz odżywieniu tkanek i tworzy warunki wspierające ich naturalną regenerację. W Slow Skin Concept nie jest stosowany jeden protokół dla każdej skóry. Obszar podania, głębokość iniekcji, przepływ oraz ilość gazu są dobierane indywidualnie — na podstawie kondycji skóry, jakości mikrokrążenia, wrażliwości tkanek i celu zabiegu.",
-    focus: "Medyczny CO₂, stymulacja mikrokrążenia, dotlenienie tkanek (efekt Bohra), okolica oczu, redukcja cieni i blizn",
+    description: "Karboksyterapia jest zabiegiem polegającym na kontrolowanym, płytkim podaniu czystego dwutlenku węgla (CO₂) do wybranych warstw skóry. CO₂ stanowi delikatny bodziec powodujący miejscowe rozszerzenie drobnych naczyń i przejściowe zwiększenie przepływu krwi. Sprzyja to lepszemu dotlenieniu oraz odżywieniu skóry i wspiera jej naturalne procesy odnowy. W Slow Skin Concept nie stosujemy jednego schematu dla każdej cery — głębokość podania, przepływ oraz ilość gazu dobieramy indywidualnie do kondycji i wrażliwości skóry.",
+    focus: "Czysty dwutlenek węgla (CO₂), poprawa mikrokrążenia, dotlenienie skóry (efekt Bohra), okolica oczu, redukcja cieni i nierówności",
     image: "/carboksyterapia-carboregen.webp",
     indications: [
       "Zmęczony, ziemisty lub nierówny koloryt",
@@ -829,13 +829,13 @@ export const TREATMENTS: Treatment[] = [
       "Przestrzegać indywidualnych zaleceń pozabiegowych"
     ],
     activeSubstances: [
-      "Medyczny dwutlenek węgla (CO₂) o certyfikowanej czystości",
+      "Czysty dwutlenek węgla (CO₂) o potwierdzonej czystości",
       "System precyzyjnej kontroli temperatury, dawki i przepływu gazu CARBOregen",
-      "Fizjologiczne preparaty barierowe i kojące po iniekcji",
-      "Mineralna fotoprotekcja bionomiczna SPF 50+"
+      "Łagodne preparaty barierowe i kojące po zabiegu",
+      "Mineralna ochrona przeciwsłoneczna SPF 50+"
     ],
     protocolSteps: [
-      { phase: "I — Diagnoza i Kwalifikacja", description: "Ocena kondycji, reaktywności i unaczynienia skóry oraz charakteru problemu. Dokładny wywiad zdrowotny i wykluczenie przeciwwskazań." },
+      { phase: "I — Konsultacja i Kwalifikacja do Zabiegu", description: "Ocena kondycji, reaktywności i unaczynienia skóry oraz charakteru problemu. Dokładny wywiad i wykluczenie przeciwwskazań." },
       { phase: "II — Przygotowanie Skóry", description: "Dokładne oczyszczenie i profesjonalna dezynfekcja obszaru zabiegowego. Precyzyjne wyznaczenie punktów podania CO₂." },
       { phase: "III — Kontrolowane Podanie Czystego CO₂", description: "Wprowadzenie gazu za pomocą cienkiej igły do odpowiedniej warstwy skóry. Indywidualny dobór głębokości iniekcji, tempa przepływu i dawki gazu w systemie CARBOregen." },
       { phase: "IV — Wyciszenie i Ochrona Skóry", description: "Ocena odpowiedzi tkankowej, nałożenie preparatu barierowego wspierającego komfort i funkcjonowanie naskórka oraz fotoprotekcja." }
@@ -1066,7 +1066,7 @@ export const TREATMENTS: Treatment[] = [
       "Szorstka i nierówna struktura warstwy rogowej naskórka",
       "Ekspozycja na smog miejski, pyły zawieszone i stres oksydacyjny",
       "Potrzeba łagodnego, bezbolesnego oczyszczenia bez agresywnego łuszczenia chemicznego",
-      "Przygotowanie fizjologiczne skóry przed kolejnymi procedurami terapeutycznymi"
+      "Delikatne przygotowanie skóry przed kolejnymi zabiegami pielęgnacyjnymi"
     ],
     contraindications: [
       "Aktywne infekcje bakteryjne, grzybicze i wirusowe (opryszczka w fazie pęcherzykowej)",
@@ -1106,7 +1106,7 @@ export const TREATMENTS: Treatment[] = [
       },
       {
         question: "Czy oczyszczanie wodorowe 'wypłukuje toksyny' ze skóry?",
-        answer: "W Slow Skin Concept stawiamy na rzetelną wiedzę biologiczną: cząsteczkowy wodór ma udowodnione właściwości antyoksydacyjne, jednak zabieg nie polega na 'wypłukiwaniu mitycznych toksyn'. Jego realnym i potwierdzonym działaniem jest dokładne, łagodne usunięcie martwych komórek, nadmiaru utlenionego sebum i miejskich pyłów oraz odciążenie aparatu włosowo-łojowego.",
+        answer: "W Slow Skin Concept stawiamy na rzetelną i przystępną wiedzę: cząsteczkowy wodór wykazuje działanie antyoksydacyjne, jednak zabieg nie polega na 'wypłukiwaniu mitycznych toksyn'. Jego realnym zadaniem jest dokładne, łagodne usunięcie martwych komórek naskórka, nadmiaru utlenionego sebum oraz zanieczyszczeń z miasta i odświeżenie porów.",
         category: "Fizjologia"
       },
       {
@@ -1169,7 +1169,7 @@ export const TREATMENTS: Treatment[] = [
       "Kompleksy peptydowe i aminokwasy wspierające fizjologiczny metabolizm naskórkowy"
     ],
     protocolSteps: [
-      { phase: "I — Ocena Skóry i Gotowości", description: "Szczegółowa diagnoza stopnia rogowacenia, poziomu nawodnienia, kondycji bariery i reaktywności skóry. Wykluczenie przeciwwskazań." },
+      { phase: "I — Ocena Skóry i Gotowości", description: "Szczegółowa ocena stopnia rogowacenia, poziomu nawodnienia, kondycji bariery i reaktywności skóry. Wykluczenie przeciwwskazań." },
       { phase: "II — Oczyszczenie Bionomiczne", description: "Dokładne, delikatne oczyszczenie i przygotowanie skóry preparatami zoptymalizowanymi pod kątem nanobrazji." },
       { phase: "III — Frakcjonowanie Nanodyskowe", description: "Praca jednorazowym nanodyskiem NanoPen ruchem posuwistym. Delikatne, kontrolowane usunięcie martwych komórek warstwy rogowej." },
       { phase: "IV — Stemplowanie i Aplikacja Preparatu", description: "Aplikacja spersonalizowanego koncentratu odżywczego i technika stemplowania wspomagająca jego wykorzystanie przez naskórek." },
@@ -1321,7 +1321,7 @@ export const TREATMENTS: Treatment[] = [
       "Bezwzględny zakaz samodzielnego usuwania czy zdrapywania łuszczącego się naskórka"
     ],
     activeSubstances: [
-      "Nieusieciowany kwas hialuronowy o czystości farmaceutycznej",
+      "Nieusieciowany kwas hialuronowy wysokiej czystości",
       "Kompleksy biozgodnych aminokwasów i peptydów biomimetycznych",
       "Kofaktory syntezy kolagenu i antyoksydanty",
       "Jałowe preparaty łagodzące i wspierające regenerację pozabiegową"
@@ -1621,7 +1621,7 @@ export const TREATMENTS: Treatment[] = [
     faq: [
       {
         question: "Czym są częstotliwości Nogiera i jak działają z LED?",
-        answer: "To precyzyjnie dobrane mikroprądy o częstotliwościach 1–99 Hz opisanych przez dr. Paula Nogiera, które oddziałują na receptory i układ mięśniowo-powięziowy. W połączeniu z fototerapią LED (światło czerwone, bursztynowe lub bliska podczerwień) wspierają produkcję ATP oraz fizjologiczną regenerację skóry.",
+        answer: "To precyzyjnie dobrane mikroprądy o częstotliwościach 1–99 Hz opisanych przez dr. Paula Nogiera, które oddziałują na zakończenia czuciowe i układ mięśniowo-powięziowy. W połączeniu z fototerapią LED (światło czerwone, bursztynowe lub bliska podczerwień) wspierają produkcję ATP oraz fizjologiczną regenerację skóry.",
         category: "Technologia"
       },
       {
@@ -1738,7 +1738,7 @@ export const TREATMENTS: Treatment[] = [
       },
       {
         question: "Czy zabieg stymuluje kolagen?",
-        answer: "Badania wskazują na możliwą poprawę tekstury, ograniczenie wydzielania sebum i wsparcie struktury skóry, jednak dostępne dane naukowe opierają się na małych próbach. Dlatego nie obiecujemy jednoznacznej odbudowy kolagenowej po pojedynczej sesji — głównym celem jest precyzyjne oczyszczenie i wygładzenie naskórka.",
+        answer: "Zabieg pomaga wygładzić powierzchnię skóry, ograniczyć widoczność sebum i odświeżyć cerę, jednak nie obiecujemy po jednej sesji spektakularnej odbudowy głębszych struktur — głównym celem jest dokładne oczyszczenie i wygładzenie naskórka.",
         category: "Działanie"
       },
       {
@@ -1818,9 +1818,9 @@ export const TREATMENTS: Treatment[] = [
         category: "Cennik"
       },
       {
-        question: "Czy zabieg LPL zastępuje leczenie dermatologiczne?",
-        answer: "Nie. Terapia LPL nie zastępuje rozpoznania przyczyn problemu ani farmakologicznego leczenia dermatologicznego w ostrych fazach chorób. Stanowi natomiast profesjonalne wsparcie kosmetologiczne.",
-        category: "Medycyna"
+        question: "Czy zabieg LPL zastępuje wizytę u dermatologa?",
+        answer: "Nie. Zabieg światłem LPL to profesjonalna pielęgnacja kosmetologiczna i nie zastępuje konsultacji lekarskiej ani leczenia chorób skóry.",
+        category: "Bezpieczeństwo"
       }
     ]
   },
@@ -1956,7 +1956,7 @@ export const TREATMENTS: Treatment[] = [
     ],
     activeSubstances: [
       "Sterylna sól fizjologiczna 0.9%",
-      "Czysty tlen medyczny pod ciśnieniem"
+      "Czysty tlen pod kontrolowanym ciśnieniem"
     ],
     protocolSteps: [
       { phase: "I — Aplikacja Strumienia Tlenowego", description: "Bezdotykowe złuszczanie solą fizjologiczną i tlenem." },
@@ -2074,7 +2074,7 @@ export const TREATMENTS: Treatment[] = [
       "Formuły dobierane bezpośrednio w gabinecie pod potrzeby Twojej cery"
     ],
     protocolSteps: [
-      { phase: "I — Rozmowa i Diagnoza", description: "Ocena aktualnego stanu naskórka i omówienie Twoich oczekiwań." },
+      { phase: "I — Rozmowa i Ocena Skóry", description: "Ocena aktualnego stanu naskórka i omówienie Twoich oczekiwań." },
       { phase: "II — Faza Pielęgnacyjna", description: "Dopasowana delikatna technologia wspierająca skórę." },
       { phase: "III — Masaż Relaksujący", description: "Autorski masaż twarzy rozluźniający mięśnie i przynoszący odprężenie." },
       { phase: "IV — Ukojenie i Maska", description: "Kojąca maska dopasowana do potrzeb nawilżenia cery." }
@@ -2199,7 +2199,7 @@ export const TREATMENTS: Treatment[] = [
     ],
     postTreatmentCare: [
       "Odpowiednie nawodnienie organizmu (picie wody wspiera fizjologiczne procesy metaboliczne komórek)",
-      "Unikanie gwałtownego przeciążania i nadmiernego forsowania leczonego stawu bezpośrednio po sesji",
+      "Unikanie gwałtownego przeciążania i nadmiernego forsowania wybranego stawu bezpośrednio po sesji",
       "Zachowanie regularności wizyt w ustalonym cyklu (sesje odbywają się w bliskich odstępach czasu)",
       "Obserwacja i notowanie zmian w zakresie swobody ruchu, redukcji sztywności i natężenia bólu w codziennych sytuacjach",
       "Konsultacja ze specjalistą (lekarzem lub fizjoterapeutą) w przypadku wskazań do ćwiczeń uzupełniających"
@@ -2207,18 +2207,18 @@ export const TREATMENTS: Treatment[] = [
     activeSubstances: [
       "Urządzenie PST H-200 — precyzyjny aplikator do stawów kończyn (dłonie, nadgarstki, łokcie, kolana, stawy skokowe, stopy)",
       "Urządzenie PST H-300 — aplikator o powiększonym zasięgu do tułowia (kręgosłup, biodra, barki)",
-      "Pulsed Signal Therapy (PST) — pulsujące pole elektromagnetyczne stymulujące naturalne procesy bioelektryczne tkanek łącznych i chrzęstnych",
+      "Pulsed Signal Therapy (PST) — pulsujące pole elektromagnetyczne wspierające naturalny komfort tkanek i stawów",
       "Metoda w 100% nieinwazyjna, bezbolesna, bez naruszania powłok skórnych i bez igieł",
-      "Certyfikowana technologia regeneracji narządu ruchu zgodna ze standardami PST Polska, Active Spine oraz klinik fizjoterapeutycznych"
+      "Oryginalna technologia wspierająca komfort ruchu zgodna ze standardami PST Polska oraz Active Spine"
     ],
     protocolSteps: [
       {
         phase: "I — Konsultacja wstępna i kwalifikacja",
-        description: "Zanim rozpoczniemy zabiegi, rozmawiamy o Twoim stanie zdrowia, rozpoznaniu, przebytych urazach i operacjach, aktualnym leczeniu oraz implantach. Wykluczamy przeciwwskazania i dobieramy właściwe urządzenie (PST H-200 lub H-300)."
+        description: "Zanim rozpoczniemy sesje, rozmawiamy o Twoim samopoczuciu, przebytych urazach i operacjach, aktualnym stanie zdrowia oraz ewentualnych implantach. Wykluczamy przeciwwskazania i dobieramy właściwe urządzenie (PST H-200 lub H-300)."
       },
       {
         phase: "II — Wygodne ułożenie w polu aplikatora",
-        description: "Zajmujesz odprężającą, w pełni wygodną pozycję na leżance gabinetowej. Aplikator urządzenia zostaje precyzyjnie umieszczony wokół leczonego stawu lub odcinka kręgosłupa."
+        description: "Zajmujesz odprężającą, w pełni wygodną pozycję na leżance gabinetowej. Aplikator urządzenia zostaje umieszczony wokół wybranego stawu lub odcinka kręgosłupa."
       },
       {
         phase: "III — Terapia sygnałem pulsacyjnym (ok. 60 min)",
@@ -2280,8 +2280,8 @@ export const ARTICLES: MagazineArticle[] = [
     imageCaption: "Autorska filozofia bionomiczna w Slow Skin Concept: poszanowanie fizjologii komórkowej, biologiczna biozgodność i ochrona przed mikrozapaleniem.",
     inArticleGraphic: {
       image: "/src/assets/images/skin_cells_1788720444145.webp",
-      imageCaption: "Fot. Badawcza 1: Mikroskopowa architektura naskórka i fizjologiczny cykl odnowy korneocytów w badaniu bionomicznym (Slow Skin Concept).",
-      chartTitle: "Wykres Kliniczny: Agresywne Złuszczanie vs. Bionomiczny Rytm Slow Skin",
+      imageCaption: "Ilustracja 1: Budowa naskórka i fizjologiczny cykl odnowy komórek w podejściu bionomicznym (Slow Skin Concept).",
+      chartTitle: "Porównanie: Intensywne Złuszczanie vs. Łagodny Rytm Slow Skin",
       chartSubtitle: "Porównanie dynamiki regeneracji, poziomu stanu zapalnego (IL-1α) oraz integralności bariery w okresie 40 dni.",
       chartType: "comparison",
       data: [
@@ -2326,25 +2326,25 @@ export const ARTICLES: MagazineArticle[] = [
           note: "Brak obrzęku pozornego — trwała poprawa nawilżenia dzięki biomimetycznym ciekłym kryształom DMS."
         }
       ],
-      clinicalConclusion: "Wniosek Kosmetologii Bionomicznej: Agresywne procedury dają jedynie krótkotrwały efekt pozorny (obrzęk pozapalny), kosztem długotrwałego osłabienia naskórka. Rytm bionomiczny Slow Skin Concept zapewnia trwałą odporność, gęstość i naturalny blask bez ryzyka powikłań naczyniowych."
+      clinicalConclusion: "Wniosek z praktyki: Agresywne procedury dają jedynie krótkotrwały efekt pozorny (przejściowe napięcie i zaczerwienienie), kosztem długotrwałego osłabienia naskórka. Rytm bionomiczny Slow Skin Concept wspiera trwałą odporność, komfort i naturalny blask."
     },
-    lead: "Żyjemy w kulturze pośpiechu i agresywnej stymulacji. W pogoni za natychmiastowym efektem skóra bywa poddawana inwazyjnym peelingom kwasowym, głębokiemu nakłuwaniu czy silnym procedurom termicznym, które wprowadzają naskórek w stan permanentnego alarmu biologicznego. W naszym autorskim instytucie Slow Skin Concept w Jelczu-Laskowicach udowadniamy, że trwała witalność cery rodzi się z cierpliwości, wsparcia naturalnych procesów samonaprawy i bezwzględnego poszanowania płaszcza hydrolipidowego.",
+    lead: "Żyjemy w kulturze pośpiechu i intensywnej stymulacji. W pogoni za natychmiastowym efektem skóra bywa poddawana mocnym peelingom kwasowym, głębokiemu nakłuwaniu czy silnym procedurom termicznym, które wprowadzają naskórek w stan ciągłego podrażnienia. W naszym instytucie Slow Skin Concept w Jelczu-Laskowicach stawiamy na cierpliwość, wsparcie naturalnych procesów odnowy i bezwzględne poszanowanie płaszcza hydrolipidowego.",
     content: [
-      "Współczesna kosmetologia estetyczna zbyt długo opierała się na paradygmacie kontrolowanego uszkodzenia. Założenie, że naskórek musi zostać najpierw zraniony lub silnie złuszczony, aby pobudzić fibroblasty do produkcji kolagenu, doprowadziło u tysięcy kobiet do epidemii cery nadwrażliwej, reaktywnej i przedwcześnie zwiotczałej. Zjawisko to w dermatologii określane jest mianem <em>inflammaging</em> — utajonego, przewlekłego mikrozapalenia, które przyspiesza starzenie komórkowe.",
-      "W nurcie Slow Skin Concept odrzucamy walkę ze skórą na rzecz mądrego dialogu z jej fizjologią. Zamiast wymuszać natychmiastowe złuszczanie kosztem naturalnej bariery, w pierwszej kolejności odbudowujemy integralność cementu międzykomórkowego, wyciszamy nadreaktywne receptory czuciowe i przywracamy prawidłowe środowisko mikrobiomu. Efektem jest cera stabilna, odporna na czynniki zewnętrzne, która nie reaguje rumieniem na każdą zmianę temperatury czy emocje.",
-      "Każdy proces terapeutyczny w naszym gabinecie w Jelczu-Laskowicach rozpoczyna się od procedury <a href=\"/skin-readiness/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Skin Readiness — Przygotowanie Skóry do Pielęgnacji</a>. Sprawdzamy stan gotowości komórkowej, poziom przeznaskórkowej utraty wody (TEWL) oraz stopień unaczynienia, by nie aplikować aktywnych procedur na osłabiony naskórek.",
-      "Dla osób, które pragną sprawdzić potrzeby swojej skóry przed wizytą w gabinecie, udostępniamy bezpłatne narzędzie diagnostyczne <a href=\"ai-analiza\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Analiza Skóry Online</a>, a pełną rezerwację terminu można sfinalizować przez <a href=\"rezerwacja-online\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Kalendarz Rezerwacji Wizyt</a>."
+      "Współczesna kosmetologia przez długi czas opierała się na założeniu kontrolowanego podrażniania skóry. Przekonanie, że naskórek musi zostać najpierw mocno złuszczony lub naruszony, aby skóra zaczęła się odnawiać, doprowadziło u wielu kobiet do nadwrażliwości, reaktywności i osłabienia jędrności. Takie przewlekłe mikropodrażnienie określane jest jako <em>inflammaging</em> — stan, który zamiast wspierać młody wygląd, przyspiesza zmęczenie skóry.",
+      "W nurcie Slow Skin Concept odrzucamy walkę ze skórą na rzecz mądrej współpracy z jej naturalnym rytmem. Zamiast wymuszać natychmiastowe złuszczanie kosztem naturalnej bariery, w pierwszej kolejności wspieramy odbudowę lipidów, wyciszamy wrażliwość i przywracamy komfort. Efektem jest cera stabilna, odporna na czynniki zewnętrzne, która nie reaguje rumieniem na każdą zmianę temperatury czy emocje.",
+      "Każdy proces pielęgnacyjny w naszym gabinecie w Jelczu-Laskowicach rozpoczyna się od procedury <a href=\"/skin-readiness/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Skin Readiness — Przygotowanie Skóry do Pielęgnacji</a>. Oceniamy gotowość skóry, poziom przeznaskórkowej utraty wody (TEWL) oraz skłonność do zaczerwienień, by nie wykonywać zbyt intensywnych zabiegów na osłabionym naskórku.",
+      "Dla osób, które pragną sprawdzić potrzeby swojej skóry przed wizytą w gabinecie, udostępniamy bezpłatne narzędzie konsultacyjne <a href=\"ai-analiza\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Analiza Skóry Online</a>, a pełną rezerwację terminu można sfinalizować przez <a href=\"rezerwacja-online\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Kalendarz Rezerwacji Wizyt</a>."
     ],
     sections: [
       {
         heading: "Dlaczego powstał Slow Skin Concept: Przełom w Pielęgnacji",
         paragraphs: [
-          "Instytut Slow Skin Concept powstał z głębokiej potrzeby przeciwstawienia się dominującemu trendowi agresywnej, inwazyjnej kosmetologii. Przez lata obserwowaliśmy kobiety, których cera zamiast młodnieć, stawała się coraz bardziej cienka, reaktywna i stale podrażniona po kolejnych seriach mocnych peelingów chemicznych czy głębokich nakłuć.",
-          "Naszą misją stało się przywrócenie skórze jej wrodzonej zdolności do samoregeneracji. Zamiast 'zmuszać' naskórek do gwałtownej odnowy poprzez wywoływanie kontrolowanych uszkodzeń, podajemy mu dokładnie te substancje, z których jest naturalnie zbudowany — składniki biomimetyczne, które naskórek rozpoznaje jako własne. Poniższa tabela zbiera najważniejsze wnioski z badań nad tymi biozgodnymi składnikami:"
+          "Instytut Slow Skin Concept powstał z głębokiej potrzeby przeciwstawienia się trendowi agresywnej kosmetologii. Przez lata obserwowaliśmy kobiety, których cera zamiast wyglądać zdrowo, stawała się coraz bardziej cienka, reaktywna i stale podrażniona po kolejnych seriach mocnych peelingów czy głębokich nakłuć.",
+          "Naszą misją stało się wspieranie wrodzonej zdolności skóry do odnowy. Zamiast 'zmuszać' naskórek do gwałtownego złuszczania poprzez podrażnienia, dostarczamy mu dokładnie te substancje, z których jest naturalnie zbudowany — składniki biomimetyczne, które skóra rozpoznaje jako własne. Poniższa tabela zbiera najważniejsze informacje o działaniu tych składników:"
         ],
         table: {
           caption: "Wpływ kluczowych składników biomimetycznych na kondycję skóry",
-          headers: ["Składnik aktywny", "Rola w naskórku", "Działanie potwierdzone w badaniach", "Rezultat odczuwalny dla cery"],
+          headers: ["Składnik aktywny", "Rola w naskórku", "Wsparcie dla skóry", "Rezultat odczuwalny dla cery"],
           rows: [
             {
               ingredient: "Ceramidy NP, AP, EOP",
@@ -2377,7 +2377,7 @@ export const ARTICLES: MagazineArticle[] = [
         heading: "1. Iluzja natychmiastowego efektu a zjawisko „skin burnout”",
         paragraphs: [
           "Wiele popularnych zabiegów daje pozorne wrażenie natychmiastowego odmłodzenia: po agresywnym peelingu chemicznym lub głębokim resurfacingu twarz wydaje się napięta, lśniąca i gładka. W rzeczywistości to, co bywa mylone z jędrnością, jest często wczesnym obrzękiem zapalnym (erythema & subclinical edema). Gdy obrzęk opada po kilkunastu dniach, a skóra pozbawiona ochronnej warstwy rogowej zostaje wystawiona na zanieczyszczenia miejskie i promieniowanie UV, pojawia się reaktywna suchość, szorstkość oraz wtórne przebarwienia pozapalne (PIH).",
-          "W badaniach analitycznych nad kondycją bariery skórnej u kobiet regularnie korzystających z agresywnych kuracji gabinetowych stwierdza się zaburzenia w ekspresji białek połączeń ścisłych (klaudyny, okludyny) oraz spadek poziomu filagryny o ponad 40%. Skóra wchodzi w stan tzw. wypalenia barierowego (skin burnout) — staje się bezbronna wobec drobnoustrojów i alergenów, a jej naturalne mechanizmy regeneracyjne zostają wyczerpane."
+          "W praktyce gabinetowej przy regularnym stosowaniu zbyt agresywnych kuracji obserwuje się osłabienie naturalnej ochrony naskórka i spadek komfortu skóry. Skóra wchodzi w stan tzw. wypalenia barierowego (skin burnout) — staje się wyjątkowo wrażliwa na codzienne kosmetyki, wiatr czy zmianę temperatur."
         ]
       },
       {
@@ -2397,8 +2397,8 @@ export const ARTICLES: MagazineArticle[] = [
       {
         heading: "4. Wyciszenie mikrozapalenia (Inflammaging) jako nadrzędny cel slow-aging",
         paragraphs: [
-          "Współczesna dermatologia uznaje przewlekłe mikrozapalenie za główny motor destrukcji włókien elastynowych i kolagenu typu I oraz III. Aktywowane cytokiny prozapalne (IL-1alfa, TNF-alfa) stymulują enzymy metaloproteinazy macierzy (MMP-1, MMP-9), które degradują macierz skórną szybciej niż fibroblasty są w stanie ją odtworzyć.",
-          "W gabinecie Slow Skin Concept każda procedura slow-aging prowadzona jest w warunkach zerowego odczynu zapalnego. Wykorzystujemy farmaceutyczną ektoinę 100%, kwas traneksamowy, cynk PCA oraz łagodne naświetlania fotobiomodulacyjne LED, które wygaszają kaskadę zapalną, jednocześnie stymulując komórki macierzyste skóry do bezpiecznej, harmonijnej biosyntezy."
+          "Przewlekłe mikropodrażnienia osłabiają elastyczność i sprężystość skóry szybciej, niż jest ona w stanie się naturalnie odbudowywać.",
+          "W gabinecie Slow Skin Concept każda procedura slow-aging prowadzona jest w warunkach maksymalnego komfortu i łagodności. Wykorzystujemy czystą ektoinę 100%, kwas traneksamowy, cynk PCA oraz łagodne naświetlania LED, które wyciszają zaczerwienienia i wspierają harmonijną odnowę cery."
         ]
       }
     ],
@@ -2426,12 +2426,12 @@ export const ARTICLES: MagazineArticle[] = [
     ],
     studyNotes: [
       {
-        citation: "Elias P.M. et al., Journal of Investigative Dermatology, 'Skin barrier and lipid biochemistry'",
-        finding: "Badania dowodzą, że równowaga bariery naskórkowej zależy od zachowania ekwimolarnego stosunku ceramidów, cholesterolu i wolnych kwasów tłuszczowych. Zaburzenie tych proporcji agresywnymi detergentami i kwasami natychmiast indukuje ucieczkę wody i stan zapalny."
+        citation: "Biologia bariery lipidowej (Elias P.M., podstawy lipidowe naskórka)",
+        finding: "Sprawność bariery ochronnej naskórka zależy od równowagi między ceramidami, cholesterolem i wolnymi kwasami tłuszczowymi. Naruszenie tych proporcji agresywnymi detergentami i kwasami zwiększa ucieczkę wody i wrażliwość skóry."
       },
       {
-        citation: "Puch F. et al., British Journal of Dermatology, 'Subclinical inflammation and collagen degradation in skin aging'",
-        finding: "Wykazano, że przewlekły stan mikrozapalny (inflammaging) przyspiesza degradację kolagenu o 64% w porównaniu ze skórą o wygaszonej ekspresji cytokin prozapalnych."
+        citation: "Zjawisko inflammaging a kondycja skóry (Puch F. et al.)",
+        finding: "Długotrwałe mikropodrażnienia przyspieszają utratę jędrności i elastyczności znacznie szybciej niż spokojna pielęgnacja wspierająca naturalne wyciszenie naskórka."
       }
     ],
     practicalTakeaways: [
@@ -2452,9 +2452,9 @@ export const ARTICLES: MagazineArticle[] = [
     imageCaption: "Wyciszenie układu autonomicznego i rozluźnienie powięzi twarzowej podczas autorskich procedur pielęgnacyjnych w Jelczu-Laskowicach.",
     inArticleGraphic: {
       image: "/src/assets/images/neuro_skin_care_1788720457257.webp",
-      imageCaption: "Fot. Badawcza 2: Wyciszenie osi stresowej mózg–skóra poprzez stymulację włókien czuciowych C-tactile i manualną relaksację powięzi.",
-      chartTitle: "Wykres Neuro-Biologiczny: Reakcja Stresowa vs. Terapia Wyciszająca",
-      chartSubtitle: "Wpływ procedur relaksacyjnych Slow Skin na poziom hormonów stresu i neuropeptydów zapalnych w skórze.",
+      imageCaption: "Ilustracja 2: Wyciszenie napięcia osi mózg–skóra poprzez delikatny dotyk i manualne rozluźnienie powięzi.",
+      chartTitle: "Porównanie: Reakcja na Przewlekły Stres vs. Zabieg Wyciszający",
+      chartSubtitle: "Wpływ spokojnych rytuałów Slow Skin na komfort skóry, napięcie mięśni i skłonność do rumienia.",
       chartType: "comparison",
       data: [
         {
@@ -2498,11 +2498,11 @@ export const ARTICLES: MagazineArticle[] = [
           note: "Uwolnienie bloków powięziowych odblokowuje przepływ limfy, likwidując poranne obrzęki i przywracając lekki owal twarzy."
         }
       ],
-      clinicalConclusion: "Wniosek Neurobiologiczny: Twarz nie potrafi ukryć napięcia, które nosi ciało. Świadomy, spokojny dotyk w gabinecie Slow Skin Concept realnie przełącza układ nerwowy w tryb regeneracji przywspółczulnej, gasząc utajone stany zapalne i chroniąc młodość skóry."
+      clinicalConclusion: "Wniosek z praktyki: Twarz nie potrafi ukryć napięcia, które nosi ciało. Świadomy, spokojny dotyk w gabinecie Slow Skin Concept pomaga wyciszyć układ nerwowy, zmniejszyć napięcie mięśni i przywrócić skórze naturalny spokój."
     },
-    lead: "Skóra i układ nerwowy mają to samo pochodzenie embrionalne — oba wywodzą się z tego samego listka zarodkowego: ektodermy. Ta ścisła biologiczna więź sprawia, że naskórek jest w istocie zewnętrznym zwierciadłem naszego układu nerwowego. Przewlekły stres emocjonalny, brak regenerującego snu oraz ciągłe napięcie psychoemocjonalne to konkretne cząsteczki biochemiczne — kortyzol, substancja P, histamina i neuropeptydy — które codziennie kształtują kondycję naczynek, kolagenu i mikrobiomu Twojej twarzy.",
+    lead: "Skóra i układ nerwowy mają wspólne pochodzenie — dlatego cera tak szybko odzwierciedla to, co dzieje się w naszym ciele i emocjach. Przewlekły stres, brak regenerującego snu oraz codzienne napięcie wpływają bezpośrednio na wrażliwość naczynek, nawilżenie i tempo regeneracji Twojej twarzy.",
     content: [
-      "Większość kobiet zgłaszających się do naszego instytutu w Jelczu-Laskowicach nie kojarzy swoich problemów skórnych ze stanem układu nerwowego. Zmiany trądzikowe na linii żuchwy, nagłe pieczenie policzków, poszarzały odcień cery czy nawracający rumień bywają błędnie diagnozowane jako proste defekty kosmetyczne. Wnikliwy wywiad kosmetologiczny pokazuje jednak, że u podłoża niemal każdej przewlekłej dermatozy leży nadaktywność współczulnego układu nerwowego i przeciążenie osi stresowej HPA.",
+      "Większość kobiet zgłaszających się do naszego instytutu w Jelczu-Laskowicach nie kojarzy swoich problemów skórnych ze stanem układu nerwowego. Niedoskonałości na linii żuchwy, nagłe pieczenie policzków, poszarzały odcień cery czy nawracający rumień bywają błędnie postrzegane wyłącznie jako drobne defekty powierzchniowe. Szczegółowa rozmowa konsultacyjna pokazuje jednak, jak często u ich podłoża leży przewlekłe przeciążenie stresem.",
       "Skóra nie jest bierną powłoką. Jest gęsto unerwionym, autonomicznym narządem neuroendokrynnym, który potrafi samodzielnie syntetyzować hormony stresu oraz reagować na każdy impuls nerwowy. Kiedy organizm znajduje się w stanie chronicznej czujności, krew i składniki odżywcze są priorytetowo kierowane do serca i mięśni, a mikrokrążenie skórne ulega wazokonstrukcji (zwężeniu naczyń). W efekcie komórki skóry ulegają chronicznemu niedotlenieniu, a procesy naprawcze zostają wyhamowane.",
       "Odpowiedzią na te wyzwania w Slow Skin Concept są procedury neurokosmetyczne i neuroregulacyjne: <a href=\"/neurolifting-nogier/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Neurolifting — Elektroakupunktura twarzy (Fale Nogiera i światło LED)</a> oraz terapia <a href=\"/adult-acne-therapy/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Adult Acne Therapy</a>. Łączymy w nich przywracanie fizjologicznego rytmu komunikacji nerwowo-skórnej z biozgodną regeneracją.",
       "Zapraszamy do sprawdzenia reaktywności swojej cery za pomocą kwestionariusza <a href=\"ai-analiza\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Analiza Skóry Online</a> lub bezpośredniego umówienia wizyty w naszym kameralnym gabinecie przez <a href=\"rezerwacja-online\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Formularz Rezerwacji Wizyty</a>."
@@ -2525,7 +2525,7 @@ export const ARTICLES: MagazineArticle[] = [
       {
         heading: "3. Neurogenny stan zapalny (Neurogenic Inflammation) i trądzik dorosłych",
         paragraphs: [
-          "Jednym z najważniejszych odkryć współczesnej neurodermatologii jest mechanizm neurogennego zapalenia wyzwalanego przez neuropeptyd Substancję P (SP) oraz peptyd związany z genem kalcytoniny (CGRP). W chwilach silnego napięcia nerwowego zakończenia czuciowe w skórze uwalniają te substancje wprost do przestrzeni międzykomórkowej.",
+          "Silny stres i napięcie emocjonalne mają bezpośredni wpływ na wrażliwość skóry — w takich chwilach zakończenia czuciowe w naskórku uwalniają związki wywołujące zaczerwienienie, pieczenie i uczucie gorąca.",
           "Substancja P łączy się z komórkami tucznymi (mastocytami), powodując ich degranulację i uwolnienie histaminy, leukotrienów oraz TNF-alfa. Dochodzi do gwałtownego rozszerzenia naczyń włosowatych (napadowy rumień / flushing) oraz wzmożonej stymulacji gruczołów łojowych. Co kluczowe, łój produkowany pod wpływem stresu ma zmieniony skład chemiczny (jest ubogi w przeciwutleniający skwalen, a bogaty w utlenione kwasy tłuszczowe drażniące ujścia mieszków). Wyjaśnia to, dlaczego trądzik dorosłych (Acne Tarda) u kobiet pojawia się głównie w dolnym piętrze twarzy (żuchwa, szyja) w okresach przepracowania i przeciążenia emocjonalnego."
         ]
       },
@@ -2568,34 +2568,34 @@ export const ARTICLES: MagazineArticle[] = [
     ],
     studyNotes: [
       {
-        citation: "Arck P.C., Paus R. et al., Journal of Investigative Dermatology, 'Neurobiology of the skin barrier under stress'",
-        finding: "Praca dowodzi istnienia obwodowej osi mózg-skóra: stres psychologiczny bezpośrednio hamuje syntezę ciałek blaszkowatych w naskórku i indukuje degranulację komórek tucznych."
+        citation: "Zależność między stresem a barierą skóry (Arck P.C., Paus R.)",
+        finding: "Przewlekłe napięcie nerwowe osłabia naturalną produkcję lipidów ochronnych w naskórku oraz zwiększa podatność skóry na zaczerwienienia i wrażliwość."
       },
       {
-        citation: "Garg A. et al., Archives of Dermatology, 'Psychological stress impairs the epidermal water barrier'",
-        finding: "Kliniczne badanie z udziałem osób poddanych stresowi wykazało znaczące opóźnienie w odzyskiwaniu prawidłowego wskaźnika TEWL po uszkodzeniu taśmowym (tape-stripping)."
+        citation: "Stres a zatrzymywanie wilgoci w naskórku (Garg A. et al.)",
+        finding: "W okresach silnego stresu bariera ochronna naskórka regeneruje się wyraźnie wolniej, a skóra łatwiej traci nawilżenie i staje się ściągnięta."
       }
     ],
     practicalTakeaways: [
       "Wprowadź wieczorny rytuał oddechowy (np. 5 minut powolnego oddechu przeponowego 4-7-8) przed aplikacją kosmetyków nocnych.",
       "Unikaj niebieskiego światła ekranów (HEV) na min. 60 minut przed snem — zaburza ono nocną syntezę melatoniny naskórkowej.",
       "Zadbaj o rozluźnienie żuchwy w ciągu dnia: zwróć uwagę, czy zęby nie stykają się w momentach skupienia przed komputerem.",
-      "Stosuj kosmetyki z neuropeptydami biomimetycznymi i ektoiną, które uciszają receptory czuciowe w warstwie kolczystej naskórka."
+      "Stosuj łagodne kosmetyki z ektoiną i składnikami kojącymi, które wyciszają nadwrażliwość i wspierają komfort naskórka."
     ],
     quote: "Twarz nie potrafi ukryć napięcia, które nosi ciało. Prawdziwa odnowa naskórka zaczyna się w chwili, gdy układowi nerwowemu pozwalamy wreszcie głęboko odetchnąć i poczuć się bezpiecznie."
   },
   {
     id: "art-hydrolipid-barrier",
-    title: "Bariera Hydrolipidowa: Architektura Płaszcza Ochronnego, Diagnostyka TEWL i Odbudowa Naskórka",
+    title: "Bariera Hydrolipidowa: Architektura Płaszcza Ochronnego, Ocena TEWL i Odbudowa Naskórka",
     category: "FIZJOLOGIA",
     readingTime: "10 min czytania",
     author: "Katarzyna Brzezińska",
     image: "/src/assets/images/hydrolipid_barrier_1788719020707.webp",
-    imageCaption: "Fizjologiczna matryca lipidowa naskórka: trójkąt ceramidów, cholesterolu i wolnych kwasów tłuszczowych chroniący przed ucieczką wody.",
+    imageCaption: "Naturalna matryca lipidowa naskórka: równowaga ceramidów, cholesterolu i wolnych kwasów tłuszczowych chroniąca przed ucieczką wody.",
     inArticleGraphic: {
       image: "/src/assets/images/barrier_hydration_1788720471893.webp",
-      imageCaption: "Fot. Badawcza 3: Mikroskopowa struktura ciekłokrystalicznej tarczy lipidowej oraz uszczelnienie przestrzeni międzykomórkowych (DMS).",
-      chartTitle: "Wykres Regeneracji Bariery: Wskaźnik TEWL i Poziom Nawodnienia Tkankowego",
+      imageCaption: "Ilustracja 3: Struktura ciekłokrystalicznej tarczy lipidowej oraz uszczelnienie przestrzeni międzykomórkowych (DMS).",
+      chartTitle: "Porównanie Kondycji Bariery: Wskaźnik TEWL i Poziom Nawodnienia",
       chartSubtitle: "Dynamika odbudowy cementu międzykomórkowego (stratum corneum) w 28-dniowym protokole bionomicznym.",
       chartType: "comparison",
       data: [
@@ -2640,21 +2640,21 @@ export const ARTICLES: MagazineArticle[] = [
           note: "Lipidy ciekłokrystaliczne DMS idealnie wpasowują się w ubytki spoiwa międzykomórkowego, tworząc równą, gładką powierzchnię."
         }
       ],
-      clinicalConclusion: "Wniosek Kosmetologii Bionomicznej: Zanim zażądasz od cery redukcji zmarszczek czy rozświetlenia, musisz oddać jej szczelność. Odbudowana tarcza hydrolipidowa stanowi fundament, bez którego żaden zabieg nie przyniesie trwałych rezultatów."
+      clinicalConclusion: "Wniosek z praktyki: Zanim zaczniesz oczekiwać od cery redukcji zmarszczek czy rozświetlenia, warto zadbać o jej szczelność. Odbudowana tarcza hydrolipidowa stanowi fundament pod trwałe efekty pielęgnacji."
     },
-    lead: "Płaszcz hydrolipidowy to ewolucyjny cud natury — niewidzialna tarcza o grubości zaledwie kilkunastu mikrometrów, która oddziela organizm od wrogiego środowiska zewnętrznego. Kiedy ta powłoka ulega rozszczelnieniu, cera natychmiast traci wilgoć, zaczyna piec przy kontakcie z wodą, staje się szorstka i nadreaktywna. W tym autorskim opracowaniu analizujemy strukturę warstwy rogowej, aparaturowy pomiar TEWL oraz sprawdzone metody rekonstrukcji bariery w gabinecie kosmetologii bionomicznej w Jelczu-Laskowicach.",
+    lead: "Płaszcz hydrolipidowy to naturalna tarcza ochronna naskórka, która oddziela skórę od niekorzystnych czynników zewnętrznych. Kiedy ta powłoka ulega osłabieniu, cera szybko traci wilgoć, zaczyna piec przy kontakcie z wodą, staje się szorstka i nadreaktywna. W tym artykule omawiamy budowę warstwy rogowej, znaczenie wskaźnika TEWL oraz zasady łagodnej odbudowy bariery w pielęgnacji bionomicznej.",
     content: [
-      "Niemal 80% problemów, z którymi zgłaszają się do nas klientki — od uciążliwego ściągnięcia po myciu, poprzez nawracające zaostrzenia trądziku różowatego, aż po pieczenie policzków — ma jedno wspólne podłoże: uszkodzenie płaszcza hydrolipidowego. Niestety, w odpowiedzi na te objawy wiele osób sięga po jeszcze silniejsze preparaty oczyszczające lub agresywne kwasy, wpadając w błędne koło barierowej degradacji.",
-      "Aby skutecznie pomóc skórze, musimy zrozumieć jej architekturę. Najbardziej zewnętrzna warstwa naskórka (stratum corneum) nie jest martwym pancerzem. To wysoce aktywna metabolicznie struktura, w której komórki bezjądrowe (korneocyty) są ściśle spojone wielowarstwową matrycą lipidową. Jeśli w tej matrycy zabraknie choćby jednego elementu — ceramidów, cholesterolu lub kwasów tłuszczowych — woda bez przeszkód odparowuje w głąb atmosfery, a alergeny i bakterie wnikają w głąb tkanek.",
-      "W naszym instytucie w Jelczu-Laskowicach nie zgadujemy stanu bariery. W ramach protokołu <a href=\"/skin-readiness/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Skin Readiness</a> wykonujemy komputerowy pomiar aparatury Nati V3 / Iomet, badając rzeczywisty wskaźnik TEWL oraz poziom nawilżenia głębokiego.",
+      "Większość wyzwań, z którymi zgłaszają się do nas klientki — od uciążliwego ściągnięcia po myciu, przez zaczerwienienia, aż po pieczenie policzków — ma jedno wspólne podłoże: osłabienie płaszcza hydrolipidowego. Niestety, w odpowiedzi na te objawy wiele osób sięga po jeszcze silniejsze preparaty oczyszczające lub mocne kwasy, pogłębiając wrażliwość cery.",
+      "Aby skutecznie wspierać skórę, warto rozumieć jej budowę. Zewnętrzna warstwa naskórka to uporządkowana struktura, w której komórki są ściśle spojone lipidami. Jeśli w tym spoiwie zabraknie choćby jednego elementu — ceramidów, cholesterolu lub kwasów tłuszczowych — woda szybciej odparowuje, a skóra łatwiej ulega podrażnieniom.",
+      "W naszym gabinecie w Jelczu-Laskowicach w ramach wizyty <a href=\"/skin-readiness/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Skin Readiness</a> oceniamy kondycję skóry komputerowo za pomocą aparatury Nati V3 / Iomet, sprawdzając poziom nawilżenia oraz ucieczkę wody (TEWL).",
       "Zanim zaplanujesz intensywne terapie odmładzające, takie jak <a href=\"/lift-firm-therapy/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Lift & Firm Therapy</a>, musisz oddać skórze jej barierowość. Sprawdź kondycję swojej cery w bezpłatnym teście <a href=\"ai-analiza\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Analiza Skóry Online</a> lub zarezerwuj wizytę przez <a href=\"rezerwacja-online\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Kalendarz Wizyt</a>."
     ],
     sections: [
       {
-        heading: "1. Model cegieł i zaprawy (Bricks & Mortar) prof. Petera Eliasa",
+        heading: "1. Model cegieł i zaprawy (Bricks & Mortar)",
         paragraphs: [
-          "Klasyczny model architektoniczny warstwy rogowej, sformułowany przez wybitnego dermatologa prof. Petera Eliasa, porównuje naskórek do ceglanego muru. Korneocyty (spłaszczone, zrogowaciałe komórki) pełnią rolę solidnych cegieł nasyconych naturalnym czynnikiem nawilżającym NMF (aminokwasy, kwas piroglutaminowy, mocznik, mleczany).",
-          "Rolę cementu łączącego te cegły odgrywa lipidowa faza międzykomórkowa, ułożona w precyzyjne blaszki ciekłokrystaliczne (lamele lipidowe). Głównymi składnikami tego spoiwa są: ceramidy (ok. 50% masy lipidów), cholesterol (ok. 25%) oraz wolne kwasy tłuszczowe (ok. 15%). Jeżeli w zaprawie powstaną luki, struktura muru pęka — wilgoć ucieka, a czynniki drażniące bez trudu przenikają do żywych warstw naskórka, wywołując podrażnienie receptorów nerwowych."
+          "Klasyczny model budowy warstwy rogowej porównuje naskórek do ceglanego muru. Korneocyty (spłaszczone, zrogowaciałe komórki) pełnią rolę solidnych cegieł nasyconych naturalnym czynnikiem nawilżającym NMF (aminokwasy, kwas piroglutaminowy, mocznik, mleczany).",
+          "Rolę cementu łączącego te cegły odgrywa warstwa lipidowa między komórkami. Głównymi składnikami tego spoiwa są: ceramidy (ok. 50% masy lipidów), cholesterol (ok. 25%) oraz wolne kwasy tłuszczowe (ok. 15%). Jeżeli w spoiwie powstaną luki, bariera staje się nieszczelna — wilgoć ucieka, a czynniki drażniące łatwiej wywołują pieczenie i podrażnienie skóry."
         ]
       },
       {
@@ -2672,17 +2672,17 @@ export const ARTICLES: MagazineArticle[] = [
         ]
       },
       {
-        heading: "4. Złota proporcja molekularna 3:1:1 w rekonstrukcji barierowej",
+        heading: "4. Proporcja 3:1:1 w odbudowie barierowej",
         paragraphs: [
-          "Badania biochemiczne jednoznacznie wykazały, że przypadkowa aplikacja czystych olejów roślinnych (np. oleju kokosowego czy arganowego) nie odbudowuje bariery rogowej, a w wielu wypadkach może wręcz pogłębić jej rozszczelnienie. Nadmiar jednonienasyconych kwasów tłuszczowych (np. kwasu oleinowego) rozpuszcza uporządkowane lamele lipidowe.",
-          "Prawidłowa rekonstrukcja wymaga zastosowania preparatów biomimetycznych o ekwimolarnej proporcji 3:1:1 (3 cząsteczki ceramidów, 1 cząsteczka cholesterolu, 1 cząsteczka wolnych kwasów tłuszczowych) w formule ciekłokrystalicznej DMS (Derma Membrane Structure). Taka emulsja natychmiast integruje się z ludzkim cementem międzykomórkowym, przywracając fizjologiczną szczelność w ciągu zaledwie kilkudziesięciu godzin."
+          "Praktyka pielęgnacyjna pokazuje, że przypadkowe nakładanie czystych olejów roślinnych (np. oleju kokosowego czy arganowego) nie odbudowuje bariery naskórka, a w wielu przypadkach może wręcz pogłębić przesuszenie. Nadmiar pojedynczych kwasów tłuszczowych potrafi zaburzać naturalny układ lipidów naskórkowych.",
+          "Skuteczna odbudowa wymaga stosowania kremów o proporcji zbliżonej do naturalnej skóry — 3:1:1 (ceramidy, cholesterol i wolne kwasy tłuszczowe) w formule ciekłokrystalicznej DMS (Derma Membrane Structure). Taka emulsja dobrze łączy się ze spoiwem naskórka, poprawiając jego komfort i zatrzymywanie wilgoci."
         ]
       },
       {
-        heading: "5. Rola ektoiny i farmaceutycznych humektantów",
+        heading: "5. Rola ektoiny i skutecznych humektantów",
         paragraphs: [
-          "Oprócz lipidów, uszczelniony naskórek potrzebuje wsparcia osmotycznego. Wyjątkową substancją stosowaną w naszych zabiegach w Jelczu-Laskowicach jest czysta, farmaceutyczna ektoina 100%. Ektoina to naturalny osmolit, który otacza komórki i białka naskórka tzw. hydrokompleksem (warstwą uporządkowanych cząsteczek wody), chroniąc je przed odwodnieniem i denaturacją.",
-          "W połączeniu z beta-glukanem z owsa oraz niskocząsteczkowym kwasem hialuronowym ektoina działa jak tarcza biologiczna: ucisza pieczenie, redukuje rumień i pozwala naskórkowi spokojnie zsyntetyzować nowe desmosomy."
+          "Oprócz lipidów, przesuszony naskórek potrzebuje składników wiążących wodę. Wyjątkową substancją stosowaną w naszych zabiegach w Jelczu-Laskowicach jest czysta ektoina 100%. Ektoina to naturalny składnik ochronny, który otacza komórki warstwą cząsteczek wody, chroniąc je przed wysuszeniem i podrażnieniami.",
+          "W połączeniu z beta-glukanem z owsa oraz kwasem hialuronowym ektoina działa kojąco: zmniejsza uczucie pieczenia, łagodzi zaczerwienienia i wspiera naturalną odnowę naskórka."
         ]
       }
     ],
@@ -2710,12 +2710,12 @@ export const ARTICLES: MagazineArticle[] = [
     ],
     studyNotes: [
       {
-        citation: "Proksch E., Brandner J.M., Jensen J.M., Journal of Dermatological Science, 'The skin: an indispensable barrier'",
-        finding: "Kluczowa publikacja potwierdzająca, że uszkodzenie bariery naskórkowej wywołuje natychmiastowy wyrzut cytokin prozapalnych z keratynocytów w celu obrony przed patogenami, co powoduje rumień i obrzęk."
+        citation: "Ochronna rola bariery naskórkowej (Proksch E. et al.)",
+        finding: "Gdy zewnętrzna warstwa naskórka zostaje naruszona, skóra natychmiast staje się bardziej reaktywna — szybciej reaguje zaczerwienieniem, pieczeniem i dyskomfortem."
       },
       {
-        citation: "Man M.Q., Feingold K.R., Elias P.M., Experimental Dermatology, 'Exogenous lipids and barrier repair kinetics'",
-        finding: "Wykazano, że jedynie mieszanina lipidów zawierająca jednocześnie ceramidy, cholesterol i wolne kwasy tłuszczowe przyspiesza powrót wskaźnika TEWL do normy w ciągu 24-48 godzin."
+        citation: "Odbudowa lipidów naskórkowych (Man M.Q., Feingold K.R., Elias P.M.)",
+        finding: "Połączenie ceramidów, cholesterolu i wolnych kwasów tłuszczowych w odpowiedniej proporcji wspiera szybki powrót komfortu i ograniczenie ucieczki wody przez naskórek."
       }
     ],
     practicalTakeaways: [
@@ -2733,11 +2733,11 @@ export const ARTICLES: MagazineArticle[] = [
     readingTime: "9 min czytania",
     author: "Katarzyna Brzezińska",
     image: "/src/assets/images/barrier_hydration_1788720471893.webp",
-    imageCaption: "Badanie poziomu TEWL, rezerw NMF i nawilżenia głębokiego w instytucie Slow Skin Concept w Jelczu-Laskowicach.",
+    imageCaption: "Ocena poziomu nawilżenia i utraty wody (TEWL) w gabinecie Slow Skin Concept w Jelczu-Laskowicach.",
     inArticleGraphic: {
       image: "/src/assets/images/skin_cells_1788720444145.webp",
-      imageCaption: "Fot. Badawcza 4: Mikroskopowe nawodnienie korneocytów i uszczelnienie cementu międzykomórkowego (Slow Skin Concept).",
-      chartTitle: "Wykres Retencji Wilgoci: Konwencjonalne Nawilżanie vs. Odbudowa Bionomiczna DMS",
+      imageCaption: "Ilustracja 4: Nawodnienie naskórka i uszczelnienie spoiwa międzykomórkowego (Slow Skin Concept).",
+      chartTitle: "Porównanie Retencji Wilgoci: Zwykłe Nawilżanie vs. Odbudowa Bionomiczna DMS",
       chartSubtitle: "Trwałość nawilżenia tkankowego oraz redukcja objawów ściągnięcia w okresie 30 dni.",
       chartType: "comparison",
       data: [
@@ -2772,18 +2772,18 @@ export const ARTICLES: MagazineArticle[] = [
           note: "Skóra przestaje tracić wilgoć w klimatyzowanych i ogrzewanych pomieszczeniach."
         }
       ],
-      clinicalConclusion: "Wniosek Kosmetologii Bionomicznej: Suchość i odwodnienie nie ustąpią pod wpływem przypadkowych kremów. Trwała ulga wymaga dostarczenia korneocytom aminokwasów NMF oraz biozgodnych ceramidów, które zamkną drogę ucieczce wody."
+      clinicalConclusion: "Wniosek z praktyki: Suchość i odwodnienie rzadko ustępują pod wpływem przypadkowych kremów. Trwała ulga wymaga dostarczenia skórze składników wiążących wodę (NMF) oraz ceramidów, które ograniczają parowanie wilgoci."
     },
-    lead: "Suchość i chroniczne ściągnięcie skóry to nie po prostu 'brak kremu', lecz głębokie załamanie homeostazy naskórkowej. Kiedy w warstwie rogowej brakuje naturalnego czynnika nawilżającego (NMF) oraz prawidłowego układu ciekłokrystalicznych lipidów DMS, woda ucieka w tempie uniemożliwiającym komórkom prawidłowe funkcjonowanie. Poznaj biologiczny mechanizm nawodnienia komórkowego i procedury przywracające miękkość oraz komfort.",
+    lead: "Suchość i chroniczne ściągnięcie skóry to nie tylko 'brak kremu', lecz sygnał osłabionej równowagi naskórka. Kiedy w warstwie rogowej brakuje naturalnego czynnika nawilżającego (NMF) oraz lipidów ochronnych DMS, woda łatwo odparowuje. Poznaj proste zasady skutecznego nawilżania i pielęgnacji przywracającej komfort.",
     content: [
-      "W gabinecie Slow Skin Concept w Jelczu-Laskowicach codziennie spotykamy klientki, które stosują po kilka 'nawilżających' serów z kwasem hialuronowym, a mimo to ich skóra piecze, łuszczy się i jest nieprzyjemnie ściągnięta po każdym myciu. Wynika to z fundamentalnego nieporozumienia: kwas hialuronowy wiąże wodę, ale nie jest w stanie jej zatrzymać, jeśli brakuje szczelnej okluzji lipidowej.",
-      "Prawdziwe nawodnienie skóry to proces dwufazowy. W pierwszej kolejności korneocyty muszą zostać nasycone biozgodnymi humektantami (mocznik, aminokwasy, mleczany, PCA), a następnie uszczelnione biomimetycznym spoiwem ceramidowym, które uniemożliwi odparowanie wilgoci (zmniejszenie wskaźnika TEWL).",
-      "Dedykowane procedury gabinetowe, w tym <a href=\"/skin-readiness/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">SKIN READINESS — Pierwsza wizyta</a> oraz <a href=\"/amber-regeneration/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Regeneracja Kwasem Bursztynowym</a>, odbudowują naturalne rezerwy wilgoci na poziomie mitochondrialnym bez obciążania skóry sztucznymi okluzjami.",
+      "W gabinecie Slow Skin Concept w Jelczu-Laskowicach codziennie spotykamy klientki, które stosują po kilka 'nawilżających' serów z kwasem hialuronowym, a mimo to ich skóra piecze, łuszczy się i jest nieprzyjemnie ściągnięta po każdym myciu. Kwas hialuronowy wiąże wodę na powierzchni, ale nie zatrzyma jej na dłużej, jeśli brakuje warstwy lipidowej.",
+      "Skuteczne nawilżanie skóry to proces dwuetapowy. Najpierw naskórek potrzebuje łagodnych humektantów (mocznik, aminokwasy, mleczany, PCA), a następnie uszczelnienia lipidami ceramidowymi, które ograniczają odparowywanie wilgoci (wskaźnik TEWL).",
+      "Dedykowane zabiegi gabinetowe, w tym <a href=\"/skin-readiness/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">SKIN READINESS — Pierwsza wizyta</a> oraz <a href=\"/amber-regeneration/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Regeneracja Kwasem Bursztynowym</a>, pomagają przywrócić nawilżenie i komfort bez obciążania cery.",
       "Sprawdź stopień przesuszenia w bezpłatnym teście <a href=\"ai-analiza\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Analiza Skóry Online</a> lub umów się na wizytę przez <a href=\"rezerwacja-online\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Kalendarz Rezerwacji</a>."
     ],
     sections: [
       {
-        heading: "1. Skóra sucha vs. skóra odwodniona — kluczowa różnica diagnostyczna",
+        heading: "1. Skóra sucha vs. skóra odwodniona — kluczowa różnica w pielęgnacji",
         paragraphs: [
           "Skóra sucha to typ genetyczny, charakteryzujący się obniżoną produkcją sebum i cienkim płaszczem lipidowym. Skóra odwodniona to stan przejściowy, który może dotknąć każdy rodzaj cery — także tłustą i trądzikową.",
           "Gdy skóra tłusta zostaje przesuszona agresywnym myciem, zaczyna uciekać z niej woda, a w odpowiedzi gruczoły łojowe wpadają w panikę i produkują nadmiar lepkiego łoju. Powstaje paradoks: twarz świeci się, a jednocześnie łuszczy i piecze."
@@ -2816,8 +2816,8 @@ export const ARTICLES: MagazineArticle[] = [
     ],
     studyNotes: [
       {
-        citation: "Verdier-Sevrain C., Bonte F., Journal of Cosmetic Dermatology, 'Skin hydration: a review on molecular mechanisms'",
-        finding: "Skuteczność nawodnienia naskórka zależy od współdziałania kwasów tłuszczowych, ceramidów i akwaporyn AQP3. Monoterapia samym kwasem hialuronowym w suchym środowisku może paradoksalnie nasilać TEWL."
+        citation: "Mechanizmy nawilżenia skóry (Verdier-Sevrain C., Bonte F.)",
+        finding: "Trwałe nawilżenie wymaga połączenia składników wiążących wodę z lipidami ochronnymi. Sam kwas hialuronowy nakładany na suchą skórę w ogrzewanym pomieszczeniu może dawać wrażenie jeszcze większego ściągnięcia."
       }
     ],
     practicalTakeaways: [
@@ -2838,8 +2838,8 @@ export const ARTICLES: MagazineArticle[] = [
     imageCaption: "Biostymulacja tkankowa i wsparcie naturalnej neokolagenezy w gabinecie Slow Skin Concept.",
     inArticleGraphic: {
       image: "/src/assets/images/remodeling_therapy_1790249327484.webp",
-      imageCaption: "Fot. Badawcza 5: Przebudowa siatki kolagenowej i uniesienie owalu twarzy w procedurze remodelingu bionomicznego.",
-      chartTitle: "Dynamika Syntezy Kolagenu: Bionomiczny Slow-Aging vs. Agresywna Termoliza",
+      imageCaption: "Ilustracja 5: Poprawa jędrności i naturalnego owalu twarzy w łagodnej pielęgnacji bionomicznej.",
+      chartTitle: "Porównanie Podejść: Łagodny Slow-Aging vs. Agresywne Zabiegi Termiczne",
       chartSubtitle: "Jakość włókien kolagenowych (Typ I/III) oraz poziom markerów starzenia komórkowego.",
       chartType: "comparison",
       data: [
@@ -2874,11 +2874,11 @@ export const ARTICLES: MagazineArticle[] = [
           note: "Praca z powięzią i mikrokrążeniem przynosi naturalne, stabilne odmłodzenie rysów."
         }
       ],
-      clinicalConclusion: "Wniosek Bionomiczny: Prawdziwe odmłodzenie to nie 'palenie' czy uszkadzanie skóry, lecz dostarczenie komórkom energii mitochondrialnej ATP i biozgodnych kofaktorów, które przywracają młodzieńczy wigor tkankom."
+      clinicalConclusion: "Wniosek z praktyki: Prawdziwa troska o młody wygląd to nie podrażnianie czy przesuszanie skóry, lecz łagodne wsparcie jej odnowy i rozluźnienie napięć mięśniowych."
     },
-    lead: "Zmarszczki mimiczne, utrata gęstości i opadający owal twarzy nie muszą oznaczać inwazyjnych ingerencji naruszających rysy twarzy. W Slow Skin Concept udowadniamy, że pobudzenie fibroblastów do produkcji nowego kolagenu typu I i III jest najskuteczniejsze wtedy, gdy nie wywołuje w tkankach niszczącego mikrozapalenia.",
+    lead: "Zmarszczki mimiczne, utrata jędrności i zmieniający się owal twarzy nie muszą oznaczać inwazyjnych ingerencji zmieniających naturalne rysy. W Slow Skin Concept pokazujemy, że wspieranie naturalnej elastyczności i odnowy skóry daje najlepsze rezultaty wtedy, gdy nie wywołujemy zbędnych podrażnień.",
     content: [
-      "Przez lata w medycynie estetycznej panowało przekonanie, że kolagen można stymulować jedynie poprzez 'kontrolowane zranienie'. Najnowsze badania nad starzeniem komórkowym (senescence) pokazują jednak, że powtarzające się urazy termiczne czy chemiczne wyczerpują potencjał replikacyjny komórek macierzystych skóry.",
+      "Przez lata w zabiegach estetycznych dominowało przekonanie, że jędrność skóry można pobudzić jedynie poprzez mocne podrażnienie lub silne złuszczanie. Z biegiem czasu stało się jednak jasne, że częste naruszanie naskórka i przegrzewanie tkanek potrafi osłabiać naturalny potencjał regeneracyjny skóry.",
       "Prawdziwy nurt slow-aging polega na dostarczeniu mitochondriom energii komórkowej ATP (kwas bursztynowy), pobudzeniu mikrokrążenia i rozluźnieniu głębokich struktur powięziowych, które odpowiadają za grawitacyjne opadanie tkanek.",
       "W naszym instytucie łączymy zaawansowaną biostymulację tkankową z procedurami <a href=\"/lift-firm-therapy/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Skin Remodeling (Lift & Firm)</a> oraz autorskim <a href=\"/neurolifting-nogier/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Neuroliftingiem</a>, uzyskując naturalne uniesienie owalu z poszanowaniem Twojej naturalnej ekspresji.",
       "Poznaj potrzeby swojej cery w narzędziu <a href=\"ai-analiza\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Analiza Skóry Online</a> lub zarezerwuj termin w gabinecie przez <a href=\"rezerwacja-online\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Kalendarz Wizyt</a>."
@@ -2902,8 +2902,8 @@ export const ARTICLES: MagazineArticle[] = [
     dataPoints: [
       {
         metric: "+62%",
-        label: "Wzrost gęstości skóry",
-        description: "Poprawa grubości i elastyczności skóry właściwej w badaniu ultrasonograficznym HF-USG."
+        label: "Poprawa gęstości skóry",
+        description: "Widoczna poprawa sprężystości, napięcia i komfortu skóry przy regularnej pielęgnacji."
       },
       {
         metric: "0 dni",
@@ -2913,8 +2913,8 @@ export const ARTICLES: MagazineArticle[] = [
     ],
     studyNotes: [
       {
-        citation: "Fisher G.J. et al., New England Journal of Medicine, 'Mechanisms of photoaging and chronological skin aging'",
-        finding: "Potwierdzono, że powtarzające się urazy prozapalne aktywują enzymy kolagenazy (MMP-1), które przyspieszają fragmentację siatki kolagenowej w kolejnych miesiącach."
+        citation: "Wpływ podrażnień na kondycję kolagenu (Fisher G.J. et al.)",
+        finding: "Częste i zbyt agresywne podrażnienia przyspieszają osłabienie włókien podporowych skóry, podczas gdy łagodne wsparcie i ochrona przeciwsłoneczna pomagają zachować jej sprężystość na dłużej."
       }
     ],
     practicalTakeaways: [
@@ -2932,12 +2932,12 @@ export const ARTICLES: MagazineArticle[] = [
     readingTime: "10 min czytania",
     author: "Katarzyna Brzezińska",
     image: "/src/assets/images/skin_readiness_diag_1790249295522.webp",
-    imageCaption: "Badanie wielospektralne porów, wydzielania sebum i flory bakteryjnej w instytucie w Jelczu-Laskowicach.",
+    imageCaption: "Ocena porów, wydzielania sebum i równowagi skóry w gabinecie w Jelczu-Laskowicach.",
     inArticleGraphic: {
       image: "/src/assets/images/hydrogen_facial_1790245625108.webp",
-      imageCaption: "Fot. Badawcza 6: Łagodne oczyszczanie wodorowe i normalizacja flory bakteryjnej bez naruszania płaszcza lipidowego.",
-      chartTitle: "Wyciszenie Trądziku Dorosłych: Bionomiczny Balans vs. Agresywne Antybiotyki",
-      chartSubtitle: "Redukcja wykwintów zapalnych, poziom nawilżenia naskórka i wskaźnik nawrotów w ciągu 12 tygodni.",
+      imageCaption: "Ilustracja 6: Łagodne oczyszczanie wodorowe i wsparcie równowagi skóry bez przesuszania.",
+      chartTitle: "Pielęgnacja Cery Problematycznej: Łagodny Balans vs. Agresywne Wysuszanie",
+      chartSubtitle: "Redukcja niedoskonałości, komfort nawilżenia naskórka i stabilność efektów w czasie.",
       chartType: "comparison",
       data: [
         {
@@ -2961,17 +2961,17 @@ export const ARTICLES: MagazineArticle[] = [
           note: "Brak pieczenia i brak podrażnień w trakcie kuracji gabinetowej."
         },
         {
-          label: "Wskaźnik nawrotów po zakończeniu kuracji",
-          valuePrimary: "< 8%",
+          label: "Stabilność efektów po zakończeniu cyklu",
+          valuePrimary: "Wysoka",
           sublabelPrimary: "Trwała równowaga cery",
-          valueSecondary: "74%",
-          sublabelSecondary: "Nawrót po odstawieniu silnych leków",
+          valueSecondary: "Częste nawroty",
+          sublabelSecondary: "Powrót problemu po silnym wysuszaniu",
           percentage: 92,
           trend: "positive",
-          note: "Edukacja barierowa i celowany Beauty Plan gwarantują spokój na długie miesiące."
+          note: "Edukacja barierowa i celowany Beauty Plan wspierają równowagę na długie miesiące."
         }
       ],
-      clinicalConclusion: "Wniosek Kosmetologii Bionomicznej: Z trądzikiem dorosłych nie należy walczyć jak z wrogiem. Skórę należy uspokoić, przywrócić jej fizjologiczne pH i nakarmić dobroczynny mikrobiom, by sam kontrolował drobnoustroje."
+      clinicalConclusion: "Wniosek z praktyki: Ze skórą skłonną do niedoskonałości nie warto walczyć agresywnym wysuszaniem. Cerę należy uspokoić, przywrócić jej prawidłowe pH i wesprzeć jej naturalną barierę ochronną."
     },
     lead: "Trądzik u dorosłych (Acne Tarda), lokalizujący się wzdłuż linii żuchwy i brody, to zjawisko o zupełnie innym podłożu niż trądzik młodzieńczy. Wynika z neurogennego wyrzutu kortyzolu, zaburzeń równowagi mikrobiomu i uszkodzenia bariery lipidowej wywołanego przesuszającymi preparatami antybakteryjnymi.",
     content: [
@@ -2991,7 +2991,7 @@ export const ARTICLES: MagazineArticle[] = [
       {
         heading: "2. Kwas azelainowy i cynk PCA — inteligentna regulacja bez podrażnień",
         paragraphs: [
-          "Zamiast agresywnego retinolu czy drażniącego nadtlenku benzoilu, w Slow Skin Concept stosujemy kwas azelainowy farmaceutycznej czystości. Działa on przeciwzapalnie, przeciwbakteryjnie i hamuje tyrozynazę, zapobiegając ciemnym plamom potrądzikowym (PIH).",
+          "Zamiast agresywnego retinolu czy wysuszających kuracji punktowych, w Slow Skin Concept stosujemy łagodny kwas azelainowy wysokiej czystości. Wycisza on niedoskonałości, rozjaśnia ślady i nie powoduje silnego łuszczenia.",
           "W połączeniu z cynkiem PCA i ektoiną wygasza aktywne zmiany w ciągu kilkudziesięciu godzin, nie powodując ani zaczerwienienia, ani uczucia ściągnięcia."
         ]
       }
@@ -3010,8 +3010,8 @@ export const ARTICLES: MagazineArticle[] = [
     ],
     studyNotes: [
       {
-        citation: "Bowe W.P., Logan A.C., Gut Pathogens, 'Acne vulgaris, probiotics and the gut-brain-skin axis'",
-        finding: "Wykazano, że modulacja mikrobiomu naskórkowego i jelitowego redukuje stan zapalny w trądziku dorosłych skuteczniej niż długotrwała antybiotykoterapia doustna."
+        citation: "Oś jelito–mózg–skóra (Bowe W.P., Logan A.C.)",
+        finding: "Spokojne wsparcie mikrobiomu skóry i codzienna troska o równowagę organizmu pomagają skutecznie ograniczać nawroty niedoskonałości bez przesuszania naskórka."
       }
     ],
     practicalTakeaways: [
@@ -3024,16 +3024,16 @@ export const ARTICLES: MagazineArticle[] = [
   },
   {
     id: "art-couperose-rosacea",
-    title: "Naczynka, Rumień i Trądzik Różowaty: Fizjologiczna Terapia Gry Naczyniowej i Wyciszanie Teleangiektazji",
+    title: "Naczynka, Rumień i Cera Wrażliwa: Łagodna Pielęgnacja Skóry Naczyniowej",
     category: "NACZYNKA & RUMIEŃ",
     readingTime: "11 min czytania",
     author: "Katarzyna Brzezińska",
     image: "/src/assets/images/rosacea_calm_1790249310213.webp",
-    imageCaption: "Precyzyjna fototerapia i kojące protokoły naczyniowe w instytucie Slow Skin Concept.",
+    imageCaption: "Precyzyjna pielęgnacja światłem i kojące zabiegi dla cery naczyniowej w gabinecie Slow Skin Concept.",
     inArticleGraphic: {
       image: "/src/assets/images/lpl_skin_therapy_1790246512828.webp",
-      imageCaption: "Fot. Badawcza 7: Selektywne obkurczenie powierzchownego splotu naczyniowego i wygaszenie rumienia napadowego.",
-      chartTitle: "Terapia Gry Naczyniowej: Protokół Łagodny Slow Skin vs. Agresywna Koagulacja",
+      imageCaption: "Ilustracja 7: Wyciszenie zaczerwienień i poprawa komfortu cery naczyniowej.",
+      chartTitle: "Pielęgnacja Cery Naczyniowej: Łagodne Wyciszenie vs. Zabiegi Rozgrzewające",
       chartSubtitle: "Trwałość wygaszenia rumienia, komfort termiczny i odporność na wahania temperatur.",
       chartType: "comparison",
       data: [
@@ -3050,12 +3050,12 @@ export const ARTICLES: MagazineArticle[] = [
         {
           label: "Uczucie pieczenia i palenia policzków",
           valuePrimary: "-88%",
-          sublabelPrimary: "Ukojenie receptorów TRPV1",
+          sublabelPrimary: "Ukojenie nadwrażliwości",
           valueSecondary: "-20%",
           sublabelSecondary: "Utrzymująca się nadwrażliwość",
           percentage: 88,
           trend: "positive",
-          note: "Ektoina 100% natychmiast blokuje receptory czuciowe odpowiedzialne za bolesne uderzenia gorąca."
+          note: "Ektoina szybko przynosi ukojenie i pomaga zmniejszyć dokuczliwe uczucie gorąca i pieczenia."
         },
         {
           label: "Stabilność naczynek w perspektywie roku",
@@ -3068,18 +3068,18 @@ export const ARTICLES: MagazineArticle[] = [
           note: "Wzmocnienie ściany naczyniowej trokserutyną i witaminą K zapobiega pękaniu kolejnych naczynek."
         }
       ],
-      clinicalConclusion: "Wniosek Kosmetologii Bionomicznej: Kruchość naczyń wymaga cierpliwości i absolutnego braku przegrzewania tkanek. Prawidłowa terapia wzmacnia naczynia od wewnątrz i gasi nadreaktywność nerwową skóry."
+      clinicalConclusion: "Wniosek z praktyki: Kruchość naczynek wymaga cierpliwości i unikania przegrzewania skóry. Odpowiednio dobrana pielęgnacja wspiera ściany naczyń i pomaga wyciszyć nadmierną reaktywność cery."
     },
-    lead: "Kruche naczynka krwionośne, napadowy rumień (flushing) pod wpływem emocji, ciepła czy kawy oraz nawracające zaostrzenia trądziku różowatego (Rosacea) to sygnał, że mikrokrążenie skórne utraciło zdolność do autoregulacji. Dowiedz się, jak wyciszyć naczynka i przywrcić cerze stabilny, jednolity koloryt.",
+    lead: "Kruche naczynka, napadowy rumień pod wpływem emocji, ciepła czy kawy oraz nadreaktywność cery to sygnał, że skóra potrzebuje wyciszenia i delikatnego wsparcia. Dowiedz się, jak ukoić cerę naczyniową i przywrócić jej jednolity, spokojny wygląd.",
     content: [
-      "Skóra naczyniowa i dotknięta trądzikiem różowatym charakteryzuje się nadmierną gęstością i kruchością powierzchownego splotu naczyniowego oraz podwyższoną ekspresją czynnika VEGF. Pod wpływem bodźców nerwowych naczynia gwałtownie się rozszerzają, a ich ściany ulegają mikrouszkodzeniom, prowadząc do powstawania trwałych pajączków (teleangiektazji).",
-      "W Slow Skin Concept stosujemy podejście holistyczne: wyciszamy nadreaktywność receptorów TRPV1, uszczelniamy śródbłonek naczyniowy biozgodną rutyną, trokserutyną i kwasem traneksamowym oraz stosujemy fototerapię LPL i naświetlania LED o długości fali 590 nm i 633 nm.",
-      "Nasze autorskie rytuały gabinetowe: <a href=\"/rosacea-calm-therapy/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Rosacea Calm Therapy</a> oraz <a href=\"/couperose-therapy/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Couperose Therapy</a> przynoszą natychmiastowe ukojenie i redukcję pieczenia już po pierwszej sesji.",
+      "Skóra naczyniowa i wrażliwa szybko reaguje na stres, zmianę temperatur czy niektóre kosmetyki. Pod wpływem bodźców naczynka rozszerzają się, co daje uczucie gorąca, pieczenia i zaczerwienienia.",
+      "W Slow Skin Concept stosujemy podejście kompleksowe: wyciszamy reaktywność skóry, wspieramy ją biozgodną rutyną, trokserutyną i kwasem traneksamowym oraz delikatnym naświetlaniem LPL i LED o długości fali 590 nm i 633 nm.",
+      "Nasze autorskie rytuały gabinetowe: <a href=\"/rosacea-calm-therapy/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Rosacea Calm Therapy</a> oraz <a href=\"/couperose-therapy/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Couperose Therapy</a> przynoszą wyczuwalne ukojenie i zmniejszają uczucie pieczenia.",
       "Sprawdź stopień wrażliwości naczyniowej w bezpłatnym narzędziu <a href=\"ai-analiza\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Analiza Skóry Online</a> lub zarezerwuj spotkanie przez <a href=\"rezerwacja-online\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Kalendarz Wizyt</a>."
     ],
     sections: [
       {
-        heading: "1. Kwas traneksamowy (TXA) — rewolucja w dermatologii naczyniowej",
+        heading: "1. Kwas traneksamowy (TXA) — wsparcie w pielęgnacji cery naczyniowej",
         paragraphs: [
           "Kwas traneksamowy to jeden z najważniejszych przełomów w wyciszaniu rumienia. Hamuje układ plazminogenu, redukując uwalnianie czynników angiogennych (VEGF) i wygaszając kaskadę zapalną wywołującą zaczerwienienie.",
           "Co ważne, TXA nie wywołuje złuszczania ani podrażnień, dzięki czemu może być bezpiecznie stosowany nawet u osób z zaawansowaną postacią rumieniowo-teleangiektatyczną trądziku różowatego."
@@ -3107,8 +3107,8 @@ export const ARTICLES: MagazineArticle[] = [
     ],
     studyNotes: [
       {
-        citation: "Two A.M., Wu W. et al., Journal of the American Academy of Dermatology, 'Rosacea: pathogenesis and vascular reactivity'",
-        finding: "Potwierdzono, że nadreaktywność receptorów TRPV1 na zakończeniach czuciowych odpowiada za uczucie pieczenia i uwalnianie neuropeptydów rozszerzających naczynia w trądziku różowatym."
+        citation: "Wrażliwość skóry naczyniowej na bodźce (Two A.M., Wu W.)",
+        finding: "Nadmierna wrażliwość zakończeń czuciowych w skórze wpływa na uczucie pieczenia i łatwiejsze powstawanie zaczerwienień pod wpływem ciepła lub emocji."
       }
     ],
     practicalTakeaways: [
@@ -3129,7 +3129,7 @@ export const ARTICLES: MagazineArticle[] = [
     imageCaption: "Ocena głębokości depozytów melaniny w świetle Wooda i terapia rozjaśniająca w instytucie w Jelczu-Laskowicach.",
     inArticleGraphic: {
       image: "/src/assets/images/hero_bright_luxury_skin_1790504632611.webp",
-      imageCaption: "Fot. Badawcza 8: Jednolity koloryt, rozproszenie depozytów melaniny i świetlistość cery po kuracji bionomicznej.",
+      imageCaption: "Ilustracja 8: Wyrównanie kolorytu i świetlistość cery przy łagodnej pielęgnacji rozjaśniającej.",
       chartTitle: "Skuteczność Rozjaśniania Przebarwień: Metoda Bionomiczna vs. Agresywny Resurfacing",
       chartSubtitle: "Rozjaśnienie melasmy (skala MASI), wskaźnik przebarwień pozapalnych PIH i trwałość rezultatów.",
       chartType: "comparison",
@@ -3165,20 +3165,20 @@ export const ARTICLES: MagazineArticle[] = [
           note: "Jednoczesne nawilżenie i rozjaśnienie daje efekt promiennej, zdrowo wyglądającej skóry."
         }
       ],
-      clinicalConclusion: "Wniosek Kosmetologii Bionomicznej: Melanocyt to komórka nerwowa — gdy jest atakowana agresywnymi kwasami, broni się produkcją pigmentu. Skuteczne rozjaśnienie wymaga łagodności, ochrony antyoksydacyjnej i wyciszenia stanu zapalnego."
+      clinicalConclusion: "Wniosek z praktyki: Komórki barwnikowe reagują obronnie na podrażnienia. Skuteczne rozjaśnianie wymaga łagodności, ochrony przed słońcem i wyciszenia skóry."
     },
-    lead: "Nierównomierne plamy posłoneczne, melasma hormonalna i ciemne ślady pozapalne (PIH) należą do najbardziej frustrujących problemów estetycznych. Tradycyjne, agresywne wybielanie kwasami często prowadzi do efektu bumerangu: podrażniony melanocyt produkuje jeszcze więcej barwnika. Poznaj bionomiczny protokół łagodnej, stabilnej depigmentacji.",
+    lead: "Nierównomierne plamy posłoneczne, przebarwienia hormonalne i ślady po niedoskonałościach należą do najbardziej wymagających problemów pielęgnacyjnych. Zbyt agresywne złuszczanie kwasami często przynosi efekt odwrotny: podrażniona skóra produkuje jeszcze więcej barwnika. Poznaj zasady łagodnego i stabilnego wyrównywania kolorytu.",
     content: [
-      "Melanogeneza to naturalny mechanizm obronny skóry przed uszkodzeniem DNA przez promieniowanie UV i stres oksydacyjny. Kiedy poddajemy naskórek głębokim, parzącym peelingom, stan zapalny pobudza receptory melanocytów, wyzwalając wtórną hiperpigmentację pozapalną (PIH), trudniejszą do usunięcia niż pierwotne plamy.",
-      "W Slow Skin Concept regulujemy proces melanogenezy wielotorowo: hamujemy enzym tyrozynazę bez wywoływania stanu zapalnego, stosujemy kwas traneksamowy, niacynamid, stabilną witaminę C oraz przeciwutleniające flawonoidy, jednocześnie chroniąc barierę naskórkową.",
-      "Dedykowany zabieg gabinetowy <a href=\"/pigment-balance-therapy/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Pigment Balance Therapy</a> oraz <a href=\"/healthy-glow-therapy/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Healthy Glow Therapy</a> rozpraszają nagromadzony barwnik i przywracają świetlisty, jednolity odcień cery.",
-      "Sprawdź mapę pigmentacji w teście <a href=\"ai-analiza\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Analiza Skóry Online</a> lub zarezerwuj wizytę przez <a href=\"rezerwacja-online\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Kalendarz Rezerwacji</a>."
+      "Powstawanie przebarwień to naturalny mechanizm obronny skóry przed promieniowaniem UV i podrażnieniami. Kiedy stosujemy zbyt mocne, piekące peelingi, podrażniona skóra może reagować nowymi, trudnymi do rozjaśnienia plamami.",
+      "W Slow Skin Concept wspieramy wyrównanie kolorytu bez wywoływania podrażnień: stosujemy kwas traneksamowy, niacynamid, łagodną witaminę C oraz antyoksydanty, jednocześnie dbając o barierę ochronną.",
+      "Dedykowany zabieg gabinetowy <a href=\"/pigment-balance-therapy/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Pigment Balance Therapy</a> oraz <a href=\"/healthy-glow-therapy/\" class=\"text-luxury-gold border-b border-luxury-gold/30 hover:border-luxury-gold/80 transition-colors font-medium\">Healthy Glow Therapy</a> wspomagają rozjaśnianie i przywracają równomierny odcień cery.",
+      "Sprawdź potrzeby swojej skóry w teście <a href=\"ai-analiza\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Analiza Skóry Online</a> lub zarezerwuj wizytę przez <a href=\"rezerwacja-online\" class=\"text-luxury-gold border-b border-luxury-gold/35 hover:border-luxury-gold transition-colors font-semibold\">Kalendarz Rezerwacji</a>."
     ],
     sections: [
       {
-        heading: "1. Dlaczego melasma nawraca po agresywnych peelingach?",
+        heading: "1. Dlaczego przebarwienia wracają po agresywnych peelingach?",
         paragraphs: [
-          "Melasma nie jest wyłącznie problemem barwnikowym. U jej podłoża leży zaburzenie naczyniowe i przewlekłe mikrozapalenie skóry właściwej. Gdy agresywny laser uszkadza błonę podstawną, ziarna melaniny 'wpadają' do skóry właściwej, tworząc oporny na leczenie pigment skórny.",
+          "Przebarwienia często łączą się ze skłonnością do zaczerwienień i przewlekłym podrażnieniem naskórka. Gdy zbyt mocny zabieg osłabi barierę, pigment potrafi utrwalić się głębiej i staje się trudniejszy do rozjaśnienia.",
           "Bezpieczna terapia polega na wygaszeniu mikrozapalenia, wzmocnieniu błony podstawnej i delikatnym przyspieszeniu fizjologicznego złuszczania korneocytów bez odczynu termicznego."
         ]
       },
@@ -3194,7 +3194,7 @@ export const ARTICLES: MagazineArticle[] = [
       {
         metric: "-71%",
         label: "Spadek wskaźnika MASI",
-        description: "Widoczne wyrównanie kolorytu i redukcja intensywności plam w skali dermatologicznej."
+        description: "Widoczne wyrównanie kolorytu i rozjaśnienie plam na powierzchni skóry."
       },
       {
         metric: "100%",
@@ -3204,8 +3204,8 @@ export const ARTICLES: MagazineArticle[] = [
     ],
     studyNotes: [
       {
-        citation: "Passeron T. et al., British Journal of Dermatology, 'Melasma and vascular components in hyperpigmentation'",
-        finding: "Kluczowe badanie wykazujące, że melasma jest ściśle skorelowana ze stanem naczyń krwionośnych i stanem zapalnym. Skuteczna terapia musi łączyć składniki naczyniowe z depigmentującymi."
+        citation: "Przebarwienia a kondycja naczynek (Passeron T. et al.)",
+        finding: "Przebarwienia często współwystępują z podrażnieniem i reaktywnością naczyniową. Dlatego w pielęgnacji rozjaśniającej kluczowe jest połączenie składników wyrównujących koloryt z kojącym wsparciem dla naczynek."
       }
     ],
     practicalTakeaways: [
@@ -3222,9 +3222,9 @@ export const REVIEWS: Review[] = [
   {
     id: "story-edyta",
     author: "Pani Edyta",
-    title: "Po 7 latach błędnych diagnoz moja skóra wreszcie zaczęła żyć na nowo",
-    problem: "7 lat bezskutecznego leczenia antybiotykami i sterydami, nawracający rumień, pieczenie i obrzęk",
-    result: "Odbudowa bariery naskórkowej i mikrobiomu po 3 zabiegach, ustąpienie bólu i zaczerwienienia",
+    title: "Po 7 latach błędnych porad moja skóra wreszcie odzyskała komfort",
+    problem: "7 lat bezskutecznych prób pielęgnacji i kuracji, nawracający rumień, pieczenie i obrzęk",
+    result: "Odbudowa bariery naskórkowej po 3 zabiegach, wyciszenie podrażnień i zaczerwienienia",
     duration: "Seria 3 zabiegów biologicznych + celowana pielęgnacja domowa",
     service: "Rosacea Calm Therapy — Odbudowa Naskórka i Mikrobiomu",
     platform: "slow-skin.pl",
@@ -3233,19 +3233,19 @@ export const REVIEWS: Review[] = [
     sourceUrl: "https://slow-skin.pl/opinie/",
     hasAudioInterview: true,
     storyDetails: [
-      "Przez 7 lat leczona dermatologicznie sterydami i antybiotykami z podejrzeniem trądziku różowatego i nużeńca",
-      "Skóra była skrajnie uwrażliwiona, obrzęknięta i bolesna przy najmniejszym dotyku",
-      "Zamiast agresywnego leczenia wdrożono biologiczną odbudowę mikrobiomu i płaszcza lipidowego",
-      "Po 3 zabiegach skóra odzyskała elastyczność, zniknął obrzęk i uciążliwe pieczenie"
+      "Przez 7 lat stosowałam różne maści i intensywne preparaty z powodu rumienia i wrażliwości",
+      "Skóra była skrajnie uwrażliwiona, zaczerwieniona i wrażliwa przy najmniejszym dotyku",
+      "Zamiast agresywnych metod wdrożyłyśmy odbudowę bariery naskórkowej i płaszcza lipidowego",
+      "Po 3 zabiegach skóra odzyskała elastyczność, zniknął dyskomfort i uciążliwe pieczenie"
     ],
-    text: "Z problemem na twarzy zmagałam się przez 7 długich lat. Chodziłam od dermatologa do dermatologa, słysząc diagnozy: trądzik różowaty, podejrzenie nużeńca. Przepisywano mi kolejne antybiotyki i maści ze sterydami, które na chwilę tłumiły objawy, a potem skóra stawała się jeszcze cieńsza i bardziej zaogniona. Do Pani Kasi trafiłam zrezygnowana, z pieczeniem i opuchlizną. Już podczas pierwszej konsultacji wyjaśniła mi, że naskórek został zniszczony leczeniem i musimy odbudować jego biologiczną barierę. Po trzecim zabiegu moja skóra dosłownie zaczęła żyć na nowo! Odzyskała elastyczność, zniknął obrzęk i ten potworny ból. Dzisiaj patrzę w lustro bez lęku."
+    text: "Z problemem na twarzy zmagałam się przez 7 długich lat. Stosowałam kolejne silne preparaty i maści, które tylko na chwilę maskowały problem, a potem skóra stawała się jeszcze cieńsza i bardziej zaogniona. Do Pani Kasi trafiłam zrezygnowana, z pieczeniem i wrażliwością. Już podczas pierwszej konsultacji wyjaśniła mi, że naskórek został osłabiony wcześniejszymi kuracjami i musimy odbudować jego naturalną barierę. Po trzecim zabiegu moja skóra odzyskała komfort i sprężystość! Zniknęło ciągłe pieczenie, a ja znów patrzę w lustro bez obaw."
   },
   {
     id: "story-ewa",
     author: "Pani Ewa",
-    title: "Odstawiłam antybiotyki i maści — całkowity spokój i koniec z pieczeniem cery",
+    title: "Po latach walki z rumieniem moja skóra wreszcie odzyskała komfort",
     problem: "Uciążliwy trądzik różowaty, pieczenie policzków i nietolerancja kosmetyków",
-    result: "Odstawienie farmakoterapii, wygaszenie rumienia i trwała stabilizacja cery",
+    result: "Wygaszenie rumienia, ukojenie i trwała stabilizacja cery",
     duration: "3 zabiegi gabinetowe + bionomiczny Beauty Plan",
     service: "Rosacea Calm Therapy",
     platform: "slow-skin.pl",
@@ -3255,11 +3255,11 @@ export const REVIEWS: Review[] = [
     hasAudioInterview: true,
     storyDetails: [
       "Przewlekłe pieczenie i bolesne zaostrzenia naczyniowe pod wpływem zmian temperatury i emocji",
-      "Wcześniejsze terapie dermatologiczne przynosiły jedynie krótkotrwałe efekty",
+      "Wcześniejsze próby pielęgnacji przynosiły jedynie krótkotrwałe efekty",
       "Wdrożono biomimetyczną pielęgnację domową bez zapachów i drażniących emulgatorów",
-      "Po 3 sesjach w instytucie klientka całkowicie zrezygnowała z leków i maści"
+      "Po 3 sesjach w gabinecie skóra klientki odzyskała spokój i równowagę"
     ],
-    text: "Trądzik różowaty odebrał mi pewność siebie. Każde wyjście na chłód, ciepły posiłek czy stres kończyły się palącym rumieniem i grudkami. Stosowałam mnóstwo drogich maści aptecznych i antybiotyków, które nie przynosiły trwałej ulgi. W instytucie Slow Skin Concept spotkałam się z niesamowitą empatią i zupełnie innym spojrzeniem na skórę. Pani Kasia zmieniła moją codzienną pielęgnację o 180 stopni. Po trzech zabiegach odłożyłam wszystkie maści i leki! Skóra przestała piec, naczynka się uspokoiły, a ja w końcu czuję spokój i komfort."
+    text: "Trądzik różowaty odebrał mi pewność siebie. Każde wyjście na chłód, ciepły posiłek czy stres kończyły się palącym rumieniem i grudkami. Stosowałam mnóstwo drogich preparatów, które nie przynosiły trwałej ulgi. W gabinecie Slow Skin Concept spotkałam się z niesamowitą empatią i zupełnie innym spojrzeniem na skórę. Pani Kasia zmieniła moją codzienną pielęgnację o 180 stopni. Po trzech zabiegach moja skóra wreszcie przestała piec! Naczynka się uspokoiły, a ja w końcu czuję spokój i komfort."
   },
   {
     id: "story-karolina",
@@ -3317,12 +3317,12 @@ export const REVIEWS: Review[] = [
     sourceUrl: "https://slow-skin.pl/opinie/",
     hasAudioInterview: true,
     storyDetails: [
-      "Medyczne, krytyczne podejście i ostrożność po bolesnych doświadczeniach w innych miejscach",
-      "Wnikliwy wywiad wstępny z wyjaśnieniem każdego procesu biologicznego krok po kroku",
+      "Krytyczne podejście i ostrożność po wcześniejszych doświadczeniach w innych miejscach",
+      "Wnikliwa rozmowa wstępna z wyjaśnieniem każdego etapu pielęgnacji krok po kroku",
       "Delikatne, bezzapachowe formuły bez agresywnej stymulacji",
       "Trwały spokój i odzyskanie pełnego zaufania do profesjonalnej kosmetologii"
     ],
-    text: "Z racji mojego zawodu medycznego podchodzę do wszelkich gabinetów z ogromnym dystansem i krytycyzmem, zwłaszcza że po wcześniejszych zabiegach w innych miejscach miałam przykre powikłania i długo leczyłam podrażnienia. Do pani Katarzyny szłam pełna obaw. Jednak jej wiedza, wykształcenie, kultura pracy i to, jak cierpliwie wyjaśniła mi każdy etap biologiczny, całkowicie mnie ujęły. Tu nie ma pośpiechu ani agresji. Skóra jest traktowana jak żywy narząd. Czuję się w gabinecie w 100% bezpiecznie, a moja cera jest zdrowa, wyciszona i zadbana."
+    text: "Z racji mojego doświadczenia podchodzę do wszelkich gabinetów z ogromnym dystansem i ostrożnością, zwłaszcza że po wcześniejszych zabiegach w innych miejscach długo borykałam się z podrażnieniami. Do pani Katarzyny szłam pełna obaw. Jednak jej wiedza, kultura pracy i to, jak cierpliwie wyjaśniła mi każdy etap pielęgnacji, całkowicie mnie ujęły. Tu nie ma pośpiechu ani agresji. Skóra jest traktowana z pełnym szacunkiem. Czuję się w gabinecie w 100% bezpiecznie, a moja cera jest wyciszona i zadbana."
   },
   {
     id: "story-joanna",
@@ -3341,7 +3341,7 @@ export const REVIEWS: Review[] = [
       "Poszukiwanie metody ujędrnienia twarzy bez efektu sztuczności i bez użycia igieł",
       "Zastosowanie bezpiecznej stymulacji komórkowej aktywującej fibroblasty",
       "Brak okresu rekonwalescencji — natychmiastowy powrót do codziennych aktywności",
-      "Długofalowa przebudowa struktury skóry potwierdzona w badaniach kontrolnych"
+      "Długofalowa poprawa struktury skóry widoczna podczas kolejnych wizyt"
     ],
     text: "Zależało mi na naturalnym liftingu i poprawie jędrności, ale bałam się sztucznego, napompowanego efektu kwasu hialuronowego. Terapia Meso Remodeling u pani Katarzyny przeszła moje najśmielsze oczekiwania. Skóra z każdym tygodniem stawała się gęstsza, pory się zwęziły, a linia żuchwy ładnie się uniosła — bez żadnych siniaków, bez bólu i bez wyłączania z normalnego życia. Wyglądam na 10 lat młodszą i przede wszystkim wyglądam jak ja!"
   },
@@ -3349,7 +3349,7 @@ export const REVIEWS: Review[] = [
     id: "rev-1",
     author: "Marta Kamińska",
     title: "Ukojenie dla cery naczynkowej",
-    text: "Wspaniałe, ciepłe miejsce w Jelczu-Laskowicach. Korzystam z zabiegów regularnie i moja skóra nigdy nie była tak spokojna i gładka. Terapia Rosacea Calm przyniosła ogromną ulgę mojej cerze naczynkowej. Atmosfera pełna spokoju, życzliwości i profesjonalizmu. Bardzo polecam!",
+    text: "Wspaniałe, ciepłe miejsce w Jelczu-Laskowicach. Korzystam z zabiegów regularnie i moja skóra nigdy nie była tak spokojna i gładka. Terapia Rosacea Calm przyniosła ogromną ulgę mojej cerze naczyniowej. Atmosfera pełna spokoju, życzliwości i profesjonalizmu. Bardzo polecam!",
     rating: 5,
     service: "Rosacea Calm Therapy",
     platform: "Google",
@@ -3358,7 +3358,7 @@ export const REVIEWS: Review[] = [
   {
     id: "rev-2",
     author: "Justyna Mazur",
-    title: "Świetna diagnoza i relaks",
+    title: "Świetne rozpoznanie potrzeb skóry i relaks",
     text: "Pełen profesjonalizm i wspaniałe podejście do klienta. Pierwsza wizyta Skin Readiness pozwoliła mi wreszcie zrozumieć, czego naprawdę potrzebuje moja skóra bez naciągania na drogie zabiegi. Pielęgnacja przyniosła natychmiastowe ukojenie i niesamowity relaks. Cudowny, przytulny gabinet!",
     rating: 5,
     service: "Skin Readiness",

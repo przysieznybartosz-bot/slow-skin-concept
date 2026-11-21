@@ -115,17 +115,17 @@ export const AllArticlesModal: React.FC<AllArticlesModalProps> = ({
               <div className="flex items-center gap-2">
                 <span className="font-mono text-[9px] tracking-[0.25em] text-luxury-gold uppercase font-bold flex items-center gap-1.5">
                   <BookOpen className="w-3.5 h-3.5 text-luxury-gold" />
-                  Edukacja & Diagnoza • Centrum Publikacji
+                  Baza Wiedzy • Magazyn Slow Skin
                 </span>
                 <span className="font-mono text-[9px] bg-luxury-gold/15 text-luxury-dark px-2 py-0.5 font-semibold">
-                  {ARTICLES.length} Publikacji
+                  {ARTICLES.length} Artykułów
                 </span>
               </div>
               <h2 className="font-serif text-2xl sm:text-3xl font-light text-luxury-dark tracking-tight">
-                Kompletna Baza Wiedzy i Publikacje Naukowe
+                Baza Wiedzy i Artykuły o Pielęgnacji Skóry
               </h2>
               <p className="text-xs text-luxury-dark/80 font-light leading-relaxed max-w-2xl">
-                Dostęp do wszystkich artykułów z sekcji Edukacja & Diagnoza z jednego miejsca. Autorskie publikacje Katarzyny Brzezińskiej poświęcone fizjologii skóry, odbudowie bariery i regeneracji komórkowej.
+                Wszystkie artykuły z sekcji Edukacja w jednym miejscu. Przystępne teksty Katarzyny Brzezińskiej o potrzebach skóry, odbudowie bariery i codziennej, łagodnej pielęgnacji.
               </p>
             </div>
 
@@ -147,7 +147,7 @@ export const AllArticlesModal: React.FC<AllArticlesModalProps> = ({
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Szukaj publikacji: bariera, trądzik, slow-aging, naczynka, kortyzol..."
+                placeholder="Szukaj artykułu: bariera, trądzik, slow-aging, naczynka, stres..."
                 className="w-full pl-10 pr-9 py-2 bg-white border border-luxury-sand/60 text-xs text-luxury-dark placeholder-luxury-dark/45 focus:outline-none focus:border-luxury-gold transition-colors font-light"
               />
               {searchQuery && (
@@ -200,7 +200,7 @@ export const AllArticlesModal: React.FC<AllArticlesModalProps> = ({
             {filteredArticles.length === 0 ? (
               <div className="py-16 text-center space-y-3 border border-dashed border-luxury-sand/60 bg-white/30">
                 <p className="font-serif italic text-sm text-luxury-dark/80">
-                  Nie znaleziono publikacji odpowiadających kryteriom wyszukiwania.
+                  Nie znaleziono artykułów spełniających kryteria wyszukiwania.
                 </p>
                 <button
                   onClick={() => {
@@ -268,7 +268,7 @@ export const AllArticlesModal: React.FC<AllArticlesModalProps> = ({
                           <span>{isCopied ? "Skopiowano" : "Kopiuj link"}</span>
                         </button>
                         <span className="text-[10px] font-mono uppercase tracking-wider text-luxury-gold group-hover:text-luxury-dark font-semibold flex items-center gap-1 transition-colors">
-                          Czytaj publikację
+                          Czytaj artykuł
                           <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                         </span>
                       </div>
@@ -284,7 +284,7 @@ export const AllArticlesModal: React.FC<AllArticlesModalProps> = ({
             <div className="flex items-center gap-2 text-xs text-luxury-dark/70 font-light text-center sm:text-left">
               <Sparkles className="w-3.5 h-3.5 text-luxury-gold shrink-0" />
               <span>
-                Wszystkie publikacje oparte są na fizjologii i autorskim podejściu Slow Skin Concept.
+                Wszystkie artykuły powstały w oparciu o praktykę kosmetologiczną i podejście Slow Skin Concept.
               </span>
             </div>
 

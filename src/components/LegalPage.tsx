@@ -319,7 +319,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({
                     <strong>Prowadzenie karty zabiegowej i kwalifikacja kosmetologiczna:</strong> informacje o stanie skóry, ewentualnych alergiach, przeciwwskazaniach i pielęgnacji domowej — na podstawie Twojej dobrowolnej i wyraźnej zgody zgodnie z <em>art. 9 ust. 2 lit. a RODO</em> (dane dotyczące zdrowia i fizjologii skóry niezbędne do zagwarantowania bezpieczeństwa zabiegowego).
                   </li>
                   <li>
-                    <strong>Formularze Lead Ads oraz kampanie Facebook / Meta:</strong> w przypadku nawiązania kontaktu za pośrednictwem reklam na platformach Meta (Facebook, Instagram) przetwarzamy przekazane dane kontaktowe w celu udzielenia odpowiedzi na zapytanie i przedstawienia propozycji terminu wizyty — na podstawie <em>art. 6 ust. 1 lit. a RODO</em> (Twoja zgoda) oraz <em>art. 6 ust. 1 lit. f RODO</em> (nasz prawnie uzasadniony interes polegający na obsłudze relacji z potencjalnymi pacjentami).
+                    <strong>Formularze Lead Ads oraz kampanie Facebook / Meta:</strong> w przypadku nawiązania kontaktu za pośrednictwem reklam na platformach Meta (Facebook, Instagram) przetwarzamy przekazane dane kontaktowe w celu udzielenia odpowiedzi na zapytanie i przedstawienia propozycji terminu wizyty — na podstawie <em>art. 6 ust. 1 lit. a RODO</em> (Twoja zgoda) oraz <em>art. 6 ust. 1 lit. f RODO</em> (nasz prawnie uzasadniony interes polegający na obsłudze relacji z potencjalnymi klientami).
                   </li>
                   <li>
                     <strong>Kameralny Dziennik (Edukacyjny Newsletter):</strong> adres e-mail przetwarzamy na podstawie Twojej dobrowolnej zgody (<em>art. 6 ust. 1 lit. a RODO</em>) w celu wysyłania poradników o pielęgnacji bionomicznej oraz powiadomień o zwolnionych terminach.
@@ -437,7 +437,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({
                   DOKUMENT OFICJALNY • KLAUZULA INFORMACYJNA
                 </span>
                 <h2 className="font-serif text-2xl sm:text-3xl text-luxury-dark font-normal">
-                  Klauzula Informacyjna RODO dla Pacjentów Gabinetu
+                  Klauzula Informacyjna RODO dla Klientów Gabinetu
                 </h2>
                 <p className="text-xs text-luxury-dark/70 font-mono">
                   Zgodna z art. 13 i art. 14 Rozporządzenia Parlamentu Europejskiego i Rady (UE) 2016/679
@@ -479,7 +479,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({
                         Wywiad kosmetologiczny, przeciwwskazania i karta zdrowia skóry
                       </td>
                       <td className="p-3 border-r border-luxury-sand/50">
-                        Art. 9 ust. 2 lit. a RODO (wyraźna zgoda pacjenta)
+                        Art. 9 ust. 2 lit. a RODO (wyraźna zgoda klienta)
                       </td>
                       <td className="p-3 border-r border-luxury-sand/50">
                         Do 5 lat od ostatniej wizyty lub wycofania zgody
@@ -537,7 +537,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({
               {/* Patient Rights in RODO */}
               <div className="space-y-4 text-xs leading-relaxed text-luxury-dark font-light">
                 <h3 className="font-serif text-base font-semibold text-luxury-dark">
-                  Prawa Pacjenta w Związku z Przetwarzaniem Danych
+                  Prawa Klienta w Związku z Przetwarzaniem Danych
                 </h3>
                 <p>
                   Przysługuje Ci prawo do:
@@ -612,35 +612,35 @@ export const LegalPage: React.FC<LegalPageProps> = ({
                       <strong>Punktualność:</strong> Z uwagi na rezerwację gabinetu na wyłączność i zachowanie buforu sterylizacji pomieszczeń, prosimy o przybycie na wyznaczoną godzinę. Spóźnienie powyżej 15 minut może skutkować koniecznością skrócenia zabiegu z zachowaniem pełnej odpłatności.
                     </li>
                     <li>
-                      <strong>Odwoływanie wizyt:</strong> Ewentualną rezygnację lub zmianę terminu należy zgłosić najpóźniej na <strong>24 godziny przed planowaną wizytą</strong> pod numerem telefonu: +48 607 888 880. Szanujmy wzajemnie swój czas i terminy innych oczekujących pacjentów.
+                      <strong>Odwoływanie wizyt:</strong> Ewentualną rezygnację lub zmianę terminu należy zgłosić najpóźniej na <strong>24 godziny przed planowaną wizytą</strong> pod numerem telefonu: +48 607 888 880. Szanujmy wzajemnie swój czas i terminy innych oczekujących klientów.
                     </li>
                   </ul>
                 </div>
 
                 <div className="space-y-2">
                   <h4 className="font-serif text-sm font-semibold text-luxury-dark">
-                    § 3. Kwalifikacja Zabiegowa i Bezpieczeństwo Zdrowotne
+                    § 3. Kwalifikacja Zabiegowa i Bezpieczeństwo
                   </h4>
                   <p>
-                    1. Przed przystąpieniem do procedury zabiegowej przeprowadzana jest diagnoza oraz szczegółowy wywiad kosmetologiczny. Pacjent zobowiązany jest do poinformowania o wszelkich schorzeniach, przyjmowanych lekach, ciążach, alergiach oraz przebytych zabiegach estetycznych.
+                    1. Przed przystąpieniem do zabiegu przeprowadzana jest ocena kondycji skóry oraz wywiad kosmetologiczny. Klient zobowiązany jest do poinformowania o wszelkich istotnych dolegliwościach, przyjmowanych lekach, ciąży, alergiach oraz przebytych zabiegach.
                   </p>
                   <p>
-                    2. Specjalista ma prawo odmówić wykonania zabiegu lub zaproponować alternatywną procedurę terapeutyczną, jeżeli aktualny stan naskórka, uszkodzenie bariery hydrolipidowej lub stan zdrowia pacjenta stwarza ryzyko powikłań.
+                    2. Kosmetolog ma prawo odmówić wykonania zabiegu lub zaproponować bezpieczniejszą pielęgnację, jeżeli aktualny stan naskórka, podrażnienie bariery lub ogólne samopoczucie klienta stwarza ryzyko niepożądanej reakcji.
                   </p>
                   <p>
-                    3. Zatajenie informacji o stanie zdrowia zwalnia gabinet z odpowiedzialności za ewentualne niepożądane reakcje skóry.
+                    3. Zatajenie informacji o przeciwwskazaniach zwalnia gabinet z odpowiedzialności za ewentualne niepożądane reakcje skóry.
                   </p>
                 </div>
 
                 <div className="space-y-2">
                   <h4 className="font-serif text-sm font-semibold text-luxury-dark">
-                    § 4. Standardy Bionomiczne i Higieniczne
+                    § 4. Standardy Jakości i Higieny
                   </h4>
                   <p>
-                    1. W Instytucie stosowane są wyłącznie certyfikowane preparaty o czystości bionomicznej (wolne od olejów mineralnych, parabenów, sztucznych barwników i agresywnych substancji zapachowych).
+                    1. W Instytucie stosowane są wyłącznie wyselekcjonowane preparaty kosmetologiczne (wolne od olejów mineralnych, parabenów, sztucznych barwników i agresywnych substancji zapachowych).
                   </p>
                   <p>
-                    2. Wszelkie narzędzia wielorazowe podlegają procedurze dezynfekcji i sterylizacji w autoklawie medycznym klasy B, a materiały jednorazowe są utylizowane zgodnie z normami sanitarnymi.
+                    2. Wszelkie narzędzia wielorazowe podlegają procedurze dezynfekcji i sterylizacji w autoklawie parowym klasy B, a materiały jednorazowe są utylizowane zgodnie z normami sanitarnymi.
                   </p>
                 </div>
 

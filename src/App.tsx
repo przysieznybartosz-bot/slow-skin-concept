@@ -184,7 +184,7 @@ const circadianRoutines = [
     challenge: "Przewlekłe zaczerwienienie, reakcje naczyniowe, pieczenie i nadreaktywność.",
     morning: {
       time: "07:30 - 08:30",
-      title: "Uciszenie Receptorów i Stabilizacja",
+      title: "Wyciszenie Wrażliwości i Stabilizacja",
       desc: "Wyciszenie nadreaktywnych komórek naskórka i ochrona naczyń przed nagłym skurczem.",
       steps: [
         "Oczyszczanie: Przemywanie twarzy letnią (nigdy gorącą!) wodą z dodatkiem barierowej, kojącej emulsji.",
@@ -200,7 +200,7 @@ const circadianRoutines = [
       desc: "Wzmocnienie odporności naczyniowej naskórka i redukcja napięcia neurologicznego.",
       steps: [
         "Dotlenienie: Napar z liści pokrzywy bogaty w witaminę K i flawonoidy wspierające elastyczność naczyń.",
-        "Przemiana: Odrobina odpoczynku bez błękitnego światła (Blue Light), które stymuluje receptory komórkowe do reakcji zapalnej."
+        "Przemiana: Odrobina odpoczynku bez błękitnego światła (Blue Light), które pobudza komórki skóry do nadmiernych reakcji."
       ],
       tip: "Podczas pracy za biurkiem postaraj się mrugać częściej — zapobiegnie to suchości oczu i idącemu za tym napięciu powięzi twarzy."
     },
@@ -338,10 +338,10 @@ const LANGUAGE_SANCTUARY_DATA = {
     title: "Wsparcie Językowe dla Gości",
     sub: "SLOW SKIN CONCEPT • PRZYJAZNY GABINET PIELĘGNACJI SKÓRY",
     text1: "Witamy w naszej przestrzeni spokojnej, uważnej pielęgnacji i biologicznego wsparcia skóry.",
-    text2: "Z dbałością o najwyższy komfort wszystkich naszych gości oferujemy pełne wsparcie diagnostyczne i zabiegowe również w językach obcych. Nasz zespół (na czele z założycielką Katarzyną Brzezińską) porozumiewa się w języku angielskim, niemieckim oraz ukraińskim, dbając o Twój spokój, bezpieczeństwo i przyjazną atmosferę.",
+    text2: "Z dbałością o najwyższy komfort wszystkich naszych gości oferujemy pełne wsparcie konsultacyjne i zabiegowe również w językach obcych. Nasz zespół (na czele z założycielką Katarzyną Brzezińską) porozumiewa się w języku angielskim, niemieckim oraz ukraińskim, dbając o Twój spokój, bezpieczeństwo i przyjazną atmosferę.",
     featuresTitle: "Udogodnienia dla gości zagranicznych:",
     features: [
-      "Konsultacje i diagnoza skóry w języku EN, DE lub UA.",
+      "Konsultacje i ocena potrzeb skóry w języku EN, DE lub UA.",
       "Osobiste, zindywidualizowane plany pielęgnacyjne sporządzone w wybranym języku.",
       "Możliwość wyboru cichej sesji (Silent Session) dla głębokiego relaksu i odpoczynku psychofizycznego.",
       "Wsparcie językowe na każdym etapie rezerwacji i wizyty w Jelczu-Laskowicach."
@@ -357,7 +357,7 @@ const LANGUAGE_SANCTUARY_DATA = {
     text2: "Although our publication is primarily in Polish, we warmly welcome international guests and provide bespoke cosmetological treatments and expert consultations in fluent English at our clinic in Jelcz-Laskowice (near Wrocław). Our founder, Katarzyna Brzezińska, and the team ensure gentle care, clear communication, and customized guidance.",
     featuresTitle: "Bespoke International Guest Amenities:",
     features: [
-      "Full skin diagnostics and personalized consultations in English.",
+      "Individual skin assessment and personalized consultations in English.",
       "Custom-compiled professional Homecare & Skincare Plans in English.",
       "The signature 'Silent Session' option for sensory rest and relaxation.",
       "Multilingual administrative and booking support before and during your visit."
@@ -373,7 +373,7 @@ const LANGUAGE_SANCTUARY_DATA = {
     text2: "Obwohl unsere Hauptpublikation auf Polnisch verfasst ist, bieten wir in unserem Institut in Jelcz-Laskowice maßgeschneiderte Behandlungen und professionelle kosmetologische Konsultationen auf Deutsch an. Unsere Gründerin und das Team garantieren Sicherheit, Herzlichkeit und individuelle Begleitung.",
     featuresTitle: "Annehmlichkeiten für internationale Gäste:",
     features: [
-      "Zelluläre Hautdiagnose und schonende Behandlungen auf Deutsch.",
+      "Individuelle Hautanalyse und schonende Pflegebehandlungen auf Deutsch.",
       "Individuell erstellte Beauty- und Heimpflegepläne in deutscher Sprache.",
       "Die Option 'Silent Session' (Stille Sitzung) für tiefe psychophysische Entspannung.",
       "Zweisprachige administrative Unterstützung vor und während Ihres Besuchs."
@@ -389,7 +389,7 @@ const LANGUAGE_SANCTUARY_DATA = {
     text2: "З турботою про комфорт усіх наших гостей ми пропонуємо повну консультаційну та процедурну підтримку іноземними мовами. Наша команда (на чолі з Катажиною Бжезінською) володіє українською мовою, надаючи турботливу підтримку та індивідуальні плани догляду.",
     featuresTitle: "Зручності для іноземних гостей:",
     features: [
-      "Професійні консультації та діагностика шкіри українською мовою.",
+      "Професійні консультації та оцінка стану шкіри українською мовою.",
       "Персональні плани домашнього догляду, складені зрозумілою мовою.",
       "Спеціальний режим тихої сесії (Silent Session) для глибокої релаксації та зняття втоми.",
       "Повний супровід та допомога під час вашого візиту в Єлч-Лясковіце."
@@ -402,10 +402,10 @@ const LANGUAGE_SANCTUARY_DATA = {
     title: "Accoglienza Ospiti Internazionali",
     sub: "SLOW SKIN CONCEPT • SPAZIO DI CURA E BENESSERE DELLA PELLE",
     text1: "Benvenuti nel nostro spazio di cura consapevole e rigenerazione biologica della pelle.",
-    text2: "Con l'obiettivo di garantire il massimo comfort a tutti i nostri ospiti, offriamo un supporto diagnostico e di trattamento completo anche in lingue straniere. Il nostro team (guidato dalla fondatrice Katarzyna Brzezińska) parla correntemente inglese, tedesco, ucraino e italiano, garantendo sicurezza, accoglienza e un'atmosfera serena.",
+    text2: "Con l'obiettivo di garantire il massimo comfort a tutti i nostri ospiti, offriamo un supporto per consulenze e trattamenti completo anche in lingue straniere. Il nostro team (guidato dalla fondatrice Katarzyna Brzezińska) parla correntemente inglese, tedesco, ucraino e italiano, garantendo sicurezza, accoglienza e un'atmosfera serena.",
     featuresTitle: "Servizi per ospiti internazionali:",
     features: [
-      "Consulto e diagnosi della pelle in lingua EN, DE, UA o IT.",
+      "Consulenza e valutazione della pelle in lingua EN, DE, UA o IT.",
       "Piani di cura domiciliare personalizzati e redatti nella lingua selezionata.",
       "Possibilità di scegliere una sessione silenziosa (Silent Session) per un profondo rilassamento psicofisico.",
       "Supporto linguistico in ogni fase della prenotazione e della visita a Jelcz-Laskowice."
@@ -803,7 +803,7 @@ export default function App() {
       duration: "120 minut", 
       therapist: "Katarzyna Brzezińska", 
       status: "Zrealizowano",
-      cabinetNotes: "Kompleksowa diagnoza bionomiczna, infuzja ektoiny 3%, fala biopolarna RF. Skóra zresetowana neurologicznie.",
+      cabinetNotes: "Kompleksowa ocena potrzeb skóry, infuzja ektoiny 3%, fala biopolarna RF. Skóra wyciszona i ukojona.",
       cosmeticsUsed: "Fizjologiczna emulsja bionomiczna pH 5.5, esencja ektoiny, biomimetyczny krem lipidowy"
     },
     { 
@@ -839,10 +839,10 @@ export default function App() {
       memberId: "SSP-BP-2026",
       password: "pass",
       joinDate: "12 Października 2026",
-      skinConcern: "Karta oczekuje na pierwsze badanie diagnostyczne w Instytucie (Pierwsza Wizyta)",
+      skinConcern: "Karta oczekuje na pierwszą konsultację i ocenę skóry w gabinecie (Pierwsza Wizyta)",
       sensitivityLevel: "Zostanie określony podczas konsultacji gabinetowej",
       prefersSilence: false,
-      cabinetNotes: "Nowy pacjent Instytutu. Kartoteka aktywna — brak zrealizowanych zabiegów.",
+      cabinetNotes: "Nowy klient Slow Skin Concept. Kartoteka aktywna — brak zrealizowanych zabiegów.",
       visits: [] // Clean 0 visits for new real client
     },
     {
@@ -855,7 +855,7 @@ export default function App() {
       skinConcern: "Bariera hydrolipidowa (stres kortyzolowy, TEWL i odwodnienie)",
       sensitivityLevel: "Wysoka nadreaktywność neuro-naczyniowa",
       prefersSilence: true,
-      cabinetNotes: "Pacjentka pod stałą opieką bionomiczną. Wykazuje doskonałą odpowiedź komórkową na protokół ektoinowy.",
+      cabinetNotes: "Klientka pod stałą opieką pielęgnacyjną. Skóra bardzo dobrze reaguje na pielęgnację z ektoiną.",
       visits: DEMO_DEFAULT_VISITS
     }
   ];
@@ -901,19 +901,19 @@ export default function App() {
       phone: "+48 600 000 000",
       memberId: "SSP-BP-2026",
       joinDate: "12 Października 2026",
-      skinConcern: "Karta oczekuje na pierwsze badanie diagnostyczne w Instytucie (Pierwsza Wizyta)",
+      skinConcern: "Karta oczekuje na pierwszą konsultację i ocenę skóry w gabinecie (Pierwsza Wizyta)",
       sensitivityLevel: "Zostanie określony podczas konsultacji gabinetowej",
       prefersSilence: false,
-      cabinetNotes: "Kartoteka pacjenta aktywna. Brak zrealizowanych zabiegów – historia będzie tworzona na bieżąco po wizycie."
+      cabinetNotes: "Kartoteka klienta aktywna. Brak zrealizowanych zabiegów – historia będzie tworzona na bieżąco po wizycie."
     };
     try {
       const stored = safeStorage.getItem("slowskin_profile");
       if (stored) {
         const parsed = JSON.parse(stored);
-        // If it's a real user account that had old mock skin concerns, sanitize to clean real patient state
+        // If it's a real user account that had old mock skin concerns, sanitize to clean real client state
         if (parsed.email && parsed.email.toLowerCase() !== DEMO_ACCOUNT_EMAIL.toLowerCase()) {
           if (parsed.skinConcern === "Bariera hydrolipidowa (stres kortyzolowy, TEWL i odwodnienie)") {
-            parsed.skinConcern = "Karta oczekuje na pierwsze badanie diagnostyczne w Instytucie (Pierwsza Wizyta)";
+            parsed.skinConcern = "Karta oczekuje na pierwszą konsultację i ocenę skóry w gabinecie (Pierwsza Wizyta)";
           }
           if (parsed.sensitivityLevel === "Wysoka nadreaktywność neuro-naczyniowa") {
             parsed.sensitivityLevel = "Zostanie określony podczas konsultacji gabinetowej";
@@ -1568,7 +1568,7 @@ export default function App() {
     { label: "Nanobrazja Nanopen z Koktajlem Peptydowym (60 min • 320 PLN)", title: "Nanobrazja Nanopen z Koktajlem Peptydowym", duration: "60 minut", price: "320 PLN", cosmetics: "Nano-kartridż sterylny, koktajl bionomiczny, kompres kojący" },
     { label: "Regeneracja Kwasem Bursztynowym (75 min • 350 PLN)", title: "Regeneracja Kwasem Bursztynowym", duration: "75 minut", price: "350 PLN", cosmetics: "Bursztynian sodu 2%, kwas hialuronowy, maska biocelulozowa" },
     { label: "Terapia Światłem LPL / Fotoodmładzanie (45 min • 290 PLN)", title: "Terapia Światłem LPL / Fotoodmładzanie", duration: "45 minut", price: "290 PLN", cosmetics: "Żel foto-przewodzący bionomiczny, serum z beta-glukanem" },
-    { label: "Karboksyterapia CarboRegen (45 min • 250 PLN)", title: "Karboksyterapia CarboRegen", duration: "45 minut", price: "250 PLN", cosmetics: "Medyczny CO2 o czystości 99.5%, emulsja łagodząca" },
+    { label: "Karboksyterapia CarboRegen (45 min • 250 PLN)", title: "Karboksyterapia CarboRegen", duration: "45 minut", price: "250 PLN", cosmetics: "Czysty dwutlenek węgla CO₂ 99.5%, emulsja łagodząca" },
     { label: "Sonaris Pro — Fala Dźwiękowa i Drenaż (60 min • 320 PLN)", title: "Sonaris Pro — Fala Dźwiękowa i Drenaż", duration: "60 minut", price: "320 PLN", cosmetics: "Żel sonoforyczny, ampułka ujędrniająca, krem drenujący" },
     { label: "Neurolifting — Elektroakupunktura twarzy (60 min • 500 PLN)", title: "Neurolifting — Elektroakupunktura twarzy", duration: "60 minut", price: "500 PLN", cosmetics: "Ultracienkie igły, fale Nogiera (1–99 Hz), światło LED, koktajl regeneracyjny" },
     { label: "Stymulatory Tkankowe / Mezoterapia (90 min • 550 PLN)", title: "Stymulatory Tkankowe / Mezoterapia", duration: "90 minut", price: "550 PLN", cosmetics: "Polinukleotydy, kwas hialuronowy, maska regenerująca" },
@@ -1626,11 +1626,11 @@ export default function App() {
       cabinetNotes: "",
       cosmeticsUsed: ""
     });
-    triggerToast("Zabieg został pomyślnie dodany do historii pacjenta.");
+    triggerToast("Zabieg został pomyślnie dodany do historii klienta.");
   };
 
   const handleDeleteVisit = (visitId: string) => {
-    if (typeof window !== "undefined" && !window.confirm("Czy na pewno chcesz usunąć ten wpis zabiegowy z kartoteki pacjenta?")) {
+    if (typeof window !== "undefined" && !window.confirm("Czy na pewno chcesz usunąć ten wpis zabiegowy z kartoteki klienta?")) {
       return;
     }
     const updated = pastVisits.filter((v: any) => v.id !== visitId);
@@ -1677,10 +1677,10 @@ export default function App() {
         phone: existing?.phone || "+48 600 000 000",
         memberId: existing?.memberId || "SSP-BP-2026",
         joinDate: existing?.joinDate || "12 Października 2026",
-        skinConcern: existing?.skinConcern || "Karta oczekuje na pierwsze badanie diagnostyczne w Instytucie (Pierwsza Wizyta)",
+        skinConcern: existing?.skinConcern || "Karta oczekuje na pierwszą konsultację i ocenę skóry w gabinecie (Pierwsza Wizyta)",
         sensitivityLevel: existing?.sensitivityLevel || "Zostanie określony podczas konsultacji gabinetowej",
         prefersSilence: !!existing?.prefersSilence,
-        cabinetNotes: existing?.cabinetNotes || "Kartoteka pacjenta aktywna. Brak zrealizowanych zabiegów – historia będzie tworzona na bieżąco po wizycie."
+        cabinetNotes: existing?.cabinetNotes || "Kartoteka klienta aktywna. Brak zrealizowanych zabiegów – historia będzie tworzona na bieżąco po wizycie."
       };
 
       // Retrieve existing clean visits if already added, or empty 0 visits
@@ -1690,7 +1690,7 @@ export default function App() {
       setPastVisits(existingVisits);
       setIsLoggedIn(true);
       setIsLoginLoading(false);
-      triggerToast("Zalogowano do konta pacjenta: Bartosz Przysiężny (Kartoteka Rzeczywista).");
+      triggerToast("Zalogowano do konta klienta: Bartosz Przysiężny (Kartoteka Rzeczywista).");
     }, 400);
   };
 
@@ -1707,7 +1707,7 @@ export default function App() {
         skinConcern: "Bariera hydrolipidowa (stres kortyzolowy, TEWL i odwodnienie)",
         sensitivityLevel: "Wysoka nadreaktywność neuro-naczyniowa",
         prefersSilence: true,
-        cabinetNotes: "Pacjentka pod stałą opieką bionomiczną. Wykazuje doskonałą odpowiedź komórkową na protokół ektoinowy."
+        cabinetNotes: "Klientka pod stałą opieką pielęgnacyjną. Skóra bardzo dobrze reaguje na pielęgnację z ektoiną."
       };
       setUserProfile(demoProfile);
       setPastVisits(DEMO_DEFAULT_VISITS);
@@ -1739,41 +1739,41 @@ export default function App() {
           : (matchedAccount.visits || []).filter((v: any) => v.id !== "v1" && v.id !== "v2" && v.id !== "v3");
 
         setUserProfile({
-          name: matchedAccount.name || "Pacjent Slow Skin Concept",
+          name: matchedAccount.name || "Klient Slow Skin Concept",
           email: matchedAccount.email,
           phone: matchedAccount.phone || "+48 600 000 000",
           memberId: matchedAccount.memberId || ("SSP-" + Math.floor(10000 + Math.random() * 90000)),
           joinDate: matchedAccount.joinDate || "12 Października 2026",
-          skinConcern: matchedAccount.skinConcern || "Karta oczekuje na pierwsze badanie diagnostyczne w Instytucie (Pierwsza Wizyta)",
+          skinConcern: matchedAccount.skinConcern || "Karta oczekuje na pierwszą konsultację i ocenę skóry w gabinecie (Pierwsza Wizyta)",
           sensitivityLevel: matchedAccount.sensitivityLevel || "Zostanie określony podczas konsultacji gabinetowej",
           prefersSilence: !!matchedAccount.prefersSilence,
-          cabinetNotes: matchedAccount.cabinetNotes || "Kartoteka pacjenta aktywna."
+          cabinetNotes: matchedAccount.cabinetNotes || "Kartoteka klienta aktywna."
         });
         setPastVisits(userVisits);
         setIsLoggedIn(true);
-        triggerToast("Zalogowano pomyślnie do Strefy Pacjenta.");
+        triggerToast("Zalogowano pomyślnie do Strefy Klienta.");
       } else if (
         // Allow user profile email if matches
         userProfile.email && emailTrim === userProfile.email.toLowerCase() &&
         (passTrim.length >= 4)
       ) {
         setIsLoggedIn(true);
-        triggerToast("Zalogowano pomyślnie do Strefy Pacjenta.");
+        triggerToast("Zalogowano pomyślnie do Strefy Klienta.");
       } else if (emailTrim.includes("@") && passTrim.length >= 4) {
-        // Automatic account creation on first access for a new patient
+        // Automatic account creation on first access for a new client
         const newMemberId = "SSP-" + Math.floor(10000 + Math.random() * 90000);
         const derivedName = emailTrim.split("@")[0].replace(/[._-]/g, " ").replace(/\b\w/g, l => l.toUpperCase());
         const newAcc = {
-          name: derivedName || "Pacjent Instytutu Slow Skin",
+          name: derivedName || "Klient Slow Skin Concept",
           email: emailTrim,
           phone: "+48 600 000 000",
           memberId: newMemberId,
           password: passTrim,
           joinDate: new Date().toLocaleDateString("pl-PL", { day: "numeric", month: "long", year: "numeric" }),
-          skinConcern: "Karta oczekuje na pierwsze badanie diagnostyczne w Instytucie (Pierwsza Wizyta)",
+          skinConcern: "Karta oczekuje na pierwszą konsultację i ocenę skóry w gabinecie (Pierwsza Wizyta)",
           sensitivityLevel: "Zostanie określony podczas konsultacji gabinetowej",
           prefersSilence: false,
-          cabinetNotes: "Nowy pacjent Instytutu. Kartoteka aktywna — brak zrealizowanych zabiegów.",
+          cabinetNotes: "Nowy klient Slow Skin Concept. Kartoteka aktywna — brak zrealizowanych zabiegów.",
           visits: [] // 0 visits for new account!
         };
         const updatedList = [...storedAccounts.filter((a: any) => a.email.toLowerCase() !== emailTrim), newAcc];
@@ -1782,7 +1782,7 @@ export default function App() {
         setUserProfile(newAcc);
         setPastVisits([]); // EMPTY
         setIsLoggedIn(true);
-        triggerToast("Utworzono i zautoryzowano profil pacjenta w systemie gabinetowym.");
+        triggerToast("Utworzono i zautoryzowano profil klienta w systemie gabinetowym.");
       } else {
         setLoginError("Wprowadź prawidłowy adres e-mail oraz hasło (min. 4 znaki).");
       }
@@ -1810,17 +1810,17 @@ export default function App() {
       const newMemberId = "SSP-" + Math.floor(10000 + Math.random() * 90000);
       const todayFormatted = new Date().toLocaleDateString("pl-PL", { day: "numeric", month: "long", year: "numeric" });
       const newAcc = {
-        name: nameTrim || "Pacjent Instytutu Slow Skin",
+        name: nameTrim || "Klient Slow Skin Concept",
         email: emailTrim,
         phone: phoneTrim || "+48 600 000 000",
         memberId: newMemberId,
         password: passTrim,
         joinDate: todayFormatted,
-        skinConcern: "Karta oczekuje na pierwsze badanie diagnostyczne w Instytucie (Pierwsza Wizyta)",
+        skinConcern: "Karta oczekuje na pierwszą konsultację i ocenę skóry w gabinecie (Pierwsza Wizyta)",
         sensitivityLevel: "Zostanie określony podczas konsultacji gabinetowej",
         prefersSilence: false,
-        cabinetNotes: "Nowy pacjent Instytutu. Kartoteka aktywna — brak zrealizowanych zabiegów przed pierwszą wizytą.",
-        visits: [] // ALWAYS 0 VISITS FOR NEW PATIENT ACCOUNT!
+        cabinetNotes: "Nowy klient Slow Skin Concept. Kartoteka aktywna — brak zrealizowanych zabiegów przed pierwszą wizytą.",
+        visits: [] // ALWAYS 0 VISITS FOR NEW CLIENT ACCOUNT!
       };
 
       const updatedList = [...storedAccounts.filter((a: any) => a.email.toLowerCase() !== emailTrim), newAcc];
@@ -1830,7 +1830,7 @@ export default function App() {
       setPastVisits([]); // ZERO VISITS!
       setIsLoggedIn(true);
       setAuthMode("login");
-      triggerToast("Konto Pacjenta zostało pomyślnie zarejestrowane i aktywowane!");
+      triggerToast("Konto Klienta zostało pomyślnie zarejestrowane i aktywowane!");
       setIsLoginLoading(false);
     }, 600);
   };
@@ -1840,7 +1840,7 @@ export default function App() {
     setIsStaffMode(false);
     safeStorage.removeItem("slowskin_is_staff");
     safeStorage.removeItem("slowskin_is_logged");
-    triggerToast("Wylogowano ze Strefy Pacjenta.", "info");
+    triggerToast("Wylogowano ze Strefy Klienta.", "info");
   };
 
   const handleTogglePrefersSilence = () => {
@@ -1921,15 +1921,15 @@ export default function App() {
       : (patient.visits || []).filter((v: any) => v.id !== "v1" && v.id !== "v2" && v.id !== "v3");
 
     setUserProfile({
-      name: patient.name || "Pacjent Slow Skin Concept",
+      name: patient.name || "Klient Slow Skin Concept",
       email: patient.email,
       phone: patient.phone || "+48 600 000 000",
       memberId: patient.memberId || ("SSP-" + Math.floor(10000 + Math.random() * 90000)),
       joinDate: patient.joinDate || "12 Października 2026",
-      skinConcern: patient.skinConcern || "Karta oczekuje na pierwsze badanie diagnostyczne w Instytucie (Pierwsza Wizyta)",
+      skinConcern: patient.skinConcern || "Karta oczekuje na pierwszą konsultację i ocenę skóry w gabinecie (Pierwsza Wizyta)",
       sensitivityLevel: patient.sensitivityLevel || "Zostanie określony podczas konsultacji gabinetowej",
       prefersSilence: !!patient.prefersSilence,
-      cabinetNotes: patient.cabinetNotes || "Kartoteka pacjenta aktywna."
+      cabinetNotes: patient.cabinetNotes || "Kartoteka klienta aktywna."
     });
     setPastVisits(userVisits);
     setIsLoggedIn(true);
@@ -1942,7 +1942,7 @@ export default function App() {
         setIsAddVisitModalOpen(true);
       }, 250);
     }
-    triggerToast(`Otwarto kartotekę pacjenta: ${patient.name}`);
+    triggerToast(`Otwarto kartotekę klienta: ${patient.name}`);
   };
 
   const handleCreatePatientByStaff = (e: React.FormEvent) => {
@@ -1951,12 +1951,12 @@ export default function App() {
     const email = newPatientForm.email.trim().toLowerCase();
     const phone = newPatientForm.phone.trim();
     if (!name || !email) {
-      triggerToast("Proszę podać imię, nazwisko oraz adres e-mail pacjenta.", "error");
+      triggerToast("Proszę podać imię, nazwisko oraz adres e-mail klienta.", "error");
       return;
     }
     const storedAccounts = getStoredAccountsList();
     if (storedAccounts.some((a: any) => a.email?.toLowerCase() === email)) {
-      triggerToast("Pacjent o takim adresie e-mail jest już zarejestrowany.", "error");
+      triggerToast("Klient o takim adresie e-mail jest już zarejestrowany.", "error");
       return;
     }
     const newMemberId = "SSP-" + Math.floor(10000 + Math.random() * 90000);
@@ -1968,7 +1968,7 @@ export default function App() {
       memberId: newMemberId,
       password: "pass",
       joinDate: todayFormatted,
-      skinConcern: newPatientForm.skinConcern.trim() || "Karta oczekuje na pierwsze badanie diagnostyczne w Instytucie (Pierwsza Wizyta)",
+      skinConcern: newPatientForm.skinConcern.trim() || "Karta oczekuje na pierwszą konsultację i ocenę skóry w gabinecie (Pierwsza Wizyta)",
       sensitivityLevel: newPatientForm.sensitivityLevel.trim() || "Zostanie określony podczas konsultacji gabinetowej",
       prefersSilence: false,
       cabinetNotes: newPatientForm.cabinetNotes.trim() || "Karta założona stacjonarnie w gabinecie przez kosmetologa.",
@@ -2016,7 +2016,7 @@ export default function App() {
       type: "percentage",
       value: 10,
       target: "Wszystkie Usługi Gabinetu",
-      description: "Indywidualny rabat stałego pacjenta Instytutu Slow Skin.",
+      description: "Indywidualny rabat stałego klienta Slow Skin Concept.",
       validUntil: "31 grudnia 2026"
     });
     setIsDiscountModalOpen(true);
@@ -2060,7 +2060,7 @@ export default function App() {
   };
 
   const handleRemoveDiscountFromAccount = (accountEmail: string, discountId: string) => {
-    if (!window.confirm("Czy na pewno chcesz usunąć ten rabat z konta pacjenta?")) return;
+    if (!window.confirm("Czy na pewno chcesz usunąć ten rabat z konta klienta?")) return;
     const storedAccounts = getStoredAccountsList();
     const idx = storedAccounts.findIndex((a: any) => a.email?.toLowerCase() === accountEmail.toLowerCase());
     if (idx !== -1) {
@@ -2097,7 +2097,7 @@ export default function App() {
     if (idx !== -1) {
       const current = storedAccounts[idx].discounts || [];
       if (current.some((d: any) => d.id === "newsletter-10" || d.code === "NEWSLETTER-10")) {
-        triggerToast("Ten pacjent ma już przypisany rabat za newsletter (10%).", "info");
+        triggerToast("Ten klient ma już przypisany rabat za newsletter (10%).", "info");
         return;
       }
       const newsletterDisc = {
@@ -2128,17 +2128,17 @@ export default function App() {
   };
 
   const handleDeletePatientByStaff = (emailToDelete: string) => {
-    if (!window.confirm("Czy na pewno chcesz usunąć tę kartotekę pacjenta z bazy gabinetu?")) return;
+    if (!window.confirm("Czy na pewno chcesz usunąć tę kartotekę klienta z bazy gabinetu?")) return;
     const storedAccounts = getStoredAccountsList();
     const filtered = storedAccounts.filter((a: any) => a.email?.toLowerCase() !== emailToDelete.toLowerCase());
     saveStoredAccounts(filtered);
-    triggerToast("Kartoteka pacjenta została usunięta.", "info");
+    triggerToast("Kartoteka klienta została usunięta.", "info");
   };
 
   const handleExitStaffMode = () => {
     setIsStaffMode(false);
     safeStorage.removeItem("slowskin_is_staff");
-    triggerToast("Przełączono w standardowy tryb pacjenta.", "info");
+    triggerToast("Przełączono w standardowy tryb klienta.", "info");
   };
 
   // Google Translate Client-side Integration for Full-Page Translation with Custom Design System
@@ -2363,9 +2363,9 @@ export default function App() {
           if (!list.some((existing) => existing.question.trim().toLowerCase() === f.question.trim().toLowerCase())) {
             let catName = "Pielęgnacja & Efekty";
             if (t.id.includes("first") || t.id.includes("diagn")) {
-              catName = "Diagnoza & Pierwszy Krok";
+              catName = "Konsultacja & Pierwszy Krok";
             } else if (t.id.includes("lifting") || t.id.includes("modeling") || t.id.includes("nogier") || t.id.includes("hifu")) {
-              catName = "Lifting & Neurologia";
+              catName = "Lifting & Relaksacja";
             } else if (t.id.includes("amber") || t.id.includes("biological") || t.id.includes("epigenetic")) {
               catName = "Regeneracja Biologiczna";
             } else if (t.id.includes("purification") || t.id.includes("clean")) {
@@ -2394,9 +2394,9 @@ export default function App() {
           treatmentId: "slow-skin-first"
         },
         {
-          question: "Czy komputerowa diagnostyka skóry Nati V3 wywołuje ból lub dyskomfort?",
-          answer: "Nie, badanie komputerowe jest całkowicie nieinwazyjne. Przykładana do skóry głowica z podświetleniem polaryzacyjnym analizuje strukturę przestrzenną naskórka, stan naczyń krwionośnych oraz poziom nawilżenia warstwy rogowej w 100% bezboleśnie.",
-          category: "Diagnoza & Pierwszy Krok",
+          question: "Czy komputerowa ocena skóry Nati V3 jest bolesna?",
+          answer: "Nie, pomiar kamerą jest całkowicie nieinwazyjny i bezbolesny. Przykładana do skóry głowica z podświetleniem polaryzacyjnym analizuje strukturę powierzchni naskórka, widoczność naczynek oraz poziom nawilżenia warstwy rogowej.",
+          category: "Konsultacja & Pierwszy Krok",
           treatmentName: "Pierwsza Wizyta Slow Skin",
           treatmentId: "slow-skin-first"
         },
@@ -2904,7 +2904,7 @@ export default function App() {
 
   const getReviewAuthorTitle = (author: string, review?: Review) => {
     if (review?.platform === "slow-skin.pl") {
-      return "Oficjalna Historia Pacjentki • slow-skin.pl";
+      return "Oficjalna Historia Klientki • slow-skin.pl";
     }
     const firstName = author.trim().split(" ")[0] || "";
     if (firstName.endsWith("a") || author.startsWith("Pani")) {
@@ -3027,7 +3027,7 @@ export default function App() {
       
       if (!response.ok) {
         const errJson = await response.json();
-        throw new Error(errJson.error || "Nie udało się przeprowadzić diagnozy komórkowej.");
+        throw new Error(errJson.error || "Nie udało się przeprowadzić analizy potrzeb skóry.");
       }
       
       const data: DiagnosticReport = await response.json();
@@ -3035,7 +3035,7 @@ export default function App() {
       setDiagnosticStep(7); // Jump to report screen
     } catch (err: any) {
       console.error(err);
-      setDiagnosticError(err.message || "Wystąpił błąd komunikacji z serwerem diagnostycznym.");
+      setDiagnosticError(err.message || "Wystąpił błąd komunikacji z serwerem analizy.");
     } finally {
       setIsDiagnosing(false);
     }
@@ -3061,12 +3061,12 @@ export default function App() {
 
     const textContent = `======================================================================
                   SLOW SKIN CONCEPT - JELCZ-LASKOWICE
-               SPERSONALIZOWANA RECEPTA ANATOMII SKÓRY
+               SPERSONALIZOWANY PLAN PIELĘGNACJI SKÓRY
 ======================================================================
 
 Data analizy: ${dateStr}
 ID Dokumentu: #${docId}
-Pacjentka: Klientka Slow Skin Concept
+Klientka: Klientka Slow Skin Concept
 
 ----------------------------------------------------------------------
 1. AUTORSKA OCENA STANU BARIERY
@@ -3074,21 +3074,21 @@ Pacjentka: Klientka Slow Skin Concept
 ${diagnosticReport.skinTypeAssessment}
 
 ----------------------------------------------------------------------
-2. UWARUNKOWANIA NEURO-BIOLOGICZNE (KORTYZOL & NEURO-STARZENIE)
+2. UWARUNKOWANIA BIOLOGICZNE I STYL ŻYCIA
 ----------------------------------------------------------------------
 ${diagnosticReport.biologicalCauses}
 
 ----------------------------------------------------------------------
-3. DOBOWA ASYSTA PIELĘGNACYJNA (PROTKOŁY DOMOWYCH RECEPT)
+3. DOBOWA ASYSTA PIELĘGNACYJNA (RANO I WIECZÓR)
 ----------------------------------------------------------------------
-Rytuał Poranny: Ochrona & Hydratacja:
+Rytuał Poranny: Ochrona i Nawilżenie:
 ${morningSteps}
 
-Rytuał Wieczorny: Rekonstrukcja Molekularna:
+Rytuał Wieczorny: Odnowa i Wsparcie Bariery:
 ${eveningSteps}
 
 ----------------------------------------------------------------------
-4. SUGEROWANE KOMÓRKOWE RYTUAŁY GABINETOWE
+4. SUGEROWANE ZABIEGI GABINETOWE
 ----------------------------------------------------------------------
 ${therapies}
 
@@ -3107,7 +3107,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.setAttribute("download", `Slow_Skin_Concept_Diagnoza_${docId}.txt`);
+    link.setAttribute("download", `Slow_Skin_Concept_Plan_${docId}.txt`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -3213,7 +3213,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               </button>
             </div>
 
-            {/* 2. Zabiegi & Diagnoza */}
+            {/* 2. Zabiegi & Konsultacja */}
             <div 
               className="relative h-full flex items-center"
               onMouseEnter={handleMegaMenuMouseEnter}
@@ -3222,7 +3222,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               <button 
                 className={`text-[10.5px] xl:text-[11.5px] tracking-[0.12em] xl:tracking-[0.18em] uppercase font-mono transition-all py-2 border-b-2 flex items-center gap-1.5 cursor-pointer leading-none whitespace-nowrap ${isMegaMenuOpen ? "border-luxury-gold text-luxury-gold font-medium" : "border-transparent text-luxury-dark/95 hover:text-luxury-dark"}`}
               >
-                <span className="whitespace-nowrap">Zabiegi & Diagnoza</span>
+                <span className="whitespace-nowrap">Zabiegi & Konsultacja</span>
                 <span className={`text-[7px] xl:text-[8px] transition-transform duration-300 ${isMegaMenuOpen ? "rotate-180 text-luxury-gold" : "text-luxury-dark/90"}`}>▼</span>
               </button>
             </div>
@@ -3728,12 +3728,12 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   </ul>
                 </div>
 
-                {/* Kolumna 4: Baza wiedzy & Diagnoza */}
+                {/* Kolumna 4: Baza wiedzy & Konsultacja */}
                 <div className="col-span-3 space-y-3.5">
                   <div className="border-b border-luxury-sand pb-2 flex justify-between items-center">
                     <h4 className="font-mono text-[10px] tracking-widest text-luxury-gold uppercase font-semibold flex items-center gap-1.5">
                       <BookOpen className="w-3.5 h-3.5 text-luxury-gold" />
-                      <span>Edukacja & Diagnoza</span>
+                      <span>Edukacja & Konsultacja</span>
                     </h4>
                     <span className="text-[8px] font-mono text-luxury-gold/70 font-normal">04</span>
                   </div>
@@ -3745,11 +3745,11 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         <Sparkles className="w-3 h-3 text-luxury-gold" /> Baza Wiedzy & Magazyn
                       </span>
                       <span className="font-mono text-[8px] bg-luxury-gold text-white px-1.5 py-0.5 font-bold uppercase tracking-wider rounded-2xs">
-                        {ARTICLES.length} Publikacji
+                        {ARTICLES.length} Artykułów
                       </span>
                     </div>
                     <p className="text-[11px] font-serif italic text-luxury-dark/95 leading-snug">
-                      Dostęp do wszystkich artykułów, analiz barierowych i badań z jednego miejsca.
+                      Dostęp do wszystkich artykułów, analiz barierowych i poradników z jednego miejsca.
                     </p>
                     <div className="grid grid-cols-2 gap-1.5 pt-0.5">
                       <button
@@ -3779,7 +3779,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     </div>
                   </div>
 
-                  {/* Lista wszystkich 8 publikacji klinicznych */}
+                  {/* Lista wszystkich 8 artykułów i poradników */}
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between text-[9px] font-mono text-luxury-gold/80 uppercase tracking-wider border-b border-luxury-sand/20 pb-0.5">
                       <span>Wszystkie Artykuły (8)</span>
@@ -3819,7 +3819,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     </div>
                   </div>
 
-                  {/* Narzędzia Diagnostyczne */}
+                  {/* Narzędzia Analizy Skóry */}
                   <div className="pt-2 border-t border-luxury-sand/30 space-y-1.5">
                     <button 
                       onClick={() => handleLinkClick("ai-analiza")}
@@ -3889,7 +3889,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             <span className="absolute top-0 left-0 bg-luxury-gold text-white text-[7px] px-1 py-0.5 font-mono tracking-widest uppercase font-semibold">BIOSTYMULACJA</span>
                           )}
                           {item.id === "skin-readiness" && (
-                            <span className="absolute top-0 left-0 bg-luxury-gold text-white text-[7px] px-1 py-0.5 font-mono tracking-widest uppercase font-semibold">DIAGNOZA</span>
+                            <span className="absolute top-0 left-0 bg-luxury-gold text-white text-[7px] px-1 py-0.5 font-mono tracking-widest uppercase font-semibold">KONSULTACJA</span>
                           )}
                         </button>
                         <div className="flex-1 flex flex-col justify-between text-left">
@@ -4216,7 +4216,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         <span className="font-mono text-[10px] text-luxury-gold font-semibold">245 PLN</span>
                       </div>
                       <p className="text-[10px] text-luxury-dark/95 mt-1 font-mono leading-tight">
-                        50 ml • Krem nawilżający na dzień i noc. Ektoina, skwalan, NAG, oleje roślinne. Badanie ORCIDEO.
+                        50 ml • Krem nawilżający na dzień i noc. Ektoina, skwalan, NAG, oleje roślinne. Test użytkowy ORCIDEO.
                       </p>
                     </div>
 
@@ -4548,13 +4548,13 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     )}
                   </div>
 
-                  {/* Menu "Zabiegi i Diagnoza" Accordion */}
+                  {/* Menu "Zabiegi i Konsultacja" Accordion */}
                   <div className="border-b border-luxury-sand/30 pb-2">
                     <button 
                       onClick={() => setIsMobileZabiegiOpen(!isMobileZabiegiOpen)}
                       className="w-full text-left font-serif text-lg tracking-wider text-luxury-dark flex justify-between items-center"
                     >
-                      <span className={isMobileZabiegiOpen ? "text-luxury-gold font-medium" : ""}>2. Zabiegi i diagnoza</span>
+                      <span className={isMobileZabiegiOpen ? "text-luxury-gold font-medium" : ""}>2. Zabiegi i konsultacja</span>
                       <ChevronRight className={`w-4 h-4 text-luxury-gold transition-transform duration-300 ${isMobileZabiegiOpen ? "rotate-90" : ""}`} />
                     </button>
                     {isMobileZabiegiOpen && (
@@ -4638,7 +4638,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         </div>
 
                         <div className="pt-2 border-t border-luxury-sand/20">
-                          <button onClick={() => handleLinkClick("/slow-skin-first/")} className="text-left text-luxury-gold hover:text-luxury-dark font-medium block">Diagnostyka & Konsultacje o klinice →</button>
+                          <button onClick={() => handleLinkClick("/slow-skin-first/")} className="text-left text-luxury-gold hover:text-luxury-dark font-medium block">Pierwsza konsultacja i ocena skóry →</button>
                         </div>
                       </div>
                     )}
@@ -4738,7 +4738,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         {/* Unified Action Card */}
                         <div className="p-2.5 bg-white border border-luxury-gold/40 space-y-1.5">
                           <p className="text-[10px] font-mono text-luxury-gold font-semibold uppercase tracking-wider">
-                            Wszystkie publikacje z jednego miejsca
+                            Wszystkie artykuły z jednego miejsca
                           </p>
                           <div className="grid grid-cols-2 gap-1.5 pt-0.5">
                             <button
@@ -4957,7 +4957,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                 transition={{ delay: 0.2, duration: 0.8 }}
                 className="font-mono text-xs sm:text-[11px] md:text-[12px] tracking-[0.16em] sm:tracking-[0.22em] text-[#6E5325] uppercase font-semibold select-none flex flex-wrap items-center gap-2 sm:gap-2.5"
               >
-                <span>diagnostyka</span>
+                <span>ocena skóry</span>
                 <span className="text-[#6E5325]/40">&middot;</span>
                 <span>regeneracja</span>
                 <span className="text-[#6E5325]/40">&middot;</span>
@@ -5273,13 +5273,13 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     onClick={() => { setDiagnosticStep(0); setDiagnosticReport(null); }}
                     className={`${diagnosticStep > 0 ? "hover:text-luxury-gold cursor-pointer text-luxury-dark/95" : "text-luxury-dark cursor-default"} transition-colors uppercase`}
                   >
-                    Diagnoza Komórkowa AI
+                    Analiza Potrzeb Skóry AI
                   </button>
                   {diagnosticStep > 0 && (
                     <>
                       <span className="text-luxury-gold/40 select-none">/</span>
                       <span className="text-luxury-dark select-none uppercase font-medium">
-                        {diagnosticStep === 7 ? "Twój Raport Skóry" : `Krok ${diagnosticStep + 1}`}
+                        {diagnosticStep === 7 ? "Twój Plan Pielęgnacji" : `Krok ${diagnosticStep + 1}`}
                       </span>
                     </>
                   )}
@@ -5290,10 +5290,10 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
             {/* Subtle dynamic identifier of current view to enforce quiet luxury authority */}
             <div className="hidden sm:block text-[9px] text-luxury-gold/60 uppercase select-none tracking-[0.25em]">
               {activeTab === "cover" && "Okładka No. 1"}
-              {activeTab === "journal" && (selectedArticle ? "Lektura Ekspercka" : "Artykuły i Publikacje")}
-              {activeTab === "method" && "Metodologia Naukowa"}
+              {activeTab === "journal" && (selectedArticle ? "Lektura Ekspercka" : "Artykuły i Poradniki")}
+              {activeTab === "method" && "Autorska Metoda Pracy"}
               {activeTab === "clinic" && (selectedTreatment ? "Monografia Rytuału" : "Menu Zabiegowe")}
-              {activeTab === "diagnose" && (diagnosticStep === 7 ? "Paszport Skóry" : "Interaktywny Analizator")}
+              {activeTab === "diagnose" && (diagnosticStep === 7 ? "Twój Plan Pielęgnacji" : "Interaktywny Analizator")}
             </div>
           </div>
         )}
@@ -5338,7 +5338,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                 {/* Editorial Copy Block */}
                 <div className="lg:col-span-5 flex flex-col justify-center space-y-6">
                   <div className="font-mono text-xs sm:text-[10px] tracking-wider sm:tracking-[0.3em] text-[#6E5325] uppercase flex items-center gap-2 font-bold">
-                    <Fingerprint className="w-3 pb-0.5" /> Ekspercka Diagnoza Komórkowa
+                    <Fingerprint className="w-3 pb-0.5" /> Indywidualna Ocena Potrzeb Skóry
                   </div>
                   
                   <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal leading-[1.15] text-luxury-dark tracking-tight break-words">
@@ -5365,7 +5365,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       onClick={() => setActiveTab("diagnose")}
                       className="px-8 py-4 bg-luxury-dark text-luxury-cream text-xs font-mono tracking-wider sm:tracking-widest uppercase hover:bg-luxury-gold hover:text-white transition-all flex items-center justify-center gap-2 font-semibold cursor-pointer"
                     >
-                      Rozpocznij Diagnozę <ArrowRight className="w-4 h-4" />
+                      Rozpocznij Analizę Skóry <ArrowRight className="w-4 h-4" />
                     </button>
                     <button 
                       onClick={() => setActiveTab("method")}
@@ -5431,7 +5431,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   </h2>
                   <div className="w-16 h-[1.5px] bg-luxury-gold mx-auto my-3" />
                   <p className="text-xs md:text-sm text-luxury-dark/95 font-serif italic leading-relaxed text-justify md:text-center px-4 max-w-xl mx-auto">
-                    Skóra nie kłamie — komunikuje się poprzez objawy. W naszym gabinecie nie maskujemy jedynie symptomów, lecz odnajdujemy ich biologiczną przyczynę, aby przywrócić jej naturalny komfort i zdrowie.
+                    Skóra nie kłamie — komunikuje swoje potrzeby. W naszym gabinecie nie maskujemy jedynie oznak na jej powierzchni, lecz szukamy ich podłoża, aby przywrócić jej naturalny komfort i równowagę.
                   </p>
                 </div>
 
@@ -5519,7 +5519,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             <h4 className="font-serif text-lg md:text-xl text-luxury-dark font-medium mt-2">Nawracający rumień i nadwrażliwość naczynek</h4>
                           </div>
                           <div className="space-y-3 leading-relaxed">
-                            <p className="text-xs md:text-sm text-luxury-dark/95 font-light"><strong className="text-luxury-dark font-semibold">Biologiczna przyczyna:</strong> Nadreaktywność receptorów czuciowych naskórka połączona z osłabieniem ścian naczyń krwionośnych pod wpływem stresu, zmian temperatur i emocji, co stymuluje gwałtowne zaczerwienienie i uczucie ciepła.</p>
+                            <p className="text-xs md:text-sm text-luxury-dark/95 font-light"><strong className="text-luxury-dark font-semibold">Biologiczna przyczyna:</strong> Nadreaktywność zakończeń czuciowych naskórka połączona z osłabieniem ścian naczyń krwionośnych pod wpływem stresu, zmian temperatur i emocji, co stymuluje gwałtowne zaczerwienienie i uczucie ciepła.</p>
                             <p className="text-xs md:text-sm text-luxury-dark/95 font-light"><strong className="text-luxury-gold font-semibold">Nasze rozwiązanie:</strong> Wspieramy ukojenie skóry wrażliwej i naczyniowej bez agresywnej stymulacji. Fale częstotliwościowe dr. Paula Nogiera w połączeniu ze światłem LED wspomagają równowagę komunikacji nerwowo-skórnej i naturalną regenerację tkanek.</p>
                           </div>
                           <div className="pt-3.5 border-t border-luxury-sand flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -5616,7 +5616,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           </div>
                           <div className="space-y-3 leading-relaxed">
                             <p className="text-xs md:text-sm text-luxury-dark/95 font-light"><strong className="text-luxury-dark font-semibold">Biologiczna przyczyna:</strong> Stosowanie wielu niedopasowanych kosmetyków lub zbyt agresywnych substancji aktywnych, które zamiast pomagać, przeciążają cerę i zaburzają jej barierę obronną.</p>
-                            <p className="text-xs md:text-sm text-luxury-dark/95 font-light"><strong className="text-luxury-gold font-semibold">Nasze rozwiązanie:</strong> Zastępujemy domysły rzetelną diagnostyką. Mierzymy poziom nawilżenia, sebum i stan naczynek, a następnie tworzymy dla Ciebie prosty, czytelny Beauty Plan do stosowania w domu.</p>
+                            <p className="text-xs md:text-sm text-luxury-dark/95 font-light"><strong className="text-luxury-gold font-semibold">Nasze rozwiązanie:</strong> Zastępujemy domysły dokładną oceną skóry. Mierzymy poziom nawilżenia, sebum i stan naczynek, a następnie tworzymy dla Ciebie prosty, czytelny Beauty Plan do stosowania w domu.</p>
                           </div>
                           <div className="pt-3.5 border-t border-luxury-sand flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                             <div>
@@ -5648,10 +5648,10 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       <div className="h-[240px] md:h-auto md:flex-grow relative overflow-hidden rounded-sm mb-4 border border-luxury-sand/50">
                         <EditableImage
                           id="bionomic_diagnosis"
-                          slotName="Diagnoza Bionomiczna (Sondaż Barierowy)"
+                          slotName="Ocena Bionomiczna (Sondaż Barierowy)"
                           src={customTreatmentImages["bionomic_diagnosis"] || "/bionomic_diagnosis.webp"}
                           fallbackSrc="/bionomic_diagnosis.webp"
-                          alt="Bionomiczna diagnostyka potrzeb skóry w Slow Skin Concept"
+                          alt="Bionomiczna ocena potrzeb skóry w Slow Skin Concept"
                           className="w-full h-full object-cover grayscale opacity-95 transition-all duration-[6000ms] group-hover:scale-105 group-hover:opacity-100"
                           aspectRatioClass="h-full w-full"
                           onImageChange={(id, newUrl) => {
@@ -5700,7 +5700,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         Holistyczny Sposób Pracy Ze Skórą
                       </h3>
                       <p className="text-xs md:text-sm font-light leading-relaxed text-luxury-dark/95 text-justify">
-                        Nie rozpoczynam od wyboru zabiegu ani od walki z pojedynczym objawem. Najpierw staram się zrozumieć, dlaczego skóra reaguje w określony sposób, czego potrzebuje właśnie teraz i na jakie działania jest rzeczywiście gotowa.
+                        Nie rozpoczynam od wyboru zabiegu ani od walki z pojedynczą reakcją skóry. Najpierw staram się zrozumieć, dlaczego skóra reaguje w określony sposób, czego potrzebuje właśnie teraz i na jakie działania jest rzeczywiście gotowa.
                       </p>
                       <p className="text-xs md:text-sm font-light leading-relaxed text-luxury-dark/95 text-justify">
                         Na kondycję skóry wpływają nie tylko kosmetyki i zabiegi, lecz także stan jej bariery ochronnej, mikrobiom, reaktywność, komunikacja z układem nerwowym i odpornościowym, gospodarka hormonalna, stres, styl życia oraz warunki potrzebne do prawidłowej odnowy i regeneracji.
@@ -5882,8 +5882,8 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       },
                       {
                         id: "how_help_first_visit",
-                        title: "Pierwsza wizyta i diagnostyka skóry",
-                        desc: "Szczegółowa konsultacja oraz zaawansowana analiza Thessia, dzięki której poznamy biologiczne potrzeby Twojej skóry i dobierzemy precyzyjny kierunek terapii.",
+                        title: "Pierwsza wizyta i ocena skóry",
+                        desc: "Szczegółowa konsultacja oraz analiza kamerą Thessia, dzięki której poznamy potrzeby Twojej skóry i dobierzemy odpowiedni kierunek pielęgnacji.",
                         image: "/how_help_first_visit.webp",
                         actionUrl: "/pierwsza-wizyta-diagnostyka-skory/",
                         cta: "Dowiedz się więcej"
@@ -5899,7 +5899,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       {
                         id: "how_help_sensitive_skin",
                         title: "Terapia skóry wrażliwej",
-                        desc: "Kojenie, intensywna regeneracja bariery hydrolipidowej i odbudowa immunologicznego komfortu skóry. Działamy łagodnie, lecz z maksymalną skutecznością bionomiczną.",
+                        desc: "Kojenie, intensywna regeneracja bariery hydrolipidowej i odbudowa komfortu barierowego skóry. Działamy łagodnie i z pełną uważnością na jej tolerancję.",
                         image: "/how_help_sensitive_skin.webp",
                         actionUrl: "/terapia-skory-wrazliwej-i-reaktywnej/",
                         cta: "Dowiedz się więcej"
@@ -5985,7 +5985,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       </h3>
                       <div className="w-12 sm:w-16 h-[1.5px] bg-luxury-gold mx-auto my-2.5 sm:my-3" />
                       <p className="text-sm sm:text-sm md:text-base text-luxury-cream font-serif italic max-w-2xl mx-auto leading-relaxed px-2 font-normal">
-                        Od pierwszej konsultacji i diagnozy pod lupą, przez bezpieczne zabiegi gabinetowe, aż po zrozumiałą pielęgnację domową.
+                        Od pierwszej konsultacji i oceny skóry pod lupą, przez bezpieczne zabiegi gabinetowe, aż po zrozumiałą pielęgnację domową.
                       </p>
                     </div>
 
@@ -6007,7 +6007,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           },
                           {
                             step: 2,
-                            title: "Diagnostyka skóry",
+                            title: "Ocena skóry",
                             desc: "Ocena bariery hydrolipidowej i reaktywności pod lampą z lupą.",
                             icon: <Activity className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-luxury-gold" strokeWidth={1.3} />
                           },
@@ -6143,7 +6143,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                               </div>
                               <div className="space-y-1">
                                 <span className="font-mono text-[8px] tracking-widest text-luxury-gold uppercase block">
-                                  Obawa pacjenta #0{concern.id + 1}
+                                  Pytanie klientki #0{concern.id + 1}
                                 </span>
                                 <h4 className="font-serif text-[13px] md:text-sm font-light leading-snug">
                                   {concern.title}
@@ -6165,7 +6165,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             transition={{ duration: 0.3 }}
                             className="bg-white border border-[#ebdcb9] p-6 md:p-8 flex flex-col justify-between h-full shadow-[0_12px_36px_rgba(179,155,114,0.06)] text-left relative overflow-hidden"
                           >
-                            {/* Subtelny certyfikowany stempel kliniczny (Quiet Luxury Insignia Seal Watermark) */}
+                            {/* Subtelny certyfikowany stempel gabinetowy (Quiet Luxury Insignia Seal Watermark) */}
                             <div className="absolute -top-10 -right-10 w-28 h-28 rounded-full border border-dashed border-luxury-gold/15 flex items-center justify-center font-mono text-[6.5px] text-luxury-gold/25 uppercase select-none pointer-events-none tracking-[0.2em] leading-none rotate-12 z-0">
                               <span className="block text-center p-4 font-serif">SLOW<br/>SKIN<br/>TRUST</span>
                             </div>
@@ -6183,7 +6183,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                   <h3 className="font-serif text-base font-light text-luxury-dark">
                                     {activeConcernIdx === 0 && "Moja skóra jest bardzo wrażliwa"}
                                     {activeConcernIdx === 1 && "Obawa przed nieestetyczną pompą"}
-                                    {activeConcernIdx === 2 && "Trafna diagnoza zamiast loterii"}
+                                    {activeConcernIdx === 2 && "Trafna ocena skóry zamiast loterii"}
                                     {activeConcernIdx === 3 && "Twoja nawigacja krok po kroku"}
                                   </h3>
                                 </div>
@@ -6211,7 +6211,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                       „Naszym celem jest naturalne, świetliste piękno. Koniec z chowaniem się w domu i czerwoną, łuszczącą się skórą i bólem.”
                                     </p>
                                     <p className="text-xs text-luxury-charcoal/95 font-light text-justify leading-relaxed">
-                                      Wielu pacjentów kojarzy wizytę u kosmetologa z bólem i koniecznością tygodniowej rekonwalescencji w domu. Metoda Slow Skin opiera się na terapiach bionomicznych o zerowej inwazyjności.
+                                      Wiele osób kojarzy wizytę u kosmetologa z bólem i koniecznością tygodniowej rekonwalescencji w domu. Metoda Slow Skin opiera się na zabiegach pielęgnacyjnych o zerowej inwazyjności.
                                     </p>
                                     <p className="text-xs text-luxury-charcoal/95 font-light text-justify leading-relaxed">
                                       Dzięki precyzyjnemu wsparciu barierowemu, bezpośrednio po wyjściu z gabinetu Twoja twarz zachwyci doskonałym, naturalnym blaskiem, aksamitną gładkością i pełnym ukojeniem. Śmiało możesz wrócić do swoich codziennych, prestiżowych planów czy spotkań biznesowych.
@@ -6228,7 +6228,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                       Inwestowanie w przypadkowe, drogie zabiegi polecane w Internecie to najczęstszy błąd. Każda skóra to inny, unikalny ekosystem mineralno-lipidowy.
                                     </p>
                                     <p className="text-xs text-luxury-charcoal/95 font-light text-justify leading-relaxed">
-                                      Urządzenia komputerowej oceny głębokiej Nati V3 pozwalają nam precyzyjnie zbadać stopień mikrozapalenia, poziom nawilżenia, stan naczyń krwionośnych oraz barierowość lipidową twarzy. Masz absolutną gwarancję, że zaproponowany rytuał uderza precyzyjnie w przyczynę Twojej dolegliwości.
+                                      Urządzenie komputerowej oceny skóry Nati V3 pozwala nam dokładnie przyjrzeć się nawilżeniu, wydzielaniu sebum, wrażliwości oraz kondycji bariery lipidowej twarzy. Masz dzięki temu jasność, że zaproponowany zabieg odpowiada realnym potrzebom Twojej cery.
                                     </p>
                                   </>
                                 )}
@@ -6242,7 +6242,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                       Wychodzisz z gabinetu i czujesz chaos? Nie pamiętasz, czy dany preparat nakładać rano, wieczorem, czy może w ogóle odstawić? Z nami ten stres znika.
                                     </p>
                                     <p className="text-xs text-luxury-charcoal/95 font-light text-justify leading-relaxed">
-                                      Po pierwszej diagnostyce nasz specjalista tworzy dla Ciebie w pełni spersonalizowany, czytelny Plan Pielęgnacyjny (Beauty Plan) w formie drukowanej i cyfrowej. Znajdziesz w nim prosty plan pielęgnacji porannej i wieczornej, wykaz łagodnych składników do wdrożenia oraz pomocne wskazówki wspierające zdrowie skóry.
+                                      Po pierwszej konsultacji nasz kosmetolog tworzy dla Ciebie w pełni spersonalizowany, czytelny Plan Pielęgnacyjny (Beauty Plan) w formie drukowanej i cyfrowej. Znajdziesz w nim prosty plan pielęgnacji porannej i wieczornej, wykaz łagodnych składników do wdrożenia oraz pomocne wskazówki wspierające komfort skóry.
                                     </p>
                                   </>
                                 )}
@@ -6275,7 +6275,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                   <>
                                     <span className="flex items-center gap-1.5">&#10003; Formuły bio-zbieżne</span>
                                     <span className="flex items-center gap-1.5">&#10003; 100% bezpieczna stymulacja</span>
-                                    <span className="flex items-center gap-1.5">&#10003; Bezbolesna diagnostyka</span>
+                                    <span className="flex items-center gap-1.5">&#10003; Bezbolesna ocena skóry</span>
                                     <span className="flex items-center gap-1.5">&#10003; Stała asysta po-zabiegowa</span>
                                   </>
                                 )}
@@ -6408,7 +6408,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           imageBefore: customTreatmentImages["case_1_before"] || "/src/assets/images/malgorzata_before_1786129083321.webp",
                           imageAfter: customTreatmentImages["case_1_after"] || "/src/assets/images/regenerated_image_1781694290837.webp",
                           anatomyLabel: "PUNKT WYJŚCIA",
-                          anatomy: "Spadek elastyczności, zmęczenie tkanek i wiotczenie owalu wymagają stymulacji biologicznej bez agresywnych ingerencji. Podczas diagnozy oceniamy stan skóry i jej gotowość regeneracyjną.",
+                          anatomy: "Spadek elastyczności, zmęczenie tkanek i wiotczenie owalu wymagają delikatnego wsparcia bez agresywnych ingerencji. Podczas konsultacji oceniamy stan skóry i jej gotowość na kolejne etapy pielęgnacji.",
                           remedyLabel: "PIELĘGNACJA W GABINECIE",
                           remedy: "Terapia łącząca techniki manualne i biostymulację dopasowaną do poziomu wrażliwości skóry, wspierająca naturalne procesy odnowy i mikrokrążenie.",
                           homeCareLabel: "REKOMENDOWANA PIELĘGNACJA DOMOWA",
@@ -6483,7 +6483,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             </div>
                           </div>
 
-                          {/* Prawo: Analiza Kliniczna Przypadku & Przepis */}
+                          {/* Prawo: Omówienie Przypadku i Dobrana Pielęgnacja */}
                           <div className="lg:col-span-6 flex flex-col justify-between bg-white border border-[#ebdcb9] p-6 md:p-8 space-y-6 shadow-lg rounded-none relative overflow-hidden">
                             {/* Decorative luxury watermark */}
                             <div className="absolute top-4 right-4 text-luxury-gold/20 pointer-events-none select-none">
@@ -6493,7 +6493,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             <div className="space-y-4 relative z-10">
                               <div className="border-b border-luxury-sand pb-3">
                                 <span className="font-mono text-[8px] tracking-widest text-luxury-gold uppercase block">
-                                  {caseData.categoryLabel || "Analiza Pacjenta"}
+                                  {caseData.categoryLabel || "Analiza Klientki"}
                                 </span>
                                 <h3 className="font-serif text-xl font-light text-luxury-dark">{caseData.name}</h3>
                                 <p className="text-xs font-serif text-luxury-gold italic mt-1">{caseData.problem}</p>
@@ -6530,12 +6530,12 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                   {caseData.ctaSubtitle || "Inspiruje Cię ten rezultat?"}
                                 </span>
                                 <span className="font-serif text-xs text-luxury-dark font-semibold block mt-1.5">
-                                  {caseData.ctaTitle || "Zarezerwuj pierwszą wizytę z diagnozą"}
+                                  {caseData.ctaTitle || "Zarezerwuj pierwszą wizytę z konsultacją"}
                                 </span>
                               </div>
                               <button
                                 onClick={() => {
-                                  setBookingTreatment(TREATMENTS[0]); // Zawsze zaczynamy od diagnostyki jako klucza Slow Skin
+                                  setBookingTreatment(TREATMENTS[0]); // Zawsze zaczynamy od konsultacji jako klucza Slow Skin
                                   setBookingConfirmed(false);
                                   setBookingName("");
                                   setBookingEmail("");
@@ -6751,7 +6751,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-luxury-sand/30 pb-4 gap-2">
                             <div>
                               <span className="font-mono text-[8px] tracking-widest text-luxury-gold uppercase block font-bold">ANALIZA UKOŃCZONA BEZBŁĘDNIE</span>
-                              <h3 className="font-serif text-lg font-light text-luxury-dark">Twój bionomiczny paszport zalecen</h3>
+                              <h3 className="font-serif text-lg font-light text-luxury-dark">Twój indywidualny plan zaleceń</h3>
                             </div>
                             <button
                               onClick={() => setQuizStep(0)}
@@ -6768,7 +6768,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                 return {
                                   treatment: TREATMENTS[0], // Slow Skin Concept — Pierwsza Wizyta
                                   badge: "ZAWARTOŚĆ KOJĄCO-REGENERACYJNA",
-                                  reason: "Z uwagi na zarejestrowaną skłonność do podrażnień i naruszoną stabilność barierową (pod wpływem czynników zewnętrznych), Twoja skóra bezwzględnie wymaga najpierw bezpiecznego wyciszenia stanu mikrozapalnego. Unikamy agresywnych pilingów. Najlepiej sprawdzi się nasza pełna diagnoza z rytuałem otwierającym, który przygotuje naskórek do precyzyjnej i bezbolesnej terapii."
+                                  reason: "Z uwagi na wrażliwość i osłabioną barierę ochronną (pod wpływem czynników zewnętrznych), Twoja skóra potrzebuje najpierw spokojnego wyciszenia i ukojenia. Unikamy intensywnych peelingów. Najlepiej sprawdzi się nasza pierwsza konsultacja połączona z łagodnym zabiegiem otwierającym, który przygotuje skórę do komfortowej pielęgnacji."
                                 };
                               }
                                 if (quizConcern === "aging" || quizGoal === "lift") {
@@ -7077,7 +7077,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                     <Moon className="w-4 h-4 animate-pulse" />
                                   </div>
                                   <div>
-                                    <span className="font-mono text-[8px] tracking-[0.2em] text-indigo-700 uppercase block font-semibold">FAZA NOCNA (REGENERACJA RECEPTOROWA)</span>
+                                    <span className="font-mono text-[8px] tracking-[0.2em] text-indigo-700 uppercase block font-semibold">FAZA NOCNA (NOCNA ODNOWA BARIERY)</span>
                                     <h4 className="font-serif text-base font-light text-luxury-dark">{routine.evening.title}</h4>
                                   </div>
                                 </div>
@@ -7169,23 +7169,23 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         }}
                         className="px-6 py-3 border border-luxury-dark/40 hover:border-luxury-gold text-luxury-dark hover:text-luxury-dark font-mono text-[9px] tracking-widest uppercase transition-all duration-300 block w-full text-center cursor-pointer bg-white/50 hover:bg-white"
                       >
-                        Diagnoza Skóry Online
+                        Analiza Skóry Online
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Sekcja: Baza Wiedzy / Edukacja & Diagnoza */}
+              {/* Sekcja: Baza Wiedzy / Edukacja & Analiza */}
               <div className="space-y-12 pt-12 pb-4 border-t border-luxury-sand/30" id="baza-wiedzy-edukacja-diagnoza">
                 <div className="text-center max-w-2xl mx-auto space-y-3">
                   <span className="font-mono text-[9px] tracking-[0.2em] text-luxury-gold uppercase block">Edukacja & Wsparcie Decyzyjne</span>
                   <h2 className="font-serif text-3xl md:text-4xl font-light text-luxury-dark mt-1">
-                    Baza Wiedzy, Edukacja & Diagnoza
+                    Baza Wiedzy, Edukacja & Analiza Skóry
                   </h2>
                   <div className="w-12 h-[1px] bg-luxury-gold/50 mx-auto my-3" />
                   <p className="text-xs md:text-sm text-luxury-dark/95 font-serif italic leading-relaxed text-justify md:text-center px-4 max-w-xl mx-auto">
-                    Wierzymy, że skuteczna pielęgnacja rodzi się z głębokiego zrozumienia fizjologii skóry. Udostępniamy rzetelną wiedzę i zaawansowane narzędzia diagnostyczne, by pomóc Ci podejmować w pełni świadome decyzje terapeutyczne.
+                    Wierzymy, że skuteczna pielęgnacja zaczyna się od dobrego zrozumienia potrzeb skóry. Udostępniamy praktyczną wiedzę i proste narzędzia do wstępnej analizy, by pomóc Ci podejmować w pełni świadome decyzje pielęgnacyjne.
                   </p>
                 </div>
 
@@ -7195,9 +7195,9 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     <div className="space-y-6">
                       <div className="flex justify-between items-center border-b border-luxury-sand/40 pb-4">
                         <span className="font-mono text-[10px] tracking-widest text-luxury-gold uppercase font-bold flex items-center gap-2">
-                          <BookOpen className="w-3.5 h-3.5" /> 01 / Edukacja Komórkowa
+                          <BookOpen className="w-3.5 h-3.5" /> 01 / Edukacja o Skórze
                         </span>
-                        <span className="text-[9px] font-mono text-luxury-dark/90 uppercase tracking-widest">Tematy Naukowe</span>
+                        <span className="text-[9px] font-mono text-luxury-dark/90 uppercase tracking-widest">Tematy o Skórze</span>
                       </div>
 
                       <div className="space-y-6">
@@ -7373,13 +7373,13 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     <div className="w-full h-[1px] bg-[#ebdcb9]/60" />
 
                     <p className="text-xs text-luxury-dark/95 font-light leading-relaxed text-justify">
-                      Stworzyliśmy wysuwany panel <strong className="font-normal font-sans">„Dylemat Eksperta”</strong> — innowacyjne, ekspresowe narzędzie wyszukiwania, które przeszukuje pełne repozytorium pytań i odpowiedzi zebranych we wszystkich 15+ specjalistycznych terapiach naszego Instytutu. Wpisz dowolny symptom (np. naczynka, zmarszczki, bariera, kwas bursztynowy), by natychmiast otrzymać autorytatywną odpowiedź kosmetologiczną.
+                      Stworzyliśmy wysuwany panel <strong className="font-normal font-sans">„Dylemat Eksperta”</strong> — wygodne narzędzie wyszukiwania, które przeszukuje pełną bazę pytań i odpowiedzi zebranych we wszystkich 15+ zabiegach naszego gabinetu. Wpisz dowolną potrzebę lub pytanie (np. naczynka, zmarszczki, bariera, kwas bursztynowy), aby otrzymać rzetelną podpowiedź pielęgnacyjną.
                     </p>
 
                     <div className="p-4 bg-white border border-[#ebdcb9]/40 rounded-none space-y-3 shadow-xs">
                       <div className="flex gap-2 text-luxury-gold">
                         <span className="w-2 h-2 rounded-full bg-luxury-gold animate-pulse" />
-                        <span className="font-mono text-[8.5px] tracking-widest uppercase">Zintegrowana baza: 15+ terapii klinicznych</span>
+                        <span className="font-mono text-[8.5px] tracking-widest uppercase">Zintegrowana baza: 15+ zabiegów gabinetowych</span>
                       </div>
                       <p className="text-[10px] text-luxury-dark/90 leading-relaxed font-light">
                         Zamiast przekopywać się przez poszczególne podstrony zabiegów, znajdź natychmiastowe wyjaśnienie bez opuszczania strony głównej.
@@ -7441,7 +7441,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         O mnie • Kosmetologia Interdyscyplinarna
                       </span>
                       <span className="font-mono text-[9px] tracking-wider text-luxury-dark/90 uppercase">
-                        17+ Lat Praktyki Klinicznej
+                        17+ Lat Praktyki ze Skórą
                       </span>
                     </div>
 
@@ -7482,7 +7482,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       <div className="p-3.5 bg-white/80 border border-luxury-sand/80 rounded-xs space-y-1 shadow-2xs">
                         <span className="font-mono text-[8.5px] uppercase tracking-wider text-luxury-gold font-bold block">01. Bez Gotowych Schematów</span>
                         <p className="text-[11px] text-luxury-dark/95 leading-relaxed font-light">
-                          Indywidualne, wielokierunkowe terapie projektowane przy pacjencie w dniu wizyty.
+                          Indywidualne, wielokierunkowe zabiegi dopasowywane indywidualnie w dniu wizyty.
                         </p>
                       </div>
                       <div className="p-3.5 bg-white/80 border border-luxury-sand/80 rounded-xs space-y-1 shadow-2xs">
@@ -7515,7 +7515,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         onClick={() => handleLinkClick("/pierwsza-wizyta-diagnostyka-skory/")}
                         className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-luxury-dark hover:bg-luxury-gold text-white text-[10px] font-mono uppercase tracking-[0.18em] transition-all duration-300 shadow-xs cursor-pointer"
                       >
-                        <span>Umów Konsultację Diagnostyczną</span>
+                        <span>Umów Konsultację Skóry</span>
                         <ArrowRight className="w-3.5 h-3.5" />
                       </button>
                     </div>
@@ -7733,7 +7733,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       ) : null;
                     })()}
 
-                    {/* Problem vs Rezultat Badges (dla relacji pacjentek) */}
+                    {/* Problem vs Rezultat Badges (dla relacji klientek) */}
                     {(() => {
                       const filtered = getFilteredReviews();
                       const currentReview = filtered[activeReviewIndex] || filtered[0] || REVIEWS[0];
@@ -7978,7 +7978,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   </div>
                 </div>
 
-                {/* Modal pełnej historii pacjentki */}
+                {/* Modal pełnej historii klientki */}
                 {selectedStoryModal && (
                   <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
                     <div className="bg-white border border-luxury-gold/40 max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 space-y-6 shadow-2xl relative text-left">
@@ -7994,7 +7994,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         <div className="flex items-center gap-2">
                           <span className="w-2 h-2 rounded-full bg-luxury-gold"></span>
                           <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-semibold">
-                            Oficjalna Historia Pacjentki Instytutu Slow Skin
+                            Oficjalna Historia Klientki Slow Skin Concept
                           </span>
                         </div>
                         <h3 className="font-serif text-2xl font-light text-luxury-dark">
@@ -8180,7 +8180,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         setSelectedArticle(null);
                       }
                     }}
-                    placeholder="Wyszukaj artykuł lub badanie po tytule..."
+                    placeholder="Wyszukaj artykuł po tytule..."
                     className="w-full pl-10 pr-9 py-2 bg-white/40 border border-luxury-sand/50 text-xs text-luxury-dark tracking-wide font-light placeholder-luxury-dark/45 focus:outline-none focus:border-luxury-gold/70 hover:border-luxury-gold/30 transition-colors duration-300 rounded-none shadow-xs"
                   />
                   {journalSearch && (
@@ -8224,7 +8224,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     if (filtered.length === 0) {
                       return (
                         <div className="text-center py-12 px-6 border border-dashed border-luxury-sand/60 bg-white/40">
-                          <p className="font-serif italic text-xs text-luxury-dark/95 leading-relaxed">Brak publikacji spełniających podane kryteria.</p>
+                          <p className="font-serif italic text-xs text-luxury-dark/95 leading-relaxed">Brak artykułów spełniających podane kryteria.</p>
                           <button 
                             onClick={() => {
                               setJournalSearch("");
@@ -8447,13 +8447,13 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         {selectedArticle.lead}
                       </p>
 
-                      {/* Key Scientific Data Points & Metrics Grid */}
+                      {/* Key Skin Metrics & Guidelines Grid */}
                       {selectedArticle.dataPoints && selectedArticle.dataPoints.length > 0 && (
                         <div className="my-8 p-6 bg-luxury-cream/30 border border-luxury-sand">
                           <div className="flex items-center gap-2 mb-4">
                             <span className="w-1.5 h-1.5 rounded-full bg-luxury-gold"></span>
                             <span className="font-mono text-[9px] tracking-[0.2em] text-luxury-gold uppercase font-semibold">
-                              Kluczowe Parametry Biologiczne i Dane Badawcze
+                              Kluczowe Parametry i Wskazówki Pielęgnacyjne
                             </span>
                           </div>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -8491,7 +8491,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         ))}
                       </div>
 
-                      {/* In-Article Scientific Graphic & Clinical Comparison Chart */}
+                      {/* In-Article Graphic & Comparison Chart */}
                       {selectedArticle.inArticleGraphic && (
                         <div className="my-8 border border-luxury-sand/80 bg-white/95 shadow-sm overflow-hidden text-left">
                           {/* Top Visual Graphic/Photo with Microscopic/Clinical Caption */}
@@ -8619,7 +8619,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                 ))}
                               </div>
 
-                              {/* Section Table (e.g. Biomimetic Ingredients Research Table) */}
+                              {/* Section Table (e.g. Biomimetic Ingredients Overview Table) */}
                               {sec.table && (
                                 <div className="my-6 overflow-hidden border border-luxury-sand/70 bg-white/95 shadow-xs text-left">
                                   <div className="bg-luxury-cream/50 px-4 py-3 border-b border-luxury-sand/50 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
@@ -8669,13 +8669,13 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         </div>
                       )}
 
-                      {/* Scientific Citations & Research Findings */}
+                      {/* Educational Citations & Context Notes */}
                       {selectedArticle.studyNotes && selectedArticle.studyNotes.length > 0 && (
                         <div className="my-8 p-6 bg-white border border-luxury-gold/40 space-y-4 text-left">
                           <div className="flex items-center gap-2">
                             <span className="w-1.5 h-1.5 rounded-full bg-luxury-gold"></span>
                             <span className="font-mono text-[9px] tracking-[0.2em] text-luxury-gold uppercase font-semibold">
-                              Źródła Naukowe i Doniesienia Dermatologiczne
+                              Źródła i Kontekst Pielęgnacyjny
                             </span>
                           </div>
                           <div className="space-y-3">
@@ -8810,7 +8810,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           onClick={() => { setActiveTab("diagnose"); setDiagnosticStep(0); }}
                           className="text-xs font-mono tracking-wider text-luxury-gold hover:text-luxury-dark transition-colors flex items-center gap-1.5"
                         >
-                          Dopasuj terapię diagnozą AI <ArrowRight className="w-3.5 h-3.5" />
+                          Dopasuj zabieg analizą AI <ArrowRight className="w-3.5 h-3.5" />
                         </button>
                       </div>
                     </div>
@@ -8901,7 +8901,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             : (selectedTreatment.id === "ceragem-thermal-massage" || selectedTreatment.id === "ceragem")
                             ? "Relaks i komfort pleców"
                             : selectedTreatment.id === "skin-readiness"
-                            ? "DIAGNOZA I PIERWSZA WIZYTA"
+                            ? "KONSULTACJA I PIERWSZA WIZYTA"
                             : "TERAPIA I PIELĘGNACJA GABINETOWA"}
                         </span>
                         <h1 className="font-serif text-3xl md:text-4xl font-light text-luxury-dark leading-tight">{selectedTreatment.title}</h1>
@@ -9022,9 +9022,9 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           <div className="bg-white/80 border border-luxury-gold/50 p-3.5 text-[10.5px] leading-relaxed text-luxury-dark font-sans font-light space-y-1.5 rounded-none shadow-xs">
                             <span className="text-luxury-gold font-extrabold uppercase tracking-wider text-[8.5px] block">★ Rekomendacja Instytutu: Pakiet Premium (600 zł)</span>
                             <p className="m-0 text-luxury-dark">
-                              Obejmuje pełną, wielowymiarową komputerową diagnostykę skóry systemami <strong>Nati V3</strong> i <strong>Iomet</strong>, szczegółowy audyt barierowości oraz autorski, cyfrowy <strong>Beauty Plan</strong>.
+                              Obejmuje pełną, wielowymiarową komputerową ocenę skóry systemami <strong>Nati V3</strong> i <strong>Iomet</strong>, szczegółowy audyt bariery oraz autorski, cyfrowy <strong>Beauty Plan</strong>.
                             </p>
-                            <span className="text-[9px] font-mono text-luxury-gold block font-semibold uppercase tracking-wider mt-1 text-right">Wybór 94% nowych pacjentek</span>
+                            <span className="text-[9px] font-mono text-luxury-gold block font-semibold uppercase tracking-wider mt-1 text-right">Wybór 94% nowych klientek</span>
                           </div>
                         )}
                       </div>
@@ -9153,7 +9153,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                             <div>
                               <strong className="block font-sans font-semibold uppercase text-[10px] tracking-wider text-red-800 mb-1">Uwaga / Warning:</strong>
-                              Wykryto potencjalne przeciwwskazanie do przeprowadzenia seansu. Przed dokonaniem rezerwacji online zalecamy pilną, bezpłatną konsultację z naszym ekspertem dermatologicznym lub kontakt telefoniczny w celu doboru bezpiecznej terapii alternatywnej.
+                              Wykryto potencjalne przeciwwskazanie do wykonania zabiegu. Przed dokonaniem rezerwacji online zalecamy rozmowę z naszym kosmetologiem lub kontakt telefoniczny w celu dobrania bezpiecznej pielęgnacji alternatywnej.
                             </div>
                           </motion.div>
                         )}
@@ -9232,23 +9232,23 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           {[
                             {
                               step: "Krok 1",
-                              title: "Diagnoza skóry",
-                              desc: "Krok, od którego wszystko się zaczyna. Badam Twoją skórę za pomocą zaawansowanego, nowoczesnego urządzenia – Thessia Skin Scanner. Diagnostyka opiera się na precyzyjnych pomiarach ośmiu kluczowych parametrów naskórka: struktury skóry (jej wieku biologicznego), natłuszczenia, poziomu złuszczania, głębokości zmarszczek, wielkości porów, widoczności naczynek, intensywności zmian barwnikowych i stopnia nawilżenia głębokiego."
+                              title: "Ocena skóry",
+                              desc: "Krok, od którego wszystko się zaczyna. Oceniam Twoją skórę za pomocą urządzenia – Thessia Skin Scanner. Pomiar opiera się na precyzyjnym określeniu ośmiu kluczowych parametrów naskórka: struktury skóry, natłuszczenia, poziomu złuszczania, głębokości zmarszczek, wielkości porów, widoczności naczynek, intensywności zmian barwnikowych i stopnia nawilżenia."
                             },
                             {
                               step: "Krok 2",
                               title: "Konsultacja kosmetologiczna",
-                              desc: "Diagnostyka aparaturowa jest niezwykle ważna, ale nie zastąpi eksperckiej wiedzy i wieloletniego doświadczenia, dzięki któremu potrafię w pełni rozpoznawać i rozumieć głębokie potrzeby skóry. Kolejnym krokiem spotkania jest wnikliwa rozmowa, podczas której poznaję Ciebie i Twoją skórę. Pytam o stosowaną pielęgnację domową, dietę, styl życia, oczekiwania i wcześniejsze doświadczenia zabiegowe. To moment, w którym wspólnie tworzymy obraz terapii – ma ona bowiem być nie tylko maksymalnie skuteczna, ale też niezwykle przyjazna i idealnie dopasowana do Twojego codziennego trybu życia."
+                              desc: "Ocena aparaturowa jest niezwykle ważna, ale nie zastąpi doświadczenia, dzięki któremu potrafię w pełni rozpoznawać i rozumieć potrzeby skóry. Kolejnym krokiem spotkania jest wnikliwa rozmowa, podczas której poznaję Ciebie i Twoją skórę. Pytam o stosowaną pielęgnację domową, nawyki, styl życia, oczekiwania i wcześniejsze doświadczenia zabiegowe. To moment, w którym wspólnie tworzymy plan pielęgnacji dopasowany do Twojego codziennego trybu życia."
                             },
                             {
                               step: "Krok 3",
-                              title: "Indywidualny plan terapii biologicznej",
-                              desc: "Na podstawie szczegółowej diagnozy i konsultacji tworzę spersonalizowany Beauty Plan – komplementarną mapę pielęgnacji Twojej skóry. To harmonijne połączenie zaawansowanych zabiegów gabinetowych i bionomicznej pielęgnacji domowej, zawierające konkretne zalecenia rozpisane krok po kroku. To Twój szczegółowy przewodnik, który prowadzi Cię bezpiecznie i pewnie przez całą terapię."
+                              title: "Indywidualny plan pielęgnacji skóry",
+                              desc: "Na podstawie szczegółowej oceny i konsultacji tworzę spersonalizowany Beauty Plan – czytelną mapę pielęgnacji Twojej skóry. To harmonijne połączenie zabiegów gabinetowych i łagodnej pielęgnacji domowej, zawierające konkretne zalecenia rozpisane krok po kroku."
                             },
                             {
                               step: "Krok 4",
                               title: "Wielopoziomowy zabieg otwierający",
-                              desc: "Pierwsza wizyta to nie tylko rozmowa i suchy plan – to także pierwszy fizjologiczny krok w stronę trwałego zdrowia skóry. Już podczas pierwszej wizyty wykonuję wielopoziomowy zabieg, dobrany ściśle i indywidualnie do aktualnych potrzeb Twojej skóry. Jego nadrzędnym celem jest przywrócenie fundamentów: właściwego pH, odbudowy mikrobiomu oraz wzmocnienia barier ochronnych naskórka. Dopiero gdy skóra odzyska pełną stabilność i biologiczny spokój, możemy bezpiecznie wprowadzać kolejne etapy terapii – wygładzanie, rozjaśnianie, regenerację czy ukierunkowane działania slow-aging."
+                              desc: "Pierwsza wizyta to nie tylko rozmowa i plan – to także pierwszy krok w stronę komfortu i równowagi skóry. Już podczas pierwszej wizyty wykonuję łagodny zabieg, dobrany ściśle do aktualnych potrzeb Twojej skóry. Jego nadrzędnym celem jest wsparcie fundamentów: właściwego pH, mikrobiomu oraz bariery ochronnej naskórka. Dopiero gdy skóra odzyska równowagę i spokój, możemy bezpiecznie wprowadzać kolejne etapy pielęgnacji."
                             }
                           ].map((item, idx) => (
                             <div key={idx} className="border border-luxury-sand p-6 bg-white/50 rounded-sm space-y-4 flex flex-col justify-between text-left hover:border-luxury-gold/40 hover:shadow-xs transition-all duration-300">
@@ -9280,7 +9280,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                 Slow Skin Concept działa całkowicie inaczej – traktuje skórę jako żywy, niezwykle inteligentnie adaptujący się organ, uwzględniając jej unikalną barierę chroniącą, delikatny mikrobiom, utajone stany zapalne oraz nienaruszoną komunikację komórkową.
                               </p>
                               <p>
-                                Pracuję u podstaw – na przyczynach, a nie na samych objawach zmian skórnych, dzięki czemu efekty bionomiczne są stabilne i trwałe, a wykonywane zabiegi w pełni bezpieczne. Procedury i rytuały zawsze dobieram indywidualnie, na podstawie precyzyjnie diagnozowanej „gotowości biologicznej” skóry i jej aktualnej kondycji lipidowej.
+                                Pracuję u podstaw – na przyczynach reaktywności skóry, a nie na jej powierzchownym maskowaniu, dzięki czemu efekty pielęgnacji są stabilne, a zabiegi bezpieczne. Procedury zawsze dobieram indywidualnie, na podstawie dokładnie ocenianej gotowości skóry i jej aktualnej kondycji.
                               </p>
                               <p className="italic font-serif text-luxury-dark/95 pl-4 border-l border-luxury-gold/40">
                                 Moja autorska metoda zakłada, że najgłębsza regeneracja zachodzi tylko w warunkach pełnego spokoju biologicznego, a silniejsza stymulacja ma sens tylko wtedy, gdy skóra jest na nią odpowiednio przygotowana. Dlatego prowadzę skórę przez indywidualnie zaplanowany proces, a nie serię inwazyjnych, obciążających zabiegów.
@@ -9321,7 +9321,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                 "pełną stabilność naskórka i fizjologiczną równowagę,",
                                 "przewidywalną, zdrową reakcję na czynniki zewnętrzne,",
                                 "stopniową, widoczną poprawę jakości strukturalnej skóry,",
-                                "oraz efekty terapeutyczne, które się trwale utrzymują."
+                                "oraz efekty pielęgnacyjne, które utrzymują się długofalowo."
                               ].map((text, idx) => (
                                 <li key={idx} className="flex items-start gap-2.5">
                                   <span className="text-luxury-gold font-bold mt-0.5">✓</span>
@@ -9413,13 +9413,13 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           </div>
                           <div className="space-y-3 text-xs text-luxury-dark/95 font-light leading-relaxed">
                             <p>
-                              Neurolifting to zaawansowana, nowoczesna forma elektroakupunktury twarzy, w której bardzo delikatne impulsy elektryczne przewodzone są przez ultracienkie igły umieszczane w biologicznie aktywnych punktach skóry. Zabieg integruje wiedzę z zakresu neurobiologii, medycyny chińskiej oraz nowoczesnej fototerapii LED.
+                              Neurolifting to zaawansowana, nowoczesna forma elektroakupunktury twarzy, w której bardzo delikatne impulsy elektryczne przewodzone są przez ultracienkie igły umieszczane w biologicznie aktywnych punktach skóry. Zabieg łączy elementy pracy nad napięciem mięśniowym, wschodnie techniki pracy punktowej oraz nowoczesną fototerapię LED.
                             </p>
                             <p>
-                              Mikroprądy o precyzyjnie dobranych częstotliwościach dr. Paula Nogiera oddziałują na zakończenia nerwowe, powięź oraz mięśnie twarzy. W efekcie dochodzi do normalizacji przewodnictwa nerwowego, rozluźnienia nadmiernych napięć mięśniowych oraz aktywacji naturalnych procesów regeneracyjnych skóry. Zabieg działa nie tylko na poziomie estetycznym, ale również regulacyjnym i relaksacyjnym.
+                              Mikroprądy o precyzyjnie dobranych częstotliwościach dr. Paula Nogiera oddziałują na zakończenia nerwowe, powięź oraz mięśnie twarzy. W efekcie dochodzi do rozluźnienia nadmiernych napięć mięśniowych oraz wsparcia naturalnych procesów regeneracyjnych skóry. Zabieg działa nie tylko na poziomie estetycznym, ale również relaksacyjnym.
                             </p>
                             <p>
-                              Delikatne impulsy elektryczne wpływają na receptory nerwowe, wspierając prawidłową komunikację komórkową oraz równowagę napięcia mięśniowo-powięziowego. W praktyce oznacza to jednoczesne rozluźnienie zbyt napiętych struktur oraz pobudzenie tych, które pozostają osłabione lub nieaktywne.
+                              Delikatne impulsy elektryczne wpływają na zakończenia nerwowe, wspierając prawidłową równowagę napięcia mięśniowo-powięziowego. W praktyce oznacza to jednoczesne rozluźnienie zbyt napiętych struktur oraz pobudzenie tych, które pozostają osłabione lub nieaktywne.
                             </p>
                           </div>
                         </div>
@@ -9852,7 +9852,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                               </div>
                               <div>
                                 <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block mb-2">
-                                  Pakiety Serii Terapeutycznej (6 Zabiegów)
+                                  Pakiety Serii Zabiegowej (6 Zabiegów)
                                 </span>
                                 <h4 className="font-serif text-xl font-medium text-luxury-dark mb-4">
                                   Pakiety 6 Sesji Sonaris Pro
@@ -9940,7 +9940,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           </h2>
                           <div className="w-16 h-[1px] bg-luxury-gold/60 mx-auto" />
                           <p className="text-xs md:text-sm text-luxury-dark font-serif italic max-w-2xl mx-auto leading-relaxed">
-                            Iniekcyjna stymulacja mikrokrążenia i naturalnych procesów przebudowy skóry. Kontrolowane podanie medycznego dwutlenku węgla wywołujące zjawisko efektu Bohra – intensywne dotlenienie, odżywienie tkanek i pobudzenie fibroblastów.
+                            Iniekcyjna stymulacja mikrokrążenia i naturalnych procesów przebudowy skóry. Kontrolowane podanie czystego dwutlenku węgla wywołujące zjawisko efektu Bohra – intensywne dotlenienie, odżywienie tkanek i pobudzenie fibroblastów.
                           </p>
                         </div>
 
@@ -10102,7 +10102,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                               Obszary Zabiegowe i Pakiety 5 Sesji
                             </h3>
                             <p className="text-xs text-luxury-dark/90 font-light">
-                              Wybierz pojedynczą procedurę lub pakiet 5 spotkań gwarantujący optymalną serię terapeutyczną:
+                              Wybierz pojedynczą procedurę lub pakiet 5 spotkań gwarantujący optymalną serię zabiegową:
                             </p>
                           </div>
 
@@ -10228,7 +10228,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                               </div>
                               <div>
                                 <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block mb-2">
-                                  Pakiety Serii Terapeutycznej (5 Zabiegów)
+                                  Pakiety Serii Zabiegów (5 Zabiegów)
                                 </span>
                                 <h4 className="font-serif text-xl font-medium text-luxury-dark mb-4">
                                   Pakiety 5 Sesji CARBOregen
@@ -10402,7 +10402,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
 
                           <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-[10px] font-mono text-luxury-gold/80 pt-2 border-t border-white/10">
                             <span>✓ Synchronizacja z Google Calendar</span>
-                            <span>✓ Medyczny CO₂ i efekt Bohra</span>
+                            <span>✓ Czysty CO₂ i efekt Bohra</span>
                             <span>✓ Pn–Pt 10:00 – 19:30</span>
                             <span>✓ Bez efektu sztuczności</span>
                           </div>
@@ -10553,7 +10553,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         <div className="max-w-4xl mx-auto bg-white border border-luxury-sand p-6 sm:p-8 rounded-sm space-y-5 shadow-xs">
                           <div className="space-y-1">
                             <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
-                              Diagnostyka Przedzabiegowa
+                              Ocena Przedzabiegowa
                             </span>
                             <h3 className="font-serif text-2xl font-light text-luxury-dark">
                               Preparat dobierany indywidualnie
@@ -10861,7 +10861,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           <div className="border border-luxury-sand bg-white p-6 sm:p-8 rounded-sm space-y-4 shadow-xs flex flex-col justify-between">
                             <div className="space-y-3">
                               <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
-                                Kwalifikacja Medyczna
+                                Bezpieczeństwo i Kwalifikacja
                               </span>
                               <h3 className="font-serif text-xl font-medium text-luxury-dark">
                                 Przeciwwskazania
@@ -10945,7 +10945,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                               „Najpierw delikatnie przygotowujemy naskórek, a następnie dobieramy pielęgnację odpowiadającą aktualnym potrzebom skóry.”
                             </h4>
                             <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
-                              Celem zabiegu nie jest agresywne złuszczanie. Oksybrazja ma wygładzić powierzchnię skóry bez naruszania jej równowagi hydrolipidowej, a infuzja tlenowa pod kontrolowanym ciśnieniem uzupełnia procedurę o składniki dobrane po diagnozie w dniu zabiegu. Dzięki temu nawet cera naczyniowa i nadreaktywna zyskuje ukojenie, blask i pełen komfort.
+                              Celem zabiegu nie jest agresywne złuszczanie. Oksybrazja ma wygładzić powierzchnię skóry bez naruszania jej równowagi hydrolipidowej, a infuzja tlenowa pod kontrolowanym ciśnieniem uzupełnia procedurę o składniki dobrane po konsultacji w dniu zabiegu. Dzięki temu nawet cera naczyniowa i nadreaktywna zyskuje ukojenie, blask i pełen komfort.
                             </p>
                           </div>
                         </div>
@@ -10981,7 +10981,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                               </span>
                               <h4 className="font-serif text-lg font-medium text-luxury-dark">Infuzja Tlenowa pod Ciśnieniem</h4>
                               <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
-                                Po przygotowaniu naskórka aplikowany jest preparat dopasowany do jego aktualnych potrzeb. Tlen medyczny pod kontrolowanym ciśnieniem wspiera równomierne rozprowadzenie składników w przestrzeniach międzykomórkowych. Procedura nie narusza ciągłości naskórka – stanowi łagodny etap pielęgnacyjny wspierający nawilżenie i zdrowy blask.
+                                Po przygotowaniu naskórka aplikowany jest preparat dopasowany do jego aktualnych potrzeb. Czysty tlen pod kontrolowanym ciśnieniem wspiera równomierne rozprowadzenie składników w przestrzeniach międzykomórkowych. Procedura nie narusza ciągłości naskórka – stanowi łagodny etap pielęgnacyjny wspierający nawilżenie i zdrowy blask.
                               </p>
                               <span className="text-[10px] text-luxury-gold font-medium block pt-2 border-t border-luxury-sand/40">
                                 Technika beziniekcyjna • Zwiększona biodostępność formuł
@@ -10998,7 +10998,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             </span>
                             <h3 className="font-serif text-2xl font-light text-luxury-dark">Składniki Dobierane do Kondycji Skóry</h3>
                             <p className="text-xs text-luxury-dark/80 font-light">
-                              Nie stosujemy jednego gotowego koktajlu – preparat dobieramy po diagnozie skóry w dniu wizyty:
+                              Nie stosujemy jednego gotowego koktajlu – preparat dobieramy po ocenie skóry w dniu wizyty:
                             </p>
                           </div>
 
@@ -11101,7 +11101,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                               </div>
                               <div>
                                 <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block mb-2">
-                                  Pakiety Serii Terapeutycznej (4 Zabiegi)
+                                  Pakiety Serii Zabiegowej (4 Zabiegi)
                                 </span>
                                 <h4 className="font-serif text-xl font-medium text-luxury-dark mb-4">
                                   Pakiety 4 Sesji Oksybrazji z Infuzją
@@ -11543,7 +11543,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                               </div>
                               <div>
                                 <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block mb-2">
-                                  Pakiety Serii Terapeutycznej (3 Zabiegi)
+                                  Pakiety Serii Zabiegowej (3 Zabiegi)
                                 </span>
                                 <h4 className="font-serif text-xl font-medium text-luxury-dark mb-4">
                                   Pakiety 3 Sesji Nanobrazji
@@ -11721,7 +11721,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             </div>
                             <div>
                               <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block mb-2">
-                                Pakiety Terapeutyczne
+                                Pakiety Zabiegowe
                               </span>
                               <h4 className="font-serif text-xl font-medium text-luxury-dark mb-4">
                                 Seria 3 Zabiegów
@@ -11816,7 +11816,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           <div className="p-4 bg-white border border-luxury-sand rounded-sm text-left space-y-1.5 shadow-xs">
                             <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">Kierunek I</span>
                             <h4 className="font-serif text-sm font-medium text-luxury-dark">Nawodnienie i Elastyczność</h4>
-                            <p className="text-[11px] text-luxury-dark/90 font-light">Nieusieciowany kwas hialuronowy o czystości medycznej – głębokie nasycenie i sprężystość.</p>
+                            <p className="text-[11px] text-luxury-dark/90 font-light">Nieusieciowany kwas hialuronowy o wysokiej czystości – głębokie nasycenie i sprężystość.</p>
                           </div>
                           <div className="p-4 bg-white border border-luxury-sand rounded-sm text-left space-y-1.5 shadow-xs">
                             <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">Kierunek II</span>
@@ -12113,7 +12113,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           </p>
                         </div>
 
-                        {/* Rzetelne podejście medyczne */}
+                        {/* Rzetelne podejście zabiegowe */}
                         <div className="bg-luxury-gold/10 border border-luxury-gold/40 p-6 md:p-8 rounded-sm max-w-4xl mx-auto text-left flex flex-col md:flex-row items-center gap-6 shadow-xs">
                           <div className="w-16 h-16 rounded-full bg-luxury-gold text-white flex items-center justify-center shrink-0 shadow-md">
                             <Shield className="w-8 h-8" />
@@ -12188,11 +12188,11 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           </h2>
                           <div className="w-16 h-[1px] bg-luxury-gold/60 mx-auto" />
                           <p className="text-xs md:text-sm text-luxury-dark font-serif italic max-w-2xl mx-auto leading-relaxed">
-                            Zaawansowane terapie szerokopasmowym światłem pulsacyjnym LPL dobierane ściśle pod dominujący problem cery, fototyp i tolerancję tkanek. 4 wyspecjalizowane programy kliniczne.
+                            Zaawansowane terapie szerokopasmowym światłem pulsacyjnym LPL dobierane ściśle pod dominujący problem cery, fototyp i tolerancję tkanek. 4 wyspecjalizowane programy zabiegowe.
                           </p>
                         </div>
 
-                        {/* 4 Programy Kliniczne */}
+                        {/* 4 Programy */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
                           <div className="border border-luxury-sand p-6 bg-white space-y-2 rounded-sm text-left shadow-xs hover:border-luxury-gold/60 transition-all">
                             <div className="flex items-center justify-between">
@@ -13063,7 +13063,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             </span>
                             <h3 className="font-serif text-xl font-light text-luxury-dark">Dwa urządzenia, różne obszary</h3>
                             <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
-                              W naszym gabinecie korzystam z oryginalnych, certyfikowanych aparatów medycznych <strong>PST H-200</strong> i <strong>PST H-300</strong>:
+                              W naszym gabinecie korzystam z oryginalnych, certyfikowanych urządzeń <strong>PST H-200</strong> i <strong>PST H-300</strong>:
                             </p>
                             <ul className="text-xs text-luxury-dark/90 space-y-2 pt-1 font-light">
                               <li className="flex items-start gap-2">
@@ -13093,7 +13093,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                               </h3>
                             </div>
                             <span className="font-mono text-[9px] text-luxury-gold font-semibold uppercase">
-                              Klasyczny model medyczny PST
+                              Klasyczny model urządzenia PST
                             </span>
                           </div>
 
@@ -13146,7 +13146,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                 <div className="space-y-1.5">
                                   <h4 className="font-serif text-lg text-luxury-dark font-medium">Aparat PST H-200 — Stanowisko w fotelu</h4>
                                   <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
-                                    Mobilny aplikator pierścieniowy na kółkach ze stolikową medyczną konsolą sterującą wyposażoną w analogowe wskaźniki i przyciski. Precyzyjnie obejmuje staw kolanowy, skokowy, łokieć, dłoń czy stopę.
+                                    Mobilny aplikator pierścieniowy na kółkach ze stolikową konsolą sterującą wyposażoną w analogowe wskaźniki i przyciski. Precyzyjnie obejmuje staw kolanowy, skokowy, łokieć, dłoń czy stopę.
                                   </p>
                                 </div>
                               </div>
@@ -13196,13 +13196,13 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         {/* Konsultacja przed pierwszą sesją */}
                         <div className="bg-white border border-luxury-sand p-6 md:p-8 rounded-sm max-w-4xl mx-auto text-left shadow-xs space-y-4">
                           <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase font-bold block">
-                            Bezpieczeństwo & Wywiad Medyczny
+                            Bezpieczeństwo & Rozmowa Wstępna
                           </span>
                           <h3 className="font-serif text-2xl font-light text-luxury-dark">
                             Konsultacja przed pierwszą sesją
                           </h3>
                           <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
-                            Zanim rozpoczniemy zabiegi, rozmawiamy o Twoim stanie zdrowia, rozpoznaniu, przebytych urazach i operacjach, aktualnym leczeniu oraz implantach. Szczególnej oceny wymagają między innymi: ciąża, aktywna choroba nowotworowa, rozrusznik serca lub inny implant elektroniczny, infekcja, poważna choroba serca oraz świeży uraz.
+                            Zanim rozpoczniemy zabiegi, rozmawiamy o Twoim stanie zdrowia, rozpoznaniu, przebytych urazach i operacjach, aktualnie stosowanych kuracjach oraz implantach. Szczególnej oceny wymagają między innymi: ciąża, aktywna choroba nowotworowa, rozrusznik serca lub inny implant elektroniczny, infekcja, poważna choroba serca oraz świeży uraz.
                           </p>
                           <div className="p-4 bg-luxury-sand/15 border border-luxury-sand/50 rounded-sm text-xs text-luxury-dark/95 font-light space-y-1.5">
                             <span className="font-mono text-[10px] text-luxury-gold uppercase block font-bold">Implanty i endoprotezy:</span>
@@ -13264,7 +13264,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             </button>
                           </div>
                           <div className="text-[10px] font-mono text-luxury-dark/70 pt-2">
-                            Materiały i standardy źródłowe: PST Polska (pst-polska.pl) • Active Spine • A-Med Klinika
+                            Materiały źródłowe: PST Polska (pst-polska.pl) • Active Spine
                           </div>
                         </div>
 
@@ -13391,11 +13391,11 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                 {diagnosticStep < 7 && (
                   <div className="text-center space-y-4">
                     <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase flex items-center justify-center gap-2">
-                      <Fingerprint className="w-3.5 h-3.5 stroke-[1.5]" /> Konsultacja Molekularna Online
+                      <Fingerprint className="w-3.5 h-3.5 stroke-[1.5]" /> Konsultacja Pielęgnacyjna Online
                     </span>
-                    <h1 className="font-serif text-4xl md:text-5xl font-light">Gabinet Diagnozy Skóry</h1>
+                    <h1 className="font-serif text-4xl md:text-5xl font-light">Analizator Potrzeb Skóry</h1>
                     <p className="text-xs text-luxury-dark/95 font-light max-w-xl mx-auto leading-relaxed">
-                      Sercem właściwej pielęgnacji jest zrozumienie procesów zachodzących w naskórku. Skorzystaj z naszego inteligentnego audytu komórkowego lub zbadaj naszą interaktywną mapę barierową.
+                      Sercem właściwej pielęgnacji jest zrozumienie potrzeb naskórka. Skorzystaj z naszej ankiety pielęgnacyjnej online lub poznaj interaktywną mapę bariery ochronnej skóry.
                     </p>
                   </div>
                 )}
@@ -13407,7 +13407,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       onClick={() => setDiagnoseSubTab("form")}
                       className={`flex-1 py-2 text-center font-mono text-[10px] tracking-widest uppercase transition-all duration-300 cursor-pointer ${diagnoseSubTab === "form" ? "bg-luxury-dark text-white font-medium" : "text-luxury-dark/95 hover:text-luxury-dark hover:bg-white/40"}`}
                     >
-                      1. AUDYT KOMÓRKOWY (TEST)
+                      1. ANALIZA POTRZEB SKÓRY (TEST)
                     </button>
                     <button
                       onClick={() => setDiagnoseSubTab("barrierMap")}
@@ -13428,7 +13428,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   {/* Step Tracker Header */}
                   <div className="flex items-center justify-between border-b border-luxury-sand pb-4 mb-8 font-mono text-[10px] text-luxury-dark/90 tracking-wider">
                     <span>Etap {diagnosticStep + 1} z 7</span>
-                    <span className="uppercase text-luxury-gold">Diagnoza neuroanatomii naskórka</span>
+                    <span className="uppercase text-luxury-gold">Ocena potrzeb i kondycji naskórka</span>
                   </div>
 
                   {/* Diagnostic Questions Switcher */}
@@ -13573,7 +13573,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                         {[
                           "Częste, silne peelingi, mocne kwasy bez odbudowy lipidów (bariera upośledzona)",
-                          "Regularne nawilżanie u kosmetyczki bez zaawansowanej medycyny komórkowej",
+                          "Regularne nawilżanie bez indywidualnie dobranej pielęgnacji barierowej",
                           "Prosta, ostrożna pielęgnacja domowa, brak zabiegów gabinetowych"
                         ].map((opt) => (
                           <button
@@ -13637,7 +13637,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           disabled={isDiagnosing || !answers.expectations}
                           className="px-8 py-3 bg-luxury-dark text-luxury-cream text-xs font-mono tracking-widest uppercase hover:bg-luxury-gold hover:text-white transition-all flex items-center gap-2 disabled:opacity-50 rounded-none cursor-pointer font-bold"
                         >
-                          {isDiagnosing ? "Analiza molekularna w toku..." : "GENERUJ AUTORSKĄ DIAGNOZĘ"} <ArrowRight className="w-4 h-4" />
+                          {isDiagnosing ? "Analiza w toku..." : "GENERUJ PLAN PIELĘGNACJI"} <ArrowRight className="w-4 h-4" />
                         </button>
                       </div>
                     </motion.div>
@@ -13664,7 +13664,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         <p className="font-mono text-[9px] text-luxury-dark/90 tracking-[0.2em] uppercase">Porównywanie map kortyzolowych i barierowych</p>
                       </div>
                       <p className="text-[10px] text-luxury-dark/90 max-w-xs text-center leading-relaxed">
-                        Nasze algorytmy komórkowe analizują poziomy stanów zapalnych naskórka i dopasowują precyzyjne neuro-formuły.
+                        Analizujemy udzielone odpowiedzi i dopasowujemy indywidualne wskazówki pielęgnacyjne.
                       </p>
                     </div>
                   )}
@@ -13796,7 +13796,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         </div>
                         <p className="text-[11px] text-luxury-dark/95 font-light leading-relaxed">
                           {barrierHealthState === "healthy" 
-                            ? "Czynnik TEWL (ucieczka wody) jest w klinicznej normie. Cement lipidowy chroni hydrofilne struktury, a odpowiedź cytokin jest zbalansowana."
+                            ? "Poziom nawilżenia (TEWL) jest w prawidłowej normie. Warstwa lipidowa chroni strukturę naskórka, a skóra zachowuje równowagę."
                             : "Transnaskórkowa utrata wody drastycznie rośnie. Agresywne pH nasila świąd i uogólnioną tkliwość. Naskórek przechodzi stan obrony metabolicznej."}
                         </p>
                       </div>
@@ -13854,12 +13854,12 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             }
                           },
                           deep: {
-                            title: "Bariera Immunologiczna: Melanocyty i komórki Langerhansa",
+                            title: "Bariera Ochronna: Melanocyty i komórki naskórka",
                             healthy: {
-                              desc: "Melanocyty produkują melaninę w idealnym tempie chroniącym jądra komórkowe przed UV, a komórki Langerhansa sprawnie patrolują naskórek, wyciszając nepotrzebne stany zapalne przed ich eskalacją.",
+                              desc: "Melanocyty produkują melaninę w idealnym tempie chroniącym jądra komórkowe przed UV, a komórki Langerhansa sprawnie patrolują naskórek, wyciszając niepotrzebne stany zapalne przed ich eskalacją.",
                               symptoms: "Równomierny koloryt bez przebarwień zapalnych, szybkie gojenie się ewentualnych mikrouszkodzeń, brak plam pigmentacyjnych.",
-                              ingredients: "Niacynamid (reguluje barwnik), kwas ferulowy, witamina C stymulująca fibroblasty, ektoina chroniąca komórki Langerhansa.",
-                              recommendation: "Neurolifting Nogiera i chromoterapia LED wyciszająca neuroreceptory i melanocyty."
+                              ingredients: "Niacynamid (reguluje barwnik), kwas ferulowy, witamina C wspierająca kolagen, ektoina chroniąca naskórek.",
+                              recommendation: "Neurolifting Nogiera i światło LED wyciszające zakończenia czuciowe i melanocyty."
                             },
                             damaged: {
                               desc: "Uszkodzenie wyższych barier aktywuje stany obronne. Melanocyty, podrażniane przez cytokiny, nadpobudliwie i nierównomiernie dystrybuują barwnik, tworząc plamy pozapalne (PIH), a komórki odpornościowe ulegają wyczerpaniu.",
@@ -13888,7 +13888,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                               
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
                                 <div className="bg-white p-4 border border-luxury-sand/65">
-                                  <h5 className="font-mono text-[9px] uppercase tracking-wider text-luxury-gold font-bold mb-1.5">Widoczne Objawy:</h5>
+                                  <h5 className="font-mono text-[9px] uppercase tracking-wider text-luxury-gold font-bold mb-1.5">Widoczne Oznaki:</h5>
                                   <p className="text-[11px] text-luxury-dark/95 font-light leading-relaxed">{activeStateData.symptoms}</p>
                                 </div>
                                 <div className="bg-white p-4 border border-luxury-sand/65">
@@ -13917,13 +13917,13 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   <div className="border-t border-luxury-sand/45 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-left">
                     <div className="space-y-0.5">
                       <p className="font-mono text-[10px] text-luxury-gold uppercase tracking-widest font-bold">Chcesz poznać swój unikalny profil?</p>
-                      <p className="text-xs text-luxury-dark/95 font-light">Przejdź do naszego spersonalizowanego audytu skóry online, aby otrzymać autorski Paszport Skóry.</p>
+                      <p className="text-xs text-luxury-dark/95 font-light">Przejdź do naszej spersonalizowanej ankiety potrzeb skóry online, aby otrzymać indywidualny Plan Pielęgnacji.</p>
                     </div>
                     <button
                       onClick={() => setDiagnoseSubTab("form")}
                       className="px-6 py-3 bg-luxury-dark hover:bg-luxury-gold text-luxury-cream hover:text-white text-xs font-mono tracking-widest uppercase transition-colors cursor-pointer rounded-none border border-luxury-dark"
                     >
-                      Uruchom Audyt Komórkowy AI →
+                      Uruchom Analizę Skóry AI →
                     </button>
                   </div>
 
@@ -13950,9 +13950,9 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     {/* Logo Section inside Letterhead */}
                     <div className="text-center space-y-2 border-b border-luxury-sand pb-10 mb-10">
                       <h2 className="font-serif text-2xl font-light tracking-[0.25em] uppercase">SLOW SKIN</h2>
-                      <p className="font-mono text-[8px] tracking-[0.3em] text-luxury-dark/90 uppercase">SPERSONALIZOWANA RECEPTA ANATOMII SKÓRY</p>
+                      <p className="font-mono text-[8px] tracking-[0.3em] text-luxury-dark/90 uppercase">SPERSONALIZOWANY PLAN PIELĘGNACJI SKÓRY</p>
                       <div className="text-[10px] font-mono text-luxury-dark/90 flex justify-center gap-12 pt-4">
-                        <span>Pacjentka: Klientka Slow Skin Concept</span>
+                        <span>Klientka: Klientka Slow Skin Concept</span>
                         <span>Data analizy: {new Date().toLocaleDateString("pl-PL")}</span>
                         <span>ID Dok: #SS-{Math.floor(100000 + Math.random() * 900000)}</span>
                       </div>
@@ -14001,7 +14001,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           </div>
 
                           <div className="bg-luxury-cream/40 p-5 border border-luxury-sand/50 space-y-3">
-                            <h4 className="font-serif text-sm text-luxury-gold uppercase tracking-wider">Rytuał Wieczorny: Rekonstrukcja Molekularna</h4>
+                            <h4 className="font-serif text-sm text-luxury-gold uppercase tracking-wider">Rytuał Wieczorny: Odnowa i Wsparcie Bariery</h4>
                             <ul className="space-y-2">
                               {diagnosticReport.atHomePrescription.evening.map((step, idx) => (
                                 <li key={idx} className="text-xs text-luxury-dark/95 font-light flex items-start gap-2">
@@ -14042,7 +14042,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       {/* Signature block */}
                       <div className="pt-10 flex justify-between items-end">
                         <div className="font-mono text-[9px] text-luxury-dark/90 max-w-xs leading-relaxed">
-                          Wygenerowano przy wsparciu silnika dermatologii precyzyjnej Slow Skin Concept Jelcz-Laskowice.
+                          Wygenerowano przez analizator pielęgnacji Slow Skin Concept Jelcz-Laskowice.
                         </div>
                         <div className="text-right space-y-1">
                           <div className="font-serif italic text-base font-light text-luxury-gold pr-2">Katarzyna Brzezińska</div>
@@ -14065,14 +14065,14 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       }}
                       className="text-xs font-mono text-luxury-dark/95 hover:text-luxury-dark transition-colors cursor-pointer"
                     >
-                      ← Przeprowadź diagnozę ponownie
+                      ← Przeprowadź analizę ponownie
                     </button>
 
                     <div className="flex gap-4">
                       <button
                         onClick={downloadTxtReport}
                         className="px-6 py-2.5 border border-luxury-dark/60 text-xs font-mono tracking-widest uppercase hover:bg-luxury-dark hover:text-luxury-cream transition-all flex items-center gap-2 cursor-pointer"
-                        title="Pobierz diagnozę jako plik tekstowy (.txt)"
+                        title="Pobierz plan jako plik tekstowy (.txt)"
                       >
                         <Download className="w-4 h-4 text-luxury-gold" /> Pobierz .txt
                       </button>
@@ -14080,7 +14080,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         onClick={() => window.print()}
                         className="px-6 py-2.5 border border-luxury-dark/60 text-xs font-mono tracking-widest uppercase hover:bg-luxury-dark hover:text-luxury-cream transition-all flex items-center gap-2 cursor-pointer"
                       >
-                        <Printer className="w-4 h-4" /> Drukuj receptę
+                        <Printer className="w-4 h-4" /> Drukuj plan
                       </button>
                       <button
                         onClick={() => setActiveTab("clinic")}
@@ -14110,7 +14110,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
               {/* Header */}
               <div className="text-center space-y-4">
                 <span className="font-mono text-[9px] tracking-widest text-luxury-gold uppercase flex items-center justify-center gap-2">
-                  <User className="w-3.5 h-3.5 stroke-[1.5]" /> Prywatny Azyl Pacjenta
+                  <User className="w-3.5 h-3.5 stroke-[1.5]" /> Prywatna Strefa Klienta
                 </span>
                 <h1 className="font-serif text-4xl md:text-5xl font-light">Slow Skin Pass Portal</h1>
                 <p className="text-xs text-luxury-dark/95 font-light max-w-xl mx-auto leading-relaxed">
@@ -14134,7 +14134,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     </h2>
                     <p className="text-xs text-luxury-dark/90 leading-relaxed font-light">
                       {isRegisterMode
-                        ? "Zarejestruj swoje konto pacjenta, aby zyskać dostęp do karty komórkowej, historii zabiegów i indywidualnego planu."
+                        ? "Zarejestruj swoje konto klienta, aby zyskać dostęp do swojej karty, historii zabiegów i indywidualnego planu."
                         : "Podaj swój autoryzowany adres e-mail oraz hasło gabinetowe, aby uzyskać pełny wgląd w swoją kartę komórkową."}
                     </p>
                   </div>
@@ -14251,7 +14251,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       Bezpieczna Sesja Produkcyjna (Kryptografia SSL)
                     </div>
                     <p className="text-[10px] text-luxury-dark/75 leading-relaxed font-light">
-                      Konto pacjenta zintegrowane z kartoteką Instytutu Slow Skin Concept. W razie pytań lub zmiany hasła skontaktuj się bezpośrednio z gabinetem.
+                      Konto klienta zintegrowane z kartoteką Slow Skin Concept. W razie pytań lub zmiany hasła skontaktuj się bezpośrednio z gabinetem.
                     </p>
                   </div>
                 </div>
@@ -14312,7 +14312,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           type="button"
                           onClick={() => window.print()}
                           className="px-2.5 py-1.5 bg-white/10 hover:bg-white/20 text-white uppercase text-[9px] tracking-wider cursor-pointer transition-colors flex items-center gap-1"
-                          title="Drukuj kartę pacjenta"
+                          title="Drukuj kartę klienta"
                         >
                           <Printer className="w-3 h-3 text-luxury-gold" /> Drukuj
                         </button>
@@ -14505,14 +14505,14 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                               </div>
                               <div className="space-y-1.5 max-w-lg mx-auto">
                                 <span className="font-mono text-[9px] uppercase tracking-widest text-luxury-gold font-semibold block">
-                                  Kartoteka Pacjenta • Czysty Dziennik Rytuałów
+                                  Kartoteka Klienta • Czysty Dziennik Rytuałów
                                 </span>
                                 <h4 className="font-serif text-xl font-light text-luxury-dark">
                                   Brak zrealizowanych zabiegów w kartotece
                                 </h4>
                                 <p className="text-xs text-luxury-dark/80 font-light leading-relaxed">
                                   Dla Twojego konta nie odnotowano jeszcze zrealizowanych sesji gabinetowych. 
-                                  Wszystkie procedury bionomiczne, parametry aparatury oraz indywidualne zalecenia pielęgnacyjne będą dodawane do Twojej kartoteki na bieżąco po każdej sesji gabinetowej w Jelczu-Laskowicach.
+                                  Wszystkie procedury pielęgnacyjne, parametry aparatury oraz indywidualne zalecenia będą dodawane do Twojej kartoteki na bieżąco po każdej sesji gabinetowej w Jelczu-Laskowicach.
                                 </p>
                               </div>
 
@@ -14525,7 +14525,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                   }}
                                   className="px-5 py-3 bg-luxury-dark hover:bg-luxury-gold text-white font-mono text-[10px] uppercase tracking-widest transition-colors cursor-pointer shadow-xs flex items-center gap-2"
                                 >
-                                  <Calendar className="w-3.5 h-3.5 text-luxury-gold" /> Umów Pierwszą Wizytę Diagnostyczną &rarr;
+                                  <Calendar className="w-3.5 h-3.5 text-luxury-gold" /> Umów Pierwszą Wizytę i Ocenę Skóry &rarr;
                                 </button>
                                 <button
                                   type="button"
@@ -14659,7 +14659,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                   {/* Star Rating for Treatment */}
                                   <div className="space-y-1">
                                     <label className="block font-serif text-[12.5px] text-luxury-dark font-medium">
-                                      1. Jak oceniasz poziom zaawansowania oraz terapeutyczną skuteczność rytuału?
+                                      1. Jak oceniasz poziom zaawansowania oraz pielęgnacyjną skuteczność zabiegu?
                                     </label>
                                     <div className="flex gap-2.5 mt-1 items-center">
                                       {[1, 2, 3, 4, 5].map((star) => (
@@ -15159,7 +15159,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                 }}
                                 className="px-3.5 py-2 bg-luxury-dark hover:bg-luxury-gold text-white font-mono text-[9px] uppercase tracking-widest transition-all cursor-pointer flex items-center gap-1.5 self-start sm:self-auto shrink-0 shadow-xs font-semibold"
                               >
-                                <Tag className="w-3 h-3 text-luxury-gold" /> + Dodaj Rabat dla Pacjenta (Wpis Gabinetu)
+                                <Tag className="w-3 h-3 text-luxury-gold" /> + Dodaj Rabat dla Klienta (Wpis Gabinetu)
                               </button>
                             )}
                           </div>
@@ -15334,7 +15334,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs font-light text-luxury-dark leading-relaxed">
                               <div>
                                 <strong className="font-medium text-luxury-dark block">Wizyta w Instytucie (Jelcz-Laskowice):</strong>
-                                Rabaty kwotowe oraz procentowe są uwzględniane automatycznie przy rozliczeniu wizyty w recepcji na podstawie numeru karty pacjenta.
+                                Rabaty kwotowe oraz procentowe są uwzględniane automatycznie przy rozliczeniu wizyty w recepcji na podstawie numeru karty klienta.
                               </div>
                               <div>
                                 <strong className="font-medium text-luxury-dark block">Sklep Internetowy & Konsultacje Online:</strong>
@@ -15372,13 +15372,13 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       <div className="flex justify-between items-start border-b border-luxury-sand/40 pb-3">
                         <div>
                           <span className="font-mono text-[8.5px] tracking-widest text-luxury-gold uppercase block font-bold">
-                            KARTA PACJENTA • WPIS GABINETOWY
+                            KARTA KLIENTA • WPIS GABINETOWY
                           </span>
                           <h3 className="font-serif text-xl font-light text-luxury-dark mt-0.5">
-                            Dodaj Zabieg do Historii Pacjenta
+                            Dodaj Zabieg do Historii Klienta
                           </h3>
                           <p className="text-[11px] text-luxury-dark/80 font-light">
-                            Pacjent: <strong className="font-medium text-luxury-dark">{userProfile.name}</strong> ({userProfile.memberId})
+                            Klient: <strong className="font-medium text-luxury-dark">{userProfile.name}</strong> ({userProfile.memberId})
                           </p>
                         </div>
                         <button
@@ -15502,7 +15502,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             rows={3}
                             value={newVisitData.cabinetNotes}
                             onChange={(e) => setNewVisitData(prev => ({ ...prev, cabinetNotes: e.target.value }))}
-                            placeholder="Wpisz zalecenia pozabiegowe dla pacjenta (np. ochrona SPF 50+, wzmożone nawilżanie, unikanie sauny 48h)..."
+                            placeholder="Wpisz zalecenia pozabiegowe dla klienta (np. ochrona SPF 50+, wzmożone nawilżanie, unikanie sauny 48h)..."
                             className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold resize-none"
                           />
                         </div>
@@ -15548,7 +15548,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       <div className="flex justify-between items-start border-b border-luxury-sand/40 pb-3">
                         <div>
                           <span className="font-mono text-[8.5px] tracking-widest text-luxury-gold uppercase block font-bold">
-                            DIAGNOZA BIONOMICZNA • KARTOTEKA
+                            CHARAKTERYSTYKA SKÓRY • KARTOTEKA
                           </span>
                           <h3 className="font-serif text-xl font-light text-luxury-dark mt-0.5">
                             Aktualizuj Charakterystykę Skóry
@@ -15600,7 +15600,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             rows={3}
                             value={editDiagnosisData.cabinetNotes}
                             onChange={(e) => setEditDiagnosisData(prev => ({ ...prev, cabinetNotes: e.target.value }))}
-                            placeholder="Wpisz ogólne spostrzeżenia diagnostyczne i zalecenia pielęgnacyjne..."
+                            placeholder="Wpisz ogólne spostrzeżenia i zalecenia pielęgnacyjne..."
                             className="w-full bg-white border border-luxury-sand p-2.5 text-xs text-luxury-dark outline-0 focus:border-luxury-gold resize-none"
                           />
                         </div>
@@ -15617,7 +15617,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             type="submit"
                             className="px-5 py-2.5 bg-luxury-dark hover:bg-luxury-gold text-white font-mono text-[9.5px] uppercase tracking-widest font-semibold cursor-pointer shadow-xs transition-colors"
                           >
-                            Zapisz Diagnozę &rarr;
+                            Zapisz Charakterystykę &rarr;
                           </button>
                         </div>
                       </form>
@@ -15740,7 +15740,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       Autoryzacja Personelu Gabinetu
                     </h2>
                     <p className="text-xs text-luxury-dark/85 font-light leading-relaxed">
-                      Dostęp zastrzeżony wyłącznie dla personelu medycznego i kosmetologicznego Instytutu. Wprowadź kod autoryzacji, aby odblokować kartoteki.
+                      Dostęp zastrzeżony wyłącznie dla personelu kosmetologicznego Instytutu. Wprowadź kod autoryzacji, aby odblokować kartoteki.
                     </p>
                   </div>
 
@@ -15798,7 +15798,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         Wszystkie Kartoteki
                       </span>
                       <span className="font-serif text-2xl font-light text-luxury-dark block">
-                        {getStoredAccountsList().length} pacjentów
+                        {getStoredAccountsList().length} klientów
                       </span>
                       <span className="text-[10px] font-mono text-luxury-dark/70 block">
                         Zarejestrowane profile bionomiczne
@@ -16031,10 +16031,10 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 border-b border-luxury-sand/50 pb-4">
                       <div>
                         <h3 className="font-serif text-xl font-light text-luxury-dark">
-                          Baza Kartotek Pacjentów
+                          Baza Kartotek Klientów
                         </h3>
                         <p className="text-xs text-luxury-dark/75 font-light">
-                          Wybierz pacjenta, aby edytować diagnozę, dopisać wykonany zabieg lub podejrzeć Beauty Plan.
+                          Wybierz klienta, aby edytować charakterystykę skóry, dopisać wykonany zabieg lub podejrzeć Beauty Plan.
                         </p>
                       </div>
                       <div className="flex items-center gap-2">
@@ -16043,7 +16043,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           onClick={() => setIsAddPatientModalOpen(true)}
                           className="px-4 py-2.5 bg-luxury-dark hover:bg-luxury-gold text-white font-mono text-[9.5px] uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-1.5 shadow-2xs font-semibold"
                         >
-                          <UserPlus className="w-3.5 h-3.5 text-luxury-gold" /> + Załóż Kartę Pacjenta
+                          <UserPlus className="w-3.5 h-3.5 text-luxury-gold" /> + Załóż Kartę Klienta
                         </button>
                       </div>
                     </div>
@@ -16056,7 +16056,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                           type="text"
                           value={staffSearchQuery}
                           onChange={(e) => setStaffSearchQuery(e.target.value)}
-                          placeholder="Szukaj pacjenta (imię, nazwisko, e-mail, tel, numer karty)..."
+                          placeholder="Szukaj klienta (imię, nazwisko, e-mail, tel, numer karty)..."
                           className="w-full bg-white border border-luxury-sand pl-9 pr-8 py-2.5 text-xs outline-0 text-luxury-dark focus:border-luxury-gold"
                         />
                         {staffSearchQuery && (
@@ -16071,7 +16071,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       </div>
 
                       <div className="flex flex-wrap items-center justify-between gap-2 text-[10px] font-mono text-luxury-dark/80 pt-0.5">
-                        <span>Łącznie w bazie: <strong className="text-luxury-dark">{getStoredAccountsList().length} pacjentów</strong></span>
+                        <span>Łącznie w bazie: <strong className="text-luxury-dark">{getStoredAccountsList().length} klientów</strong></span>
                         <span>Wyszukano: <strong className="text-luxury-dark">{
                           getStoredAccountsList().filter((acc: any) => {
                             if (!staffSearchQuery.trim()) return true;
@@ -16143,7 +16143,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                   <span>📅 {account.joinDate || "2026"}</span>
                                 </div>
                                 <div className="text-[11px] text-luxury-dark/85 font-light pt-0.5 italic line-clamp-1">
-                                  Diagnoza: {account.skinConcern}
+                                  Charakterystyka: {account.skinConcern}
                                 </div>
                               </div>
 
@@ -16190,7 +16190,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                     type="button"
                                     onClick={() => handleDeletePatientByStaff(account.email)}
                                     className="p-2 text-stone-400 hover:text-red-700 transition-colors cursor-pointer"
-                                    title="Usuń pacjenta z kartoteki"
+                                    title="Usuń klienta z kartoteki"
                                   >
                                     <Trash2 className="w-3.5 h-3.5" />
                                   </button>
@@ -16202,7 +16202,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     </div>
 
                     <div className="p-3.5 bg-luxury-sand/15 border border-dashed border-luxury-sand text-[11px] font-light text-luxury-dark/85 leading-relaxed flex items-center justify-between">
-                      <span>💡 Jesteś w bezpiecznym, odizolowanym Panelu Gabinetowym. Klienci odwiedzający stronę salonu nie widzą tej zakładki ani bazy pacjentów.</span>
+                      <span>💡 Jesteś w bezpiecznym, odizolowanym Panelu Gabinetowym. Klienci odwiedzający stronę salonu nie widzą tej zakładki ani bazy klientek.</span>
                     </div>
                   </div>
                 </div>
@@ -16231,10 +16231,10 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             PERSONEL GABINETU • NOWA KARTOTEKA
                           </span>
                           <h3 className="font-serif text-xl font-light text-luxury-dark mt-0.5">
-                            Załóż Kartę Nowego Pacjenta
+                            Załóż Kartę Nowego Klienta
                           </h3>
                           <p className="text-[11px] text-luxury-dark/80 font-light">
-                            Wprowadź dane pacjenta. Karta zostanie utworzona ze statusem czystej kartoteki (0 zabiegów).
+                            Wprowadź dane klienta. Karta zostanie utworzona ze statusem czystej kartoteki (0 zabiegów).
                           </p>
                         </div>
                         <button
@@ -16249,7 +16249,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       <form onSubmit={handleCreatePatientByStaff} className="space-y-3.5 text-xs">
                         <div className="space-y-1">
                           <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
-                            Imię i Nazwisko Pacjenta *:
+                            Imię i Nazwisko Klienta *:
                           </label>
                           <input
                             type="text"
@@ -16291,13 +16291,13 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
 
                         <div className="space-y-1">
                           <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
-                            Wstępna diagnoza komórkowa:
+                            Wstępna ocena potrzeb skóry:
                           </label>
                           <input
                             type="text"
                             value={newPatientForm.skinConcern}
                             onChange={(e) => setNewPatientForm(prev => ({ ...prev, skinConcern: e.target.value }))}
-                            placeholder="np. Oczekuje na pierwsze badanie / suchość naskórka"
+                            placeholder="np. Oczekuje na pierwszą ocenę / suchość naskórka"
                             className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold"
                           />
                         </div>
@@ -16404,12 +16404,12 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       {/* Lista aktualnych rabatów tego pacjenta */}
                       <div className="space-y-2">
                         <label className="font-mono text-[9px] uppercase tracking-wider text-luxury-dark/90 block font-bold">
-                          Aktualne Rabaty Pacjenta ({discountTargetAccount.discounts?.length || 0}):
+                          Aktualne Rabaty Klienta ({discountTargetAccount.discounts?.length || 0}):
                         </label>
 
                         {(!discountTargetAccount.discounts || discountTargetAccount.discounts.length === 0) ? (
                           <div className="p-4 border border-dashed border-luxury-sand text-center text-xs text-luxury-dark/70 bg-stone-50">
-                            Brak aktywnych rabatów w kartotece tego pacjenta. Dodaj nowy poniżej.
+                            Brak aktywnych rabatów w kartotece tego klienta. Dodaj nowy poniżej.
                           </div>
                         ) : (
                           <div className="space-y-2 max-h-44 overflow-y-auto pr-1">
@@ -16522,7 +16522,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                               className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold cursor-pointer"
                             >
                               <option value="Wszystkie Usługi Gabinetu">Wszystkie Usługi Gabinetu</option>
-                              <option value="Pierwsza Wizyta Diagnostyczna">Pierwsza Wizyta Diagnostyczna</option>
+                              <option value="Pierwsza Wizyta i Ocena Skóry">Pierwsza Wizyta i Ocena Skóry</option>
                               <option value="Rytuały Twarz & Szyja">Rytuały Twarz & Szyja</option>
                               <option value="Konsultacje Online & Sklep">Konsultacje Online & Sklep</option>
                               <option value="Kosmetyki w Butiku Bionomicznym">Kosmetyki w Butiku Bionomicznym</option>
@@ -16546,7 +16546,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
 
                           <div className="space-y-1">
                             <label className="font-mono text-[8.5px] uppercase tracking-wider text-luxury-dark/90 block font-semibold">
-                              Opis / notatka dla pacjenta:
+                              Opis / notatka dla klienta:
                             </label>
                             <input
                               type="text"
@@ -16812,7 +16812,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }} 
                 className="hover:text-luxury-gold transition-colors hover:underline cursor-pointer"
-                title="Klauzula Informacyjna RODO i Prawa Pacjenta"
+                title="Klauzula Informacyjna RODO i Prawa Klienta"
               >
                 RODO
               </a>
@@ -17195,7 +17195,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       <button
                         onClick={() => {
                           setIsLanguageModalOpen(false);
-                          setBookingTreatment(TREATMENTS[0]); // Zawsze zaczynamy od diagnostyki jako klucza Slow Skin
+                          setBookingTreatment(TREATMENTS[0]); // Zawsze zaczynamy od konsultacji jako klucza Slow Skin
                         }}
                         className="flex-1 py-3.5 bg-luxury-gold hover:bg-luxury-dark text-white hover:text-luxury-cream text-xs font-mono tracking-widest uppercase transition-all duration-300 text-center font-semibold cursor-pointer rounded-none shadow-xs text-[10px]"
                       >
@@ -17331,16 +17331,16 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                     </div>
 
                     <div className="space-y-2">
-                      <h4 className="font-serif text-sm font-medium text-luxury-dark font-semibold">3. Diagnoza Komórkowa i Bezpieczeństwo Skóry</h4>
+                      <h4 className="font-serif text-sm font-medium text-luxury-dark font-semibold">3. Ocena Skóry i Bezpieczeństwo</h4>
                       <p>
-                        W naszym gabinecie nie podejmujemy zabiegów bez uprzedniej pełnej diagnozy komputerowo-fizykalnej. Pierwsza wizyta zawsze rozpoczyna się od multispektralnej diagnozy Thessia w celu zdefiniowania grubości naskórka, uszkodzeń bariery hydrolipidowej i ewentualnych stanów zapalnych. Zastrzegamy sobie prawo odmowy wykonania ekspansywnych zabiegów lub modyfikacji ich przebiegu, o ile aktualne parametry fizjologiczne naskórka zagrażają powikłaniami zapalnymi.
+                        W naszym gabinecie zabiegi dobieramy na podstawie indywidualnej oceny skóry i konsultacji. Pierwsza wizyta zawsze rozpoczyna się od dokładnej oceny kondycji naskórka i bariery hydrolipidowej w celu dopasowania odpowiedniej pielęgnacji. Zastrzegamy sobie prawo odmowy wykonania intensywnych zabiegów lub modyfikacji ich przebiegu, jeśli aktualna kondycja skóry wymaga w pierwszej kolejności wyciszenia i regeneracji.
                       </p>
                     </div>
 
                     <div className="space-y-2">
                       <h4 className="font-serif text-sm font-medium text-luxury-dark font-semibold">4. Standard bionomiczny preparatów</h4>
                       <p>
-                        Wszystkie receptury stosowane w gabinecie cechuje czystość medyczna i zgodność bionomiczna – nie stosujemy olejów mineralnych, parabenów, sls, slifów i syntetycznych barwników. Pielęgnacja domowa opisywana w ramach Paszportu Skóry stanowi nieodłączny element powodzenia terapii gabinetowych.
+                        Wszystkie formuły stosowane w gabinecie cechuje wysoka czystość składników i biozgodność – nie stosujemy olejów mineralnych, parabenów, sls, slifów i syntetycznych barwników. Pielęgnacja domowa opisywana w ramach indywidualnego Planu Pielęgnacji stanowi ważny element wspierający efekty zabiegów gabinetowych.
                       </p>
                     </div>
                   </div>
@@ -17408,7 +17408,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-luxury-gold" strokeWidth={1.5} />
                   <input
                     type="text"
-                    placeholder="Wyszukaj dylemat (np. bariera, kwas, diagnoza, trądzik...)"
+                    placeholder="Wyszukaj temat (np. bariera, kwas, naczynka, trądzik...)"
                     value={expertDilemmaSearch}
                     onChange={(e) => setExpertDilemmaSearch(e.target.value)}
                     className="w-full pl-10 pr-10 py-3.5 bg-white border border-[#ebdcb9] hover:border-luxury-gold focus:border-luxury-gold focus:outline-none placeholder-luxury-dark/35 text-luxury-dark text-xs font-mono rounded-none transition-all duration-300 shadow-[0_3px_12px_rgba(179,155,114,0.03)] focus:shadow-md animate-fade-in"
@@ -17426,7 +17426,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
 
                 {/* Categories filtering carousel (Quiet Luxury pill buttons) */}
                 <div className="space-y-1.5">
-                  <span className="font-mono text-[8px] text-luxury-dark/90 uppercase tracking-widest block">Kategorie Kliniczne</span>
+                  <span className="font-mono text-[8px] text-luxury-dark/90 uppercase tracking-widest block">Kategorie Tematyczne</span>
                   <div className="flex flex-wrap gap-1.5 max-h-[110px] overflow-y-auto no-scrollbar py-1">
                     {expertCategories.map((cat) => (
                       <button
@@ -17492,7 +17492,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   <div className="text-center py-12 px-4 space-y-3">
                     <HelpCircle className="w-8 h-8 text-luxury-gold/40 mx-auto" strokeWidth={1} />
                     <p className="font-serif text-sm text-luxury-dark font-light italic">Nie znaleziono dylematu dla danej frazy.</p>
-                    <p className="text-[11px] font-mono text-luxury-dark/90">Wpisz inne bionomiczne zapytanie lub wyczyść filtry.</p>
+                    <p className="text-[11px] font-mono text-luxury-dark/90">Wpisz inne zapytanie lub wyczyść filtry.</p>
                     <button
                       onClick={() => {
                         setExpertDilemmaSearch("");

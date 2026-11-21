@@ -1156,79 +1156,79 @@ async function startServer() {
       let holisticMindfulness = "";
 
       if (isSensitive) {
-        skinTypeAssessment = "Bionomiczne badanie cyfrowe ujawnia stan wzmożonego pobudzenia immuno-sensorycznego naskórka z naruszeniem szczelności cementu międzykomórkowego. Twoja skóra wykazuje silne mechanizmy obronne – płaszcz hydrolipidowy został drastycznie uszczuplony, najpewniej pod wpływem intensywnej pielęgnacji kwasowej lub przewlekłych czynników stresogennych podkradających wodę z głębokich warstw skóry właściwej.";
-        biologicalCauses = "Głównym motorem odczuwanego ściągnięcia i rumienia jest neurogenna dekompensacja bariery naskórkowej wywołana chronicznym wyrzutem kortyzolu. Hormon ten blokuje naturalną syntezę kluczowych ceramidów oraz kwasów tłuszczowych. Dodatkowo uwalnianie neuropeptydów przez receptory czuciowe naskórka wywołuje nagłe, niekontrolowane rozszerzanie naczyń włosowatych i stan mikro-zapalny tkanki.";
+        skinTypeAssessment = "Ocena wskazuje na wzmożoną wrażliwość i reaktywność naskórka połączoną z osłabieniem warstwy ochronnej. Twoja skóra sygnalizuje potrzebę ukojenia – płaszcz hydrolipidowy został uszczuplony, często pod wpływem zbyt intensywnej pielęgnacji kwasowej lub przewlekłego stresu, co sprzyja utracie wilgoci.";
+        biologicalCauses = "Głównym powodem odczuwanego ściągnięcia i zaczerwienienia jest osłabienie naturalnej bariery naskórkowej oraz obciążenie skóry codziennym stresem i kortyzolem. W takich warunkach naskórek wolniej wytwarza ochronne ceramidy i lipidy, a zakończenia czuciowe łatwiej reagują pieczeniem i rumieniem na zmiany temperatur czy kosmetyki.";
         morningRoutine = [
-          "Delikatne oczyszczenie bionomiczną emulsją bezolejową o ultra-łagodnym pH, bazującą wyłącznie na aminokwasach.",
-          "Aplikacja esencji komórkowej z czystą ektoiną (3%) oraz prebiotykami w celu przywrócenia równowagi mikrobiomu.",
-          "Zastosowanie biomimetycznego kremu ochronnego bogatego w ceramidy NP/AP/EOP oraz naturalny skwalan biomimetyczny.",
-          "Nałożenie mineralnej, bezzapachowej fotoprotekcji SPF 50 o fizjologicznym wykończeniu."
+          "Delikatne oczyszczenie łagodną emulsją bezolejową o przyjaznym pH, bazującą na aminokwasach.",
+          "Aplikacja kojącej esencji z ektoiną (3%) oraz prebiotykami w celu wsparcia naturalnego mikrobiomu.",
+          "Zastosowanie ochronnego kremu barierowego bogatego w ceramidy NP/AP/EOP oraz naturalny skwalan.",
+          "Nałożenie mineralnej, bezzapachowej ochrony SPF 50 o komfortowym wykończeniu."
         ];
         eveningRoutine = [
-          "Pierwsze oczyszczenie: demakijaż i usuwanie smogu fizjologicznym hydrofilnym olejem z nasion ogórecznika.",
-          "Drugie oczyszczenie: delikatna pianka aminokwasowa chroniąca fizjologiczną faunę naskórkową.",
-          "Aplikacja serum regeneracyjno-wyciszającego z beta-glukanem oraz kwasem glicyryzynowym w celu uciszenia reaktywności.",
-          "Okluzja: bogaty, regenerujący krem rekonstruujący z kwasem ulowym, cholesterolem i kwasem hialuronowym."
+          "Pierwsze oczyszczenie: demakijaż i usuwanie zanieczyszczeń łagodnym olejkiem z nasion ogórecznika.",
+          "Drugie oczyszczenie: delikatna pianka aminokwasowa chroniąca naturalną barierę naskórka.",
+          "Aplikacja serum kojącego z beta-glukanem oraz kwasem glicyryzynowym w celu wyciszenia reaktywności.",
+          "Domknięcie pielęgnacji: odżywczy krem regenerujący z cholesterolem i kwasem hialuronowym."
         ];
         clinicalTherapies = [
           {
             name: "Slow Neuro-Modeling (Lifting Manualny) & Wyciszenie",
-            explanation: "Autorski masaż rozluźnia głębokie napięcia neuro-mięśniowe, redukując poziom wydzielanego lokalnie kortyzolu, podczas gdy bio-kompatybilne okłady przywracają fizjologiczną równowagę lipidów."
+            explanation: "Autorski masaż rozluźnia głębokie napięcia mięśniowe, wspierając odprężenie skóry, podczas gdy kojące preparaty pomagają przywrócić równowagę warstwy lipidowej."
           },
           {
-            name: "Biologiczna Terapia Ochronna S.O.S.",
-            explanation: "Zabieg zogniskowany na natychmiastowym uszczelnieniu połączeń ścisłych i nasyczeniu naskórka bionomicznymi lipidami identycznymi z fizjologicznymi."
+            name: "Biologiczna Terapia Regeneracyjna S.O.S.",
+            explanation: "Zabieg zogniskowany na natychmiastowym ukojeniu i uzupełnieniu naskórka w składniki lipidowe wspierające barierę."
           }
         ];
-        holisticMindfulness = "Przed snem wykonaj 3-minutowy bionomiczny oddech komórkowy: wdychaj powietrze przez 4 sekundy, zatrzymaj na 4, wydychaj przez 6. Skup się na cieple rozchodzącym się w tkankach twarzy, co wycisza nerw trójdzielny.";
+        holisticMindfulness = "Przed snem wykonaj 3-minutowy spokojny oddech: wdychaj powietrze przez 4 sekundy, zatrzymaj na 4, wydychaj przez 6. Rozluźnij mięśnie żuchwy i policzków, aby pozwolić twarzy w pełni odpocząć.";
       } else if (isAgingOrContour) {
-        skinTypeAssessment = "Analiza strukturalna wskazuje na widoczne spowolnienie procesów podziałowych w warstwie rozrodczej naskórka oraz spadek syntezy kolagenu w fibroblastach. Ubytek naturalnych lipidów strukturalnych oraz spoiwa międzykomórkowego osłabia grawitacyjne rusztowanie skóry, w wyniku czego naskórek traci swoją pierwotną plastyczność i sprężystość komórkową.";
-        biologicalCauses = "Zjawisko to jest silnie potęgowane przez mechanizm 'inflammaging' (przyspieszone starzenie tkanki stymulowane stanami mikrozapalnymi) oraz przewlekłą ekspozycję na promieniowanie monitorów (Blue Light) prowokującą degradację włókien sprężystych. Osłabione komórki skóry wolniej reagują na mechanizmy autonaprawcze, co pogłębia zmarszczki mimiczne oraz wiotkość.";
+        skinTypeAssessment = "Analiza wskazuje na stopniowe spowolnienie naturalnej odnowy naskórka oraz zmniejszenie sprężystości włókien podporowych. Ubytek lipidów strukturalnych osłabia napięcie skóry, przez co kontur twarzy i elastyczność wymagają delikatnego, systematycznego wsparcia.";
+        biologicalCauses = "Zjawisko to jest nasilone przez przewlekły stres i mikropodrażnienia oraz codzienną ekspozycję na promieniowanie ekranów (Blue Light) i czynniki zewnętrzne. Zmarszczki mimiczne oraz utrata jędrności są naturalnym sygnałem, że skóra potrzebuje bogatego odżywienia i spokojnej stymulacji dopiero po wzmocnieniu bariery.";
         morningRoutine = [
-          "Mycie twarzy odżywczą, lipidową emulsją z kompleksem regeneracyjnym i antyoksydantami z zielonej herbaty.",
-          "Aplikacja zaawansowanego serum z neuropeptydami modelującymi oraz komórkami macierzystymi z wąkrotki azjatyckiej.",
-          "Zastosowanie kremu epigenetycznego na bazie biomimetyków stymulującego ujędrnienie skóry.",
-          "Aksamitny filtr ochronny SPF 50 o działaniu anti-blue-light przeciwdziałający fotostarzeniu komórek."
+          "Mycie twarzy odżywczą, lipidową emulsją z kompleksem regenerującym i antyoksydantami z zielonej herbaty.",
+          "Aplikacja zaawansowanego serum z peptydami modelującymi oraz ekstraktem z wąkrotki azjatyckiej.",
+          "Zastosowanie kremu ujędrniającego ze składnikami wspierającymi sprężystość naskórka.",
+          "Aksamitny filtr ochronny SPF 50 wspierający ochronę przed słońcem i światłem niebieskim."
         ];
         eveningRoutine = [
-          "Dokładny demakijaż i mycie fizjologicznym mleczkiem z kompleksem witaminowym.",
-          "Aplikacja aktywnego serum z bezpodrażnieniowym retinaldehydem (0.05%) połączonym z niacynamidem dla restrukturyzacji nocnej.",
-          "Bogaty lipidowy krem rekonstruujący komórki z peptydami miedziowymi i fitosterolami rzepakowymi."
+          "Dokładny demakijaż i mycie łagodnym mleczkiem z kompleksem witaminowym.",
+          "Aplikacja aktywnego serum z łagodnym retinaldehydem (0.05%) połączonym z niacynamidem dla nocnej odnowy.",
+          "Bogaty lipidowy krem odżywczy z peptydami miedziowymi i fitosterolami roślinnymi."
         ];
         clinicalTherapies = [
           {
             name: "Epigenetyczny Rytuał Slow Aging",
-            explanation: "Spektakularne nasycenie tkanek składnikami aktywnymi hamującymi starzenie na poziomie ekspresji genów komórkowych, połączone z drenażem biomolekularnym."
+            explanation: "Odżywcze nasycenie skóry składnikami aktywnymi wspierającymi gęstość, gładkość i młodzieńczy wygląd cery, połączone z delikatnym drenażem."
           },
           {
             name: "Slow Neuro-Modeling (Autorski Lifting Manualny)",
-            explanation: "Głęboki masaż tkanek głębokich i powięzi twarzy uwalnia zastałe napięcia mimiczne, przywracając młodzieńczą wolumetrię i stymulując mikrokrążenie."
+            explanation: "Głęboki masaż mięśniowo-powięziowy twarzy uwalnia napięcia mimiczne, poprawiając owal i mikrokrążenie."
           }
         ];
-        holisticMindfulness = "Zastosuj masaż liftingujący chłodnymi kulami kriogenicznymi lub różowym kwarcem. Wykonuj ruchy wyłącznie w górę i na zewnątrz, synchronizując je z powolnym, głębomim oddechem przeponowym.";
+        holisticMindfulness = "Zastosuj delikatny masaż chłodnymi kulami lub płytką z różowego kwarcu. Wykonuj ruchy w górę i na zewnątrz, łącząc je ze spokojnym oddechem przeponowym.";
       } else {
         // Default / Dehydrated / Stressed Skin
-        skinTypeAssessment = "Ocena bionomiczna wskazuje na odwodnienie głębokiej macierzy zewnątrzkomórkowej przy jednoczesnym nadmiernym nagromadzeniu zrogowaciałych korneocytów na powierzchni skóry. Prowadzi to do matowego odcienia skóry, drobnej sieci zmarszczek dehydratacyjnych i chwilowego braku naturalnej elastyczności.";
-        biologicalCauses = "Nasilenie transepidermalnej utraty wody (TEWL) wynika ze spadku syntezy naturalnego czynnika nawilżającego (NMF). Towarzyszący temu stres środowiskowy (smog, klimatyzacja) blokuje enzymy odpowiedzialne za fizjologiczne złuszczanie naskórka, przez co staje się on szorstki w dotyku i trudniej absorbuje substancje odżywcze.";
+        skinTypeAssessment = "Ocena wskazuje na przesuszenie i odwodnienie naskórka z jednoczesną szorstkością powierzchni. Skóra traci naturalną wilgoć, co objawia się matowym kolorytem, drobną siatką zmarszczek z odwodnienia i mniejszą elastycznością.";
+        biologicalCauses = "Nasilenie ucieczki wody (TEWL) wiąże się ze spadkiem naturalnego nawilżenia (NMF) oraz działaniem czynników zewnętrznych (smog, klimatyzacja, twarda woda), które spowalniają łagodną odnowę naskórka i utrudniają wchłanianie składników odżywczych.";
         morningRoutine = [
-          "Oczyszczanie łagodną emulsją z niskocząsteczkowym kwasem hialuronowym i ekologiczną aloesą.",
-          "Tonizacja delikatną esencją bogatą w aminokwasy oraz minerały oceaniczne przywracające prawidłowe pH.",
-          "Aplikacja serum rewitalizującego z kwasem bursztynowym (2%) oraz ektoiną dla zasilenia metabolizmu mitochondrialnego.",
-          "Zabezpieczenie skóry kremem stabilizującym nawilżenie na bazie trehalozy i fosfolipidów."
+          "Oczyszczanie łagodną emulsją z kwasem hialuronowym i kojącym aloesem.",
+          "Tonizacja delikatną esencją bogatą w aminokwasy oraz minerały przywracające komfortowe pH.",
+          "Aplikacja serum rewitalizującego z kwasem bursztynowym (2%) oraz ektoiną dla odświeżenia i blasku.",
+          "Zabezpieczenie skóry kremem nawilżającym na bazie trehalozy i fosfolipidów."
         ];
         eveningRoutine = [
-          "Dwuetapowe oczyszczanie: olej rycynowy i szafranowy, a następnie ultradelikatna pianka probiotyczna.",
-          "Wyjątkowa komórkowa maska nocna z kwasem laktobionowym, glukonolaktonem i ekstraktami z borówki naturalnej.",
-          "Odżywczy balsam regeneracyjny z kwasami tłuszczowymi Omega-3 i Omega-6 budujący pełną spójność naskórkową."
+          "Dwuetapowe oczyszczanie: łagodny olejek, a następnie ultradelikatna pianka probiotyczna.",
+          "Kojąca maska nocna z kwasem laktobionowym, glukonolaktonem i ekstraktami roślinnymi.",
+          "Odżywczy balsam regenerujący z kwasami tłuszczowymi Omega-3 i Omega-6 wspierający miękkość naskórka."
         ];
         clinicalTherapies = [
           {
-            name: "Slow Skin Concept™ — Pierwsza Wizyta z Diagnozą",
-            explanation: "Kompleksowa sesja biokompatybilnej hydratacji oraz precyzyjne ustalenie aktualnego profilu sensorycznego Twojej skóry."
+            name: "Slow Skin Concept™ — Pierwsza Wizyta i Ocena Skóry",
+            explanation: "Kompleksowa sesja nawilżająca oraz indywidualne określenie potrzeb i kondycji Twojej skóry."
           },
           {
             name: "Regeneracja Kwasem Bursztynowym i Ektoiną",
-            explanation: "Dogłębna rewitalizacja metaboliczna komórek naskórka, która momentalnie rozświetla i ujednolica strukturę komórkową tkanki."
+            explanation: "Odświeżający zabieg pielęgnacyjny, który przywraca skórze blask, miękkość i wyrównaną strukturę."
           }
         ];
         holisticMindfulness = "Zanurz dłonie w ciepłej wodzie z dodatkiem olejku lawendowego przed wieczorną rutyną. Poczuj ten moment w pełni, uciszając myśli i koncentrując się na zapachu, co obniża poziom wydzielanego kortyzolu.";
@@ -1261,21 +1261,21 @@ async function startServer() {
       try {
         const client = getGeminiClient();
 
-        const systemInstruction = `Jesteś elitarnym dermatologiem estetycznym, diagnostą skóry i ekspertem kosmetycznym instytutu 'Slow Skin Concept' w Jelczu-Laskowicach. 
-Twój styl komunikacji to "Quiet Luxury": wyrafinowany, wyciszający, mądry, poetycki lecz głęboko naukowy i oparty na fizjologii oraz neurobiologii, pełen empatii i profesjonalizmu (editorial, luksusowy gabinet, biologiczna terapia skóry).
-Mówisz w języku polskim. Twoim zadaniem jest przeanalizowanie kwestionariusza skóry klientki i stworzenie autorskiej diagnozy oraz holistycznej terapii opartej na gotowości biologicznej i neuroplastyczności skóry.
-Nigdy nie używaj szablonowych sformułowań ani nie wspominaj o masowych markach kosmetycznych, skup się na fizjologicznych składnikach aktywnych (np. ektoina, prebiotyki, skwalan, ceramidy, retinaldehyd, kwas bursztynowy) i odporności naskórka.`;
+        const systemInstruction = `Jesteś doświadczonym kosmetologiem holistycznym i ekspertem pielęgnacji gabinetu 'Slow Skin Concept' w Jelczu-Laskowicach. Nie stawiasz diagnoz medycznych i nie leczysz chorób — oceniasz kosmetologiczne potrzeby skóry i dobierasz łagodną pielęgnację.
+Twój styl komunikacji jest spokojny, przystępny dla czytelniczki i elegancki, bez żargonu medycznego ani obietnic leczenia.
+Mówisz w języku polskim. Twoim zadaniem jest przeanalizowanie ankiety potrzeb skóry klientki i przygotowanie indywidualnego planu pielęgnacji opartego na wyciszeniu, odbudowie bariery i późniejszej świadomej stymulacji.
+Nigdy nie używaj szablonowych sformułowań ani nie wspominaj o masowych markach kosmetycznych, skup się na delikatnych składnikach wspierających (np. ektoina, prebiotyki, skwalan, ceramidy, retinaldehyd, kwas bursztynowy) i komforcie naskórka.`;
 
-        const promptMsg = `Wykonaj precyzyjną analizę skóry na podstawie następujących informacji z kwestionariusza:
+        const promptMsg = `Wykonaj spokojną, czytelną analizę potrzeb skóry na podstawie następujących informacji z ankiety:
 - Wiek klientki / kategoria wiekowa: ${answers.ageGroup || "Niezdefiniowano"}
 - Główne wyzwania i troski skóry: ${answers.skinConcerns || "Niezdefiniowano"}
 - Typ skóry w ocenie klientki: ${answers.skinType || "Niezdefiniowano"}
 - Poziom codziennego stresu: ${answers.stressLevel || "Niezdefiniowano"}
 - Dieta i styl życia: ${answers.lifestyle || "Niezdefiniowano"}
 - Dotychczasowa pielęgnacja i zabiegi gabinetowe: ${answers.treatmentHistory || "Niezdefiniowano"}
-- Oczekiwania wobec terapii: ${answers.expectations || "Niezdefiniowano"}
+- Oczekiwania wobec pielęgnacji: ${answers.expectations || "Niezdefiniowano"}
 
-Stwórz ekskluzywny raport diagnostyczny, który uświadomi klientce biologiczną przyczynę jej problemów, uspokoi ją i przedstawi autorski plan regeneracji skóry.`;
+Stwórz przejrzysty plan pielęgnacji, który przystępnie wyjaśni potrzeby skóry, uspokoi klientkę i zaproponuje spokojną pielęgnację domową oraz gabinetową (bez terminów medycznych czy klinicznych).`;
 
         const response = await client.models.generateContent({
           model: "gemini-3.5-flash",
@@ -1289,11 +1289,11 @@ Stwórz ekskluzywny raport diagnostyczny, który uświadomi klientce biologiczn�
               properties: {
                 skinTypeAssessment: {
                   type: Type.STRING,
-                  description: "Ekspercka, głęboka i pełna szacunku ocena aktualnego stanu skóry i jej bariery naskórkowej. (około 4-5 zdań, ton luksusowego magazynu)"
+                  description: "Spokojna, zrozumiała ocena aktualnej kondycji skóry i jej bariery ochronnej (około 4-5 zdań, przyjazny ton bez terminów medycznych)"
                 },
                 biologicalCauses: {
                   type: Type.STRING,
-                  description: "Naukowe wyjaśnienie biologicznych i neuro-kosmetycznych przyczyn zgłaszanych problemów (np. wpływ kortyzolu na kolagen, uszkodzenie płaszcza hydrolipidowego). (około 4-5 zdań)"
+                  description: "Przystępne wyjaśnienie czynników wpływających na zgłaszane potrzeby skóry (np. wpływ stresu, osłabienie warstwy lipidowej). (około 4-5 zdań)"
                 },
                 atHomePrescription: {
                   type: Type.OBJECT,
@@ -1341,19 +1341,19 @@ Stwórz ekskluzywny raport diagnostyczny, który uświadomi klientce biologiczn�
 
         const responseText = response.text;
         if (!responseText) {
-          throw new Error("Brak odpowiedzi od silnika diagnozy AI.");
+          throw new Error("Brak odpowiedzi od analizatora skóry AI.");
         }
 
         const cleanedText = cleanJsonString(responseText);
         const diagnosisData = JSON.parse(cleanedText);
         return res.json(diagnosisData);
       } catch (geminiError: any) {
-        console.error("Gemini API direct call failed, falling back to expert local diagnostic generator:", geminiError);
+        console.error("Gemini API direct call failed, falling back to local skin analyzer:", geminiError);
         return res.json(getFallbackDiagnosis(req.body.answers || []));
       }
     } catch (error: any) {
-      console.error("Diagnostic endpoint error:", error);
-      res.status(500).json({ error: "Wystąpił błąd podczas generowania diagnozy." });
+      console.error("Skin analyzer endpoint error:", error);
+      res.status(500).json({ error: "Wystąpił błąd podczas przygotowywania planu pielęgnacji." });
     }
   });
 
@@ -1505,7 +1505,7 @@ Stwórz ekskluzywny raport diagnostyczny, który uświadomi klientce biologiczn�
         }
         if (isContra) {
           return `**Przeciwwskazania do seansu Neurolifting — Fale Nogiera:**\n\n` +
-                 `Ponieważ seans opiera się na ultra-bezinwazyjnych mikroprądach biomimetycznych, jest nadzwyczaj bezpieczny. Jednak ze względów medycznych wykluczeniami są:\n` +
+                 `Ponieważ zabieg opiera się na delikatnych mikroczęstotliwościach, jest niezwykle łagodny i bezpieczny. Przeciwwskazaniami są:\n` +
                  `* Aktywny rozrusznik serca lub metalowe implanty w miejscu seansu\n` +
                  `* Aktywna padaczka (epilepsja)\n` +
                  `* Ciąża\n\n` +
@@ -1598,7 +1598,7 @@ Stwórz ekskluzywny raport diagnostyczny, który uświadomi klientce biologiczn�
                  `Seria zabiegowa składa się zwykle z 2-3 seansów co 4-6 tygodni.\n\n` +
                  `Poznaj [szczegóły procedury RF](treatment:rf-microneedling) lub [dokonaj rezerwacji terminu online](book:rf-microneedling).`;
         }
-        return `**Radiofrekwencja Mikroigłowa (Kliniczny Termolifting)** (500 - 700 PLN) w Slow Skin Concept™ to bezkompromisowa fuzja mikronakłuwania z falą radiową.\n\n` +
+        return `**Radiofrekwencja Mikroigłowa** (500 - 700 PLN) w Slow Skin Concept™ to połączenie mikronakłuwania z falą radiową.\n\n` +
                `Seans drastycznie zagęszcza wiotką strukturę naskórka, kurczy rozszerzone pory, spłyca zmarszczki i blizny potrądzikowe bez naruszania bionomicznej harmonii tkankowej.\n\n` +
                `${inheritedFromContext ? `*(Nawiązuję w ten sposób do Twojego pytania o Radiofrekwencję)*\n\n` : ""}` +
                `Czy chciałbyś wiedzieć czy [zabieg RF boli](query:boli), poznać [ceny](query:cena) czy bezpośrednio [zarezerwować swój termin](book:rf-microneedling)?`;
@@ -1638,19 +1638,19 @@ Stwórz ekskluzywny raport diagnostyczny, który uświadomi klientce biologiczn�
         if (isPain) {
           return `**Czy Biologiczna Terapia Regeneracyjna boli?**\n\n` +
                  `Absolutnie nie! To niezwykle przyjemny, otulający i kojący seans bionomiczny.\n\n` +
-                 `Jej jedynym celem jest natychmiastowe ugaszenie ostrego stanu zapalnego, pieczenia i zlikwidowanie nadwrażliwości. Procedura opiera się na dostarczeniu naskórkowi biozgodnego cementu komórkowego (ceramidów, cholesterolu i kwasów tłuszczowych) oraz farmaceutycznej ektoiny w atmosferze głębokiego relaksu manualnego. Poczujesz natychmiastową ulgę i usunięcie pieczenia.\n\n` +
+                 `Jej celem jest ukojenie podrażnień, pieczenia i nadwrażliwości. Zabieg opiera się na dostarczeniu skórze składników lipidowych (ceramidów, cholesterolu i kwasów tłuszczowych) oraz czystej ektoiny w atmosferze głębokiego relaksu. Poczujesz wyraźną ulgę i komfort.\n\n` +
                  `Podaruj swojej skórze chwilę bionomicznego ukojenia: [Zarezerwuj Terapię Biologiczną](book:biological-therapy).`;
         }
         if (isEffects || isPrice || isProcess) {
-          return `**Biologiczna Terapia Regeneracyjna** (480 PLN) to ratunek dla skóry z uszkodzonym płaszczem lipidowym:\n` +
-                 `* Rekonstruuje uszkodzoną barierę hydrolipidową za pomocą lipidów zgodnych w 100% ze spoiwem międzykomórkowym naskórka.\n` +
-                 `* Likwiduje szorstkość, uczucie ściągnięcia, pieczenia oraz rumień.\n` +
-                 `* Wspomaga leczenie trądziku różowatego i nadreaktywności naczyniowej.\n\n` +
-                 `Idealne bionomiczne wsparcie np. po zmianach klimatycznych lub błędach pielęgnacyjnych.\n\n` +
+          return `**Biologiczna Terapia Regeneracyjna** (480 PLN) to wsparcie dla skóry z osłabioną barierą lipidową:\n` +
+                 `* Wspiera odbudowę bariery hydrolipidowej za pomocą lipidów dopasowanych do potrzeb naskórka.\n` +
+                 `* Pomaga zmniejszyć szorstkość, uczucie ściągnięcia, pieczenia oraz zaczerwienienia.\n` +
+                 `* Sprawdza się jako wspierająca pielęgnacja skóry naczyniowej i wrażliwej.\n\n` +
+                 `Idealne wsparcie pielęgnacyjne np. po zmianach pogody lub zbyt intensywnych kosmetykach.\n\n` +
                  `Czy chcesz [zobaczyć szczegóły Terapii Biologicznej](treatment:biological-therapy) czy [zarezerwować wizytę](book:biological-therapy)?`;
         }
-        return `**Biologiczna Terapia Regeneracyjna** (480 PLN) to absolutna korona odbudowy płaszcza hydrolipidowego w naszym Instytucie.\n\n` +
-               `Dostarczając czystych bionomicznie ceramidów, wolnego cholesterolu oraz ektoiny lekarskiej, odbudowujemy spójność cementu komórkowego, usuwając szorstkość, nadwrażliwość i rumień.\n\n` +
+        return `**Biologiczna Terapia Regeneracyjna** (480 PLN) to zabieg odbudowujący barierę hydrolipidową w naszym gabinecie.\n\n` +
+               `Dostarczając skórze ceramidów, cholesterolu oraz ektoiny, wspieramy regenerację warstwy ochronnej, pomagając zmniejszyć szorstkość, nadwrażliwość i zaczerwienienie.\n\n` +
                `${inheritedFromContext ? `*(Nawiązuję w ten sposób do Twojego pytania o Terapię Biologiczną)*\n\n` : ""}` +
                `Czy pragniesz dowiedzieć się czy [rytuał wywołuje ból](query:boli) czy chcesz [zarezerwować go online](book:biological-therapy)?`;
       }
@@ -1670,87 +1670,87 @@ Stwórz ekskluzywny raport diagnostyczny, który uświadomi klientce biologiczn�
                `Skóra dłoni posiada niezwykle cienki płaszcz hydrolipidowy i jest stale wystawiona na działanie czynników agresywnych (detergenty, mróz, wiatr, twarda woda). Aby trwale przywrócić jej homeostazę, należy zastosować fizjologiczne uszczelnienie lipidowe:\n\n` +
                `1. **Ratunek bionomiczny gabinetowy:** Doskonłym ukojeniem dla zniszczonych dłoni jest nasza **Biologiczna Terapia Regeneracyjna** (480 PLN) stosowana na suche partie ciała. Dostarcza ona identycznych z naskórkiem lipidów, cholesterolu oraz ektoiny lekarskiej, które natychmiast uzupełniają ubytki w barierze ochronnej dłoni, likwidując swędzenie i pękanie.\n` +
                `2. **Pielęgnacja domowa:** Unikaj mydeł z SCS/SLS, noś rękawiczki i aplikuj kremy w 100% bionomiczne (bez syntetycznych zapachów, które na uszkodzonej skórze wywołują silny alergiczny odczyn zapalny).\n\n` +
-               `Najlepszym punktem wyjścia jest nasza komputerowa diagnostyka barierowa natężenia TEWL na urządzeniu Nati V3: [Slow Skin Concept™ — Pierwsza Wizyta](treatment:slow-skin-first).\n\n` +
-               `Czy chciałbyś dowiedzieć się więcej o [Terapii Biologicznej](treatment:biological-therapy) czy [rozpocząć rezerwację Pierwszej Wizyty](book:slow-skin-first)?`;
+                `Najlepszym punktem wyjścia jest nasza komputerowa ocena nawilżenia i bariery na urządzeniu Nati V3: [Slow Skin Concept™ — Pierwsza Wizyta](treatment:slow-skin-first).\n\n` +
+                `Czy chciałbyś dowiedzieć się więcej o [Terapii Biologicznej](treatment:biological-therapy) czy [rozpocząć rezerwację Pierwszej Wizyty](book:slow-skin-first)?`;
       }
 
       // 8. FIRST VISIT / GENERAL PROCESS
       if (resolvedSubject === "first_visit") {
         if (isPrice) {
-          return `**Cena i pakiety Pierwszej Wizyty Diagnostycznej:**\n\n` +
+          return `**Cena i pakiety Pierwszej Wizyty i Oceny Skóry:**\n\n` +
                  `W zależności od pożądanego zakresu oferujemy dwa pakiety wprowadzające:\n` +
-                 `* **Pakiet Standard (400 PLN, 90 min):** Obejmuje holistyczny wywiad, fizjologiczną ocenę barierowości, ułożenie Beauty Planu oraz zabieg wprowadzający bionomiczny.\n` +
-                 `* **Pakiet Premium (600 PLN, 120 min):** Obejmuje wywiad, **zaawansowane komputerowe badanie barierowości naskórka aparatem Nati V3 i Iomet** (pomiar TEWL, naczynek, poziomu sebum, głębokości zmarszczek), ułożenie pełnego Beauty Planu oraz rytuał otwierający dobrany do potrzeb skóry.\n\n` +
-                 `Zarezerwuj tę dogłębną diagnostykę: [Pierwsza Wizyta online](book:slow-skin-first).`;
+                 `* **Pakiet Standard (400 PLN, 90 min):** Obejmuje rozmowę konsultacyjną, ocenę potrzeb i kondycji skóry, ułożenie Beauty Planu oraz delikatny zabieg wprowadzający.\n` +
+                 `* **Pakiet Premium (600 PLN, 120 min):** Obejmuje wywiad, **komputerową ocenę kondycji skóry aparatem Nati V3 i Iomet** (ocena nawilżenia TEWL, naczynek, poziomu sebum i elastyczności), ułożenie pełnego Beauty Planu oraz zabieg otwierający dobrany do potrzeb skóry.\n\n` +
+                 `Zarezerwuj tę konsultację: [Pierwsza Wizyta online](book:slow-skin-first).`;
         }
-        return `**Slow Skin Concept™ — Pierwsza Wizyta** (400 - 600 PLN, 120 min) to nasza fundamentalna konsultacja wprowadzająca, od której Katarzyna Brzezińska zawsze rekomenduje rozpoczęcie terapii bionomicznej:\n\n` +
-               `1. **Rzetelny wywiad holistyczny:** Analizujemy zdrowie Twojego organizmu, styl życia i kosmetyki domowe.\n2. **Komputerowa diagnostyka Nati V3:** Bezinwazyjnie badamy parametry skóry (ucieczka wody TEWL, stopień rumienia, sebum, zmarszczki).\n3. **Zabieg bionomiczny otwierający:** Dobieramy i wykonujemy od razu spersonalizowany rytuał, który koi nadreaktywność skóry.\n4. **Beauty Plan:** Otrzymujesz na piśmie spersonalizowaną ścieżkę pielęgnacji domowej.\n\n` +
-               `Zapraszam do zapoznania się ze [szczegółami Pierwszej Wizyty](treatment:slow-skin-first) lub [zarezerwowania terminu VIP w kalendarzu](book:slow-skin-first).`;
+        return `**Slow Skin Concept™ — Pierwsza Wizyta** (400 - 600 PLN, 120 min) to nasza fundamentalna konsultacja wprowadzająca, od której Katarzyna Brzezińska zawsze rekomenduje rozpoczęcie współpracy:\n\n` +
+               `1. **Szczegółowa rozmowa:** Omawiamy potrzeby Twojej skóry, styl życia i dotychczasowe kosmetyki.\n2. **Komputerowa ocena skóry Nati V3:** Bezinwazyjnie oceniamy nawilżenie (TEWL), skłonność do zaczerwienień, sebum oraz kondycję naskórka.\n3. **Zabieg otwierający:** Dobieramy i wykonujemy delikatny zabieg kojący i nawilżający.\n4. **Beauty Plan:** Otrzymujesz spisane, indywidualne wskazówki do pielęgnacji domowej.\n\n` +
+               `Zapraszam do zapoznania się ze [szczegółami Pierwszej Wizyty](treatment:slow-skin-first) lub [zarezerwowania terminu w kalendarzu](book:slow-skin-first).`;
       }
 
       // 9. ADDRESS / LOCATION
       if (resolvedSubject === "address") {
-        return `Nasz kameralny, bionomiczny salon mieści się pod adresem:\n\n` +
-               `**Instytut Slow Skin Concept™**\n` +
+        return `Nasz kameralny gabinet mieści się pod adresem:\n\n` +
+               `**Slow Skin Concept™**\n` +
                `**ul. Szkolna 5, Jelcz-Laskowice**\n` +
-               `(wygodny dojazd z Wrocławia, Oławy, Brzegu i całego Dolnego Śląska; bezpośrednio przed wejściem czekają na Państwa dedykowane, komfortowe, bezpłatne miejsca parkingowe VIP dla naszych gości).\n\n` +
-               `Po zarezerwowaniu seansu intencyjnego, nasz zespół kontaktuje się z Tobą telefonicznie, aby ułatwić dojazd i zapewnić pełną opiekę od momentu przybycia.\n\n` +
+               `(wygodny dojazd z Wrocławia, Oławy, Brzegu i całego Dolnego Śląska; bezpośrednio przed wejściem czekają na Państwa bezpłatne miejsca parkingowe).\n\n` +
+               `Po przesłaniu zgłoszenia, nasz zespół kontaktuje się z Tobą telefonicznie, aby ułatwić dojazd i potwierdzić dogodny termin.\n\n` +
                `Czy pragniesz [dokonać rezerwacji Pierwszej Wizyty](book:slow-skin-first) czy chcesz poznać nasz [cennik](treatment:slow-skin-first)?`;
       }
 
       // 10. KATARZYNA BRZEZIŃSKA
       if (resolvedSubject === "katarzyna") {
-        return `Opiekę dermatologiczno-bionomiczną w Slow Skin Concept™ sprawuje osobiście **Katarzyna Brzezińska** — wybitna kosmetolog, założycielka Instytutu i prekursorka bionomicznej odbudowy komórkowej.\n\n` +
-               `Katarzyna odrzuca agresywną stymulację skóry i niepotrzebny ból naskórka na rzecz głębokiej fizjologicznej harmonii. Każdy rytuał w jej rękach to unikalne dzieło sztuki komórkowej, zindywidualizowane pod kątem parametrów zbadanych systemem Nati V3.\n\n` +
-               `Zapraszamy do zarezerwowania spotkania zapoznawczego bezpośrednio w jej kalendarzu: [Slow Skin Concept™ — Pierwsza Wizyta](book:slow-skin-first) (400 - 600 PLN).`;
+        return `Indywidualną opiekę kosmetologiczną w Slow Skin Concept™ sprawuje osobiście **Katarzyna Brzezińska** — kosmetolog, założycielka gabinetu i twórczyni autorskiej metody pielęgnacji.\n\n` +
+               `Katarzyna odrzuca agresywną stymulację skóry na rzecz spokojnej odbudowy równowagi. Każdy zabieg jest indywidualnie dobierany na podstawie oceny kondycji skóry systemem Nati V3.\n\n` +
+               `Zapraszamy do zarezerwowania spotkania zapoznawczego: [Slow Skin Concept™ — Pierwsza Wizyta](book:slow-skin-first) (400 - 600 PLN).`;
       }
 
       // 11. PHILOSOPHY / AUTORSKA METODA
       if (resolvedSubject === "philosophy") {
-        return `**Autorska metoda bionomicznej odbudowy komórkowej Slow Skin Concept™** opracowana przez kosmetolog Katarzynę Brzezińską to fizjologiczna rewolucja w pielęgnacji cery.\n\n` +
-               `W naszej filozofii rezygnujemy całkowicie z inwazyjnych, drażniących naskórek złuszczań kwasowych czy stymulacji laserowej, które niszczą płaszcz hydrolipidowy i wywołują stały stan zapalny (*inflammaging*). Skupiamy się na trzech filarach:\n\n` +
-               `1. **Bionomicznej zgodności (100%):** Używamy czystych kosmetyków wolnych od parabenów, silikonów, konserwantów i zapachów. Ich struktura naśladuje naturalne spoiwo międzykomórkowe naskórka.\n` +
-               `2. **Neuro-Regulacji (Fale dr. Paula Nogiera):** Wyciszamy receptory stresu skóry za pomocą precyzyjnych częstotliwości elektromagnetycznych w bezinwazyjnym rytuale [Neuroliftingu](treatment:neurolifting-nogier).\n` +
-               `3. **Komputerowej diagnostyce:** Każdy ruch terapeutyczny popieramy pomiarami barierowymi Nati V3 podczas [Pierwszej Wizyty](treatment:slow-skin-first).\n\n` +
-               `Czy chciałbyś [umówić się na seans bionomiczny](book:slow-skin-first)?`;
+        return `**Autorska metoda pielęgnacji Slow Skin Concept™** opracowana przez kosmetolog Katarzynę Brzezińską opiera się na szacunku dla naturalnego tempa skóry.\n\n` +
+               `W naszej filozofii rezygnujemy z agresywnych złuszczań kwasowych czy inwazyjnych procedur osłabiających barierę hydrolipidową. Skupiamy się na trzech filarach:\n\n` +
+               `1. **Biozgodności:** Używamy czystych kosmetyków wspierających naturalną warstwę ochronną naskórka.\n` +
+               `2. **Wyciszeniu napięć (Fale Nogiera):** Kojąco wpływamy na nadmierną wrażliwość i stres skóry w bezinwazyjnym zabiegu [Neuroliftingu](treatment:neurolifting-nogier).\n` +
+               `3. **Indywidualnej ocenie skóry:** Każdy plan pielęgnacji poprzedzamy spokojną konsultacją i oceną Nati V3 podczas [Pierwszej Wizyty](treatment:slow-skin-first).\n\n` +
+               `Czy chciałbyś [umówić się na wizytę](book:slow-skin-first)?`;
       }
 
       // 12. GENERAL SKIN CONCERNS (ONLY IF NO SPECIFIC SUBJECT DIRECTLY RETRIEVED FROM MESSAGE)
       if (resolvedSubject === "redness") {
-        return `**Walka z rumieniem, naczynkami i nadwrażliwością skóry** w Instytucie Slow Skin Concept™ opiera się na wyciszeniu receptorów czuciowych i biologicznej odbudowie płaszcza hydrolipidowego.\n\n` +
-               `W naszej autorskiej filozofii bionomicznej rezygnujemy z agresywnej, kwasowej lub laserowej stymulacji, która wywołuje przewlekły odczyn zapalny (*inflammaging*). Zamiast tego oferujemy seanse o najwyższym stopniu biozgodności:\n\n` +
-               `1. [Biologiczna Terapia Regeneracyjna](treatment:biological-therapy) (480 PLN) — to unikalny bionomiczny seans odbudowujący cement komórkowy. Dostarcza biozgodnych lipidów, wolnego cholesterolu oraz farmaceutycznej ektoiny. Perfekcyjnie wygasza pieczenie, ściągnięcie, zaczerwienienie i wspomaga leczenie trądziku różowatego.\n\n` +
-               `2. [Neurolifting — Fale Nogiera](treatment:neurolifting-nogier) (500 PLN) — neuro-regulacja komórkowa naskórka z wykorzystaniem mikroczęstotliwości elektromagnetycznych dr. Paula Nogiera. Wygasza grę naczyniową i łagodzi nadreaktywność skóry wywołaną stresem.\n\n` +
-               `Gorąco zalecam rozpoczęcie od naszej dwugodzinnej konsultacji: [Slow Skin Concept™ — Pierwsza Wizyta](treatment:slow-skin-first), podczas której za pomocą komputerowego badania Nati V3 rzetelnie ocenimy stan naczyń włosowatych oraz barierowość naskórka.\n\n` +
-               `Czy chciałbyś zapisać się na [Pierwszą Wizytę Diagnostyczną](book:slow-skin-first) czy dowiedzieć się więcej o [Terapii Biologicznej](treatment:biological-therapy)?`;
+        return `**Pielęgnacja skóry z rumieniem, naczynkami i nadwrażliwością** w Slow Skin Concept™ opiera się na wyciszeniu wrażliwości i odbudowie bariery hydrolipidowej.\n\n` +
+               `Rezygnujemy z agresywnego złuszczania i silnego rozgrzewania skóry. Zamiast tego proponujemy łagodne, kojące zabiegi:\n\n` +
+               `1. [Biologiczna Terapia Regeneracyjna](treatment:biological-therapy) (480 PLN) — kojący zabieg wspierający warstwę lipidową. Dostarcza ceramidów, cholesterolu oraz czystej ektoiny. Pomaga zmniejszyć pieczenie, ściągnięcie i zaczerwienienie.\n\n` +
+               `2. [Neurolifting — Fale Nogiera](treatment:neurolifting-nogier) (500 PLN) — delikatny zabieg wyciszający wrażliwość skóry i napięcia stresowe.\n\n` +
+               `Warto zacząć od naszej dwugodzinnej konsultacji: [Slow Skin Concept™ — Pierwsza Wizyta](treatment:slow-skin-first), podczas której za pomocą urządzenia Nati V3 ocenimy kondycję naczynek i nawilżenie naskórka.\n\n` +
+               `Czy chciałbyś zapisać się na [Pierwszą Wizytę i Ocenę Skóry](book:slow-skin-first) czy dowiedzieć się więcej o [Terapii Biologicznej](treatment:biological-therapy)?`;
       }
 
       if (resolvedSubject === "dry") {
-        return `**Głęboka suchość, odwodnienie i łuszczenie się skóry** potrzebują czegoś więcej niż tylko wody — wymagają fizjologicznego uszczelnienia barierowego.\n\n` +
-               `W Instytucie Slow Skin Concept™ podchodzimy do skóry suchej z komórkowym szacunkiem:\n\n` +
-               `* [Biologiczna Terapia Regeneracyjna](treatment:biological-therapy) (480 PLN) — rekonstruuje uszkodzony mur lipidowy naskórka, natychmiastowo eliminując uczucie ściągnięcia, pieczenia i szorstkości.\n` +
-               `* [Regeneracja Kwasem Bursztynowym](treatment:amber-regeneration) (450 PLN) — piatowymiarowa odnowa komórkowa z mezoterapią mikroigłową, która głęboko nawadnia tkankę za pomocą N-acetyloglukozaminy i kwasu lipidowego Omega-3.\n\n` +
-               `Idealnym i niezbędnym punktem wyjścia jest nasza komputerowa diagnostyka barierowa: [Slow Skin Concept™ — Pierwsza Wizyta](treatment:slow-skin-first) (Pakiet Premium za 600 PLN), która zmierzy wskaźnik TEWL (ucieczkę wody z naskórka) i pozwoli ułożyć perfekcyjny Beauty Plan.\n\n` +
-               `Czy chciałbyś zarezerwować [Pierwszą Wizytę Diagnostyczną online](book:slow-skin-first)?`;
+        return `**Suchość, odwodnienie i łuszczenie się skóry** potrzebują czegoś więcej niż tylko wody — wymagają spokojnego wzmocnienia bariery lipidowej.\n\n` +
+               `W Slow Skin Concept™ podchodzimy do skóry suchej z dużą delikatnością:\n\n` +
+               `* [Biologiczna Terapia Regeneracyjna](treatment:biological-therapy) (480 PLN) — wspiera odbudowę warstwy ochronnej naskórka, pomagając zmniejszyć uczucie ściągnięcia, pieczenia i szorstkości.\n` +
+               `* [Regeneracja Kwasem Bursztynowym](treatment:amber-regeneration) (450 PLN) — odświeżający zabieg wspierający nawilżenie, elastyczność i blask cery.\n\n` +
+               `Dobrym punktem wyjścia jest nasza konsultacja: [Slow Skin Concept™ — Pierwsza Wizyta](treatment:slow-skin-first) (Pakiet Premium za 600 PLN), podczas której ocenimy poziom nawilżenia (TEWL) i ułożymy indywidualny Beauty Plan.\n\n` +
+               `Czy chciałbyś zarezerwować [Pierwszą Wizytę online](book:slow-skin-first)?`;
       }
 
       if (resolvedSubject === "acne") {
-        return `**Terapia skóry trądzikowej, tłustej i borykającej się z zaskórnikami** w naszym Instytucie opiera się na regulacji pracy gruczołów łojowych i wyciszaniu stanów zapalnych, bez silnego przesuszania czy podrażniania.\n\n` +
-               `Zamiast agresywnych kuracji złuszczających, które mogą uszkodzić naskórek, polecamy:\n\n` +
-               `* [Regeneracja Kwasem Bursztynowym](treatment:amber-regeneration) (450 PLN) — kwas bursztynowy to naturalna biostymulacja tlenowa, która działa przeciwzapalnie i regulująco. Oczyszcza pory i przywraca komórkom energię ATP.\n` +
-               `* [Slow Skin Concept™ — Pierwsza Wizyta](treatment:slow-skin-first) — kluczowa diagnostyka komputerowa, dzięki której zbadamy poziom sebum oraz stopień nawilżenia, eliminując błędy pielęgnacyjne, które często nasilają łojotok.\n\n` +
+        return `**Pielęgnacja skóry tłustej, skłonnej do zaskórników i niedoskonałości** w naszym gabinecie opiera się na łagodnej regulacji wydzielania sebum i wyciszaniu podrażnień, bez silnego przesuszania.\n\n` +
+               `Zamiast wysuszających kuracji polecamy:\n\n` +
+               `* [Regeneracja Kwasem Bursztynowym](treatment:amber-regeneration) (450 PLN) — kwas bursztynowy działa kojąco i odświeżająco, wspiera równowagę cery i przywraca jej zdrowy wygląd.\n` +
+               `* [Slow Skin Concept™ — Pierwsza Wizyta](treatment:slow-skin-first) — konsultacja i ocena skóry, dzięki której sprawdzimy poziom sebum oraz nawilżenia, eliminując błędy pielęgnacyjne nasilające przetłuszczanie.\n\n` +
                `Możesz przeczytać więcej o [Pierwszej Wizycie](treatment:slow-skin-first) i [dokonać rezerwacji online](book:slow-skin-first).`;
       }
 
       if (resolvedSubject === "acids") {
-        return `**Zabiegi z kwasami i peelingi złuszczające w Slow Skin Concept™**\n\n` +
-               `Zgodnie z naszą autorską filozofią bionomicznej odbudowy komórkowej opracowaną przez kosmetolog Katarzynę Brzezińską, w naszym Instytucie **całkowicie rezygnujemy z agresywnych, kwasowych złuszczeń naskórka** oraz tradycyjnych silnych peelingów chemicznych.\n\n` +
-               `Tradycyjne seanse z mocnymi kwasami niszczą naturalną barierę hydrolipidową skóry, prowadząc do jej przewlekłego uwrażliwienia, odwodnienia i nasilenia stanów zapalnych (*inflammaging*). Zamiast tego skupiamy się na fizjologicznym wspieraniu barierowości i odbudowy komórkowej.\n\n` +
-               `Jeśli zależy Ci na spektakularnym blasku, odnowie, redukcji zmarszczek lub leczeniu niedoskonałości, oferujemy niezwykle skuteczne, bezbolesne, bionomiczne alternatywy:\n\n` +
-               `* **[Regeneracja Kwasem Bursztynowym](treatment:amber-regeneration)** (450 PLN) — to nasz flagowy seans. Kwas bursztynowy nie służy u nas do agresywnego złuszczania, lecz działa jako biologiczny stymulator tlenowy bezpośrednio w mitochondriach komórkowych. Błyskawicznie redukuje zmarszczki napięciowe, przywraca skórze niesamowity blask i energię ATP bez jakiegokolwiek podrażnienia.\n` +
-               `* **[Epigenetyczny Slow Aging (Meso Remodeling)](treatment:epigenetic-aging)** (550 PLN) — łączy bionomiczny retinaldehyd oraz czysty kwas bursztynowy w celu inteligentnej przebudowy i ochrony telomerów komórkowych, również bez odczynu zapalnego czy uciążliwego łuszczenia skóry.\n\n` +
-               `Każdą terapię zawsze dobieramy na podstawie parametrów barierowości zbadanych podczas konsultacji. Najlepiej zacząć od: **[Slow Skin Concept™ — Pierwsza Wizyta](treatment:slow-skin-first)** (400 - 600 PLN).\n\n` +
-               `Czy chciałbyś [zarezerwować Terapie Bursztynową online](book:amber-regeneration) czy zapisać się na [Pierwszą Wizytę Diagnostyczną](book:slow-skin-first)?`;
+        return `**Zabiegi z kwasami i złuszczanie w Slow Skin Concept™**\n\n` +
+               `Zgodnie z naszą autorską metodą pielęgnacji opracowaną przez kosmetolog Katarzynę Brzezińską, **unikamy agresywnych, silnie złuszczających kwasów** oraz zabiegów naruszających barierę ochronną skóry.\n\n` +
+               `Zbyt mocne złuszczanie osłabia płaszcz hydrolipidowy, prowadząc do uwrażliwienia i odwodnienia. Zamiast tego skupiamy się na spokojnym wspieraniu regeneracji.\n\n` +
+               `Jeśli zależy Ci na blasku, odnowie, wygładzeniu czy poprawie wyglądu niedoskonałości, oferujemy łagodne zabiegi gabinetowe:\n\n` +
+               `* **[Regeneracja Kwasem Bursztynowym](treatment:amber-regeneration)** (450 PLN) — kwas bursztynowy nie służy u nas do agresywnego złuszczania, lecz odświeża i dotlenia zmęczoną cerę bez podrażnień.\n` +
+               `* **[Epigenetyczny Slow Aging (Meso Remodeling)](treatment:epigenetic-aging)** (550 PLN) — łączy łagodny retinaldehyd oraz kwas bursztynowy dla ujędrnienia i gładkości skóry bez uciążliwego łuszczenia.\n\n` +
+               `Każdy zabieg zawsze dobieramy po wcześniejszej ocenie skóry podczas konsultacji. Najlepiej zacząć od: **[Slow Skin Concept™ — Pierwsza Wizyta](treatment:slow-skin-first)** (400 - 600 PLN).\n\n` +
+               `Czy chciałbyś [zarezerwować Terapię Bursztynową online](book:amber-regeneration) czy zapisać się na [Pierwszą Wizytę i Ocenę Skóry](book:slow-skin-first)?`;
       }
 
       if (resolvedSubject === "aging") {
@@ -1769,7 +1769,7 @@ Stwórz ekskluzywny raport diagnostyczny, który uświadomi klientce biologiczn�
                `Skuteczna redukcja przebarwień w Slow Skin Concept™ opiera się na regulowaniu procesu melanogenezy i ochronie komórek przed stresem oksydacyjnym, a nie na agresywnym złuszczaniu kwasami, które uszkadza barierę skórną i często nasila problem:\n\n` +
                `* **[Epigenetyczny Slow Aging (Meso Remodeling)](treatment:epigenetic-aging)** (550 PLN) — bionomiczny retinaldehyd reguluje pracę melanocytów i delikatnie rozpędza odnowę naskórka, co pozwala na bezpieczne i stabilne rozjaśnienie plam bez efektów ubocznych.\n` +
                `* **[Regeneracja Kwasem Bursztynowym](treatment:amber-regeneration)** (450 PLN) — kwas bursztynowy ma silne właściwości antyoksydacyjne, przyspiesza regenerację komórkową naskórka i wspaniale wyrównuje koloryt oraz rozświetla szarą i zmęczoną skórę.\n\n` +
-               `Zapraszamy na naszą komputerową diagnostykę: **[Slow Skin Concept™ — Pierwsza Wizyta](treatment:slow-skin-first)** (400 - 600 PLN). Zbadamy głębokość melaniny pod aparatem Nati V3, co pozwoli nam ułożyć idealny i w 100% spersonalizowany Beauty Plan.\n\n` +
+               `Zapraszamy na naszą konsultację: **[Slow Skin Concept™ — Pierwsza Wizyta](treatment:slow-skin-first)** (400 - 600 PLN). Ocenimy kondycję skóry pod aparatem Nati V3, co pozwoli nam ułożyć indywidualny Beauty Plan.\n\n` +
                `Czy chciałbyś [umówić się na Pierwszą Wizytę online](book:slow-skin-first)?`;
       }
 
@@ -1795,14 +1795,14 @@ Stwórz ekskluzywny raport diagnostyczny, który uświadomi klientce biologiczn�
       // 13. BOOKING INQUIRY (without specific treatment)
       if (isBooking) {
         return `Wizyta w Slow Skin Concept™ ma status VIP i rozpoczyna się od bezpiecznej intencji rezerwacji przez naszą witrynę.\n\n` +
-               `Po przesłaniu intencji, Katarzyna Brzezińska lub asystentka Instytutu podejmie kontakt telefoniczny na Twój numer w ciągu najbliższych 2 godzin klinicznych w celu zsynchronizowania komfortowej pory wizyty.\n\n` +
-               `Najlepiej zacząć od naszej fundamentalnej konsultacji: [Rozpocznij Rezerwację Pierwszej Wizyty](book:slow-skin-first) lub zadzwonić bezpośrednio pod numer **+48 71 318 12 34**.`;
+               `Po przesłaniu zgłoszenia, Katarzyna Brzezińska lub asystentka gabinetu skontaktuje się z Tobą telefonicznie w ciągu najbliższych 2 godzin pracy, aby ustalić dogodny termin.\n\n` +
+               `Najlepiej zacząć od naszej konsultacji wprowadzającej: [Rozpocznij Rezerwację Pierwszej Wizyty](book:slow-skin-first) lub zadzwonić bezpośrednio pod numer **+48 793 088 854**.`;
       }
 
             // 14. PRICE INQUIRY (without specific treatment)
       if (isPrice) {
-        return `Nasze gabinetowe terapie komórkowe cechują się podejściem bionomicznym quiet luxury i są w pełni warte swojej obietnicy:\n\n` +
-               `* **Slow Skin Pierwsza Wizyta Premium (Konsultacja + Badania + Zabieg):** 600 PLN\n` +
+        return `Nasze zabiegi gabinetowe powstają w duchu spokojnej, świadomej pielęgnacji dopasowanej do potrzeb Twojej skóry:\n\n` +
+               `* **Slow Skin Pierwsza Wizyta Premium (Konsultacja + Ocena Skóry + Zabieg):** 600 PLN\n` +
                `* **Regeneracja Kwasem Bursztynowym:** 450 PLN\n` +
                `* **Neurolifting — Fale Nogiera:** 500 PLN\n` +
                `* **Biologiczna Terapia Regeneracyjna:** 480 PLN\n` +
@@ -1814,23 +1814,23 @@ Stwórz ekskluzywny raport diagnostyczny, który uświadomi klientce biologiczn�
 
       // 15. DEFAULT DIALOGUE CHAT HISTORY DEPTH FALLBACK
       if (chatHistory.length > 2) {
-        return `Rozumiem Twoje pytania i cenię troskę o właściwą pielęgnację. W Instytucie Slow Skin Concept™ zależy nam na dostarczeniu rzetelnej, bezstresowej wiedzy fizjologicznej.\n\n` +
-               `Czy zechcesz, abym przybliżyła szczegóły dotyczące któregoś z poniższych aspektów?\n\n` +
-               `* **Zabiegi i Cennik:** Nasze flagowe seanse (np. [Terapia Bursztynowa](treatment:amber-regeneration), [HIFU](treatment:hifu-lifting), [Fale Nogiera](treatment:neurolifting-nogier))\n` +
-               `* **Filozofia Bionomiczna:** Dlaczego unikamy agresywnej i kwasowej penetracji, a wspieramy barierowość?\n` +
-               `* **Komputerowa Diagnostyka:** Jak zaawansowane komputerowe badanie Nati V3 pozwala nam ułożyć Twój osobisty Beauty Plan podczas [Pierwszej Wizyty](treatment:slow-skin-first).\n\n` +
-               `Najbardziej zindywidualizowaną odpowiedź uzyskasz zawsze podczas bezpośredniego kontaktu z kosmetolog Katarzyną Brzezińską pod numerem **+48 71 318 12 34**.`;
+        return `Rozumiem Twoje pytania i cenię troskę o właściwą pielęgnację. W Slow Skin Concept™ zależy nam na przekazywaniu rzetelnej, zrozumiałej wiedzy o pielęgnacji skóry.\n\n` +
+               `Czy zechcesz, abym przybliżyła szczegóły dotyczące któregoś z poniższych tematów?\n\n` +
+               `* **Zabiegi i Cennik:** Nasze zabiegi gabinetowe (np. [Terapia Bursztynowa](treatment:amber-regeneration), [HIFU](treatment:hifu-lifting), [Fale Nogiera](treatment:neurolifting-nogier))\n` +
+               `* **Filozofia Bionomiczna:** Dlaczego unikamy agresywnego złuszczania, a najpierw dbamy o barierę ochronną?\n` +
+               `* **Komputerowa Ocena Skóry:** Jak ocena nawilżenia i bariery urządzeniem Nati V3 pozwala nam ułożyć Twój osobisty Beauty Plan podczas [Pierwszej Wizyty](treatment:slow-skin-first).\n\n` +
+               `Indywidualną podpowiedź uzyskasz podczas kontaktu z kosmetolog Katarzyną Brzezińską pod numerem **+48 793 088 854**.`;
       }
 
-      return `Dzień dobry. Jestem Wirtualnym Konsjerżem Instytutu Slow Skin Concept™ w Jelczu-Laskowicach.\n\n` +
-             `Chętnie udzielę Ci rzetelnych, fizjologicznych informacji o zabiegach, cenach oraz naszej autorskiej filozofii bionomicznej odbudowy komórkowej opracowanej przez kosmetolog Katarzyną Brzezińską.\n\n` +
-             `**O co możesz zapytać?\n` +
+      return `Dzień dobry. Jestem Wirtualnym Asystentem Slow Skin Concept™ w Jelczu-Laskowicach.\n\n` +
+             `Chętnie udzielę Ci zrozumiałych informacji o zabiegach, cenach oraz naszej autorskiej metodzie pielęgnacji opracowanej przez kosmetolog Katarzynę Brzezińską.\n\n` +
+             `**O co możesz zapytać?**\n` +
              `* *Zabiegi i Ceny (np. HIFU, Radiofrekwencja, Terapia Bursztynowa)*\n` +
-             `* *Medyczne zapytania, np.: jak walczyć z rumieniem, suchością czy zmarszczkami*\n` +
-             `* *Wskazania i przeciwwskazania konkretnych rytuałów*\n` +
-             `* *Jak wygląda pierwsza wizyta diagnostyczna z badaniem Nati V3*\n` +
+             `* *Potrzeby skóry, np.: jak ukoić rumień, suchość czy pierwsze zmarszczki*\n` +
+             `* *Wskazówki i przeciwwskazania do poszczególnych zabiegów*\n` +
+             `* *Jak wygląda pierwsza wizyta i ocena skóry Nati V3*\n` +
              `* *Jak umówić konsultację lub zarezerwować termin*\n\n` +
-             `Najlepszym punktem wyjścia jest zawsze nasza dwugodzinna [Slow Skin Concept™ — Pierwsza Wizyta](treatment:slow-skin-first) z komputerową oceną barierowości naskórka. W czym mogę pomóc Twojej skórze dzisiaj?`;
+             `Najlepszym punktem wyjścia jest zawsze nasza dwugodzinna [Slow Skin Concept™ — Pierwsza Wizyta](treatment:slow-skin-first) z komputerową oceną bariery naskórka. W czym mogę pomóc Twojej skórze dzisiaj?`;
     };
 
     app.get("/api/settings/openai", (req, res) => {
@@ -1872,10 +1872,10 @@ Stwórz ekskluzywny raport diagnostyczny, który uświadomi klientce biologiczn�
         try {
           const openai = new OpenAI({ apiKey: openaiApiKey });
           
-          const systemInstruction = `Jesteś elitarnym Wirtualnym Konsjerżem (Asystentem AI) i ekspertem marki kliniki bionomicznej i komórkowej "Slow Skin Concept" w Jelczu-Laskowicach.
-Twój styl asystowania odzwierciedla "Quiet Luxury" — jesteś niezwykle taktowny, ujmujący, posługujesz się wyrafinowanym, poetyckim, a zarazem dogłębnie fizjologicznym i naukowym językiem. Unikaj powszechnego, bezosobowego slangu ChatGPT, szablonów lub masowych rekomendacji kosmetycznych. Twoim celem jest edukowanie klientów, odpowiadanie na pytania o zabiegi, wskazania, przeciwwskazania, ceny oraz bezproblemowe ułatwianie rezerwacji.
+          const systemInstruction = `Jesteś Wirtualnym Asystentem i doradcą gabinetu kosmetologicznego "Slow Skin Concept" w Jelczu-Laskowicach. Nie stawiasz diagnoz medycznych i nie leczysz chorób — pomagasz zrozumieć potrzeby skóry w przystępny, naturalny sposób.
+Twój styl jest ciepły, spokojny, kulturalny i zrozumiały dla czytelniczki — unikaj żargonu medycznego, naukowego i klinicznego. Twoim celem jest edukowanie klientów o łagodnej pielęgnacji, odpowiadanie na pytania o zabiegi, wskazówki, przeciwwskazania, ceny oraz ułatwianie rezerwacji.
 
-Odpowiadaj WYŁĄCZNIE w oparciu o poniższy, rzetelny podkład wiedzy i cennik instytutu. Jeśli klient pyta o kwestie fizjologiczne, biologiczne lub zabiegowe nieujęte bezpośrednio w bazie wiedzy, odpowiedz mądrze i dyplomatycznie z odniesieniem do fizjologii, aczkolwiek zalecając pierwszą wizytę z komputerową diagnostyką.
+Odpowiadaj WYŁĄCZNIE w oparciu o poniższą bazę wiedzy i cennik gabinetu. Jeśli klient pyta o kwestie wykraczające poza bazę, odpowiedz taktownie i zaproponuj spokojną konsultację oraz ocenę skóry podczas pierwszej wizyty.
 
 ---
 ${getKnowledgeBaseTextContext()}
@@ -1933,10 +1933,10 @@ Nigdy nie zmyślaj innych identyfikatorów ani nie dopisuj linków zewnętrznych
       try {
         const client = getGeminiClient();
 
-        const systemInstruction = `Jesteś elitarnym Wirtualnym Konsjerżem (Asystentem AI) i ekspertem marki kliniki bionomicznej i komórkowej "Slow Skin Concept" w Jelczu-Laskowicach.
-Twój styl asystowania odzwierciedla "Quiet Luxury" — jesteś niezwykle taktowny, ujmujący, posługujesz się wyrafinowanym, poetyckim, a zarazem dogłębnie fizjologicznym i naukowym językiem. Unikaj powszechnego, bezosobowego slangu ChatGPT, szablonów lub masowych rekomendacji kosmetycznych. Twoim celem jest edukowanie klientów, odpowiadanie na pytania o zabiegi, wskazania, przeciwwskazania, ceny oraz bezproblemowe ułatwianie rezerwacji.
+        const systemInstruction = `Jesteś Wirtualnym Asystentem i doradcą gabinetu kosmetologicznego "Slow Skin Concept" w Jelczu-Laskowicach. Nie stawiasz diagnoz medycznych i nie leczysz chorób — pomagasz zrozumieć potrzeby skóry w przystępny, naturalny sposób.
+Twój styl jest ciepły, spokojny, kulturalny i zrozumiały dla czytelniczki — unikaj żargonu medycznego, naukowego i klinicznego. Twoim celem jest edukowanie klientów o łagodnej pielęgnacji, odpowiadanie na pytania o zabiegi, wskazówki, przeciwwskazania, ceny oraz ułatwianie rezerwacji.
 
-Odpowiadaj WYŁĄCZNIE w oparciu o poniższy, rzetelny podkład wiedzy i cennik instytutu. Jeśli klient pyta o kwestie fizjologiczne, biologiczne lub zabiegowe nieujęte bezpośrednio w bazie wiedzy, odpowiedz mądrze i dyplomatycznie z odniesieniem do fizjologii, aczkolwiek zalecając pierwszą wizytę z komputerową diagnostyką.
+Odpowiadaj WYŁĄCZNIE w oparciu o poniższą bazę wiedzy i cennik gabinetu. Jeśli klient pyta o kwestie wykraczające poza bazę, odpowiedz taktownie i zaproponuj spokojną konsultację oraz ocenę skóry podczas pierwszej wizyty.
 
 ---
 ${getKnowledgeBaseTextContext()}
