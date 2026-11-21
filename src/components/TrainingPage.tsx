@@ -68,7 +68,7 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({ onLinkClick, onOpenB
         "Imienna certyfikacja dla personelu i certyfikat ścienny gabinetu",
         "Dostęp do Portalu Szkoleniowego B2B (baza wideo HD z procedurami krok po kroku)",
         "Preferencyjne warunki marżowe na sprzedaż kosmetyków domowych dla klientek",
-        "Kwartalny audyt merytoryczny i superwizja mgr Katarzyny Brzezińskiej"
+        "Kwartalny audyt merytoryczny i superwizja Katarzyny Brzezińskiej"
       ],
       portalLink: "https://szkolenia.slowskinconcept.pl/partnerstwo-akredytacja/"
     }

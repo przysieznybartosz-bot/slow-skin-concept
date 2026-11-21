@@ -7,7 +7,7 @@ export const TREATMENTS: Treatment[] = [
     subtitle: "Konsultacja kosmetologiczna online 1:1 • Diagnoza barierowa, wywiad kosmetologiczny i autorski Beauty Plan",
     duration: "60 minut",
     price: "250 PLN",
-    description: "Dedykowana videokonsultacja online prowadzona w standardzie Slow Skin Concept przez mgr Katarzynę Brzezińską. Idealne rozwiązanie dla osób z całej Polski i zza granicy, które nie mogą dotrzeć do gabinetu w Jelczu-Laskowicach, a pragną skonsultować trądzik dorosłych, trądzik różowaty, nadwrażliwość barierową, przewlekły rumień lub ułożyć bezpieczną, bionomiczną pielęgnację domową. Podczas 60-minutowego spotkania wideo przez Google Meet dokładnie analizujemy historię skóry, dotychczasowe kosmetyki, nawyki i dietę, a po spotkaniu otrzymujesz szczegółowy, spersonalizowany Beauty Plan (PDF) z dokładnymi zaleceniami rano/wieczór oraz wskazówkami regeneracyjnymi.",
+    description: "Dedykowana videokonsultacja online prowadzona w standardzie Slow Skin Concept przez Katarzynę Brzezińską. Idealne rozwiązanie dla osób z całej Polski i zza granicy, które nie mogą dotrzeć do gabinetu w Jelczu-Laskowicach, a pragną skonsultować trądzik dorosłych, trądzik różowaty, nadwrażliwość barierową, przewlekły rumień lub ułożyć bezpieczną, bionomiczną pielęgnację domową. Podczas 60-minutowego spotkania wideo przez Google Meet dokładnie analizujemy historię skóry, dotychczasowe kosmetyki, nawyki i dietę, a po spotkaniu otrzymujesz szczegółowy, spersonalizowany Beauty Plan (PDF) z dokładnymi zaleceniami rano/wieczór oraz wskazówkami regeneracyjnymi.",
     focus: "Diagnoza barierowa online, analiza nawyków i składów kosmetyków, ułożenie autorskiego planu pielęgnacji (PDF), bezpieczne połączenie wideo przez Google Meet",
     image: "/assets/aistudio/Blondynka_pisz_ca_w_notatniku_-_lekkie_c8f36364.webp",
     indications: [
@@ -33,7 +33,7 @@ export const TREATMENTS: Treatment[] = [
     ],
     protocolSteps: [
       { phase: "I — Przygotowanie & Kwestionariusz Konsultacyjny", description: "Wypełnienie wywiadu zdrowotno-kosmetycznego i przesłanie zdjęć skóry w świetle dziennym przed połączeniem." },
-      { phase: "II — Połączenie Wideo Google Meet (60 min)", description: "Szczegółowa rozmowa z mgr Katarzyną Brzezińską: analiza objawów, audyt używanych preparatów i ocena barierowości." },
+      { phase: "II — Połączenie Wideo Google Meet (60 min)", description: "Szczegółowa rozmowa z Katarzyną Brzezińską: analiza objawów, audyt używanych preparatów i ocena barierowości." },
       { phase: "III — Opracowanie Spersonalizowanego Beauty Planu", description: "Dobór celowanych substancji biozgodnych, harmonogram pielęgnacji rano/wieczór oraz wskazówki dietetyczno-lifestyle'owe." },
       { phase: "IV — Przesłanie Raportu PDF & Wsparcie", description: "Otrzymanie kompletnego dokumentu z zaleceniami na e-mail wraz z dedykowanymi rekomendacjami zakupowymi." }
     ],

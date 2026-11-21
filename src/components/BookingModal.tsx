@@ -524,7 +524,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ treatment, onClose }
                     </span>
                   </div>
                   <p className="text-[11px] text-luxury-dark font-sans leading-relaxed">
-                    Spotkanie wideo 1:1 z <strong>mgr Katarzyną Brzezińską</strong>. W dniu spotkania dołączysz jednym kliknięciem z kalendarza lub e-maila.
+                    Spotkanie wideo 1:1 z <strong>Katarzyną Brzezińską</strong>. W dniu spotkania dołączysz jednym kliknięciem z kalendarza lub e-maila.
                   </p>
                 </div>
               )}

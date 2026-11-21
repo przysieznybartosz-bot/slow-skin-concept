@@ -788,7 +788,7 @@ export const FacialTreatmentsPage: React.FC<FacialTreatmentsPageProps> = ({
               </h3>
 
               <p className="text-xs text-luxury-dark/95 leading-relaxed">
-                Spotkanie wideo 1:1 z <strong>mgr Katarzyną Brzezińską</strong>. Pogłębiona diagnoza barierowa, analiza kosmetyków i stylu życia oraz autorski <strong>Beauty Plan (PDF)</strong> wysyłany po konsultacji. Połączenie przez bezpieczny pokój <strong>Google Meet</strong>.
+                Spotkanie wideo 1:1 z <strong>Katarzyną Brzezińską</strong>. Pogłębiona diagnoza barierowa, analiza kosmetyków i stylu życia oraz autorski <strong>Beauty Plan (PDF)</strong> wysyłany po konsultacji. Połączenie przez bezpieczny pokój <strong>Google Meet</strong>.
               </p>
 
               <div className="flex flex-wrap items-center gap-4 text-[10px] font-mono text-emerald-900 pt-1">

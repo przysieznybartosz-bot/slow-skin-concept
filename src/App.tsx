@@ -338,7 +338,7 @@ const LANGUAGE_SANCTUARY_DATA = {
     title: "Wsparcie Językowe dla Gości",
     sub: "SLOW SKIN CONCEPT • PRZYJAZNY GABINET PIELĘGNACJI SKÓRY",
     text1: "Witamy w naszej przestrzeni spokojnej, uważnej pielęgnacji i biologicznego wsparcia skóry.",
-    text2: "Z dbałością o najwyższy komfort wszystkich naszych gości oferujemy pełne wsparcie diagnostyczne i zabiegowe również w językach obcych. Nasz zespół (na czele z założycielką mgr Katarzyną Brzezińską) porozumiewa się w języku angielskim, niemieckim oraz ukraińskim, dbając o Twój spokój, bezpieczeństwo i przyjazną atmosferę.",
+    text2: "Z dbałością o najwyższy komfort wszystkich naszych gości oferujemy pełne wsparcie diagnostyczne i zabiegowe również w językach obcych. Nasz zespół (na czele z założycielką Katarzyną Brzezińską) porozumiewa się w języku angielskim, niemieckim oraz ukraińskim, dbając o Twój spokój, bezpieczeństwo i przyjazną atmosferę.",
     featuresTitle: "Udogodnienia dla gości zagranicznych:",
     features: [
       "Konsultacje i diagnoza skóry w języku EN, DE lub UA.",
@@ -801,7 +801,7 @@ export default function App() {
       treatmentTitle: "Slow Skin Concept — Pierwsza Wizyta", 
       treatmentPrice: "600 PLN", 
       duration: "120 minut", 
-      therapist: "mgr Katarzyna Brzezińska", 
+      therapist: "Katarzyna Brzezińska", 
       status: "Zrealizowano",
       cabinetNotes: "Kompleksowa diagnoza bionomiczna, infuzja ektoiny 3%, fala biopolarna RF. Skóra zresetowana neurologicznie.",
       cosmeticsUsed: "Fizjologiczna emulsja bionomiczna pH 5.5, esencja ektoiny, biomimetyczny krem lipidowy"
@@ -812,7 +812,7 @@ export default function App() {
       treatmentTitle: "Regeneracja Kwasem Bursztynowym", 
       treatmentPrice: "350 PLN", 
       duration: "75 minut", 
-      therapist: "mgr Katarzyna Brzezińska", 
+      therapist: "Katarzyna Brzezińska", 
       status: "Zrealizowano",
       cabinetNotes: "Stymulacja mitochondrialna bursztynianem sodu. Widoczna redukcja rumienia reaktywnego.",
       cosmeticsUsed: "Kwas bursztynowy 2%, kwas hialuronowy niskocząsteczkowy, maska biocelulozowa"
@@ -823,7 +823,7 @@ export default function App() {
       treatmentTitle: "Slow Neuro-Modeling (Lifting Manualny)", 
       treatmentPrice: "280 PLN", 
       duration: "60 minut", 
-      therapist: "mgr Katarzyna Brzezińska", 
+      therapist: "Katarzyna Brzezińska", 
       status: "Zrealizowano",
       cabinetNotes: "Uwolnienie napięć powięziowych mięśni żwaczy i karku. Drenaż limfatyczny twarzy.",
       cosmeticsUsed: "Olej z ogórecznika, ceramidy NP, kompres lawendowy"
@@ -968,7 +968,7 @@ export default function App() {
     date: new Date().toISOString().split("T")[0],
     duration: "120 minut",
     price: "600 PLN",
-    therapist: "mgr Katarzyna Brzezińska",
+    therapist: "Katarzyna Brzezińska",
     cabinetNotes: "",
     cosmeticsUsed: ""
   });
@@ -1606,7 +1606,7 @@ export default function App() {
       treatmentTitle: finalTitle,
       treatmentPrice: newVisitData.price.includes("PLN") ? newVisitData.price : `${newVisitData.price} PLN`,
       duration: newVisitData.duration || "90 minut",
-      therapist: newVisitData.therapist || "mgr Katarzyna Brzezińska",
+      therapist: newVisitData.therapist || "Katarzyna Brzezińska",
       status: "Zrealizowano",
       cabinetNotes: newVisitData.cabinetNotes.trim(),
       cosmeticsUsed: newVisitData.cosmeticsUsed.trim()
@@ -1622,7 +1622,7 @@ export default function App() {
       date: new Date().toISOString().split("T")[0],
       duration: "120 minut",
       price: "600 PLN",
-      therapist: "mgr Katarzyna Brzezińska",
+      therapist: "Katarzyna Brzezińska",
       cabinetNotes: "",
       cosmeticsUsed: ""
     });
@@ -14786,7 +14786,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-light text-luxury-dark">
                               <div className="space-y-1 block">
                                 <span className="font-serif font-semibold text-luxury-dark">1. Stałe wsparcie komórkowe</span>
-                                <p className="text-[11px] text-luxury-dark/95 leading-normal">Całodobowy kontakt z mgr Katarzyną Brzezińską drogą mailową w razie nagłej nadwrażliwości skóry.</p>
+                                <p className="text-[11px] text-luxury-dark/95 leading-normal">Całodobowy kontakt z Katarzyną Brzezińską drogą mailową w razie nagłej nadwrażliwości skóry.</p>
                               </div>
                               <div className="space-y-1 block">
                                 <span className="font-serif font-semibold text-luxury-dark">2. Wygodny dostęp do kalendarza</span>
@@ -15464,7 +15464,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                               type="text"
                               value={newVisitData.therapist}
                               onChange={(e) => setNewVisitData(prev => ({ ...prev, therapist: e.target.value }))}
-                              placeholder="mgr Katarzyna Brzezińska"
+                              placeholder="Katarzyna Brzezińska"
                               className="w-full bg-white border border-luxury-sand p-2 text-xs text-luxury-dark outline-0 focus:border-luxury-gold"
                             />
                           </div>
