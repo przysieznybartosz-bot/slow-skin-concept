@@ -5482,11 +5482,13 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         <div className="space-y-4">
                           <div>
                             <span className="font-mono text-[8.5px] tracking-[0.2em] text-[#8C2828] bg-[#FDF2F2] border border-[#F8D7DA] px-2.5 py-1 rounded-xs uppercase font-semibold inline-block">Stan fizjologiczny: Zaburzona Bariera Hydrolipidowa</span>
-                            <h4 className="font-serif text-lg md:text-xl text-luxury-dark font-medium mt-2">Upośledzenie spoiwa lipidowego i ucieczka wilgoci</h4>
+                            <h4 className="font-serif text-lg md:text-xl text-luxury-dark font-medium mt-2">Gdy skóra traci zdolność zatrzymywania wilgoci</h4>
                           </div>
                           <div className="space-y-3 leading-relaxed">
-                            <p className="text-xs md:text-sm text-luxury-dark/95 font-light"><strong className="text-luxury-dark font-semibold">Biologiczna przyczyna:</strong> Niedobór cementu międzykomórkowego (ceramidów, kwasów tłuszczowych i cholesterolu), co osłabia naturalną okluzję, zwiększa przeznaskórkową utratę wody oraz uwrażliwia wolne zakończenia nerwowe, wywołując uczucie pieczenia i ściągnięcia.</p>
-                            <p className="text-xs md:text-sm text-luxury-dark/95 font-light"><strong className="text-luxury-gold font-semibold">Nasze rozwiązanie:</strong> Ograniczamy bodźce, które nasilają podrażnienie, i dobieramy indywidualną pielęgnację wspierającą barierę naskórkową. Łączymy składniki nawilżające, kojące i lipidowe odpowiednio do aktualnej kondycji skóry. Celem jest poprawa jej komfortu, ograniczenie utraty wody i wsparcie odbudowy bariery.</p>
+                            <p className="text-xs md:text-sm text-luxury-dark/95 font-light"><strong className="text-luxury-dark font-semibold">Biologiczne podłoże:</strong> Zaburzenie organizacji lipidów międzykomórkowych — ceramidów, cholesterolu i wolnych kwasów tłuszczowych — może osłabiać funkcję ochronną naskórka i zwiększać przeznaskórkową utratę wody (TEWL). Skóra staje się bardziej podatna na podrażnienia, pieczenie i uczucie ściągnięcia.</p>
+                            <p className="text-xs md:text-sm text-luxury-dark/95 font-light"><strong className="text-luxury-gold font-semibold">Nasze podejście:</strong> Najpierw ograniczamy czynniki nasilające reaktywność skóry i oceniamy kondycję jej bariery. Następnie dobieramy pielęgnację wspierającą odbudowę warstwy lipidowej, naturalne mechanizmy nawilżania oraz przywracanie komfortu.</p>
+                            <p className="text-xs md:text-sm text-luxury-dark/95 font-light">Dopiero gdy skóra odzyskuje odpowiednią tolerancję, rozważamy kolejne etapy terapii.</p>
+                            <p className="text-xs md:text-sm text-luxury-dark font-medium">Regulacja przed stymulacją.</p>
                           </div>
                           <div className="pt-3.5 border-t border-luxury-sand flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                             <div>
