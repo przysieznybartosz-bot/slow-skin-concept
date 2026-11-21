@@ -232,7 +232,7 @@ export const TREATMENTS: Treatment[] = [
     subtitle: "Indywidualna pielęgnacja skóry z rumieniem, wrażliwej i reaktywnej",
     duration: "75–90 minut",
     price: "380 PLN — 480 PLN",
-    description: "Rosacea Calm Therapy to indywidualnie komponowany zabieg przeznaczony dla skóry skłonnej do zaczerwienienia, pieczenia, uczucia gorąca i nadmiernej reaktywności. Dwie skóry z podobnym rumieniem mogą potrzebować innego rodzaju wsparcia, ponieważ różnią się stanem bariery, poziomem nawodnienia, reaktywnością i tolerancją składników aktywnych.\n\nŁączę delikatne postępowanie z zastosowaniem biozgodnych substancji aktywnych dobranych do aktualnego stanu naskórka, kondycji naczyń i tolerancji skóry.\n\nCelem zabiegu jest wyciszenie rumienia, poprawa komfortu, zwiększenie nawodnienia oraz pielęgnacja i wzmocnienie bariery ochronnej skóry wrażliwej.",
+    description: "Rosacea Calm Therapy to indywidualnie komponowany zabieg przeznaczony dla skóry skłonnej do zaczerwienienia, pieczenia, uczucia gorąca i nadmiernej reaktywności. Dwie skóry z podobnym rumieniem mogą potrzebować innego rodzaju wsparcia, ponieważ różnią się stanem bariery, poziomem nawodnienia, reaktywnością i tolerancją składników aktywnych.\n\nDobieram składniki biomimetyczne i pielęgnacyjne, uwzględniając aktualną reaktywność naczyniową, stan bariery naskórkowej oraz tolerancję skóry.\n\nCelem zabiegu jest wyciszenie rumienia, poprawa komfortu, zwiększenie nawodnienia oraz pielęgnacja i wzmocnienie bariery ochronnej skóry wrażliwej.",
     focus: "Kierunek działania: UKOJENIE • BARIERA • NAWODNIENIE • Wyciszenie rumienia i pieczenia, wsparcie mikrośrodowiska",
     image: "/how_help_sensitive_skin.webp",
     indications: [

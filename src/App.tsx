@@ -9002,9 +9002,9 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                             <span className="text-luxury-dark/95 uppercase tracking-wider text-[10px]">Inwestycja:</span>
                             <span className="text-luxury-gold font-bold text-xs">{selectedTreatment.price}</span>
                           </div>
-                          <div className="flex justify-between items-center py-2">
-                            <span className="text-luxury-dark/95 uppercase tracking-wider text-[10px]">Podstawa:</span>
-                            <span className="text-luxury-dark uppercase tracking-widest text-[9px] font-medium">
+                          <div className="flex justify-between items-start gap-4 py-2">
+                            <span className="text-luxury-dark/95 uppercase tracking-wider text-[10px] shrink-0">Podstawa:</span>
+                            <span className="text-luxury-dark uppercase tracking-widest text-[9px] font-medium text-right leading-relaxed">
                               {selectedTreatment.id === "hifu-ultrasound" || selectedTreatment.id === "rf-microneedling"
                                 ? "Kwalifikacja i dobór parametrów"
                                 : selectedTreatment.id === "neurolifting-face"
@@ -9013,7 +9013,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                                 ? "Iniekcyjna stymulacja CO₂"
                                 : selectedTreatment.id === "stymulatory-tkankowe"
                                 ? "Indywidualna biostymulacja iniekcyjna"
-                                : "Głęboka Bioregeneracja"}
+                                : "Regulacja biologiczna i odbudowa bariery naskórkowej"}
                             </span>
                           </div>
                         </div>
@@ -9067,7 +9067,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       {/* Indications */}
                       <div className="bg-gradient-to-br from-white to-luxury-cream/30 border-l-4 border-l-luxury-gold border-y border-r border-luxury-sand p-6 md:p-8 space-y-4 shadow-sm">
                         <span className="font-mono text-[9px] tracking-[0.2em] text-luxury-gold uppercase flex items-center gap-2 font-semibold">
-                          <Check className="w-4 h-4 text-luxury-gold stroke-[2.5]" /> Medyczne Wskazania do Terapii
+                          <Check className="w-4 h-4 text-luxury-gold stroke-[2.5]" /> Biologiczne potrzeby skóry
                         </span>
                         <h3 className="font-serif text-xl font-light text-luxury-dark border-b border-luxury-sand/40 pb-2 leading-tight">Kiedy Twoja skóra potrzebuje tego zabiegu</h3>
                         <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
@@ -9108,7 +9108,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                       {/* Contraindications */}
                       <div className="bg-gradient-to-br from-white to-red-50/[0.15] border-l-4 border-l-red-500/80 border-y border-r border-luxury-sand p-6 md:p-8 space-y-4 relative overflow-hidden shadow-sm">
                         <span className="font-mono text-[9px] tracking-[0.2em] text-red-600/80 uppercase flex items-center gap-2 font-semibold">
-                          <X className="w-4 h-4 text-red-600/80 stroke-[2.5]" /> Eksperckie Przeciwwskazania
+                          <X className="w-4 h-4 text-red-600/80 stroke-[2.5]" /> Bezpieczeństwo i przeciwwskazania
                         </span>
                         <h3 className="font-serif text-xl font-light text-luxury-dark border-b border-luxury-sand/40 pb-2 leading-tight">Bezwzględne kryteria wykluczające</h3>
                         <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
@@ -9199,7 +9199,7 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                         </span>
                         <h3 className="font-serif text-xl font-light text-luxury-dark border-b border-luxury-sand/40 pb-2">Protokół domowej regeneracji naskórka</h3>
                         <p className="text-xs text-luxury-dark/95 font-light leading-relaxed">
-                          Odpowiedź immunologiczna skóry trwa równe 48 do 72 godzin od zakończenia rytuału. Aby zmaksymalizować syntezę komórkową, należy bezwzględnie przestrzegać poniższego protokołu:
+                          Czas adaptacji skóry po zabiegu jest indywidualny i zależy od jej aktualnej kondycji, reaktywności oraz zastosowanych metod pielęgnacyjnych.
                         </p>
                         <ul className="space-y-3 pt-2">
                           {selectedTreatment.postTreatmentCare.map((care, i) => (
