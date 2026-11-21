@@ -5343,13 +5343,22 @@ SLOW SKIN CONCEPT - JELCZ-LASKOWICE, UL. SZKOLNA 5
                   
                   <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal leading-[1.15] text-luxury-dark tracking-tight break-words">
                     Wolne starzenie.<br />
-                    <span className="italic pl-2 sm:pl-4 text-[#7A571E] font-medium">Sztuka wyciszania</span><br />
-                    stanu zapalnego.
+                    <span className="italic text-[#7A571E] font-medium block mt-2 text-2xl sm:text-3xl md:text-4xl lg:text-[2.6rem] leading-[1.2]">
+                      Sztuka przywracania równowagi skórze.
+                    </span>
                   </h1>
 
-                  <p className="text-base sm:text-sm text-luxury-dark font-normal leading-relaxed max-w-md">
-                    Projektujemy spersonalizowaną architekturę Twojej skóry. Odrzucamy agresywne terapie i schematy na rzecz unikalnych biomolekularnych formuł, spokoju neurologicznego oraz autorskiej diagnostyki komórkowej. Twoja skóra zasługuje na ciche wsparcie, a nie ciągłą walkę.
-                  </p>
+                  <div className="space-y-3.5 text-base sm:text-sm text-luxury-dark font-normal leading-relaxed max-w-md">
+                    <p>
+                      Każda skóra ma własną historię, potrzeby i tempo regeneracji. Dlatego nie pracujemy według gotowych schematów. Zaczynamy od zrozumienia jej biologii, rozpoznania przyczyn zaburzeń i oceny gotowości do terapii.
+                    </p>
+                    <p>
+                      Łączymy wiedzę z zakresu skinologii, mikroodżywiania i neurokosmetologii z autorską metodą pracy, aby wspierać naturalne mechanizmy ochrony, regeneracji i adaptacji skóry.
+                    </p>
+                    <p className="font-medium">
+                      Najpierw regulacja. Dopiero później świadoma stymulacja.
+                    </p>
+                  </div>
 
                   <div className="pt-6 flex flex-col sm:flex-row gap-4">
                     <button 
