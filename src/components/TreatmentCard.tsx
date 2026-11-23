@@ -68,7 +68,7 @@ const TreatmentCard = React.memo(function TreatmentCard({
   const cardImage = (() => {
     if (dynamicImageVersion) return dynamicImageVersion;
     if (customImage) return customImage;
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && isGoogleAIStudio()) {
       const keyMap: Record<string, string[]> = {
         "skin-readiness": ["skin-readiness", "how_help_first_visit"],
         "videokonsultacja": ["videokonsultacja"],

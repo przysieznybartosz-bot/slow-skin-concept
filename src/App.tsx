@@ -590,16 +590,18 @@ export default function App() {
   const [customTreatmentImages, setCustomTreatmentImages] = useState<Record<string, string>>(() => {
     const map: Record<string, string> = {};
     if (typeof window !== "undefined") {
-      try {
-        for (let i = 0; i < localStorage.length; i++) {
-          const k = localStorage.key(i);
-          if (k && k.startsWith("custom_img_")) {
-            const slotKey = k.replace("custom_img_", "");
-            const val = safeStorage.getItem(k);
-            if (val) map[slotKey] = val;
+      if (isGoogleAIStudio()) {
+        try {
+          for (let i = 0; i < localStorage.length; i++) {
+            const k = localStorage.key(i);
+            if (k && k.startsWith("custom_img_")) {
+              const slotKey = k.replace("custom_img_", "");
+              const val = safeStorage.getItem(k);
+              if (val) map[slotKey] = val;
+            }
           }
-        }
-      } catch {}
+        } catch {}
+      }
       if (!map["how_help_sensitive_skin"]) {
         map["how_help_sensitive_skin"] = "/how_help_sensitive_skin.webp";
       }
