@@ -797,7 +797,7 @@ export const TREATMENTS: Treatment[] = [
     price: "250 PLN — 450 PLN (Pakiety 5 zabiegów: 1100 — 2000 PLN)",
     description: "Karboksyterapia jest zabiegiem polegającym na kontrolowanym, płytkim podaniu czystego dwutlenku węgla (CO₂) do wybranych warstw skóry. CO₂ stanowi delikatny bodziec powodujący miejscowe rozszerzenie drobnych naczyń i przejściowe zwiększenie przepływu krwi. Sprzyja to lepszemu dotlenieniu oraz odżywieniu skóry i wspiera jej naturalne procesy odnowy. W Slow Skin Concept nie stosujemy jednego schematu dla każdej cery — głębokość podania, przepływ oraz ilość gazu dobieramy indywidualnie do kondycji i wrażliwości skóry.",
     focus: "Czysty dwutlenek węgla (CO₂), poprawa mikrokrążenia, dotlenienie skóry (efekt Bohra), okolica oczu, redukcja cieni i nierówności",
-    image: "/carboksyterapia-carboregen.webp",
+    image: "/assets/aistudio/Luksusowa_architektura_sk_ry_i_z_ote_krople_d420993e.png",
     indications: [
       "Zmęczony, ziemisty lub nierówny koloryt",
       "Utrata jędrności i elastyczności skóry",

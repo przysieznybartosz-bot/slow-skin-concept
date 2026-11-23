@@ -643,6 +643,9 @@ export default function App() {
     if (treatment.id === "epigenetic-aging") {
       return customTreatmentImages["epigenetic-aging"] || customTreatmentImages["how_help_meso_remodeling"] || "/how_help_meso_remodeling.webp" || treatment.image;
     }
+    if (treatment.id === "carboksyterapia-carboregen") {
+      return customTreatmentImages["carboksyterapia-carboregen"] || "/assets/aistudio/Luksusowa_architektura_sk_ry_i_z_ote_krople_d420993e.png" || treatment.image;
+    }
     return customTreatmentImages[treatment.id] || treatment.image;
   }, [customTreatmentImages]);
 
